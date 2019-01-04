@@ -1,0 +1,30 @@
+<app-header></app-header>
+
+<ion-content>
+  <form id="container" [formGroup]="form" (submit)="orderSim()">
+    <ion-grid class="h-100">
+      <ion-row id="text-block" class="violet-text">
+        <ion-col>Order of new SIM card</ion-col>
+      </ion-row>
+      <ion-row id="main-block" justify-content-center>
+        <ion-col size="9" size-md="7" size-lg="5">
+          <div class="h-100">
+            <ion-item class="violet-text" [class.red-text]="submitTry && form.get('name').invalid">
+              <ion-input type="text" formControlName="name" placeholder="Name"></ion-input>
+            </ion-item>
+            <ion-item class="violet-text" [class.red-text]="submitTry && form.get('email').invalid">
+              <ion-input type="email" formControlName="email" placeholder="E-mail address"></ion-input>
+            </ion-item>
+            <ion-item class="violet-text" [class.red-text]="submitTry && form.get('address').invalid">
+              <ion-input type="text" formControlName="address" placeholder="Local address"></ion-input>
+            </ion-item>
+            <ion-item class="violet-text" [class.red-text]="submitTry && form.get('company').invalid">
+              <ion-input type="text" formControlName="company" placeholder="Choose a company"></ion-input>
+            </ion-item>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-button class="btn bottom-btn" type="submit">Order</ion-button>
+  </form>
+</ion-content>

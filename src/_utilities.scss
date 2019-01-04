@@ -1,0 +1,8 @@
+$pale-blue: #97c2ef;
+$violet: #7d8aff;
+
+$quicksand: "Quicksand", sans-serif;
+
+@mixin quicksand-font-family {
+  font-family: $quicksand;
+}

@@ -1,0 +1,18 @@
+@import "../../../utilities";
+
+#container {
+  height: calc(100% - 80px);
+}
+
+#text-block {
+  height: 20%;
+  padding-left: 10%;
+}
+
+#main-block {
+  height: 50%;
+}
+
+ion-item {
+  margin: 30px 0;
+}
