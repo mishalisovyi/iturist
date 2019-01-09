@@ -49,6 +49,8 @@ export class ChooseCompanyPage implements OnInit, OnDestroy {
   }
 
   public navigateToChoosePlanPage() {
-    this.router.navigateByUrl(`/choose-plan/${this.selectedCompanyId}`);
+    if (this.companyIsSelected) {
+      this.router.navigateByUrl(`/choose-plan/${this.selectedCompanyId}`);
+    }
   }
 }

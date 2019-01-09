@@ -1,0 +1,43 @@
+<app-header></app-header>
+
+<ion-content>
+  <div id="text-block" class="violet-text bold-text font-size-16">Your plan</div>
+  <ion-card class="violet-text">
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col align-self-end class="font-size-16"><span class="bold-text">Plan</span> #{{ plan?.id }}</ion-col>
+        </ion-row>
+        <ion-row id="three-chips-container">
+          <ion-col size="9">
+            <ion-row>
+              <ion-col class="col-auto text-center">
+                <ion-chip>
+                  <ion-icon name="call"></ion-icon>
+                </ion-chip>
+                <p class="bold-text mt-5">{{ plan?.used?.calls }}</p>
+                <p class="mt-5">({{ plan?.calls }})</p>
+              </ion-col>
+              <ion-col class="col-auto text-center">
+                <ion-chip>
+                  <ion-icon name="wifi"></ion-icon>
+                </ion-chip>
+                <p class="bold-text mt-5">{{ plan?.used?.internet }}</p>
+                <p class="mt-5">({{ plan?.internet }} GB)</p>
+              </ion-col>
+              <ion-col class="col-auto text-center">
+                <ion-chip>
+                  <ion-icon name="mail"></ion-icon>
+                </ion-chip>
+                <p class="bold-text mt-5">{{ plan?.used?.sms }}</p>
+                <p class="mt-5">({{ plan?.sms }})</p>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <div id="padding-bottom"></div>
+  <ion-button class="btn bottom-btn" (click)="navigateToChoosePlan()">Choose another plan</ion-button>
+</ion-content>

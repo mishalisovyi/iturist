@@ -1,0 +1,142 @@
+<app-header></app-header>
+
+<ion-content>
+  <form [formGroup]="activeTabIndex === 0 ? creditCardForm : payPalForm" (submit)="confirmPlan()">
+    <div id="text-block" class="violet-text bold-text font-size-16">Payment</div>
+    <ion-card class="violet-text">
+      <ion-card-content>
+        <ion-grid>
+          <ion-row>
+            <ion-col align-self-end class="font-size-16"><span class="bold-text">Plan</span> #{{ plan?.id }}</ion-col>
+          </ion-row>
+          <ion-row id="three-chips-container" justify-content-between>
+            <ion-col size="9">
+              <ion-row>
+                <ion-col class="col-auto text-center">
+                  <ion-chip>
+                    <ion-icon name="call"></ion-icon>
+                  </ion-chip>
+                  <p class="bold-text mt-5">{{ plan?.calls }}</p>
+                </ion-col>
+                <ion-col class="col-auto text-center">
+                  <ion-chip>
+                    <ion-icon name="wifi"></ion-icon>
+                  </ion-chip>
+                  <p class="bold-text mt-5">{{ plan?.internet }} GB</p>
+                </ion-col>
+                <ion-col class="col-auto text-center">
+                  <ion-chip>
+                    <ion-icon name="mail"></ion-icon>
+                  </ion-chip>
+                  <p class="bold-text mt-5">{{ plan?.sms }}</p>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+            <ion-col class="col-auto">
+              <ion-chip id="checked-chip">
+                <ion-icon name="checkmark"></ion-icon>
+              </ion-chip>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+    <div id="price-block" class="font-size-32">{{ plan?.price }}$</div>
+    <div id="tabs-block">
+      <ion-grid>
+        <ion-row>
+          <ion-col class="tab violet-text" size="5" [class.active-tab]="activeTabIndex === 0" (click)="setActiveTab(0)">
+            <ion-row justify-content-between>
+              <ion-col class="col-auto">
+                <div class="circle-wrapper">
+                  <div></div>
+                </div>
+              </ion-col>
+              <ion-col>
+                <span>Credit card</span>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+          <ion-col class="tab violet-text" size="4" [class.active-tab]="activeTabIndex === 1" (click)="setActiveTab(1)">
+            <ion-row justify-content-between>
+              <ion-col class="col-auto">
+                <div class="circle-wrapper">
+                  <div></div>
+                </div>
+              </ion-col>
+              <ion-col>
+                <span>Pay Pal</span>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    <ng-container *ngIf="activeTabIndex === 0">
+      <ion-grid id="form-block">
+        <ion-row>
+          <ion-col>
+            <ion-item class="violet-text form-field" [class.red-text]="submitTry && creditCardForm.get('name').invalid">
+              <ion-input type="text" formControlName="name" placeholder="Name of card"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item class="violet-text form-field" [class.red-text]="submitTry && creditCardForm.get('number').invalid">
+              <ion-input type="email" formControlName="number" placeholder="card number"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-item class="violet-text form-field" [class.red-text]="submitTry && creditCardForm.get('expire').invalid">
+              <ion-input type="text" formControlName="expire" placeholder="Exp. Date"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="1">
+          </ion-col>
+          <ion-col size="5">
+            <ion-item class="violet-text form-field" [class.red-text]="submitTry && creditCardForm.get('cw').invalid">
+              <ion-input type="text" formControlName="cw" placeholder="CW"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ng-container>
+    <ng-container *ngIf="activeTabIndex === 1">
+      <ion-grid id="form-block">
+        <ion-row>
+          <ion-col>
+            <ion-item class="violet-text form-field" [class.red-text]="submitTry && payPalForm.get('field1').invalid">
+              <ion-input type="text" formControlName="field1" placeholder="Field 1"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item class="violet-text form-field" [class.red-text]="submitTry && payPalForm.get('field2').invalid">
+              <ion-input type="email" formControlName="field2" placeholder="Field 2"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-item class="violet-text form-field" [class.red-text]="submitTry && payPalForm.get('field3').invalid">
+              <ion-input type="text" formControlName="field3" placeholder="Field 3"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="1">
+          </ion-col>
+          <ion-col size="5">
+            <ion-item class="violet-text form-field" [class.red-text]="submitTry && payPalForm.get('field4').invalid">
+              <ion-input type="text" formControlName="field4" placeholder="Field 4"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ng-container>
+    <div id="padding-bottom"></div>
+    <ion-button class="btn bottom-btn" type="submit">Confirm</ion-button>
+  </form>
+</ion-content>

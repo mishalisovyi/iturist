@@ -18,12 +18,26 @@
   @include quicksand-font-family;
 }
 
+:root {
+  .item-interactive {
+    --border-width: 0;
+
+    &.item-has-focus {
+      --full-highlight-height: 0;
+    }
+  }
+}
+
 .w-100 {
   width: 100%;
 }
 
 .h-100 {
   height: 100%;
+}
+
+.mt-5 {
+  margin-top: 5px;
 }
 
 .col-auto {
@@ -64,12 +78,6 @@
   --border-radius: 0;
 }
 
-:root {
-  .item-interactive {
-    --border-width: 0;
-  }
-}
-
 .disabled-btn {
   filter: grayscale(100%);
   opacity: 0.5;
@@ -101,20 +109,28 @@ ion-backdrop {
 
   .alert-button-group {
     padding: 0;
+    display: flex;
 
     button {
-      width: 100%;
+      flex: 1 0 0;
       height: 55px;
       margin: 0;
       padding: 0;
       border-radius: 0;
-      text-transform: lowercase;
+      text-transform: unset;
       color: white;
-      background: linear-gradient(to right, #6c9eff, #a25ffd);
 
       .alert-button-inner {
         justify-content: center;
       }
+    }
+
+    button:first-child {
+      background: linear-gradient(to right, #8089ff, #9172fe);
+    }
+
+    button:nth-child(2) {
+      background: linear-gradient(to right, #6c9eff, #8381fc);
     }
   }
 }
@@ -129,4 +145,64 @@ ion-backdrop {
 
 .font-size-20 {
   font-size: 20px;
+}
+
+.font-size-32 {
+  font-size: 32px;
+}
+
+.form-field {
+  margin: 30px 0;
+  padding-left: 20px;
+  --padding-start: 0;
+  --min-height: 0;
+  --inner-padding-end: 0;
+  background-color: $field-background;
+
+  ion-input {
+    background-color: $field-background;
+  }
+}
+
+.sc-ion-card-md-h {
+  border-radius: 0;
+}
+
+ion-icon {
+  margin: 0;
+  color: $violet;
+}
+
+ion-chip {
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  padding: 0 16px;
+  margin: 0;
+  background-color: $chip-inactive-color;
+}
+
+#three-chips-container {
+  margin-top: 20px;
+
+  & > ion-col:first-child {
+    padding-top: 0;
+    padding-left: 0;
+  }
+}
+
+#checked-chip {
+  box-shadow: 0 0 20px $chip-active-color;
+  background-color: $chip-active-color;
+  padding: 0;
+
+  ion-icon {
+    color: white;
+    width: 70px;
+    font-size: 35px;
+  }
+}
+
+#padding-bottom {
+  height: 80px;
 }

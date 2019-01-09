@@ -16,19 +16,19 @@
                 <ion-chip>
                   <ion-icon name="call"></ion-icon>
                 </ion-chip>
-                <p class="bold-text ">{{ plan.calls }}</p>
+                <p class="bold-text mt-5">{{ plan.calls }}</p>
               </ion-col>
               <ion-col class="col-auto text-center">
                 <ion-chip>
                   <ion-icon name="wifi"></ion-icon>
                 </ion-chip>
-                <p class="bold-text">{{ plan.internet }} GB</p>
+                <p class="bold-text mt-5">{{ plan.internet }} GB</p>
               </ion-col>
               <ion-col class="col-auto text-center">
                 <ion-chip>
                   <ion-icon name="mail"></ion-icon>
                 </ion-chip>
-                <p class="bold-text">{{ plan.sms }}</p>
+                <p class="bold-text mt-5">{{ plan.sms }}</p>
               </ion-col>
             </ion-row>
           </ion-col>
@@ -42,7 +42,7 @@
     </ion-card-content>
   </ion-card>
   <div id="padding-bottom"></div>
-  <ion-button class="btn bottom-btn">Checkout</ion-button>
+  <ion-button class="btn bottom-btn" (click)="navigateToConfirmPlan()">Checkout</ion-button>
 </ion-content>
 
 <ng-template #checkedChip>

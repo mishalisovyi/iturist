@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 
 @Component({
@@ -10,11 +10,12 @@ import { ApiService } from '../../services/api.service';
 export class ChoosePlanPage implements OnInit {
 
   private companyId: string;
+  private planIsSelected: boolean = false;
 
   public plans: Array<any>;
   public selectedPlanId: string;
 
-  constructor(private route: ActivatedRoute, private api: ApiService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private api: ApiService) { }
 
   ngOnInit() {
     this.getCompanyId();
@@ -22,7 +23,7 @@ export class ChoosePlanPage implements OnInit {
   }
 
   private getCompanyId() {
-    this.companyId = this.route.snapshot.params.id;
+    this.companyId = this.route.snapshot.params.companyId;
   }
 
   private getPlans() {
@@ -31,5 +32,12 @@ export class ChoosePlanPage implements OnInit {
 
   public selectPlan(id: string) {
     this.selectedPlanId = id;
+    this.planIsSelected = true;
+  }
+
+  public navigateToConfirmPlan() {
+    if (this.planIsSelected) {
+      this.router.navigateByUrl(`/confirm-plan/${this.selectedPlanId}`);
+    }
   }
 }
