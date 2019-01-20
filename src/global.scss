@@ -18,7 +18,7 @@
   @include quicksand-font-family;
 }
 
-ion-item {
+ion-item:not(.menu-item) {
   --inner-border-width: 0;
   --border-width: 0;
   --full-highlight-height: 0;

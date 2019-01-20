@@ -34,8 +34,14 @@
             <ion-input type="email" formControlName="email" placeholder="E-mail address"></ion-input>
           </ion-item>
           <ion-item class="violet-text register-form-field" [class.red-text]="submitTry && form.get('password').invalid">
-            <ion-input type="text" formControlName="password" placeholder="Password"></ion-input>
+            <ion-input type="password" formControlName="password" placeholder="Password" (ionChange)="validatePasswordConfirmation()"></ion-input>
           </ion-item>
+          <ion-item class="violet-text register-form-field" [class.red-text]="submitTry && form.get('confirmPassword').invalid">
+            <ion-input type="password" formControlName="confirmPassword" placeholder="Confirm Password" (ionChange)="validatePasswordConfirmation()"></ion-input>
+          </ion-item>
+          <span class="error-msg" *ngIf="submitTry && form.get('confirmPassword').hasError('unmatch')">
+            Passwords do not match
+          </span>
           <ion-item class="violet-text select-field" [class.red-text]="submitTry && form.get('language').invalid">
             <ion-label>Language</ion-label>
             <ion-select formControlName="language" placeholder="Select language">
