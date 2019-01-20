@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
 import { of, Observable } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { delay, switchMap } from 'rxjs/operators';
 import * as _ from 'lodash';
+import { StorageService } from '../services/storage.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
+
+  constructor(private http: HttpClient, private storage: StorageService) { }
 
   private _isOrderedSimCard: boolean = false;
 
@@ -69,5 +73,23 @@ export class ApiService {
     return of(_.random(0, 2)).pipe(delay(100));
   }
 
-  constructor() { }
+  public register(data: any): Observable<any> {
+    return of("success").pipe(delay(200));
+  }
+
+  public login(data: any): Observable<any> {
+    return of("success").pipe(delay(200));
+  }
+
+  public logout(): Observable<any> {
+    return of("success")
+    .pipe(
+      delay(200),
+      switchMap(res => this.storage.remove("authorization"))
+    )
+  }
+
+  public getCurrentUser(): Observable<any> {
+    return this.storage.get<any>("authorization");
+  }
 }

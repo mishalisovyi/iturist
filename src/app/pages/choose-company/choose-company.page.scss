@@ -1,7 +1,11 @@
 @import "../../../utilities";
 
+ion-content {
+  --padding-bottom: 80px;
+}
+
 #container {
-  height: calc(100% - 80px);
+  height: 100%;
 }
 
 #text-block {

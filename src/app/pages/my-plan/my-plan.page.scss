@@ -5,3 +5,16 @@
 p {
   white-space: nowrap;
 }
+
+ion-card {
+  margin-left: 10px !important;
+  margin-right: 10px !important;
+
+  ion-card-content {
+    padding: 0 16px !important;
+  }
+}
+
+#first-col {
+  padding-left: 0;
+}

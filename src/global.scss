@@ -18,14 +18,17 @@
   @include quicksand-font-family;
 }
 
-:root {
-  .item-interactive {
-    --border-width: 0;
+ion-item {
+  --inner-border-width: 0;
+  --border-width: 0;
+  --full-highlight-height: 0;
+  // .item-interactive {
+  //   --border-width: 0;
 
-    &.item-has-focus {
-      --full-highlight-height: 0;
-    }
-  }
+  //   &.item-has-focus {
+  //     --full-highlight-height: 0;
+  //   }
+  // }
 }
 
 .w-100 {
@@ -38,6 +41,15 @@
 
 .mt-5 {
   margin-top: 5px;
+}
+
+.my-10 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.pb-80 {
+  padding-bottom: 80px;
 }
 
 .col-auto {
@@ -67,6 +79,7 @@
 .bottom-btn {
   font-size: 18px;
   position: fixed;
+  z-index: 10;
   bottom: 0;
   left: 0;
   width: 100%;
@@ -203,6 +216,20 @@ ion-chip {
   }
 }
 
-#padding-bottom {
-  height: 80px;
+.select-field {
+  margin-left: -16px;
+  margin-right: -12px;
+
+  ion-label {
+    background-color: $field-background;
+    margin: 0;
+    height: 41px;
+    padding: 10px 0 11px 20px;
+    @include quicksand-font-family;
+  }
+
+  ion-select {
+    background-color: $field-background;
+    margin-left: 0px;
+  }
 }

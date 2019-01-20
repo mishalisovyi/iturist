@@ -3,6 +3,9 @@ import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
+import { ApiService } from "../../services/api.service";
+import { StorageService } from "../../services/storage.service";
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -13,8 +16,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
 
   public hideBage: boolean = true;
+  public isAuthorized: boolean;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private storage: StorageService, private api: ApiService) {
+    this.storage.get("authorization").subscribe(res => {
+      console.log(res);
+      res ? this.isAuthorized = true : this.isAuthorized = false;
+    })
+  }
 
   ngOnInit() {
     this.hideBage = this.defineHidingBage()
@@ -34,5 +43,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private defineHidingBage(url: string = this.router.url): boolean {
     return url.includes('choose-plan') ? false : true;
+  }
+
+  public logout() {
+    this.api.logout().subscribe(res => this.router.navigateByUrl("/login"));
   }
 }

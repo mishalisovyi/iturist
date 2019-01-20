@@ -9,6 +9,9 @@
           <ion-col [class.hidden]="hideBage">
             <ion-badge>Your plan</ion-badge>
           </ion-col>
+          <ion-col id="logout-col" [hidden]="!isAuthorized" (click)="logout()">
+            <span class="violet-text">Logout</span>
+          </ion-col>
           <ion-col align-self-center>
             <div id="logo">
               <div id="top-part">
