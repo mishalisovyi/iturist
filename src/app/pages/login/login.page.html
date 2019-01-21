@@ -1,0 +1,42 @@
+<app-header></app-header>
+
+<ion-content padding-horizontal>
+  <form [formGroup]="form" (submit)="login()">
+    <ion-grid class="pb-80">
+      <ion-row id="text-block" class="violet-text" justify-content-between>
+        <ion-col>Login</ion-col>
+        <ion-col size="5">
+          <ion-button class="w-100" (click)="navigateToRegister()">Registration</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div id="upload-img-block">
+            <div></div>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row justify-content-center>
+        <ion-col size-md="7" size-lg="5">
+          <ion-item class="violet-text form-field" [class.red-text]="submitTry && form.get('email').invalid">
+            <ion-input type="text" formControlName="email" placeholder="Email"></ion-input>
+          </ion-item>
+          <ion-item class="violet-text form-field" [class.red-text]="submitTry && form.get('password').invalid">
+            <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button id="google-btn" class="w-100">Google Login</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button id="facebook-btn" class="w-100">Facebook Login</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-button class="btn bottom-btn" type="submit">Save</ion-button>
+  </form>
+</ion-content>
