@@ -2,7 +2,7 @@
 
 <ion-content padding-horizontal>
   <form [formGroup]="form" (submit)="register()">
-    <ion-grid class="pb-80">
+    <ion-grid>
       <ion-row id="text-block" class="violet-text">
         <ion-col>Registration</ion-col>
       </ion-row>
@@ -83,6 +83,10 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <ion-button class="btn bottom-btn" type="submit">Save</ion-button>
   </form>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button class="btn bottom-btn" (click)="register()">Save</ion-button>
+  </ion-toolbar>
+</ion-footer>

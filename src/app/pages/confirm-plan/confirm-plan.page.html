@@ -1,7 +1,7 @@
 <app-header></app-header>
 
 <ion-content>
-  <form [formGroup]="activeTabIndex === 0 ? creditCardForm : payPalForm" (submit)="confirmPlan()">
+  <form [formGroup]="activeTabIndex === 0 ? creditCardForm : payPalForm">
     <div id="text-block" class="violet-text bold-text font-size-16">Payment</div>
     <ion-card class="violet-text">
       <ion-card-content>
@@ -136,6 +136,10 @@
         </ion-row>
       </ion-grid>
     </ng-container>
-    <ion-button class="btn bottom-btn" type="submit">Confirm</ion-button>
   </form>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button class="btn bottom-btn" (click)="confirmPlan()">Confirm</ion-button>
+  </ion-toolbar>
+</ion-footer>

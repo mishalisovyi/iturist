@@ -1,7 +1,7 @@
 <app-header></app-header>
 
 <ion-content style="position: absolute">
-  <form id="container" [formGroup]="form" (submit)="orderSim()">
+  <form id="container" [formGroup]="form">
     <ion-grid class="h-100">
       <ion-row id="text-block" class="violet-text">
         <ion-col>Order of new SIM card</ion-col>
@@ -25,6 +25,10 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <ion-button class="btn bottom-btn" type="submit">Order</ion-button>
   </form>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button class="btn bottom-btn" (click)="orderSim()">Order</ion-button>
+  </ion-toolbar>
+</ion-footer>

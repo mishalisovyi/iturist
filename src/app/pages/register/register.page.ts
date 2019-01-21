@@ -45,7 +45,6 @@ export class RegisterPage implements OnInit {
         this.form.get("confirmPassword").setErrors(null);
         if (this.form.get("confirmPassword").value !== this.form.get("password").value) {
           this.form.get("confirmPassword").setErrors({ unmatch: true });
-          console.log(this.form.get("password").value, this.form.get("confirmPassword").value);
         }
       }
     }

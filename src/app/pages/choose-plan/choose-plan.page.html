@@ -41,8 +41,12 @@
       </ion-grid>
     </ion-card-content>
   </ion-card>
-  <ion-button class="btn bottom-btn" (click)="navigateToConfirmPlan()">Checkout</ion-button>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button class="btn bottom-btn" (click)="navigateToConfirmPlan()">Checkout</ion-button>
+  </ion-toolbar>
+</ion-footer>
 
 <ng-template #checkedChip>
   <ion-chip id="checked-chip">
