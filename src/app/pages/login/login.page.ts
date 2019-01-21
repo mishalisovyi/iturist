@@ -34,8 +34,7 @@ export class LoginPage implements OnInit {
     if (this.form.valid) {
       this.api.login(this.form.value)
         .pipe(switchMap(response => this.storage.set("authorization", response)))
-        .subscribe(res => {
-          console.log(res);
+        .subscribe(() => {
           this.router.navigateByUrl("/choose-company");
         })
     }

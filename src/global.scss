@@ -78,10 +78,6 @@ ion-item:not(.menu-item) {
 
 .bottom-btn {
   font-size: 18px;
-  position: fixed;
-  z-index: 10;
-  bottom: 0;
-  left: 0;
   width: 100%;
   height: 80px;
   --background: linear-gradient(to right, #6c9eff, #a25ffd);
@@ -231,5 +227,14 @@ ion-chip {
   ion-select {
     background-color: $field-background;
     margin-left: 0px;
+  }
+}
+
+ion-footer {
+  ion-toolbar {
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --padding-start: 0;
+    --padding-end: 0;
   }
 }
