@@ -22,13 +22,6 @@ ion-item:not(.menu-item) {
   --inner-border-width: 0;
   --border-width: 0;
   --full-highlight-height: 0;
-  // .item-interactive {
-  //   --border-width: 0;
-
-  //   &.item-has-focus {
-  //     --full-highlight-height: 0;
-  //   }
-  // }
 }
 
 .w-100 {
@@ -213,6 +206,8 @@ ion-chip {
 }
 
 ion-footer {
+  margin-top: 80px;
+
   ion-toolbar {
     --padding-top: 0;
     --padding-bottom: 0;
