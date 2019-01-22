@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { switchMap } from 'rxjs/operators';
 
 import { ApiService } from '../../services/api.service';
@@ -16,7 +17,7 @@ export class LoginPage implements OnInit {
   public form: FormGroup;
   public submitTry: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private api: ApiService, private storage: StorageService) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private api: ApiService, private storage: StorageService, private googlePlus: GooglePlus) { }
 
   ngOnInit() {
     this.createForm();
@@ -38,6 +39,12 @@ export class LoginPage implements OnInit {
           this.router.navigateByUrl("/choose-company");
         })
     }
+  }
+
+  public googleLogin() {
+    this.googlePlus.login({})
+      .then(res => alert(JSON.stringify(res)))
+      .catch(err => alert(err));
   }
 
   public navigateToRegister() {
