@@ -47,6 +47,12 @@ export class LoginPage implements OnInit {
       .catch(err => alert(err));
   }
 
+  public googleLogout() {
+    this.googlePlus.logout()
+      .then(res => alert(JSON.stringify(res)))
+      .catch(err => alert(err));
+  }
+
   public navigateToRegister() {
     this.router.navigateByUrl("/register");
   }
