@@ -14,6 +14,8 @@ export class RegisterPage implements OnInit {
   public form: FormGroup;
   public submitTry: boolean = false;
 
+  private file: File;
+
   constructor(private formBuilder: FormBuilder, private router: Router, private api: ApiService) { }
 
   ngOnInit() {
@@ -48,5 +50,10 @@ export class RegisterPage implements OnInit {
         }
       }
     }
+  }
+
+  public getFile($event) {
+    this.file = $event.target.files[0];
+    alert(JSON.stringify(this.file));
   }
 }

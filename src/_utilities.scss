@@ -4,8 +4,8 @@ $field-background: #f8faff;
 $chip-inactive-color: #eff2f8;
 $chip-active-color: #7c84c0;
 
-$quicksand: "Quicksand", sans-serif;
+$assistant: "Assistant", sans-serif;
 
-@mixin quicksand-font-family {
-  font-family: $quicksand;
+@mixin assistant-font-family {
+  font-family: $assistant;
 }

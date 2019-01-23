@@ -8,11 +8,6 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <div id="upload-img-block">
-            <div></div>
-          </div>
-        </ion-col>
-        <ion-col>
           <ion-row>
             <ion-col>
               <ion-button id="google-btn" class="w-100">Google Login</ion-button>
@@ -23,6 +18,20 @@
               <ion-button id="facebook-btn" class="w-100">Facebook Login</ion-button>
             </ion-col>
           </ion-row>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div id="upload-img-block" (click)="imageLoader.click()">
+            <img src="../../../assets//screens//icon-profile.svg" alt="">
+            <div id="rect"></div>
+            <div id="label">
+              <img src="../../../assets//screens/upload-img.svg" alt="">
+            </div>
+          </div>
+          <ion-item style="display: none" #imageLoader>
+            <ion-input type="file" accept="image/*" (change)="getFile($event)"></ion-input>
+          </ion-item>
         </ion-col>
       </ion-row>
       <ion-row justify-content-center>
@@ -57,7 +66,7 @@
       <ion-row>
         <ion-col class="attach-btn-col" size-5>
           <div>
-            <div></div>
+            <div><img src="../../../assets//screens/small-upload-img.svg" alt=""></div>
             <ion-button class="attach-btn">
               airline tickets
             </ion-button>
@@ -65,7 +74,7 @@
         </ion-col>
         <ion-col class="attach-btn-col" size-5>
           <div>
-            <div></div>
+            <div><img src="../../../assets//screens/small-upload-img.svg" alt=""></div>
             <ion-button class="attach-btn">
               travel insurance
             </ion-button>
@@ -75,7 +84,7 @@
       <ion-row>
         <ion-col class="attach-btn-col" size-5>
           <div>
-            <div></div>
+            <div><img src="../../../assets//screens/small-upload-img.svg" alt=""></div>
             <ion-button class="attach-btn">
               passport
             </ion-button>

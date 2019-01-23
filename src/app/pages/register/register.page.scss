@@ -4,17 +4,41 @@
   width: 100px;
   height: 100px;
   position: relative;
-  border-radius: 50%;
-  background-color: lightblue;
-  opacity: 0.5;
+  background: url("../../../assets//screens/subtract.svg");
+  background-size: contain;
+  display: flex;
+  justify-content: center;
 
-  div {
-    width: 15px;
-    height: 15px;
-    border: solid 1px grey;
+  img {
+    width: 45%;
+    z-index: 1;
+  }
+
+  #rect {
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    bottom: -10%;
+    background-color: white;
+    margin: 0 auto;
+    transform: rotate(45deg);
+  }
+
+  #label {
+    width: 22px;
+    height: 22px;
+    background-color: white;
+    box-shadow: 0 0 3px;
     border-radius: 50%;
     position: absolute;
     right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 65%;
+    }
   }
 }
 
@@ -48,12 +72,15 @@
       position: absolute;
       height: 20px;
       width: 20px;
-      border: solid 1px grey;
+      box-shadow: 0 0 3px;
       border-radius: 50%;
       background-color: white;
       z-index: 2;
       right: 15px;
       top: -5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .attach-btn {
