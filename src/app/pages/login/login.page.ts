@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
 import { switchMap } from 'rxjs/operators';
 
 import { ApiService } from '../../services/api.service';
@@ -17,7 +18,17 @@ export class LoginPage implements OnInit {
   public form: FormGroup;
   public submitTry: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private api: ApiService, private storage: StorageService, private googlePlus: GooglePlus) { }
+  private googleLoginDetermine: boolean = true;
+  private facebookLoginDetermine: boolean = true;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private api: ApiService,
+    private storage: StorageService,
+    private googlePlus: GooglePlus,
+    private fb: Facebook
+  ) { }
 
   ngOnInit() {
     this.createForm();
@@ -41,6 +52,24 @@ export class LoginPage implements OnInit {
     }
   }
 
+  public manageGoogleLogin() {
+    if (this.googleLoginDetermine) {
+      this.googleLogin();
+    } else {
+      this.googleLogout();
+    }
+    this.googleLoginDetermine = !this.googleLoginDetermine;
+  }
+
+  public manageFacebookLogin() {
+    if (this.facebookLoginDetermine) {
+      this.facebookLogin();
+    } else {
+      this.facebookLogout();
+    }
+    this.facebookLoginDetermine = !this.facebookLoginDetermine;
+  }
+
   public googleLogin() {
     this.googlePlus.login({})
       .then(res => alert(JSON.stringify(res)))
@@ -51,6 +80,18 @@ export class LoginPage implements OnInit {
     this.googlePlus.logout()
       .then(res => alert(JSON.stringify(res)))
       .catch(err => alert(err));
+  }
+
+  public facebookLogin() {
+    this.fb.login(['public_profile', 'email'])
+      .then((res: FacebookLoginResponse) => alert(JSON.stringify(res)))
+      .catch(e => alert(e));
+  }
+
+  public facebookLogout() {
+    this.fb.logout()
+      .then(res => alert(JSON.stringify(res)))
+      .catch(e => alert(e));
   }
 
   public navigateToRegister() {

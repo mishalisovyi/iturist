@@ -8,6 +8,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { Facebook } from '@ionic-native/facebook/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -28,6 +29,7 @@ import { TokenInterceptor } from './services/interceptors/token.interceptor';
     StatusBar,
     SplashScreen,
     GooglePlus,
+    Facebook,
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy
