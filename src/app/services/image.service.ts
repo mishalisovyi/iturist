@@ -1,0 +1,455 @@
+import { Injectable } from '@angular/core';
+import { Camera } from '@ionic-native/camera/ngx';
+import { Platform } from '@ionic/angular';
+import { FilePath } from '@ionic-native/file-path/ngx';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { File as IonicFile, FileEntry } from '@ionic-native/file/ngx';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ImageService {
+
+  public profileImgSrc: string;
+  public profileImgName: string;
+  public profileImgCorrectPath: string;
+  public profileImgFile: File;
+  public profileImgFileDeleted: boolean = true;
+
+  public airlineImgSrc: string;
+  public airlineImgName: string;
+  public airlineImgCorrectPath: string;
+  public airlineImgFile: File;
+  public airlineImgFileDeleted: boolean = true;
+
+  public travelImgSrc: string;
+  public travelImgName: string;
+  public travelImgCorrectPath: string;
+  public travelImgFile: File;
+  public travelImgFileDeleted: boolean = true;
+
+  public passportImgSrc: string;
+  public passportImgName: string;
+  public passportImgCorrectPath: string;
+  public passportImgFile: File;
+  public passportImgFileDeleted: boolean = true;
+
+  constructor(
+    private camera: Camera,
+    private platform: Platform,
+    private filePath: FilePath,
+    private webview: WebView,
+    private file: IonicFile
+  ) { }
+
+  public getProfilePhoto() {
+    this.deleteProfilePhoto().then(() => {
+      this.camera
+        .getPicture({
+          sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+          mediaType: this.camera.MediaType.PICTURE
+        })
+        .then(
+          imagePath => {
+            if (this.platform.is('android')) {
+              this.filePath.resolveNativePath(imagePath)
+                .then(file => {
+                  this.profileImgSrc = this.webview.convertFileSrc(file);
+                  this.profileImgCorrectPath = file.substr(0, file.lastIndexOf('/') + 1);
+                  const currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
+                  this.copyProfileImageToLocalDir(currentName, this.createImageName());
+                  alert(this.profileImgSrc);
+                });
+            } else {
+              this.profileImgSrc = this.webview.convertFileSrc(imagePath);
+              this.profileImgSrc = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
+              const currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
+              this.copyProfileImageToLocalDir(currentName, this.createImageName());
+            }
+          },
+          err => {
+            alert("for view: " + err);
+          }
+        );
+    })
+  }
+
+  public getAirlinePhoto() {
+    this.camera
+      .getPicture({
+        sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+        mediaType: this.camera.MediaType.PICTURE
+      })
+      .then(
+        imagePath => {
+          if (this.platform.is('android')) {
+            this.filePath.resolveNativePath(imagePath)
+              .then(file => {
+                this.airlineImgSrc = this.webview.convertFileSrc(file);
+                this.airlineImgCorrectPath = file.substr(0, file.lastIndexOf('/') + 1);
+                const currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
+                this.copyAirlineImageToLocalDir(currentName, this.createImageName());
+                alert(this.airlineImgSrc);
+              });
+          } else {
+            this.airlineImgSrc = this.webview.convertFileSrc(imagePath);
+            this.airlineImgCorrectPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
+            const currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
+            this.copyAirlineImageToLocalDir(currentName, this.createImageName());
+          }
+        },
+        err => {
+          alert("for view: " + err);
+        }
+      );
+  }
+
+  public getTravelPhoto() {
+    this.camera
+      .getPicture({
+        sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+        mediaType: this.camera.MediaType.PICTURE
+      })
+      .then(
+        imagePath => {
+          if (this.platform.is('android')) {
+            this.filePath.resolveNativePath(imagePath)
+              .then(file => {
+                this.travelImgSrc = this.webview.convertFileSrc(file);
+                this.travelImgCorrectPath = file.substr(0, file.lastIndexOf('/') + 1);
+                const currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
+                this.copyTravelImageToLocalDir(currentName, this.createImageName());
+                alert(this.travelImgSrc);
+              });
+          } else {
+            this.travelImgSrc = this.webview.convertFileSrc(imagePath);
+            this.travelImgCorrectPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
+            const currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
+            this.copyTravelImageToLocalDir(currentName, this.createImageName());
+          }
+        },
+        err => {
+          alert("for view: " + err);
+        }
+      );
+  }
+
+  public getPassportPhoto() {
+    this.camera
+      .getPicture({
+        sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+        mediaType: this.camera.MediaType.PICTURE
+      })
+      .then(
+        imagePath => {
+          if (this.platform.is('android')) {
+            this.filePath.resolveNativePath(imagePath)
+              .then(file => {
+                this.passportImgSrc = this.webview.convertFileSrc(file);
+                this.passportImgCorrectPath = file.substr(0, file.lastIndexOf('/') + 1);
+                const currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
+                this.copyPassportImageToLocalDir(currentName, this.createImageName());
+                alert(this.passportImgSrc);
+              });
+          } else {
+            this.passportImgSrc = this.webview.convertFileSrc(imagePath);
+            this.passportImgCorrectPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
+            const currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
+            this.copyPassportImageToLocalDir(currentName, this.createImageName());
+          }
+        },
+        err => {
+          alert("for view: " + err);
+        }
+      );
+  }
+
+  public deleteProfilePhoto() {
+    return new Promise((resolve, reject) => {
+      this.file.removeFile(this.file.dataDirectory, this.profileImgName).then(
+        success => {
+          this.profileImgFile = null;
+          this.profileImgFileDeleted = true;
+          alert("file is removed: " + name);
+          resolve();
+        },
+        err => {
+          alert("err: " + JSON.stringify(err));
+          resolve();
+        }
+      )
+    })
+  }
+
+  public deleteAirlinePhoto() {
+    this.file.removeFile(this.file.dataDirectory, this.airlineImgName).then(
+      res => {
+        this.airlineImgFile = null;
+        this.airlineImgFileDeleted = true;
+        alert("file is removed: " + name);
+      },
+      err => {
+        alert("err: " + err);
+      }
+    )
+  }
+
+  public deleteTravelPhoto() {
+    this.file.removeFile(this.file.dataDirectory, this.travelImgName).then(
+      res => {
+        this.travelImgFile = null;
+        this.travelImgFileDeleted = true;
+        alert("file is removed: " + name);
+      },
+      err => {
+        alert("err: " + err);
+      }
+    )
+  }
+
+  public deletePassportPhoto() {
+    this.file.removeFile(this.file.dataDirectory, this.passportImgName).then(() => {
+      this.passportImgFile = null;
+      this.passportImgFileDeleted = true;
+      alert("file is removed: " + name);
+    })
+  }
+
+  private copyProfileImageToLocalDir(currentName, newFileName) {
+    alert("start copy to local dir");
+    this.file.copyFile(this.profileImgCorrectPath, currentName, this.file.dataDirectory, newFileName).then(
+      success => {
+        this.profileImgName = newFileName;
+        this.profileImgFileDeleted = false;
+        alert("image name: " + this.profileImgName);
+      },
+      err => {
+        alert("err: " + err);
+      }
+    );
+  }
+
+  private copyAirlineImageToLocalDir(currentName, newFileName) {
+    alert("start copy to local dir");
+    this.file.copyFile(this.airlineImgCorrectPath, currentName, this.file.dataDirectory, newFileName).then(
+      success => {
+        this.airlineImgName = newFileName;
+        this.airlineImgFileDeleted = false;
+        alert("img name: " + this.airlineImgName);
+      },
+      err => {
+        alert(err);
+      }
+    );
+  }
+
+  private copyTravelImageToLocalDir(currentName, newFileName) {
+    alert("start copy to local dir");
+    this.file.copyFile(this.travelImgCorrectPath, currentName, this.file.dataDirectory, newFileName).then(
+      success => {
+        this.travelImgName = newFileName;
+        this.travelImgFileDeleted = false;
+        alert("img name: " + this.travelImgName);
+      },
+      err => {
+        alert(err);
+      }
+    );
+  }
+
+  private copyPassportImageToLocalDir(currentName, newFileName) {
+    alert("start copy to local dir");
+    this.file.copyFile(this.passportImgCorrectPath, currentName, this.file.dataDirectory, newFileName).then(
+      success => {
+        this.passportImgName = newFileName;
+        this.passportImgFileDeleted = false;
+        alert("img name: " + this.passportImgName);
+      },
+      err => {
+        alert(err);
+      }
+    );
+  }
+
+  public getProfileImgFromFileEntry() {
+    return new Promise((resolve, reject) => {
+      this.file.resolveLocalFilesystemUrl(this.file.dataDirectory + this.profileImgName)
+        .then(entry => {
+          (<FileEntry>entry).file(file => {
+            alert("file from entry: " + JSON.stringify(file));
+            this.readProfileFile(file).then(res => {
+              resolve();
+            });
+          })
+        })
+        .catch(err => {
+          reject(err);
+          alert('Error while reading file.');
+        });
+    })
+  }
+
+  public getAirlineImgFromFileEntry() {
+    return new Promise((resolve, reject) => {
+      this.file.resolveLocalFilesystemUrl(this.file.dataDirectory + this.airlineImgName)
+        .then(entry => {
+          (<FileEntry>entry).file(file => {
+            alert("file from entry: " + JSON.stringify(file));
+            this.readAirlineFile(file).then(res => {
+              resolve();
+            });
+          })
+        })
+        .catch(err => {
+          reject(err);
+          alert('Error while reading file.');
+        });
+    })
+  }
+
+  public getTravelImgFromFileEntry() {
+    return new Promise((resolve, reject) => {
+      this.file.resolveLocalFilesystemUrl(this.file.dataDirectory + this.travelImgName)
+        .then(entry => {
+          (<FileEntry>entry).file(file => {
+            alert("file from entry: " + JSON.stringify(file));
+            this.readTravelFile(file).then(res => {
+              resolve();
+            });
+          })
+        })
+        .catch(err => {
+          reject(err);
+          alert('Error while reading file.');
+        });
+    })
+  }
+
+  public getPassportImgFromFileEntry() {
+    return new Promise((resolve, reject) => {
+      this.file.resolveLocalFilesystemUrl(this.file.dataDirectory + this.passportImgName)
+        .then(entry => {
+          (<FileEntry>entry).file(file => {
+            alert("file from entry: " + JSON.stringify(file));
+            this.readPassportFile(file).then(res => {
+              resolve();
+            });
+          })
+        })
+        .catch(err => {
+          reject(err);
+          alert('Error while reading file.');
+        });
+    })
+  }
+
+  private readProfileFile(file: any) {
+    const reader = new FileReader();
+    return new Promise((resolve, reject) => {
+      reader.onloadend = () => {
+        // const formData = new FormData();
+        const imgBlob = new Blob([reader.result], {
+          type: file.type
+        });
+
+        this.profileImgFile = new File([imgBlob], this.profileImgName, { type: imgBlob.type, lastModified: Date.now() });
+        alert(JSON.stringify(this.profileImgFile));
+        resolve();
+
+
+        // formData.append('file', imgBlob, file.name);
+        // this.uploadImageData(formData);
+      }
+      reader.onerror = err => {
+        alert("reader error: " + err);
+        reject();
+      };
+      reader.readAsArrayBuffer(file);
+    });
+  }
+
+  private readAirlineFile(file: any) {
+    const reader = new FileReader();
+    return new Promise((resolve, reject) => {
+      reader.onloadend = () => {
+        // const formData = new FormData();
+        const imgBlob = new Blob([reader.result], {
+          type: file.type
+        });
+        alert(JSON.stringify({ aa: reader.result, bb: file.type }));
+
+
+        this.airlineImgFile = new File([imgBlob], this.airlineImgName, { type: imgBlob.type, lastModified: Date.now() });
+        resolve();
+
+
+        // formData.append('file', imgBlob, file.name);
+        // this.uploadImageData(formData);
+      }
+      reader.onerror = err => {
+        alert("reader error: " + err);
+        reject();
+      };
+      reader.readAsArrayBuffer(file);
+    });
+  }
+
+  private readTravelFile(file: any) {
+    const reader = new FileReader();
+    return new Promise((resolve, reject) => {
+      reader.onloadend = () => {
+        // const formData = new FormData();
+        const imgBlob = new Blob([reader.result], {
+          type: file.type
+        });
+        alert(JSON.stringify({ aa: reader.result, bb: file.type }));
+
+
+        this.travelImgFile = new File([imgBlob], this.travelImgName, { type: imgBlob.type, lastModified: Date.now() });
+        resolve();
+
+
+        // formData.append('file', imgBlob, file.name);
+        // this.uploadImageData(formData);
+      }
+      reader.onerror = err => {
+        alert("reader error: " + err);
+        reject();
+      };
+      reader.readAsArrayBuffer(file);
+    });
+  }
+
+  private readPassportFile(file: any) {
+    const reader = new FileReader();
+    return new Promise((resolve, reject) => {
+      reader.onloadend = () => {
+        // const formData = new FormData();
+        const imgBlob = new Blob([reader.result], {
+          type: file.type
+        });
+        alert(JSON.stringify({ aa: reader.result, bb: file.type }));
+
+
+        this.passportImgFile = new File([imgBlob], this.passportImgName, { type: imgBlob.type, lastModified: Date.now() });
+        resolve();
+
+
+        // formData.append('file', imgBlob, file.name);
+        // this.uploadImageData(formData);
+      }
+      reader.onerror = err => {
+        alert("reader error: " + err);
+        reject();
+      };
+      reader.readAsArrayBuffer(file);
+    });
+  }
+
+  private createImageName(): string {
+    const d = new Date(),
+      n = d.getTime(),
+      newFileName = n + ".jpg";
+    return newFileName;
+  }
+}

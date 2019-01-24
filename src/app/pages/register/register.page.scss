@@ -9,7 +9,7 @@
   display: flex;
   justify-content: center;
 
-  img {
+  ion-img {
     width: 45%;
     z-index: 1;
   }
@@ -36,10 +36,42 @@
     justify-content: center;
     align-items: center;
 
-    img {
+    ion-img {
       width: 65%;
     }
   }
+}
+
+#img-block {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center center;
+
+  #label {
+    width: 22px;
+    height: 22px;
+    background-color: white;
+    box-shadow: 0 0 3px;
+    border-radius: 50%;
+    position: absolute;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    ion-img {
+      width: 65%;
+    }
+  }
+}
+
+#img-profile {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
 }
 
 .register-form-field {
@@ -81,6 +113,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
+
+      ion-img {
+        width: 60%;
+      }
     }
 
     .attach-btn {

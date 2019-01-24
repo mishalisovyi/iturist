@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 
 import { ApiService } from '../../services/api.service';
+import { ImageService } from '../../services/image.service';
 
 @Component({
   selector: 'app-register',
@@ -14,9 +15,12 @@ export class RegisterPage implements OnInit {
   public form: FormGroup;
   public submitTry: boolean = false;
 
-  private file: File;
-
-  constructor(private formBuilder: FormBuilder, private router: Router, private api: ApiService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private api: ApiService,
+    public image: ImageService
+  ) { }
 
   ngOnInit() {
     this.createForm();
@@ -36,7 +40,37 @@ export class RegisterPage implements OnInit {
     this.submitTry = true;
     if (this.form.valid) {
       this.api.register(this.form.value).subscribe(res => {
-        this.router.navigateByUrl("/login");
+        const queries: Array<any> = [];
+        if (!this.image.profileImgFileDeleted) {
+          queries.push(this.image.getProfileImgFromFileEntry())
+        }
+        if (!this.image.airlineImgFileDeleted) {
+          queries.push(this.image.getAirlineImgFromFileEntry())
+        }
+        if (!this.image.travelImgFileDeleted) {
+          queries.push(this.image.getTravelImgFromFileEntry())
+        }
+        if (!this.image.passportImgFileDeleted) {
+          queries.push(this.image.getPassportImgFromFileEntry());
+        }
+        Promise.all(queries).then(res => {
+          alert("res: " + res);
+        })
+        // this.getImgFromFileEntry(this.fileInfo.profile).then(() => {
+        //   // this.router.navigateByUrl("/login");
+        //   if (!this.fileInfo.airline.deleted) {
+        //     queries.push(this.getImgFromFileEntry(this.fileInfo.airline))
+        //   }
+        //   if (!this.fileInfo.travel.deleted) {
+        //     queries.push(this.getImgFromFileEntry(this.fileInfo.travel))
+        //   }
+        //   if (!this.fileInfo.passport.deleted) {
+        //     queries.push(this.getImgFromFileEntry(this.fileInfo.airline))
+        //   }
+        //   Promise.all(queries).then(res => {
+        //     alert("general success");
+        //   })
+        // });
       })
     }
   }
@@ -52,8 +86,19 @@ export class RegisterPage implements OnInit {
     }
   }
 
-  public getFile($event) {
-    this.file = $event.target.files[0];
-    alert(JSON.stringify(this.file));
-  }
+  // async uploadImageData(formData: FormData) {
+  //   this.http.post("http://localhost:8888/upload.php", formData)
+  //     .pipe(
+  //       finalize(() => {
+  //         loading.dismiss();
+  //       })
+  //     )
+  //     .subscribe(res => {
+  //       if (res['success']) {
+  //         this.presentToast('File upload complete.')
+  //       } else {
+  //         this.presentToast('File upload failed.')
+  //       }
+  //     });
+  // }
 }
