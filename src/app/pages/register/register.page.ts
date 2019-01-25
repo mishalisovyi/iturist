@@ -42,41 +42,34 @@ export class RegisterPage implements OnInit {
     this.submitTry = true;
     if (this.form.valid) {
       this.api.register(this.form.value).subscribe(res => {
+        const formData: FormData = new FormData();
         if (this.platform.is('android')) {
           const queries: Array<any> = [];
           if (!this.image.profileImgFileDeleted) {
-            queries.push(this.image.getProfileImgFromFileEntry())
+            queries.push(this.image.getProfileImgFromFileEntry());
           }
           if (!this.image.airlineImgFileDeleted) {
-            queries.push(this.image.getAirlineImgFromFileEntry())
+            queries.push(this.image.getAirlineImgFromFileEntry());
           }
           if (!this.image.travelImgFileDeleted) {
-            queries.push(this.image.getTravelImgFromFileEntry())
+            queries.push(this.image.getTravelImgFromFileEntry());
           }
           if (!this.image.passportImgFileDeleted) {
             queries.push(this.image.getPassportImgFromFileEntry());
           }
           Promise.all(queries).then(res => {
-            alert("res: " + res);
+            this.appendImagesToFormData(formData);
           })
         } else {
-          alert("not android");
+          this.appendImagesToFormData(formData);
         }
-        // this.getImgFromFileEntry(this.fileInfo.profile).then(() => {
-        //   // this.router.navigateByUrl("/login");
-        //   if (!this.fileInfo.airline.deleted) {
-        //     queries.push(this.getImgFromFileEntry(this.fileInfo.airline))
-        //   }
-        //   if (!this.fileInfo.travel.deleted) {
-        //     queries.push(this.getImgFromFileEntry(this.fileInfo.travel))
-        //   }
-        //   if (!this.fileInfo.passport.deleted) {
-        //     queries.push(this.getImgFromFileEntry(this.fileInfo.airline))
-        //   }
-        //   Promise.all(queries).then(res => {
-        //     alert("general success");
-        //   })
-        // });
+        formData.append("name", this.form.get("name").value);
+        formData.append("email", this.form.get("email").value);
+        formData.append("password", this.form.get("password").value);
+        formData.append("language", this.form.get("language").value);
+        this.api.register(formData).subscribe(res => {
+          alert(res);
+        })
       })
     }
   }
@@ -89,6 +82,25 @@ export class RegisterPage implements OnInit {
           this.form.get("confirmPassword").setErrors({ unmatch: true });
         }
       }
+    }
+  }
+
+  private appendImagesToFormData(formData: FormData) {
+    if (!this.image.profileImgFileDeleted) {
+      formData.append("profile_image", this.image.profileImgFile);
+      alert(this.image.profileImgFile);
+    }
+    if (!this.image.profileImgFileDeleted) {
+      formData.append("airline_image", this.image.airlineImgFile);
+      alert(this.image.airlineImgFile);
+    }
+    if (!this.image.profileImgFileDeleted) {
+      formData.append("travel_image", this.image.travelImgFile);
+      alert(this.image.travelImgFile);
+    }
+    if (!this.image.profileImgFileDeleted) {
+      formData.append("passport_image", this.image.passportImgFile);
+      alert(this.image.passportImgFile);
     }
   }
 
