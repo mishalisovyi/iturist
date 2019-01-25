@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
 
   public hideBage: boolean = true;
+  public isMainPage: boolean = false;
   public isAuthorized: boolean;
 
   constructor(private router: Router, private storage: StorageService, private api: ApiService) {
@@ -34,6 +35,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       )
       .subscribe((e: NavigationEnd) => {
         this.hideBage = this.defineHidingBage(e.url);
+        e.url.includes("main") ? this.isMainPage = true : this.isMainPage = false;
       });
   }
 

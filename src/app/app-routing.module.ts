@@ -35,6 +35,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'main',
+    loadChildren: './pages/main/main.module#MainPageModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'register',
     loadChildren: './pages/register/register.module#RegisterPageModule',
     canActivate: [GuestGuard]

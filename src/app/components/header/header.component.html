@@ -7,10 +7,11 @@
         </ion-button>
       </ion-menu-toggle>
     </ion-buttons>
+    <ion-title *ngIf="isMainPage" class="violet-text text-center">WELCOME TO ISRAEL</ion-title>
     <ion-buttons slot="end">
       <ion-grid>
         <ion-row>
-          <ion-col [class.hidden]="hideBage">
+          <ion-col *ngIf="!isMainPage" [class.hidden]="hideBage">
             <ion-badge>Your plan</ion-badge>
           </ion-col>
           <ion-col id="logout-col" [hidden]="!isAuthorized" (click)="logout()">

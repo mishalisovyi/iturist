@@ -69,6 +69,7 @@ export class RegisterPage implements OnInit {
         formData.append("language", this.form.get("language").value);
         this.api.register(formData).subscribe(res => {
           alert(res);
+          this.router.navigateByUrl("/login");
         })
       })
     }
