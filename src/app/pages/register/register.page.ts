@@ -88,19 +88,19 @@ export class RegisterPage implements OnInit {
   private appendImagesToFormData(formData: FormData) {
     if (!this.image.profileImgFileDeleted) {
       formData.append("profile_image", this.image.profileImgFile);
-      alert(this.image.profileImgFile);
+      alert("profile: " + this.image.profileImgFile);
     }
-    if (!this.image.profileImgFileDeleted) {
+    if (!this.image.airlineImgFileDeleted) {
       formData.append("airline_image", this.image.airlineImgFile);
-      alert(this.image.airlineImgFile);
+      alert("airline: " + this.image.airlineImgFile);
     }
-    if (!this.image.profileImgFileDeleted) {
+    if (!this.image.travelImgFileDeleted) {
       formData.append("travel_image", this.image.travelImgFile);
-      alert(this.image.travelImgFile);
+      alert("travel: " + this.image.travelImgFile);
     }
-    if (!this.image.profileImgFileDeleted) {
+    if (!this.image.passportImgFileDeleted) {
       formData.append("passport_image", this.image.passportImgFile);
-      alert(this.image.passportImgFile);
+      alert("passport: " + this.image.passportImgFile);
     }
   }
 
