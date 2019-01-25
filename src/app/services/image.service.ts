@@ -71,7 +71,7 @@ export class ImageService {
         .getPicture({
           sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
           mediaType: this.camera.MediaType.PICTURE,
-          destinationType: this.camera.DestinationType.FILE_URI
+          destinationType: this.camera.DestinationType.DATA_URL
         })
         .then(
           image => {
@@ -110,7 +110,7 @@ export class ImageService {
         .getPicture({
           sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
           mediaType: this.camera.MediaType.PICTURE,
-          destinationType: this.camera.DestinationType.FILE_URI
+          destinationType: this.camera.DestinationType.DATA_URL
         })
         .then(
           image => {
@@ -149,7 +149,7 @@ export class ImageService {
         .getPicture({
           sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
           mediaType: this.camera.MediaType.PICTURE,
-          destinationType: this.camera.DestinationType.FILE_URI
+          destinationType: this.camera.DestinationType.DATA_URL
         })
         .then(
           image => {
@@ -188,7 +188,7 @@ export class ImageService {
         .getPicture({
           sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
           mediaType: this.camera.MediaType.PICTURE,
-          destinationType: this.camera.DestinationType.FILE_URI
+          destinationType: this.camera.DestinationType.DATA_URL
         })
         .then(
           image => {
