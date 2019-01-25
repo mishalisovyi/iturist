@@ -10,12 +10,13 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-@import url("https://fonts.googleapis.com/css?family=Quicksand");
+// @import url("https://fonts.googleapis.com/css?family=Quicksand");
+@import url("https://fonts.googleapis.com/css?family=Assistant");
 
 @import "utilities";
 
 * {
-  @include quicksand-font-family;
+  @include assistant-font-family;
 }
 
 ion-item:not(.menu-item) {
@@ -190,13 +191,14 @@ ion-chip {
 .select-field {
   margin-left: -16px;
   margin-right: -12px;
+  --ion-font-family: "Assistant", sans-serif;
 
   ion-label {
     background-color: $field-background;
     margin: 0;
     height: 41px;
     padding: 10px 0 11px 20px;
-    @include quicksand-font-family;
+    @include assistant-font-family;
   }
 
   ion-select {

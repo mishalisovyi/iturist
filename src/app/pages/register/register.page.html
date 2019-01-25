@@ -8,11 +8,6 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <div id="upload-img-block">
-            <div></div>
-          </div>
-        </ion-col>
-        <ion-col>
           <ion-row>
             <ion-col>
               <ion-button id="google-btn" class="w-100">Google Login</ion-button>
@@ -23,6 +18,23 @@
               <ion-button id="facebook-btn" class="w-100">Facebook Login</ion-button>
             </ion-col>
           </ion-row>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div *ngIf="!image.profileImgSrc" id="upload-img-block" (click)="image.getProfilePhoto()">
+            <ion-img src="assets/screens/icon-profile.svg"></ion-img>
+            <div id="rect"></div>
+            <div id="label">
+              <ion-img src="assets/screens/upload-img.svg"></ion-img>
+            </div>
+          </div>
+          <div *ngIf="image.profileImgSrc" id="img-block" [ngStyle]="{'background-image': 'url(' + image.profileImgSrc + ')'}"
+            (click)="image.getProfilePhoto()">
+            <div id="label">
+              <ion-img src="assets/screens/upload-img.svg"></ion-img>
+            </div>
+          </div>
         </ion-col>
       </ion-row>
       <ion-row justify-content-center>
@@ -56,16 +68,36 @@
       </ion-row>
       <ion-row>
         <ion-col class="attach-btn-col" size-5>
-          <div>
-            <div></div>
+          <div *ngIf="image.airlineImgFileDeleted" (click)="image.getAirlinePhoto()">
+            <div>
+              <ion-img src="assets/screens/small-upload-img.svg"></ion-img>
+            </div>
+            <ion-button class="attach-btn">
+              airline tickets
+            </ion-button>
+          </div>
+          <div *ngIf="!image.airlineImgFileDeleted" (click)="image.deleteAirlinePhoto()">
+            <div>
+              <ion-img src="assets/screens/delete-img.svg"></ion-img>
+            </div>
             <ion-button class="attach-btn">
               airline tickets
             </ion-button>
           </div>
         </ion-col>
         <ion-col class="attach-btn-col" size-5>
-          <div>
-            <div></div>
+          <div *ngIf="image.travelImgFileDeleted" (click)="image.getTravelPhoto()">
+            <div>
+              <ion-img src="assets/screens/small-upload-img.svg"></ion-img>
+            </div>
+            <ion-button class="attach-btn">
+              travel insurance
+            </ion-button>
+          </div>
+          <div *ngIf="!image.travelImgFileDeleted" (click)="image.deleteTravelPhoto()">
+            <div>
+              <ion-img src="assets/screens/delete-img.svg"></ion-img>
+            </div>
             <ion-button class="attach-btn">
               travel insurance
             </ion-button>
@@ -74,8 +106,18 @@
       </ion-row>
       <ion-row>
         <ion-col class="attach-btn-col" size-5>
-          <div>
-            <div></div>
+          <div *ngIf="image.passportImgFileDeleted" (click)="image.getPassportPhoto()">
+            <div>
+              <ion-img src="assets/screens/small-upload-img.svg"></ion-img>
+            </div>
+            <ion-button class="attach-btn">
+              passport
+            </ion-button>
+          </div>
+          <div *ngIf="!image.passportImgFileDeleted" (click)="image.deletePassportPhoto()">
+            <div>
+              <ion-img src="assets/screens/delete-img.svg"></ion-img>
+            </div>
             <ion-button class="attach-btn">
               passport
             </ion-button>
