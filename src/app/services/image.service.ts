@@ -67,9 +67,6 @@ export class ImageService {
           );
       })
     } else {
-      this.profileImgSrc = "";
-      this.profileImgFile = null;
-      this.profileImgFileDeleted = true;
       this.camera
         .getPicture({
           sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
