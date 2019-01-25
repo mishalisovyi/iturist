@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
+import { Platform } from '@ionic/angular';
 
 import { ApiService } from '../../services/api.service';
 import { ImageService } from '../../services/image.service';
@@ -19,7 +20,8 @@ export class RegisterPage implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private api: ApiService,
-    public image: ImageService
+    public image: ImageService,
+    private platform: Platform
   ) { }
 
   ngOnInit() {
@@ -40,22 +42,26 @@ export class RegisterPage implements OnInit {
     this.submitTry = true;
     if (this.form.valid) {
       this.api.register(this.form.value).subscribe(res => {
-        const queries: Array<any> = [];
-        if (!this.image.profileImgFileDeleted) {
-          queries.push(this.image.getProfileImgFromFileEntry())
+        if (this.platform.is('android')) {
+          const queries: Array<any> = [];
+          if (!this.image.profileImgFileDeleted) {
+            queries.push(this.image.getProfileImgFromFileEntry())
+          }
+          if (!this.image.airlineImgFileDeleted) {
+            queries.push(this.image.getAirlineImgFromFileEntry())
+          }
+          if (!this.image.travelImgFileDeleted) {
+            queries.push(this.image.getTravelImgFromFileEntry())
+          }
+          if (!this.image.passportImgFileDeleted) {
+            queries.push(this.image.getPassportImgFromFileEntry());
+          }
+          Promise.all(queries).then(res => {
+            alert("res: " + res);
+          })
+        } else {
+          alert("not android");
         }
-        if (!this.image.airlineImgFileDeleted) {
-          queries.push(this.image.getAirlineImgFromFileEntry())
-        }
-        if (!this.image.travelImgFileDeleted) {
-          queries.push(this.image.getTravelImgFromFileEntry())
-        }
-        if (!this.image.passportImgFileDeleted) {
-          queries.push(this.image.getPassportImgFromFileEntry());
-        }
-        Promise.all(queries).then(res => {
-          alert("res: " + res);
-        })
         // this.getImgFromFileEntry(this.fileInfo.profile).then(() => {
         //   // this.router.navigateByUrl("/login");
         //   if (!this.fileInfo.airline.deleted) {

@@ -43,15 +43,15 @@ export class ImageService {
   ) { }
 
   public getProfilePhoto() {
-    this.deleteProfilePhoto().then(() => {
-      this.camera
-        .getPicture({
-          sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-          mediaType: this.camera.MediaType.PICTURE
-        })
-        .then(
-          imagePath => {
-            if (this.platform.is('android')) {
+    if (this.platform.is("android")) {
+      this.deleteProfilePhoto().then(() => {
+        this.camera
+          .getPicture({
+            sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+            mediaType: this.camera.MediaType.PICTURE
+          })
+          .then(
+            imagePath => {
               this.filePath.resolveNativePath(imagePath)
                 .then(file => {
                   this.profileImgSrc = this.webview.convertFileSrc(file);
@@ -60,29 +60,41 @@ export class ImageService {
                   this.copyProfileImageToLocalDir(currentName, this.createImageName());
                   alert(this.profileImgSrc);
                 });
-            } else {
-              this.profileImgSrc = this.webview.convertFileSrc(imagePath);
-              this.profileImgSrc = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
-              const currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-              this.copyProfileImageToLocalDir(currentName, this.createImageName());
+            },
+            err => {
+              alert("for view: " + err);
             }
-          },
-          err => {
-            alert("for view: " + err);
+          );
+      })
+    } else {
+      this.profileImgSrc = "";
+      this.profileImgFile = null;
+      this.profileImgFileDeleted = true;
+      this.camera
+        .getPicture({
+          sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+          mediaType: this.camera.MediaType.PICTURE,
+          destinationType: this.camera.DestinationType.FILE_URI
+        })
+        .then(
+          image => {
+            this.profileImgSrc = "data:image/jpeg;base64," + image;
+            this.profileImgFile = new File([this.profileImgSrc], this.createImageName(), { type: typeof Blob, lastModified: Date.now() });
+            this.profileImgFileDeleted = false;
           }
-        );
-    })
+        )
+    }
   }
 
   public getAirlinePhoto() {
-    this.camera
-      .getPicture({
-        sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-        mediaType: this.camera.MediaType.PICTURE
-      })
-      .then(
-        imagePath => {
-          if (this.platform.is('android')) {
+    if (this.platform.is("android")) {
+      this.camera
+        .getPicture({
+          sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+          mediaType: this.camera.MediaType.PICTURE
+        })
+        .then(
+          imagePath => {
             this.filePath.resolveNativePath(imagePath)
               .then(file => {
                 this.airlineImgSrc = this.webview.convertFileSrc(file);
@@ -91,28 +103,37 @@ export class ImageService {
                 this.copyAirlineImageToLocalDir(currentName, this.createImageName());
                 alert(this.airlineImgSrc);
               });
-          } else {
-            this.airlineImgSrc = this.webview.convertFileSrc(imagePath);
-            this.airlineImgCorrectPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
-            const currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-            this.copyAirlineImageToLocalDir(currentName, this.createImageName());
+          },
+          err => {
+            alert("for view: " + err);
           }
-        },
-        err => {
-          alert("for view: " + err);
-        }
-      );
+        );
+    } else {
+      this.camera
+        .getPicture({
+          sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+          mediaType: this.camera.MediaType.PICTURE,
+          destinationType: this.camera.DestinationType.FILE_URI
+        })
+        .then(
+          image => {
+            this.airlineImgSrc = "data:image/jpeg;base64," + image;
+            this.airlineImgFile = new File([this.airlineImgSrc], this.createImageName(), { type: typeof Blob, lastModified: Date.now() });
+            this.airlineImgFileDeleted = false;
+          }
+        )
+    }
   }
 
   public getTravelPhoto() {
-    this.camera
-      .getPicture({
-        sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-        mediaType: this.camera.MediaType.PICTURE
-      })
-      .then(
-        imagePath => {
-          if (this.platform.is('android')) {
+    if (this.platform.is("android")) {
+      this.camera
+        .getPicture({
+          sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+          mediaType: this.camera.MediaType.PICTURE
+        })
+        .then(
+          imagePath => {
             this.filePath.resolveNativePath(imagePath)
               .then(file => {
                 this.travelImgSrc = this.webview.convertFileSrc(file);
@@ -121,28 +142,37 @@ export class ImageService {
                 this.copyTravelImageToLocalDir(currentName, this.createImageName());
                 alert(this.travelImgSrc);
               });
-          } else {
-            this.travelImgSrc = this.webview.convertFileSrc(imagePath);
-            this.travelImgCorrectPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
-            const currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-            this.copyTravelImageToLocalDir(currentName, this.createImageName());
+          },
+          err => {
+            alert("for view: " + err);
           }
-        },
-        err => {
-          alert("for view: " + err);
-        }
-      );
+        );
+    } else {
+      this.camera
+        .getPicture({
+          sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+          mediaType: this.camera.MediaType.PICTURE,
+          destinationType: this.camera.DestinationType.FILE_URI
+        })
+        .then(
+          image => {
+            this.travelImgSrc = "data:image/jpeg;base64," + image;
+            this.travelImgFile = new File([this.travelImgSrc], this.createImageName(), { type: typeof Blob, lastModified: Date.now() });
+            this.travelImgFileDeleted = false;
+          }
+        )
+    }
   }
 
   public getPassportPhoto() {
-    this.camera
-      .getPicture({
-        sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-        mediaType: this.camera.MediaType.PICTURE
-      })
-      .then(
-        imagePath => {
-          if (this.platform.is('android')) {
+    if (this.platform.is("android")) {
+      this.camera
+        .getPicture({
+          sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+          mediaType: this.camera.MediaType.PICTURE
+        })
+        .then(
+          imagePath => {
             this.filePath.resolveNativePath(imagePath)
               .then(file => {
                 this.passportImgSrc = this.webview.convertFileSrc(file);
@@ -151,17 +181,26 @@ export class ImageService {
                 this.copyPassportImageToLocalDir(currentName, this.createImageName());
                 alert(this.passportImgSrc);
               });
-          } else {
-            this.passportImgSrc = this.webview.convertFileSrc(imagePath);
-            this.passportImgCorrectPath = imagePath.substr(0, imagePath.lastIndexOf('/') + 1);
-            const currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-            this.copyPassportImageToLocalDir(currentName, this.createImageName());
+          },
+          err => {
+            alert("for view: " + err);
           }
-        },
-        err => {
-          alert("for view: " + err);
-        }
-      );
+        );
+    } else {
+      this.camera
+        .getPicture({
+          sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+          mediaType: this.camera.MediaType.PICTURE,
+          destinationType: this.camera.DestinationType.FILE_URI
+        })
+        .then(
+          image => {
+            this.passportImgSrc = "data:image/jpeg;base64," + image;
+            this.passportImgFile = new File([this.passportImgSrc], this.createImageName(), { type: typeof Blob, lastModified: Date.now() });
+            this.passportImgFileDeleted = false;
+          }
+        )
+    }
   }
 
   public deleteProfilePhoto() {
@@ -182,37 +221,57 @@ export class ImageService {
   }
 
   public deleteAirlinePhoto() {
-    this.file.removeFile(this.file.dataDirectory, this.airlineImgName).then(
-      res => {
-        this.airlineImgFile = null;
-        this.airlineImgFileDeleted = true;
-        alert("file is removed: " + name);
-      },
-      err => {
-        alert("err: " + err);
-      }
-    )
+    if (this.platform.is('android')) {
+      this.file.removeFile(this.file.dataDirectory, this.airlineImgName).then(
+        res => {
+          this.airlineImgFile = null;
+          this.airlineImgFileDeleted = true;
+          alert("file is removed: " + name);
+        },
+        err => {
+          alert("err: " + err);
+        }
+      )
+    } else {
+      this.airlineImgFile = null;
+      this.airlineImgFileDeleted = true;
+    }
   }
 
   public deleteTravelPhoto() {
-    this.file.removeFile(this.file.dataDirectory, this.travelImgName).then(
-      res => {
-        this.travelImgFile = null;
-        this.travelImgFileDeleted = true;
-        alert("file is removed: " + name);
-      },
-      err => {
-        alert("err: " + err);
-      }
-    )
+    if (this.platform.is('android')) {
+      this.file.removeFile(this.file.dataDirectory, this.travelImgName).then(
+        res => {
+          this.travelImgFile = null;
+          this.travelImgFileDeleted = true;
+          alert("file is removed: " + name);
+        },
+        err => {
+          alert("err: " + err);
+        }
+      )
+    } else {
+      this.travelImgFile = null;
+      this.travelImgFileDeleted = true;
+    }
   }
 
   public deletePassportPhoto() {
-    this.file.removeFile(this.file.dataDirectory, this.passportImgName).then(() => {
+    if (this.platform.is('android')) {
+      this.file.removeFile(this.file.dataDirectory, this.passportImgName).then(
+        res => {
+          this.passportImgFile = null;
+          this.passportImgFileDeleted = true;
+          alert("file is removed: " + name);
+        },
+        err => {
+          alert("err: " + err);
+        }
+      )
+    } else {
       this.passportImgFile = null;
       this.passportImgFileDeleted = true;
-      alert("file is removed: " + name);
-    })
+    }
   }
 
   private copyProfileImageToLocalDir(currentName, newFileName) {
