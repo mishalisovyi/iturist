@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { ApiService } from '../../services/api.service';
+import { StorageService } from '../../services/storage.service';
+
+import { Profile } from '../../models/models';
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.page.html',
@@ -47,9 +52,10 @@ export class MainPage implements OnInit {
     },
   }
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private api: ApiService, private storage: StorageService) { }
 
   ngOnInit() {
+    this.api.getProfile().subscribe(res => this.storage.set<Profile>("profile", res));
   }
 
   public navigateTo(route: string) {

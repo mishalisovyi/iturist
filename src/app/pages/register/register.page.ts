@@ -41,36 +41,34 @@ export class RegisterPage implements OnInit {
   public register() {
     this.submitTry = true;
     if (this.form.valid) {
-      this.api.register(this.form.value).subscribe(res => {
-        const formData: FormData = new FormData();
-        if (this.platform.is('android')) {
-          const queries: Array<any> = [];
-          if (!this.image.profileImgFileDeleted) {
-            queries.push(this.image.getProfileImgFromFileEntry());
-          }
-          if (!this.image.airlineImgFileDeleted) {
-            queries.push(this.image.getAirlineImgFromFileEntry());
-          }
-          if (!this.image.travelImgFileDeleted) {
-            queries.push(this.image.getTravelImgFromFileEntry());
-          }
-          if (!this.image.passportImgFileDeleted) {
-            queries.push(this.image.getPassportImgFromFileEntry());
-          }
-          Promise.all(queries).then(res => {
-            this.appendImagesToFormData(formData);
-          })
-        } else {
-          this.appendImagesToFormData(formData);
+      const formData: FormData = new FormData();
+      if (this.platform.is('android')) {
+        const queries: Array<any> = [];
+        if (!this.image.profileImgFileDeleted) {
+          queries.push(this.image.getProfileImgFromFileEntry());
         }
-        formData.append("name", this.form.get("name").value);
-        formData.append("email", this.form.get("email").value);
-        formData.append("password", this.form.get("password").value);
-        formData.append("language", this.form.get("language").value);
-        this.api.register(formData).subscribe(res => {
-          alert(res);
-          this.router.navigateByUrl("/login");
+        if (!this.image.airlineImgFileDeleted) {
+          queries.push(this.image.getAirlineImgFromFileEntry());
+        }
+        if (!this.image.travelImgFileDeleted) {
+          queries.push(this.image.getTravelImgFromFileEntry());
+        }
+        if (!this.image.passportImgFileDeleted) {
+          queries.push(this.image.getPassportImgFromFileEntry());
+        }
+        Promise.all(queries).then(res => {
+          this.appendImagesToFormData(formData);
         })
+      } else {
+        this.appendImagesToFormData(formData);
+      }
+      formData.append("name", this.form.get("name").value);
+      formData.append("email", this.form.get("email").value);
+      formData.append("password", this.form.get("password").value);
+      formData.append("language", this.form.get("language").value);
+      this.api.register(formData).subscribe(res => {
+        alert(res);
+        this.router.navigateByUrl("/login");
       })
     }
   }

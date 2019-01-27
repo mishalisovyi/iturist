@@ -13,26 +13,30 @@ export class ImageService {
   public profileImgSrc: string;
   public profileImgName: string;
   public profileImgCorrectPath: string;
-  public profileImgFile: File;
+  public profileImgFile: File = null;
   public profileImgFileDeleted: boolean = true;
+  public profileImgFileChanged: boolean = false;
 
   public airlineImgSrc: string;
   public airlineImgName: string;
   public airlineImgCorrectPath: string;
-  public airlineImgFile: File;
+  public airlineImgFile: File = null;
   public airlineImgFileDeleted: boolean = true;
+  public airlineImgFileChanged: boolean = false;
 
   public travelImgSrc: string;
   public travelImgName: string;
   public travelImgCorrectPath: string;
-  public travelImgFile: File;
+  public travelImgFile: File = null;
   public travelImgFileDeleted: boolean = true;
+  public travelImgFileChanged: boolean = false;
 
   public passportImgSrc: string;
   public passportImgName: string;
   public passportImgCorrectPath: string;
-  public passportImgFile: File;
+  public passportImgFile: File = null;
   public passportImgFileDeleted: boolean = true;
+  public passportImgFileChanged: boolean = false;
 
   constructor(
     private camera: Camera,
@@ -202,33 +206,35 @@ export class ImageService {
 
   public deleteProfilePhoto() {
     return new Promise((resolve, reject) => {
-      this.file.removeFile(this.file.dataDirectory, this.profileImgName).then(
-        success => {
+      this.file.removeFile(this.file.dataDirectory, this.profileImgName)
+        .then(
+          success => {
+            alert("file is removed: " + name);
+            resolve();
+          },
+          err => {
+            alert("err: " + JSON.stringify(err));
+            resolve();
+          }
+        )
+        .finally(() => {
           this.profileImgFile = null;
           this.profileImgFileDeleted = true;
-          alert("file is removed: " + name);
-          resolve();
-        },
-        err => {
-          alert("err: " + JSON.stringify(err));
-          resolve();
-        }
-      )
+        })
     })
   }
 
   public deleteAirlinePhoto() {
     if (this.platform.is('android')) {
-      this.file.removeFile(this.file.dataDirectory, this.airlineImgName).then(
-        res => {
+      this.file.removeFile(this.file.dataDirectory, this.airlineImgName)
+        .then(
+          res => alert("file is removed: " + name),
+          err => alert("err: " + err)
+        )
+        .finally(() => {
           this.airlineImgFile = null;
           this.airlineImgFileDeleted = true;
-          alert("file is removed: " + name);
-        },
-        err => {
-          alert("err: " + err);
-        }
-      )
+        })
     } else {
       this.airlineImgFile = null;
       this.airlineImgFileDeleted = true;
@@ -237,16 +243,15 @@ export class ImageService {
 
   public deleteTravelPhoto() {
     if (this.platform.is('android')) {
-      this.file.removeFile(this.file.dataDirectory, this.travelImgName).then(
-        res => {
+      this.file.removeFile(this.file.dataDirectory, this.travelImgName)
+        .then(
+          res => alert("file is removed: " + name),
+          err => alert("err: " + err)
+        )
+        .finally(() => {
           this.travelImgFile = null;
           this.travelImgFileDeleted = true;
-          alert("file is removed: " + name);
-        },
-        err => {
-          alert("err: " + err);
-        }
-      )
+        })
     } else {
       this.travelImgFile = null;
       this.travelImgFileDeleted = true;
@@ -255,16 +260,15 @@ export class ImageService {
 
   public deletePassportPhoto() {
     if (this.platform.is('android')) {
-      this.file.removeFile(this.file.dataDirectory, this.passportImgName).then(
-        res => {
+      this.file.removeFile(this.file.dataDirectory, this.passportImgName)
+        .then(
+          res => alert("file is removed: " + name),
+          err => alert("err: " + err)
+        )
+        .finally(() => {
           this.passportImgFile = null;
           this.passportImgFileDeleted = true;
-          alert("file is removed: " + name);
-        },
-        err => {
-          alert("err: " + err);
-        }
-      )
+        })
     } else {
       this.passportImgFile = null;
       this.passportImgFileDeleted = true;
@@ -277,6 +281,7 @@ export class ImageService {
       success => {
         this.profileImgName = newFileName;
         this.profileImgFileDeleted = false;
+        this.profileImgFileChanged = true;
         alert("image name: " + this.profileImgName);
       },
       err => {
@@ -291,6 +296,7 @@ export class ImageService {
       success => {
         this.airlineImgName = newFileName;
         this.airlineImgFileDeleted = false;
+        this.airlineImgFileChanged = true;
         alert("img name: " + this.airlineImgName);
       },
       err => {
@@ -305,6 +311,7 @@ export class ImageService {
       success => {
         this.travelImgName = newFileName;
         this.travelImgFileDeleted = false;
+        this.travelImgFileChanged = true;
         alert("img name: " + this.travelImgName);
       },
       err => {
@@ -319,6 +326,7 @@ export class ImageService {
       success => {
         this.passportImgName = newFileName;
         this.passportImgFileDeleted = false;
+        this.passportImgFileChanged = true;
         alert("img name: " + this.passportImgName);
       },
       err => {
@@ -502,7 +510,7 @@ export class ImageService {
     });
   }
 
-  private createImageName(): string {
+  public createImageName(): string {
     const d = new Date(),
       n = d.getTime(),
       newFileName = n + ".jpg";

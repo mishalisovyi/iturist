@@ -1,0 +1,32 @@
+<ion-content>
+  <div id="upper-background">
+    <ion-menu-toggle slot="start">
+      <ion-icon src="assets/screens/white-menu-icon.svg"></ion-icon>
+    </ion-menu-toggle>
+    <span id="logout-label" (click)="logout()">Logout</span>
+    <ion-img src="assets/screens/upper-gradient-background.png"></ion-img>
+  </div>
+  <div *ngIf="!profile?.profile_photo" id="profile-no-img-block">
+    <div>
+      <ion-img src="assets/screens/icon-profile.svg"></ion-img>
+      <div id="rect"></div>
+    </div>
+  </div>
+  <div *ngIf="profile?.profile_photo" id="profile-img-block" [ngStyle]="{'background-image': 'url(' + profile?.profile_photo + ')'}"></div>
+  <ion-item id="profile-img-label" class="violet-text">
+    <span>My Profile</span>
+  </ion-item>
+  <div id="text-block" padding margin-vertical>
+    <ion-item *ngFor="let item of [1, 2, 3]">
+      <span class="violet-text">
+        You can connect to Doctor anytime, anywhere - whether it's the middle of the night or the middle of a road
+        trip.
+      </span>
+    </ion-item>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button class="btn bottom-btn" (click)="navigateTo('profile')">Go</ion-button>
+  </ion-toolbar>
+</ion-footer>

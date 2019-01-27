@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { Subscription, forkJoin } from 'rxjs';
+import { filter, switchMap } from 'rxjs/operators';
 
 import { ApiService } from "../../services/api.service";
 import { StorageService } from "../../services/storage.service";
@@ -21,7 +21,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router, private storage: StorageService, private api: ApiService) {
     this.storage.get("authorization").subscribe(res => {
-      console.log(res);
       res ? this.isAuthorized = true : this.isAuthorized = false;
     })
   }
@@ -48,6 +47,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public logout() {
-    this.api.logout().subscribe(res => this.router.navigateByUrl("/login"));
+    this.api.logout()
+      .pipe(switchMap(() => forkJoin(this.storage.remove("authorization"), this.storage.remove("profile"))))
+      .subscribe(() => this.router.navigateByUrl("/profile"));
   }
 }
