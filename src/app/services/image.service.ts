@@ -78,7 +78,7 @@ export class ImageService {
                   this.imgInfo[img].correctPath = file.substr(0, file.lastIndexOf('/') + 1);
                   const currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
                   this.copyImageToLocalDir(img, currentName, this.createImageName());
-                  alert(this.imgInfo[img].src);
+                  alert(JSON.stringify(this.imgInfo[img].src));
                 })
                 .finally(() => {
                   alert("dismiss loading");
@@ -86,7 +86,7 @@ export class ImageService {
                 })
             },
             err => {
-              alert("for view: " + err);
+              alert("for view: " + JSON.stringify(err));
             }
           );
       })
@@ -114,8 +114,8 @@ export class ImageService {
       if (this.platform.is('android')) {
         this.file.removeFile(this.file.dataDirectory, this.imgInfo[img].name)
           .then(
-            res => alert("file is removed: " + name),
-            err => alert("err: " + err)
+            res => alert("file is removed: " + JSON.stringify(name)),
+            err => alert("err: " + JSON.stringify(err))
           )
           .finally(() => {
             this.imgInfo[img].file = null;
@@ -137,7 +137,7 @@ export class ImageService {
         this.imgInfo[img].name = newFileName;
         this.imgInfo[img].deleted = false;
         this.imgInfo[img].changed = true;
-        alert("image name: " + this.imgInfo[img].name);
+        alert("image name: " + JSON.stringify(this.imgInfo[img].name));
       },
       err => {
         if (err.code === 5) {
@@ -178,7 +178,7 @@ export class ImageService {
         resolve();
       }
       reader.onerror = err => {
-        alert("reader error: " + err);
+        alert("reader error: " + JSON.stringify(err));
         reject();
       };
       reader.readAsArrayBuffer(file);

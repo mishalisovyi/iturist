@@ -67,7 +67,7 @@ export class RegisterPage implements OnInit {
       formData.append("password", this.form.get("password").value);
       formData.append("language", this.form.get("language").value);
       this.api.register(formData).subscribe(res => {
-        alert(res);
+        alert(JSON.stringify(res));
         this.router.navigateByUrl("/login");
       })
     }
@@ -87,19 +87,19 @@ export class RegisterPage implements OnInit {
   private appendImagesToFormData(formData: FormData) {
     if (!this.image.imgInfo.profile.deleted) {
       formData.append("profile_image", this.image.imgInfo.profile.file);
-      alert("profile: " + this.image.imgInfo.profile.file);
+      alert("profile: " + JSON.stringify(this.image.imgInfo.profile.file));
     }
     if (!this.image.imgInfo.airline.deleted) {
       formData.append("airline_image", this.image.imgInfo.airline.file);
-      alert("airline: " + this.image.imgInfo.airline.file);
+      alert("airline: " + JSON.stringify(this.image.imgInfo.airline.file));
     }
     if (!this.image.imgInfo.travel.deleted) {
       formData.append("travel_image", this.image.imgInfo.travel.file);
-      alert("travel: " + this.image.imgInfo.travel.file);
+      alert("travel: " + JSON.stringify(this.image.imgInfo.travel.file));
     }
     if (!this.image.imgInfo.passport.deleted) {
       formData.append("passport_image", this.image.imgInfo.passport.file);
-      alert("passport: " + this.image.imgInfo.passport.file);
+      alert("passport: " + JSON.stringify(this.image.imgInfo.passport.file));
     }
   }
 }
