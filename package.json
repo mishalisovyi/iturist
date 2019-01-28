@@ -25,7 +25,7 @@
     "@ionic-native/facebook": "^5.0.0-beta.24",
     "@ionic-native/file": "^5.0.0",
     "@ionic-native/file-path": "^5.0.0",
-    "@ionic-native/google-plus": "^5.0.0-beta.24",
+    "@ionic-native/google-plus": "^5.0.0",
     "@ionic-native/ionic-webview": "^5.0.0",
     "@ionic-native/splash-screen": "5.0.0-beta.21",
     "@ionic-native/status-bar": "5.0.0-beta.21",
@@ -85,8 +85,8 @@
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-googleplus": {
-        "WEB_APPLICATION_CLIENT_ID": "187369116197-v6ek0vdicnaqnd97t3gnmkq9sgk73eu8.apps.googleusercontent.com",
         "REVERSED_CLIENT_ID": "com.googleusercontent.apps.187369116197-gv3k031vrs0ttop0bns76b9p1jvmk4tp",
+        "WEB_APPLICATION_CLIENT_ID": "187369116197-v6ek0vdicnaqnd97t3gnmkq9sgk73eu8.apps.googleusercontent.com",
         "PLAY_SERVICES_VERSION": "11.8.0"
       },
       "cordova-plugin-facebook4": {

@@ -44,17 +44,17 @@ export class RegisterPage implements OnInit {
       const formData: FormData = new FormData();
       if (this.platform.is('android')) {
         const queries: Array<any> = [];
-        if (!this.image.profileImgFileDeleted) {
-          queries.push(this.image.getProfileImgFromFileEntry());
+        if (!this.image.imgInfo.profile.deleted) {
+          queries.push(this.image.getImageFromFileEntry('profile'));
         }
-        if (!this.image.airlineImgFileDeleted) {
-          queries.push(this.image.getAirlineImgFromFileEntry());
+        if (!this.image.imgInfo.airline.deleted) {
+          queries.push(this.image.getImageFromFileEntry('airline'));
         }
-        if (!this.image.travelImgFileDeleted) {
-          queries.push(this.image.getTravelImgFromFileEntry());
+        if (!this.image.imgInfo.travel.deleted) {
+          queries.push(this.image.getImageFromFileEntry('travel'));
         }
-        if (!this.image.passportImgFileDeleted) {
-          queries.push(this.image.getPassportImgFromFileEntry());
+        if (!this.image.imgInfo.passport.deleted) {
+          queries.push(this.image.getImageFromFileEntry('passport'));
         }
         Promise.all(queries).then(res => {
           this.appendImagesToFormData(formData);
@@ -85,37 +85,21 @@ export class RegisterPage implements OnInit {
   }
 
   private appendImagesToFormData(formData: FormData) {
-    if (!this.image.profileImgFileDeleted) {
-      formData.append("profile_image", this.image.profileImgFile);
-      alert("profile: " + this.image.profileImgFile);
+    if (!this.image.imgInfo.profile.deleted) {
+      formData.append("profile_image", this.image.imgInfo.profile.file);
+      alert("profile: " + this.image.imgInfo.profile.file);
     }
-    if (!this.image.airlineImgFileDeleted) {
-      formData.append("airline_image", this.image.airlineImgFile);
-      alert("airline: " + this.image.airlineImgFile);
+    if (!this.image.imgInfo.airline.deleted) {
+      formData.append("airline_image", this.image.imgInfo.airline.file);
+      alert("airline: " + this.image.imgInfo.airline.file);
     }
-    if (!this.image.travelImgFileDeleted) {
-      formData.append("travel_image", this.image.travelImgFile);
-      alert("travel: " + this.image.travelImgFile);
+    if (!this.image.imgInfo.travel.deleted) {
+      formData.append("travel_image", this.image.imgInfo.travel.file);
+      alert("travel: " + this.image.imgInfo.travel.file);
     }
-    if (!this.image.passportImgFileDeleted) {
-      formData.append("passport_image", this.image.passportImgFile);
-      alert("passport: " + this.image.passportImgFile);
+    if (!this.image.imgInfo.passport.deleted) {
+      formData.append("passport_image", this.image.imgInfo.passport.file);
+      alert("passport: " + this.image.imgInfo.passport.file);
     }
   }
-
-  // async uploadImageData(formData: FormData) {
-  //   this.http.post("http://localhost:8888/upload.php", formData)
-  //     .pipe(
-  //       finalize(() => {
-  //         loading.dismiss();
-  //       })
-  //     )
-  //     .subscribe(res => {
-  //       if (res['success']) {
-  //         this.presentToast('File upload complete.')
-  //       } else {
-  //         this.presentToast('File upload failed.')
-  //       }
-  //     });
-  // }
 }

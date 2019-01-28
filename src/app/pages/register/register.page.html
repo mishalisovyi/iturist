@@ -22,15 +22,15 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <div *ngIf="!image.profileImgSrc" id="upload-img-block" (click)="image.getProfilePhoto()">
+          <div *ngIf="!image.imgInfo.profile.src" id="upload-img-block" (click)="image.getPhoto('profile')">
             <ion-img src="assets/screens/icon-profile.svg"></ion-img>
             <div id="rect"></div>
             <div id="label">
               <ion-img src="assets/screens/upload-img.svg"></ion-img>
             </div>
           </div>
-          <div *ngIf="image.profileImgSrc" id="img-block" [ngStyle]="{'background-image': 'url(' + image.profileImgSrc + ')'}"
-            (click)="image.getProfilePhoto()">
+          <div *ngIf="image.imgInfo.profile.src" id="img-block" [ngStyle]="{'background-image': 'url(' + image.imgInfo.profile.src + ')'}"
+            (click)="image.getPhoto('profile')">
             <div id="label">
               <ion-img src="assets/screens/upload-img.svg"></ion-img>
             </div>
@@ -68,7 +68,7 @@
       </ion-row>
       <ion-row>
         <ion-col class="attach-btn-col" size-5>
-          <div *ngIf="image.airlineImgFileDeleted" (click)="image.getAirlinePhoto()">
+          <div *ngIf="image.imgInfo.airline.deleted" (click)="image.getPhoto('airline')">
             <div>
               <ion-img src="assets/screens/small-upload-img.svg"></ion-img>
             </div>
@@ -76,17 +76,18 @@
               airline tickets
             </ion-button>
           </div>
-          <div *ngIf="!image.airlineImgFileDeleted" (click)="image.deleteAirlinePhoto()">
+          <div *ngIf="!image.imgInfo.airline.deleted" (click)="image.deletePhoto('airline')">
             <div>
               <ion-img src="assets/screens/delete-img.svg"></ion-img>
             </div>
             <ion-button class="attach-btn">
+              <div class="btn-img-wrapper" [ngStyle]="{'background-image': 'url(' + image.imgInfo.airline.src + ')'}"></div>
               <span class="hidden">airline tickets</span>
             </ion-button>
           </div>
         </ion-col>
         <ion-col class="attach-btn-col" size-5>
-          <div *ngIf="image.travelImgFileDeleted" (click)="image.getTravelPhoto()">
+          <div *ngIf="image.imgInfo.travel.deleted" (click)="image.getPhoto('travel')">
             <div>
               <ion-img src="assets/screens/small-upload-img.svg"></ion-img>
             </div>
@@ -94,11 +95,12 @@
               travel insurance
             </ion-button>
           </div>
-          <div *ngIf="!image.travelImgFileDeleted" (click)="image.deleteTravelPhoto()">
+          <div *ngIf="!image.imgInfo.travel.deleted" (click)="image.deletePhoto('travel')">
             <div>
               <ion-img src="assets/screens/delete-img.svg"></ion-img>
             </div>
             <ion-button class="attach-btn">
+              <div class="btn-img-wrapper" [ngStyle]="{'background-image': 'url(' + image.imgInfo.travel.src + ')'}"></div>
               <span class="hidden">travel insurance</span>
             </ion-button>
           </div>
@@ -106,7 +108,7 @@
       </ion-row>
       <ion-row>
         <ion-col class="attach-btn-col" size-5>
-          <div *ngIf="image.passportImgFileDeleted" (click)="image.getPassportPhoto()">
+          <div *ngIf="image.imgInfo.passport.deleted" (click)="image.getPhoto('passport')">
             <div>
               <ion-img src="assets/screens/small-upload-img.svg"></ion-img>
             </div>
@@ -114,11 +116,12 @@
               passport
             </ion-button>
           </div>
-          <div *ngIf="!image.passportImgFileDeleted" (click)="image.deletePassportPhoto()">
+          <div *ngIf="!image.imgInfo.passport.deleted" (click)="image.deletePhoto('passport')">
             <div>
               <ion-img src="assets/screens/delete-img.svg"></ion-img>
             </div>
             <ion-button class="attach-btn">
+              <div class="btn-img-wrapper" [ngStyle]="{'background-image': 'url(' + image.imgInfo.passport.src + ')'}"></div>
               <span class="hidden">passport</span>
             </ion-button>
           </div>

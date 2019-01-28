@@ -48,32 +48,32 @@ export class ProfilePage implements OnInit {
 
   private manageImagesVariables() {
     if (this.profile.profile_photo) {
-      this.image.profileImgSrc = this.profile.profile_photo;
-      this.image.profileImgFile = new File([this.image.profileImgSrc], this.image.createImageName(), { type: typeof Blob, lastModified: Date.now() });
-      this.image.profileImgFileDeleted = false;
+      this.image.imgInfo.profile.src = this.profile.profile_photo;
+      this.image.imgInfo.profile.file = new File([this.image.imgInfo.profile.src], this.image.createImageName(), { type: typeof Blob, lastModified: Date.now() });
+      this.image.imgInfo.profile.deleted = false;
     }
     if (this.profile.airline_photo) {
-      this.image.airlineImgSrc = this.profile.airline_photo;
-      this.image.airlineImgFile = new File([this.image.airlineImgSrc], this.image.createImageName(), { type: typeof Blob, lastModified: Date.now() });
-      this.image.airlineImgFileDeleted = false;
+      this.image.imgInfo.airline.src = this.profile.airline_photo;
+      this.image.imgInfo.airline.file = new File([this.image.imgInfo.airline.src], this.image.createImageName(), { type: typeof Blob, lastModified: Date.now() });
+      this.image.imgInfo.airline.deleted = false;
     }
     if (this.profile.travel_photo) {
-      this.image.travelImgSrc = this.profile.travel_photo;
-      this.image.travelImgFile = new File([this.image.travelImgSrc], this.image.createImageName(), { type: typeof Blob, lastModified: Date.now() });
-      this.image.travelImgFileDeleted = false;
+      this.image.imgInfo.travel.src = this.profile.travel_photo;
+      this.image.imgInfo.travel.file = new File([this.image.imgInfo.travel.src], this.image.createImageName(), { type: typeof Blob, lastModified: Date.now() });
+      this.image.imgInfo.travel.deleted = false;
     }
     if (this.profile.passport_photo) {
-      this.image.passportImgSrc = this.profile.passport_photo;
-      this.image.passportImgFile = new File([this.image.passportImgSrc], this.image.createImageName(), { type: typeof Blob, lastModified: Date.now() });
-      this.image.passportImgFileDeleted = false;
+      this.image.imgInfo.passport.src = this.profile.passport_photo;
+      this.image.imgInfo.passport.file = new File([this.image.imgInfo.passport.src], this.image.createImageName(), { type: typeof Blob, lastModified: Date.now() });
+      this.image.imgInfo.passport.deleted = false;
     }
   }
 
   private appendImagesToFormData(formData: FormData) {
-    formData.append("profile_image", this.image.profileImgFile);
-    formData.append("airline_image", this.image.airlineImgFile);
-    formData.append("travel_image", this.image.travelImgFile);
-    formData.append("passport_image", this.image.passportImgFile);
+    formData.append("profile_image", this.image.imgInfo.profile.file);
+    formData.append("airline_image", this.image.imgInfo.airline.file);
+    formData.append("travel_image", this.image.imgInfo.travel.file);
+    formData.append("passport_image", this.image.imgInfo.passport.file);
   }
 
   private setFormValues() {
@@ -91,17 +91,17 @@ export class ProfilePage implements OnInit {
         const formData: FormData = new FormData();
         if (this.platform.is('android')) {
           const queries: Array<any> = [];
-          if (this.image.profileImgFileChanged) {
-            queries.push(this.image.getProfileImgFromFileEntry());
+          if (this.image.imgInfo.profile.changed) {
+            queries.push(this.image.getImageFromFileEntry('profile'));
           }
-          if (this.image.airlineImgFileChanged) {
-            queries.push(this.image.getAirlineImgFromFileEntry());
+          if (this.image.imgInfo.airline.changed) {
+            queries.push(this.image.getImageFromFileEntry('airline'));
           }
-          if (this.image.travelImgFileChanged) {
-            queries.push(this.image.getTravelImgFromFileEntry());
+          if (this.image.imgInfo.travel.changed) {
+            queries.push(this.image.getImageFromFileEntry('travel'));
           }
-          if (this.image.passportImgFileChanged) {
-            queries.push(this.image.getPassportImgFromFileEntry());
+          if (this.image.imgInfo.passport.changed) {
+            queries.push(this.image.getImageFromFileEntry('passport'));
           }
           Promise.all(queries).then(res => {
             this.appendImagesToFormData(formData);

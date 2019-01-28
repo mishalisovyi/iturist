@@ -49,6 +49,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public logout() {
     this.api.logout()
       .pipe(switchMap(() => forkJoin(this.storage.remove("authorization"), this.storage.remove("profile"))))
-      .subscribe(() => this.router.navigateByUrl("/profile"));
+      .subscribe(() => this.router.navigateByUrl("/login"));
   }
 }
