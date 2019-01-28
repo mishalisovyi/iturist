@@ -83,13 +83,38 @@ export class ApiService {
 
   public logout(): Observable<any> {
     return of("success")
-    .pipe(
-      delay(200),
-      switchMap(res => this.storage.remove("authorization"))
-    )
+      .pipe(
+        delay(200),
+        switchMap(res => this.storage.remove("authorization"))
+      )
   }
 
   public getCurrentUser(): Observable<any> {
     return this.storage.get<any>("authorization");
   }
+
+  public getProfile() {
+    return of({
+      name: "name",
+      email: "email",
+      language: "english",
+      profile_photo: "../../assets/screens/test.png",
+      airline_photo: "../../assets/screens/test.png",
+      travel_photo: "../../assets/screens/test.png",
+      passport_photo: "../../assets/screens/test.png"
+    }).pipe(delay(200));
+  }
+
+  public editProfile(data: FormData) {
+    return of({
+      name: "name",
+      email: "email",
+      language: "english",
+      profile_photo: "../../assets/screens/test.png",
+      airline_photo: "../../assets/screens/test.png",
+      travel_photo: "../../assets/screens/test.png",
+      passport_photo: "../../assets/screens/test.png"
+    }).pipe(delay(200));
+  }
+
 }

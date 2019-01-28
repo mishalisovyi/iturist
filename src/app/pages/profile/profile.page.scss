@@ -147,3 +147,13 @@
   top: 245px;
   left: 25px;
 }
+
+#profile-info-block {
+  position: relative;
+
+  ion-fab-button {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+}

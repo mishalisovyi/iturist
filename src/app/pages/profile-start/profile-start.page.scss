@@ -1,0 +1,81 @@
+#upper-background {
+  width: 100%;
+  position: relative;
+
+  ion-img {
+    width: 100%;
+  }
+
+  ion-menu-toggle {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }
+}
+
+#profile-no-img-block {
+  width: 150px;
+  height: 150px;
+  margin: auto;
+  position: relative;
+  top: -75px;
+  background-color: white;
+  border-radius: 50%;
+
+  > div {
+    width: 100%;
+    height: 100%;
+    background: url("../../../assets/screens/subtract.svg");
+    background-size: contain;
+    display: flex;
+    justify-content: center;
+
+    ion-img {
+      width: 45%;
+      z-index: 1;
+    }
+
+    #rect {
+      width: 50%;
+      height: 50%;
+      position: absolute;
+      bottom: -12%;
+      background-color: white;
+      margin: 0 auto;
+      transform: rotate(45deg);
+    }
+  }
+}
+
+#profile-img-block {
+  width: 150px;
+  height: 150px;
+  margin: auto;
+  position: relative;
+  top: -75px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center center;
+}
+
+#logout-label {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: white;
+}
+
+#profile-img-label {
+  position: relative;
+  top: -75px;
+  font-size: 24px;
+
+  span {
+    margin: auto;
+  }
+}
+
+#text-block {
+  position: relative;
+  top: -75px;
+}

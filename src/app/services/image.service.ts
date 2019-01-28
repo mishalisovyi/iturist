@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+
+import { LoadingController } from '@ionic/angular';
 import { Camera } from '@ionic-native/camera/ngx';
 import { Platform } from '@ionic/angular';
 import { FilePath } from '@ionic-native/file-path/ngx';
@@ -10,56 +12,78 @@ import { File as IonicFile, FileEntry } from '@ionic-native/file/ngx';
 })
 export class ImageService {
 
-  public profileImgSrc: string;
-  public profileImgName: string;
-  public profileImgCorrectPath: string;
-  public profileImgFile: File;
-  public profileImgFileDeleted: boolean = true;
+  private loading: any;
 
-  public airlineImgSrc: string;
-  public airlineImgName: string;
-  public airlineImgCorrectPath: string;
-  public airlineImgFile: File;
-  public airlineImgFileDeleted: boolean = true;
-
-  public travelImgSrc: string;
-  public travelImgName: string;
-  public travelImgCorrectPath: string;
-  public travelImgFile: File;
-  public travelImgFileDeleted: boolean = true;
-
-  public passportImgSrc: string;
-  public passportImgName: string;
-  public passportImgCorrectPath: string;
-  public passportImgFile: File;
-  public passportImgFileDeleted: boolean = true;
+  public imgInfo = {
+    profile: {
+      src: null,
+      name: null,
+      correctPath: null,
+      file: null,
+      deleted: true,
+      changed: false
+    },
+    airline: {
+      src: null,
+      name: null,
+      correctPath: null,
+      file: null,
+      deleted: true,
+      changed: false
+    },
+    travel: {
+      src: null,
+      name: null,
+      correctPath: null,
+      file: null,
+      deleted: true,
+      changed: false
+    },
+    passport: {
+      src: null,
+      name: null,
+      correctPath: null,
+      file: null,
+      deleted: true,
+      changed: false
+    }
+  }
 
   constructor(
     private camera: Camera,
     private platform: Platform,
     private filePath: FilePath,
     private webview: WebView,
-    private file: IonicFile
+    private file: IonicFile,
+    private loadingController: LoadingController
   ) { }
 
-  public getProfilePhoto() {
+  public getPhoto(img: string) {
     if (this.platform.is("android")) {
-      this.deleteProfilePhoto().then(() => {
+      this.deletePhoto(img).then(() => {
+        setTimeout(() => {
+          this.createLoading();
+        }, 300);
         this.camera
           .getPicture({
             sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-            mediaType: this.camera.MediaType.PICTURE
+            mediaType: this.camera.MediaType.PICTURE,
+            encodingType: this.camera.EncodingType.PNG
           })
           .then(
             imagePath => {
               this.filePath.resolveNativePath(imagePath)
                 .then(file => {
-                  this.profileImgSrc = this.webview.convertFileSrc(file);
-                  this.profileImgCorrectPath = file.substr(0, file.lastIndexOf('/') + 1);
+                  this.imgInfo[img].src = this.webview.convertFileSrc(file);
+                  this.imgInfo[img].correctPath = file.substr(0, file.lastIndexOf('/') + 1);
                   const currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-                  this.copyProfileImageToLocalDir(currentName, this.createImageName());
-                  alert(this.profileImgSrc);
-                });
+                  this.copyImageToLocalDir(img, currentName, this.createImageName());
+                  alert(this.imgInfo[img].src);
+                })
+                .finally(() => {
+                  alert("dismiss loading");
+                  this.dismissLoading();
+                })
             },
             err => {
               alert("for view: " + err);
@@ -71,269 +95,66 @@ export class ImageService {
         .getPicture({
           sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
           mediaType: this.camera.MediaType.PICTURE,
-          destinationType: this.camera.DestinationType.DATA_URL
+          destinationType: this.camera.DestinationType.DATA_URL,
+          correctOrientation: true
         })
         .then(
           image => {
-            this.profileImgSrc = "data:image/jpeg;base64," + image;
-            this.profileImgFile = new File([this.profileImgSrc], this.createImageName(), { type: typeof Blob, lastModified: Date.now() });
-            this.profileImgFileDeleted = false;
+            this.imgInfo[img].src = "data:image/jpeg;base64," + image;
+            this.imgInfo[img].file = new File([this.imgInfo[img].src], this.createImageName(), { type: typeof Blob, lastModified: Date.now() });
+            this.imgInfo[img].deleted = false;
           }
         )
+        .finally(() => this.dismissLoading());
     }
   }
 
-  public getAirlinePhoto() {
-    if (this.platform.is("android")) {
-      this.camera
-        .getPicture({
-          sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-          mediaType: this.camera.MediaType.PICTURE
-        })
-        .then(
-          imagePath => {
-            this.filePath.resolveNativePath(imagePath)
-              .then(file => {
-                this.airlineImgSrc = this.webview.convertFileSrc(file);
-                this.airlineImgCorrectPath = file.substr(0, file.lastIndexOf('/') + 1);
-                const currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-                this.copyAirlineImageToLocalDir(currentName, this.createImageName());
-                alert(this.airlineImgSrc);
-              });
-          },
-          err => {
-            alert("for view: " + err);
-          }
-        );
-    } else {
-      this.camera
-        .getPicture({
-          sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-          mediaType: this.camera.MediaType.PICTURE,
-          destinationType: this.camera.DestinationType.DATA_URL
-        })
-        .then(
-          image => {
-            this.airlineImgSrc = "data:image/jpeg;base64," + image;
-            this.airlineImgFile = new File([this.airlineImgSrc], this.createImageName(), { type: typeof Blob, lastModified: Date.now() });
-            this.airlineImgFileDeleted = false;
-          }
-        )
-    }
-  }
-
-  public getTravelPhoto() {
-    if (this.platform.is("android")) {
-      this.camera
-        .getPicture({
-          sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-          mediaType: this.camera.MediaType.PICTURE
-        })
-        .then(
-          imagePath => {
-            this.filePath.resolveNativePath(imagePath)
-              .then(file => {
-                this.travelImgSrc = this.webview.convertFileSrc(file);
-                this.travelImgCorrectPath = file.substr(0, file.lastIndexOf('/') + 1);
-                const currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-                this.copyTravelImageToLocalDir(currentName, this.createImageName());
-                alert(this.travelImgSrc);
-              });
-          },
-          err => {
-            alert("for view: " + err);
-          }
-        );
-    } else {
-      this.camera
-        .getPicture({
-          sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-          mediaType: this.camera.MediaType.PICTURE,
-          destinationType: this.camera.DestinationType.DATA_URL
-        })
-        .then(
-          image => {
-            this.travelImgSrc = "data:image/jpeg;base64," + image;
-            this.travelImgFile = new File([this.travelImgSrc], this.createImageName(), { type: typeof Blob, lastModified: Date.now() });
-            this.travelImgFileDeleted = false;
-          }
-        )
-    }
-  }
-
-  public getPassportPhoto() {
-    if (this.platform.is("android")) {
-      this.camera
-        .getPicture({
-          sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-          mediaType: this.camera.MediaType.PICTURE
-        })
-        .then(
-          imagePath => {
-            this.filePath.resolveNativePath(imagePath)
-              .then(file => {
-                this.passportImgSrc = this.webview.convertFileSrc(file);
-                this.passportImgCorrectPath = file.substr(0, file.lastIndexOf('/') + 1);
-                const currentName = imagePath.substring(imagePath.lastIndexOf('/') + 1, imagePath.lastIndexOf('?'));
-                this.copyPassportImageToLocalDir(currentName, this.createImageName());
-                alert(this.passportImgSrc);
-              });
-          },
-          err => {
-            alert("for view: " + err);
-          }
-        );
-    } else {
-      this.camera
-        .getPicture({
-          sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-          mediaType: this.camera.MediaType.PICTURE,
-          destinationType: this.camera.DestinationType.DATA_URL
-        })
-        .then(
-          image => {
-            this.passportImgSrc = "data:image/jpeg;base64," + image;
-            this.passportImgFile = new File([this.passportImgSrc], this.createImageName(), { type: typeof Blob, lastModified: Date.now() });
-            this.passportImgFileDeleted = false;
-          }
-        )
-    }
-  }
-
-  public deleteProfilePhoto() {
-    return new Promise((resolve, reject) => {
-      this.file.removeFile(this.file.dataDirectory, this.profileImgName).then(
-        success => {
-          this.profileImgFile = null;
-          this.profileImgFileDeleted = true;
-          alert("file is removed: " + name);
-          resolve();
-        },
-        err => {
-          alert("err: " + JSON.stringify(err));
-          resolve();
-        }
-      )
+  public deletePhoto(img: string) {
+    return new Promise(resolve => {
+      if (this.platform.is('android')) {
+        this.file.removeFile(this.file.dataDirectory, this.imgInfo[img].name)
+          .then(
+            res => alert("file is removed: " + name),
+            err => alert("err: " + err)
+          )
+          .finally(() => {
+            this.imgInfo[img].file = null;
+            this.imgInfo[img].deleted = true;
+            resolve();
+          })
+      } else {
+        this.imgInfo[img].file = null;
+        this.imgInfo[img].deleted = true;
+        resolve();
+      }
     })
   }
 
-  public deleteAirlinePhoto() {
-    if (this.platform.is('android')) {
-      this.file.removeFile(this.file.dataDirectory, this.airlineImgName).then(
-        res => {
-          this.airlineImgFile = null;
-          this.airlineImgFileDeleted = true;
-          alert("file is removed: " + name);
-        },
-        err => {
-          alert("err: " + err);
+  private copyImageToLocalDir(img: string, currentName: string, newFileName: string) {
+    alert("start copy to local dir");
+    this.file.copyFile(this.imgInfo[img].correctPath, currentName, this.file.dataDirectory, newFileName).then(
+      success => {
+        this.imgInfo[img].name = newFileName;
+        this.imgInfo[img].deleted = false;
+        this.imgInfo[img].changed = true;
+        alert("image name: " + this.imgInfo[img].name);
+      },
+      err => {
+        if (err.code === 5) {
+          this.imgInfo[img].src = null;
+          alert("Please, load JPG file!");
         }
-      )
-    } else {
-      this.airlineImgFile = null;
-      this.airlineImgFileDeleted = true;
-    }
-  }
-
-  public deleteTravelPhoto() {
-    if (this.platform.is('android')) {
-      this.file.removeFile(this.file.dataDirectory, this.travelImgName).then(
-        res => {
-          this.travelImgFile = null;
-          this.travelImgFileDeleted = true;
-          alert("file is removed: " + name);
-        },
-        err => {
-          alert("err: " + err);
-        }
-      )
-    } else {
-      this.travelImgFile = null;
-      this.travelImgFileDeleted = true;
-    }
-  }
-
-  public deletePassportPhoto() {
-    if (this.platform.is('android')) {
-      this.file.removeFile(this.file.dataDirectory, this.passportImgName).then(
-        res => {
-          this.passportImgFile = null;
-          this.passportImgFileDeleted = true;
-          alert("file is removed: " + name);
-        },
-        err => {
-          alert("err: " + err);
-        }
-      )
-    } else {
-      this.passportImgFile = null;
-      this.passportImgFileDeleted = true;
-    }
-  }
-
-  private copyProfileImageToLocalDir(currentName, newFileName) {
-    alert("start copy to local dir");
-    this.file.copyFile(this.profileImgCorrectPath, currentName, this.file.dataDirectory, newFileName).then(
-      success => {
-        this.profileImgName = newFileName;
-        this.profileImgFileDeleted = false;
-        alert("image name: " + this.profileImgName);
-      },
-      err => {
-        alert("err: " + err);
       }
     );
   }
 
-  private copyAirlineImageToLocalDir(currentName, newFileName) {
-    alert("start copy to local dir");
-    this.file.copyFile(this.airlineImgCorrectPath, currentName, this.file.dataDirectory, newFileName).then(
-      success => {
-        this.airlineImgName = newFileName;
-        this.airlineImgFileDeleted = false;
-        alert("img name: " + this.airlineImgName);
-      },
-      err => {
-        alert(err);
-      }
-    );
-  }
-
-  private copyTravelImageToLocalDir(currentName, newFileName) {
-    alert("start copy to local dir");
-    this.file.copyFile(this.travelImgCorrectPath, currentName, this.file.dataDirectory, newFileName).then(
-      success => {
-        this.travelImgName = newFileName;
-        this.travelImgFileDeleted = false;
-        alert("img name: " + this.travelImgName);
-      },
-      err => {
-        alert(err);
-      }
-    );
-  }
-
-  private copyPassportImageToLocalDir(currentName, newFileName) {
-    alert("start copy to local dir");
-    this.file.copyFile(this.passportImgCorrectPath, currentName, this.file.dataDirectory, newFileName).then(
-      success => {
-        this.passportImgName = newFileName;
-        this.passportImgFileDeleted = false;
-        alert("img name: " + this.passportImgName);
-      },
-      err => {
-        alert(err);
-      }
-    );
-  }
-
-  public getProfileImgFromFileEntry() {
+  public getImageFromFileEntry(img: string) {
     return new Promise((resolve, reject) => {
-      this.file.resolveLocalFilesystemUrl(this.file.dataDirectory + this.profileImgName)
+      this.file.resolveLocalFilesystemUrl(this.file.dataDirectory + this.imgInfo[img].name)
         .then(entry => {
           (<FileEntry>entry).file(file => {
             alert("file from entry: " + JSON.stringify(file));
-            this.readProfileFile(file).then(res => {
+            this.readFile(img, file).then(res => {
               resolve();
             });
           })
@@ -345,76 +166,16 @@ export class ImageService {
     })
   }
 
-  public getAirlineImgFromFileEntry() {
-    return new Promise((resolve, reject) => {
-      this.file.resolveLocalFilesystemUrl(this.file.dataDirectory + this.airlineImgName)
-        .then(entry => {
-          (<FileEntry>entry).file(file => {
-            alert("file from entry: " + JSON.stringify(file));
-            this.readAirlineFile(file).then(res => {
-              resolve();
-            });
-          })
-        })
-        .catch(err => {
-          reject(err);
-          alert('Error while reading file.');
-        });
-    })
-  }
-
-  public getTravelImgFromFileEntry() {
-    return new Promise((resolve, reject) => {
-      this.file.resolveLocalFilesystemUrl(this.file.dataDirectory + this.travelImgName)
-        .then(entry => {
-          (<FileEntry>entry).file(file => {
-            alert("file from entry: " + JSON.stringify(file));
-            this.readTravelFile(file).then(res => {
-              resolve();
-            });
-          })
-        })
-        .catch(err => {
-          reject(err);
-          alert('Error while reading file.');
-        });
-    })
-  }
-
-  public getPassportImgFromFileEntry() {
-    return new Promise((resolve, reject) => {
-      this.file.resolveLocalFilesystemUrl(this.file.dataDirectory + this.passportImgName)
-        .then(entry => {
-          (<FileEntry>entry).file(file => {
-            alert("file from entry: " + JSON.stringify(file));
-            this.readPassportFile(file).then(res => {
-              resolve();
-            });
-          })
-        })
-        .catch(err => {
-          reject(err);
-          alert('Error while reading file.');
-        });
-    })
-  }
-
-  private readProfileFile(file: any) {
+  private readFile(img: string, file: any) {
     const reader = new FileReader();
     return new Promise((resolve, reject) => {
       reader.onloadend = () => {
-        // const formData = new FormData();
         const imgBlob = new Blob([reader.result], {
           type: file.type
         });
-
-        this.profileImgFile = new File([imgBlob], this.profileImgName, { type: imgBlob.type, lastModified: Date.now() });
-        alert(JSON.stringify(this.profileImgFile));
+        this.imgInfo[img].file = new File([imgBlob], this.imgInfo[img].name, { type: imgBlob.type, lastModified: Date.now() });
+        alert(JSON.stringify(this.imgInfo[img].file));
         resolve();
-
-
-        // formData.append('file', imgBlob, file.name);
-        // this.uploadImageData(formData);
       }
       reader.onerror = err => {
         alert("reader error: " + err);
@@ -424,85 +185,19 @@ export class ImageService {
     });
   }
 
-  private readAirlineFile(file: any) {
-    const reader = new FileReader();
-    return new Promise((resolve, reject) => {
-      reader.onloadend = () => {
-        // const formData = new FormData();
-        const imgBlob = new Blob([reader.result], {
-          type: file.type
-        });
-        alert(JSON.stringify({ aa: reader.result, bb: file.type }));
-
-
-        this.airlineImgFile = new File([imgBlob], this.airlineImgName, { type: imgBlob.type, lastModified: Date.now() });
-        resolve();
-
-
-        // formData.append('file', imgBlob, file.name);
-        // this.uploadImageData(formData);
-      }
-      reader.onerror = err => {
-        alert("reader error: " + err);
-        reject();
-      };
-      reader.readAsArrayBuffer(file);
+  private async createLoading() {
+    this.loading = await this.loadingController.create({
+      message: 'Please wait, uploading photo',
+      spinner: "dots"
     });
+    return this.loading.present();
   }
 
-  private readTravelFile(file: any) {
-    const reader = new FileReader();
-    return new Promise((resolve, reject) => {
-      reader.onloadend = () => {
-        // const formData = new FormData();
-        const imgBlob = new Blob([reader.result], {
-          type: file.type
-        });
-        alert(JSON.stringify({ aa: reader.result, bb: file.type }));
-
-
-        this.travelImgFile = new File([imgBlob], this.travelImgName, { type: imgBlob.type, lastModified: Date.now() });
-        resolve();
-
-
-        // formData.append('file', imgBlob, file.name);
-        // this.uploadImageData(formData);
-      }
-      reader.onerror = err => {
-        alert("reader error: " + err);
-        reject();
-      };
-      reader.readAsArrayBuffer(file);
-    });
+  private async dismissLoading() {
+    await this.loading.dismiss();
   }
 
-  private readPassportFile(file: any) {
-    const reader = new FileReader();
-    return new Promise((resolve, reject) => {
-      reader.onloadend = () => {
-        // const formData = new FormData();
-        const imgBlob = new Blob([reader.result], {
-          type: file.type
-        });
-        alert(JSON.stringify({ aa: reader.result, bb: file.type }));
-
-
-        this.passportImgFile = new File([imgBlob], this.passportImgName, { type: imgBlob.type, lastModified: Date.now() });
-        resolve();
-
-
-        // formData.append('file', imgBlob, file.name);
-        // this.uploadImageData(formData);
-      }
-      reader.onerror = err => {
-        alert("reader error: " + err);
-        reject();
-      };
-      reader.readAsArrayBuffer(file);
-    });
-  }
-
-  private createImageName(): string {
+  public createImageName(): string {
     const d = new Date(),
       n = d.getTime(),
       newFileName = n + ".jpg";

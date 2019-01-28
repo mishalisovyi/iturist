@@ -1,0 +1,56 @@
+#go-to-request-btn {
+  width: 100%;
+  height: 45px;
+  text-transform: unset;
+  --border-radius: 45px;
+  --background: linear-gradient(to right, #f56272, #f78a7b);
+  --background-activated: linear-gradient(to right, #f56272, #f78a7b);
+}
+
+#grid-block {
+  color: #6ba0fe;
+}
+
+.grid-item {
+  width: 100%;
+  padding-top: 100%;
+  border-radius: 50%;
+  border: solid 1px #6ba0fe;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  ion-img {
+    position: absolute;
+    width: 50%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+}
+
+.disabled {
+  opacity: 0.5;
+}
+
+.label {
+  width: 25px;
+  height: 25px;
+  background: linear-gradient(to right, #f56272, #f78a7b);
+  position: absolute;
+  border-radius: 50%;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+
+  ion-img {
+    width: 45%;
+  }
+}

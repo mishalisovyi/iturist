@@ -47,7 +47,7 @@ export class LoginPage implements OnInit {
       this.api.login(this.form.value)
         .pipe(switchMap(response => this.storage.set("authorization", response)))
         .subscribe(() => {
-          this.router.navigateByUrl("/choose-company");
+          this.router.navigateByUrl("/main");
         })
     }
   }
