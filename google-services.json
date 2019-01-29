@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "187369116197",
+    "firebase_url": "https://iturist-91461.firebaseio.com",
+    "project_id": "iturist-91461",
+    "storage_bucket": "iturist-91461.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187369116197:android:5d7eed177a33c518",
+        "android_client_info": {
+          "package_name": "com.kvark.iturist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "187369116197-mc1sbkhi6mbfthag50qlrkmlldqal6sl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kvark.iturist",
+            "certificate_hash": "f31d4562c0ebe499a91c3a9a30992898b5c45bde"
+          }
+        },
+        {
+          "client_id": "187369116197-v6ek0vdicnaqnd97t3gnmkq9sgk73eu8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCLIMMIlfxfnJ3i6-d1QgMeOSYa7T31cOY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "187369116197-v6ek0vdicnaqnd97t3gnmkq9sgk73eu8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "187369116197-gv3k031vrs0ttop0bns76b9p1jvmk4tp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kvark.iturist"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

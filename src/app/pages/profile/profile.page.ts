@@ -70,10 +70,10 @@ export class ProfilePage implements OnInit {
   }
 
   private appendImagesToFormData(formData: FormData) {
-    alert(JSON.stringify(this.image.imgInfo.profile.file));
-    alert(JSON.stringify(this.image.imgInfo.airline.file));
-    alert(JSON.stringify(this.image.imgInfo.travel.file));
-    alert(JSON.stringify(this.image.imgInfo.passport.file));
+    alert("profile" + JSON.stringify(this.image.imgInfo.profile.file));
+    alert("airline" + JSON.stringify(this.image.imgInfo.airline.file));
+    alert("travel" + JSON.stringify(this.image.imgInfo.travel.file));
+    alert("passport" + JSON.stringify(this.image.imgInfo.passport.file));
     formData.append("profile_image", this.image.imgInfo.profile.file);
     formData.append("airline_image", this.image.imgInfo.airline.file);
     formData.append("travel_image", this.image.imgInfo.travel.file);
@@ -117,7 +117,7 @@ export class ProfilePage implements OnInit {
         formData.append("email", this.form.get("email").value);
         formData.append("language", this.form.get("language").value);
         this.api.editProfile(formData).subscribe((profile: Profile) => {
-          alert(profile);
+          alert(JSON.stringify(profile));
           this.storage.set("profile", profile);
         });
       }
