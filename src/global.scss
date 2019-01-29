@@ -59,8 +59,11 @@ ion-item:not(.menu-item) {
 }
 
 .red-text {
-  color: red;
-  --highlight-color-focused: red;
+  color: #e44959;
+}
+
+.error-field {
+  border: solid 1px #e44959 !important;
 }
 
 .disabled-btn {
@@ -139,12 +142,13 @@ ion-backdrop {
 .form-field {
   margin: 30px 0;
   padding-left: 20px;
+  border: solid 1px transparent;
   --padding-start: 0;
   --min-height: 0;
   --inner-padding-end: 0;
   background-color: $field-background;
 
-  ion-input {
+  ion-input, ion-datetime {
     background-color: $field-background;
   }
 }
@@ -189,21 +193,25 @@ ion-chip {
 }
 
 .select-field {
-  margin-left: -16px;
-  margin-right: -12px;
   --ion-font-family: "Assistant", sans-serif;
+  border: solid 1px transparent;
+  position: relative;
+  background-color: $field-background;
+  padding-left: 20px;
 
-  ion-label {
+  div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-color: $field-background;
-    margin: 0;
-    height: 41px;
-    padding: 10px 0 11px 20px;
-    @include assistant-font-family;
   }
 
-  ion-select {
+  ion-select, ion-datetime {
+    min-width: 100%;
+    padding-left: 0;
     background-color: $field-background;
-    margin-left: 0px;
   }
 }
 
@@ -213,12 +221,6 @@ ion-footer {
     --padding-bottom: 0;
     --padding-start: 0;
     --padding-end: 0;
-
-    &.fix {
-      position: fixed;
-      width: 100%;
-      bottom: 0;
-    }
 
     ion-button {
       margin: 0;

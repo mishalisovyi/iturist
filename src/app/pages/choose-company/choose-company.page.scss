@@ -25,20 +25,60 @@
   }
 }
 
-#first-company {
-  --background: red;
-  --background-activated: red;
+.company-btn {
+  position: relative;
+
+  &#first-company {
+    div {
+      background-image: url("../../../assets/screens/first-company-button.svg");
+    }
+  }
+
+  &#second-company {
+    div {
+      background-image: url("../../../assets/screens/second-company-button.svg");
+    }
+  }
+
+  &#third-company {
+    div {
+      background-image: url("../../../assets/screens/third-company-button.svg");
+    }
+  }
+
+  div {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-size: cover;
+    background-position: center center;
+  }
 }
 
-#second-company {
-  --background: green;
-  --background-activated: green;
-}
+// #first-company {
+//   position: relative;
 
-#third-company {
-  --background: blue;
-  --background-activated: blue;
-}
+//   div {
+//     background: url("../../../assets/screens/first-company-button.svg");
+//     width: 100%;
+//     height: 100%;
+//     position: absolute;
+
+//     opacity: 0.5;
+//     background-size: cover;
+//     background-position: center center;
+//   }
+// }
+
+// #second-company {
+//   --background: green;
+//   --background-activated: green;
+// }
+
+// #third-company {
+//   --background: blue;
+//   --background-activated: blue;
+// }
 
 #oder-sim-btn {
   height: 45px;

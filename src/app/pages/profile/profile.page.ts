@@ -70,6 +70,10 @@ export class ProfilePage implements OnInit {
   }
 
   private appendImagesToFormData(formData: FormData) {
+    alert(JSON.stringify(this.image.imgInfo.profile.file));
+    alert(JSON.stringify(this.image.imgInfo.airline.file));
+    alert(JSON.stringify(this.image.imgInfo.travel.file));
+    alert(JSON.stringify(this.image.imgInfo.passport.file));
     formData.append("profile_image", this.image.imgInfo.profile.file);
     formData.append("airline_image", this.image.imgInfo.airline.file);
     formData.append("travel_image", this.image.imgInfo.travel.file);

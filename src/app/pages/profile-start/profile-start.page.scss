@@ -9,7 +9,11 @@
   ion-menu-toggle {
     position: absolute;
     top: 20px;
-    left: 20px;
+    left: 10px;
+
+    ion-icon {
+      width: 32px;
+    }
   }
 }
 

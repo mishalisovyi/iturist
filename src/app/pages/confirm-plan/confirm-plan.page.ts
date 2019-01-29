@@ -4,6 +4,8 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 import { AlertController } from '@ionic/angular';
 
+import * as moment from 'moment';
+
 import { ApiService } from '../../services/api.service';
 
 @Component({
@@ -20,6 +22,7 @@ export class ConfirmPlanPage implements OnInit {
   public plan: any;
   public submitTry: boolean = false;
   public activeTabIndex: number = 0;
+  public maxDatePickerValue: string = moment().add(10, "years").format();
 
   constructor(
     private router: Router,
@@ -38,8 +41,7 @@ export class ConfirmPlanPage implements OnInit {
   private createForms() {
     this.creditCardForm = this.formBuilder.group({
       name: ["", Validators.required],
-      // number: ["", [Validators.required, Validators.minLength(16), Validators.maxLength(16), Validators.pattern('^[0-9]+$')]],
-      number: ["", Validators.required],
+      number: ["", [Validators.required, Validators.minLength(16), Validators.pattern('^[0-9]+$')]],
       expire: ["", Validators.required],
       cw: ["", Validators.required]
     });
@@ -104,6 +106,13 @@ export class ConfirmPlanPage implements OnInit {
     const form: FormGroup = this.activeTabIndex === 0 ? this.creditCardForm : this.payPalForm;
     if (form.valid) {
       this.presentDialogAlert(form.value);
+    }
+  }
+
+  public validateDate({ detail: { value: value } }: CustomEvent) {
+    this.creditCardForm.get("expire").setErrors(null);
+    if (moment(value) < moment()) {
+      this.creditCardForm.get("expire").setErrors({ expire: true });
     }
   }
 }

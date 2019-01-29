@@ -10,20 +10,26 @@
         <ion-grid class="h-100">
           <ion-row class="media-company-row">
             <ion-col align-self-center>
-              <ion-button id="first-company" class="w-100" [class.disabled-btn]="selectedCompanyId !== 0" [disabled]="!isOrderedSimCard"
-                (click)="selectCompany(0)">Partner</ion-button>
+              <ion-button id="first-company" class="w-100 company-btn" [class.disabled-btn]="selectedCompanyId !== 0"
+                [disabled]="!isOrderedSimCard" (click)="selectCompany(0)">
+                <div></div>
+              </ion-button>
             </ion-col>
           </ion-row>
           <ion-row class="media-company-row">
             <ion-col align-self-center>
-              <ion-button id="second-company" class="w-100" [class.disabled-btn]="selectedCompanyId !== 1" [disabled]="!isOrderedSimCard"
-                (click)="selectCompany(1)">גדכדגעףעח</ion-button>
+              <ion-button id="second-company" class="w-100 company-btn" [class.disabled-btn]="selectedCompanyId !== 1"
+                [disabled]="!isOrderedSimCard" (click)="selectCompany(1)">
+                <div></div>
+              </ion-button>
             </ion-col>
           </ion-row>
           <ion-row class="media-company-row">
             <ion-col align-self-center>
-              <ion-button id="third-company" class="w-100" [class.disabled-btn]="selectedCompanyId !== 2" [disabled]="!isOrderedSimCard"
-                (click)="selectCompany(2)">גדכדגעףעח</ion-button>
+              <ion-button id="third-company" class="w-100 company-btn" [class.disabled-btn]="selectedCompanyId !== 2"
+                [disabled]="!isOrderedSimCard" (click)="selectCompany(2)">
+                <div></div>
+              </ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -36,15 +42,10 @@
         </ion-button>
       </ion-col>
     </ion-row>
-    <ion-row id="fix-row">
-      <ion-col>
-        text
-      </ion-col>
-    </ion-row>
   </ion-grid>
 </ion-content>
 <ion-footer>
-  <ion-toolbar class="fix">
+  <ion-toolbar>
     <ion-button class="btn bottom-btn" (click)="navigateToChoosePlanPage()">Choose plan</ion-button>
   </ion-toolbar>
 </ion-footer>

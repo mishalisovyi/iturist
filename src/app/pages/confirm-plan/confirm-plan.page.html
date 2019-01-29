@@ -76,29 +76,87 @@
       <ion-grid id="form-block">
         <ion-row>
           <ion-col>
-            <ion-item class="violet-text form-field" [class.red-text]="submitTry && creditCardForm.get('name').invalid">
+            <!-- <ion-item class="violet-text form-field" [class.error-field]="submitTry && creditCardForm.get('name').invalid">
               <ion-input type="text" formControlName="name" placeholder="Name of card"></ion-input>
+            </ion-item> -->
+            <ion-item no-padding class="violet-text select-field" [class.error-field]="submitTry && creditCardForm.get('name').invalid">
+              <div></div>
+              <ion-select formControlName="name" placeholder="Name of card">
+                <ion-select-option value="visa">Visa</ion-select-option>
+                <ion-select-option value="master_card">Master Card</ion-select-option>
+              </ion-select>
             </ion-item>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-item class="violet-text form-field" [class.red-text]="submitTry && creditCardForm.get('number').invalid">
+            <ion-item class="violet-text form-field" [class.error-field]="submitTry && creditCardForm.get('number').invalid">
               <ion-input type="email" formControlName="number" placeholder="card number"></ion-input>
             </ion-item>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col size="6">
-            <ion-item class="violet-text form-field" [class.red-text]="submitTry && creditCardForm.get('expire').invalid">
-              <ion-input type="text" formControlName="expire" placeholder="Exp. Date"></ion-input>
+            <ion-item no-padding class="select-field" [class.error-field]="submitTry && creditCardForm.get('expire').invalid">
+              <div></div>
+              <ion-datetime display-format="DD/MM/YYYY" [max]="maxDatePickerValue" formControlName="expire" placeholder="Exp. Date"
+                class="violet-text" (ionChange)="validateDate($event)"></ion-datetime>
             </ion-item>
           </ion-col>
           <ion-col size="1">
           </ion-col>
           <ion-col size="5">
-            <ion-item class="violet-text form-field" [class.red-text]="submitTry && creditCardForm.get('cw').invalid">
+            <ion-item class="violet-text form-field" [class.error-field]="submitTry && creditCardForm.get('cw').invalid">
               <ion-input type="text" formControlName="cw" placeholder="CW"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="submitTry && creditCardForm.get('name').hasError('required')">
+          <ion-col>
+            <ion-item class="red-text">
+              <span>Name is required.</span>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="submitTry && creditCardForm.get('number').hasError('required')">
+          <ion-col>
+            <ion-item class="red-text">
+              <span>Number is required.</span>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="submitTry && creditCardForm.get('number').hasError('minlength')">
+          <ion-col>
+            <ion-item class="red-text">
+              <span>Number minimum length is 16.</span>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="submitTry && creditCardForm.get('number').hasError('pattern')">
+          <ion-col>
+            <ion-item class="red-text">
+              <span>Only numbers are allowed in the number field.</span>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="submitTry && creditCardForm.get('expire').hasError('required')">
+          <ion-col>
+            <ion-item class="red-text">
+              <span>Expire is required.</span>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="submitTry && creditCardForm.get('expire').hasError('expire')">
+          <ion-col>
+            <ion-item class="red-text">
+              <span>The expire date time is over.</span>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="submitTry && creditCardForm.get('cw').hasError('required')">
+          <ion-col>
+            <ion-item class="red-text">
+              <span>CW is required.</span>
             </ion-item>
           </ion-col>
         </ion-row>
@@ -108,29 +166,57 @@
       <ion-grid id="form-block">
         <ion-row>
           <ion-col>
-            <ion-item class="violet-text form-field" [class.red-text]="submitTry && payPalForm.get('field1').invalid">
+            <ion-item class="violet-text form-field" [class.error-field]="submitTry && payPalForm.get('field1').invalid">
               <ion-input type="text" formControlName="field1" placeholder="Field 1"></ion-input>
             </ion-item>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col>
-            <ion-item class="violet-text form-field" [class.red-text]="submitTry && payPalForm.get('field2').invalid">
+            <ion-item class="violet-text form-field" [class.error-field]="submitTry && payPalForm.get('field2').invalid">
               <ion-input type="email" formControlName="field2" placeholder="Field 2"></ion-input>
             </ion-item>
           </ion-col>
         </ion-row>
         <ion-row>
           <ion-col size="6">
-            <ion-item class="violet-text form-field" [class.red-text]="submitTry && payPalForm.get('field3').invalid">
+            <ion-item class="violet-text form-field" [class.error-field]="submitTry && payPalForm.get('field3').invalid">
               <ion-input type="text" formControlName="field3" placeholder="Field 3"></ion-input>
             </ion-item>
           </ion-col>
           <ion-col size="1">
           </ion-col>
           <ion-col size="5">
-            <ion-item class="violet-text form-field" [class.red-text]="submitTry && payPalForm.get('field4').invalid">
+            <ion-item class="violet-text form-field" [class.error-field]="submitTry && payPalForm.get('field4').invalid">
               <ion-input type="text" formControlName="field4" placeholder="Field 4"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item *ngIf="submitTry && payPalForm.get('field1').hasError('required')" class="red-text">
+              <span>Field1 is required.</span>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item *ngIf="submitTry && payPalForm.get('field2').hasError('required')" class="red-text">
+              <span>Field2 is required.</span>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item *ngIf="submitTry && payPalForm.get('field3').hasError('required')" class="red-text">
+              <span>Field3 is required.</span>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item *ngIf="submitTry && payPalForm.get('field4').hasError('required')" class="red-text">
+              <span>Field4 is required.</span>
             </ion-item>
           </ion-col>
         </ion-row>

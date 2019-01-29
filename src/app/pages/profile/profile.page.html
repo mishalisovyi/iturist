@@ -37,18 +37,30 @@
             </ion-fab-button>
           </ng-container>
           <ng-container *ngIf="editInfo">
-            <ion-item class="violet-text register-form-field" [class.red-text]="submitTry && form.get('name').invalid">
+            <ion-item class="violet-text register-form-field" [class.error-field]="submitTry && form.get('name').invalid">
               <ion-input type="text" formControlName="name" placeholder="Name"></ion-input>
             </ion-item>
-            <ion-item class="violet-text register-form-field" [class.red-text]="submitTry && form.get('email').invalid">
+            <ion-item class="violet-text register-form-field" [class.error-field]="submitTry && form.get('email').invalid">
               <ion-input type="email" formControlName="email" placeholder="E-mail address"></ion-input>
             </ion-item>
-            <ion-item class="violet-text select-field" [class.red-text]="submitTry && form.get('language').invalid">
-              <ion-label>Language</ion-label>
+            <ion-item no-padding class="violet-text select-field" [class.error-field]="submitTry && form.get('language').invalid">
+              <div></div>
               <ion-select formControlName="language" placeholder="Select language">
                 <ion-select-option value="english">English</ion-select-option>
                 <ion-select-option value="hebrew">Hebrew</ion-select-option>
               </ion-select>
+            </ion-item>
+            <ion-item *ngIf="submitTry && form.get('name').hasError('required')" class="red-text">
+              <span>Name is required.</span>
+            </ion-item>
+            <ion-item *ngIf="submitTry && form.get('email').hasError('required')" class="red-text">
+              <span>Email is required.</span>
+            </ion-item>
+            <ion-item *ngIf="submitTry && form.get('email').hasError('email')" class="red-text">
+              <span>Email is not valid.</span>
+            </ion-item>
+            <ion-item *ngIf="submitTry && form.get('language').hasError('required')" class="red-text">
+              <span>Language is required.</span>
             </ion-item>
           </ng-container>
         </ion-col>

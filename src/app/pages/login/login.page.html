@@ -17,12 +17,23 @@
       </ion-row>
       <ion-row justify-content-center>
         <ion-col size-md="7" size-lg="5">
-          <ion-item class="violet-text form-field" [class.red-text]="submitTry && form.get('email').invalid">
+          <ion-item class="violet-text form-field" [class.error-field]="submitTry && form.get('email').invalid">
             <ion-input type="text" formControlName="email" placeholder="Email"></ion-input>
           </ion-item>
-          <ion-item class="violet-text form-field" [class.red-text]="submitTry && form.get('password').invalid">
+          <ion-item class="violet-text form-field" [class.error-field]="submitTry && form.get('password').invalid">
             <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
           </ion-item>
+          <div id="errors-block">
+            <ion-item *ngIf="submitTry && form.get('email').hasError('required')" class="red-text">
+              <span>Email is required.</span>
+            </ion-item>
+            <ion-item *ngIf="submitTry && form.get('email').hasError('email')" class="red-text">
+              <span>Email is not valid.</span>
+            </ion-item>
+            <ion-item *ngIf="submitTry && form.get('password').hasError('required')" class="red-text">
+              <span>Password is required.</span>
+            </ion-item>
+          </div>
         </ion-col>
       </ion-row>
       <ion-row>

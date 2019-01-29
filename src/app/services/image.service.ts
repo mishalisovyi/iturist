@@ -100,8 +100,9 @@ export class ImageService {
         })
         .then(
           image => {
+            alert(JSON.stringify(image));
             this.imgInfo[img].src = "data:image/jpeg;base64," + image;
-            this.imgInfo[img].file = new File([this.imgInfo[img].src], this.createImageName(), { type: typeof Blob, lastModified: Date.now() });
+            this.imgInfo[img].file = new File([this.imgInfo[img].src], this.createImageName(), { type: image.type, lastModified: Date.now() });
             this.imgInfo[img].deleted = false;
           }
         )
