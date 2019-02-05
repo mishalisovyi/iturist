@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  storage: "iturist"
+  storage: "iturist",
+  api: "http://192.168.2.232:8000/api/v1"
 };
 
 /*

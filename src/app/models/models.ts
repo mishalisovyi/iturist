@@ -7,3 +7,8 @@ export interface Profile {
   travel_photo?: string;
   passport_photo?: string;
 }
+
+export interface BaseResponse {
+  content: any;
+  metadata: any;
+}

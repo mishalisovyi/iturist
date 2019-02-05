@@ -3,10 +3,12 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
-import { switchMap } from 'rxjs/operators';
+import { forkJoin, throwError } from "rxjs";
+import { switchMap, catchError } from 'rxjs/operators';
 
 import { ApiService } from '../../services/api.service';
 import { StorageService } from "../../services/storage.service";
+import { BaseResponse } from "../../models/models";
 
 @Component({
   selector: 'app-login',
@@ -44,12 +46,44 @@ export class LoginPage implements OnInit {
   public login() {
     this.submitTry = true;
     if (this.form.valid) {
-      this.api.login(this.form.value)
-        .pipe(switchMap(response => this.storage.set("authorization", response)))
-        .subscribe(() => {
-          this.router.navigateByUrl("/main");
-        })
+      const formData: FormData = new FormData();
+      formData.append("email", this.form.get("email").value);
+      formData.append("password", this.form.get("password").value);
+      this.api.login(formData)
+        .pipe(
+          switchMap((res: BaseResponse) => {
+            alert("Login: " + JSON.stringify(res));
+            console.log(res);
+            return forkJoin(this.storage.set("token", res.content.token), this.storage.set("profile", JSON.stringify(res.content.profile)))
+          }),
+          catchError((err => throwError(err)))
+        )
+        .subscribe(
+          res => {
+            alert("token and profile are stored");
+            console.log(res);
+            this.router.navigateByUrl('/main');
+          },
+          err => {
+            alert("Error with storage: " + JSON.stringify(err));
+            console.log(err);
+          }
+        )
     }
+  }
+
+  public logout() {
+    this.api.logout()
+      .pipe(
+        switchMap(
+          (res: BaseResponse) => {
+            alert("Logout: " + JSON.stringify(res));
+            console.log(res);
+            return forkJoin(this.storage.remove("token"), this.storage.remove("profile"))
+          }
+        )
+      )
+      .subscribe(() => this.router.navigateByUrl("/login"));
   }
 
   public manageGoogleLogin() {

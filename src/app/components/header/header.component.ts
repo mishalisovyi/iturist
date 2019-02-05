@@ -5,6 +5,7 @@ import { filter, switchMap } from 'rxjs/operators';
 
 import { ApiService } from "../../services/api.service";
 import { StorageService } from "../../services/storage.service";
+import { BaseResponse } from "../../models/models";
 
 @Component({
   selector: 'app-header',
@@ -20,7 +21,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public isAuthorized: boolean;
 
   constructor(private router: Router, private storage: StorageService, private api: ApiService) {
-    this.storage.get("authorization").subscribe(res => {
+    this.storage.get("token").subscribe(res => {
       res ? this.isAuthorized = true : this.isAuthorized = false;
     })
   }
@@ -48,7 +49,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   public logout() {
     this.api.logout()
-      .pipe(switchMap(() => forkJoin(this.storage.remove("authorization"), this.storage.remove("profile"))))
+      .pipe(switchMap(
+        (res: BaseResponse) => {
+          alert("Logout: " + JSON.stringify(res));
+          console.log(res);
+          return forkJoin(this.storage.remove("token"), this.storage.remove("profile"))
+        },
+        err => {
+          alert("Error while logout: " + err);
+          console.log(err);
+        }
+      ))
       .subscribe(() => this.router.navigateByUrl("/login"));
   }
 }

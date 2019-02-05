@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
+import { forkJoin, of } from 'rxjs';
+import { switchMap, catchError } from 'rxjs/operators';
+
 import { Platform } from '@ionic/angular';
 
 import { ApiService } from '../../services/api.service';
 import { ImageService } from '../../services/image.service';
+import { StorageService } from '../../services/storage.service';
+import { BaseResponse } from '../../models/models';
 
 @Component({
   selector: 'app-register',
@@ -21,7 +26,7 @@ export class RegisterPage implements OnInit {
     private router: Router,
     private api: ApiService,
     public image: ImageService,
-    private platform: Platform
+    private storage: StorageService
   ) { }
 
   ngOnInit() {
@@ -42,36 +47,71 @@ export class RegisterPage implements OnInit {
     this.submitTry = true;
     if (this.form.valid) {
       const formData: FormData = new FormData();
-      if (this.platform.is('android')) {
-        const queries: Array<any> = [];
-        if (!this.image.imgInfo.profile.deleted) {
-          queries.push(this.image.getImageFromFileEntry('profile'));
-        }
-        if (!this.image.imgInfo.airline.deleted) {
-          queries.push(this.image.getImageFromFileEntry('airline'));
-        }
-        if (!this.image.imgInfo.travel.deleted) {
-          queries.push(this.image.getImageFromFileEntry('travel'));
-        }
-        if (!this.image.imgInfo.passport.deleted) {
-          queries.push(this.image.getImageFromFileEntry('passport'));
-        }
-        Promise.all(queries).then(res => {
-          this.appendImagesToFormData(formData);
-        })
-      } else {
-        this.appendImagesToFormData(formData);
-      }
-      formData.append("name", this.form.get("name").value);
+      formData.append("first_name", this.form.get("name").value);
       formData.append("email", this.form.get("email").value);
       formData.append("password", this.form.get("password").value);
       formData.append("language", this.form.get("language").value);
-      this.api.register(formData).subscribe(res => {
-        alert(JSON.stringify(res));
-        this.router.navigateByUrl("/login");
-      })
+      this.api.register(formData)
+        .pipe(
+          switchMap((res: BaseResponse) => {
+            alert("Registered: " + JSON.stringify(res));
+            console.log(res);
+            return forkJoin(this.storage.set("token", res.content.token), this.storage.set("profile", JSON.stringify(res.content.profile)))
+          }),
+          catchError(err => {
+            alert("Error with register: " + JSON.stringify(err));
+            console.log(err);
+            return of(err);
+          })
+        )
+        .subscribe(
+          res => {
+            alert("token and profile are stored");
+            console.log(res);
+            this.router.navigateByUrl('/main');
+          },
+          err => {
+            alert("Error with storage: " + JSON.stringify(err));
+            console.log(err);
+          }
+        )
     }
   }
+
+  // public register() {
+  //   this.submitTry = true;
+  //   if (this.form.valid) {
+  //     const formData: FormData = new FormData();
+  //     if (this.platform.is('android')) {
+  //       const queries: Array<any> = [];
+  //       if (!this.image.imgInfo.profile.deleted) {
+  //         queries.push(this.image.getImageFromFileEntry('profile'));
+  //       }
+  //       if (!this.image.imgInfo.airline.deleted) {
+  //         queries.push(this.image.getImageFromFileEntry('airline'));
+  //       }
+  //       if (!this.image.imgInfo.travel.deleted) {
+  //         queries.push(this.image.getImageFromFileEntry('travel'));
+  //       }
+  //       if (!this.image.imgInfo.passport.deleted) {
+  //         queries.push(this.image.getImageFromFileEntry('passport'));
+  //       }
+  //       Promise.all(queries).then(res => {
+  //         this.appendImagesToFormData(formData);
+  //       })
+  //     } else {
+  //       this.appendImagesToFormData(formData);
+  //     }
+  //     formData.append("name", this.form.get("name").value);
+  //     formData.append("email", this.form.get("email").value);
+  //     formData.append("password", this.form.get("password").value);
+  //     formData.append("language", this.form.get("language").value);
+  //     this.api.register(formData).subscribe(res => {
+  //       alert(JSON.stringify(res));
+  //       this.router.navigateByUrl("/login");
+  //     })
+  //   }
+  // }
 
   public validatePasswordConfirmation() {
     if (this.form.get("confirmPassword").dirty) {

@@ -1,7 +1,7 @@
 <app-header></app-header>
 
 <ion-content padding-horizontal>
-  <form [formGroup]="form" (submit)="register()">
+  <form [formGroup]="form">
     <ion-grid>
       <ion-row id="text-block" class="violet-text">
         <ion-col>Registration</ion-col>
@@ -51,9 +51,6 @@
           <ion-item class="violet-text register-form-field" [class.error-field]="submitTry && form.get('confirmPassword').invalid">
             <ion-input type="password" formControlName="confirmPassword" placeholder="Confirm Password" (ionChange)="validatePasswordConfirmation()"></ion-input>
           </ion-item>
-          <span class="error-msg" *ngIf="submitTry && form.get('confirmPassword').hasError('unmatch')">
-            Passwords do not match
-          </span>
           <ion-item no-padding class="violet-text select-field" [class.error-field]="submitTry && form.get('language').invalid">
             <div></div>
             <ion-select formControlName="language" placeholder="Select language">
@@ -61,6 +58,13 @@
               <ion-select-option value="hebrew">Hebrew</ion-select-option>
             </ion-select>
           </ion-item>
+          <!-- <ion-item no-padding class="violet-text" [class.error-field]="submitTry && form.get('language').invalid">
+            <div></div>
+            <ion-select formControlName="language" placeholder="Select language">
+              <ion-select-option value="english">English</ion-select-option>
+              <ion-select-option value="hebrew">Hebrew</ion-select-option>
+            </ion-select>
+          </ion-item> -->
           <ion-item *ngIf="submitTry && form.get('name').hasError('required')" class="red-text">
             <span>Name is required.</span>
           </ion-item>

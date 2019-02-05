@@ -195,7 +195,7 @@ ion-chip {
 
 .select-field {
   --ion-font-family: "Assistant", sans-serif;
-  --background: transparent;
+  // --background: transparent;
   border: solid 1px transparent;
   position: relative;
   background-color: $field-background;
@@ -203,7 +203,7 @@ ion-chip {
 
   div {
     position: absolute;
-    z-index: -1;
+    // z-index: -1;
     top: 0;
     left: 0;
     width: 100%;
@@ -214,6 +214,8 @@ ion-chip {
   ion-select,
   ion-datetime {
     min-width: 100%;
+    min-height: 100%;
+    position: absolute;
     padding-left: 0;
     background-color: $field-background;
   }

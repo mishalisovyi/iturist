@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { of, Observable } from 'rxjs';
-import { delay, switchMap } from 'rxjs/operators';
+import { delay } from 'rxjs/operators';
 import * as _ from 'lodash';
+
 import { StorageService } from '../services/storage.service';
+import { BaseResponse } from "../models/models";
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -73,24 +76,20 @@ export class ApiService {
     return of(_.random(0, 2)).pipe(delay(100));
   }
 
-  public register(data: any): Observable<any> {
-    return of("success").pipe(delay(200));
+  public register(data: FormData): Observable<BaseResponse> {
+    return this.http.post<BaseResponse>(`${environment.api}/registration`, data);
   }
 
-  public login(data: any): Observable<any> {
-    return of("success").pipe(delay(200));
+  public login(data: FormData): Observable<BaseResponse> {
+    return this.http.post<BaseResponse>(`${environment.api}/login`, data);
   }
 
-  public logout(): Observable<any> {
-    return of("success")
-      .pipe(
-        delay(200),
-        switchMap(res => this.storage.remove("authorization"))
-      )
+  public logout(): Observable<BaseResponse> {
+    return this.http.get<BaseResponse>(`${environment.api}/logout`);
   }
 
-  public getCurrentUser(): Observable<any> {
-    return this.storage.get<any>("authorization");
+  public getToken(): Observable<any> {
+    return this.storage.get<any>("token");
   }
 
   public getProfile() {
