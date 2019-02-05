@@ -148,7 +148,8 @@ ion-backdrop {
   --inner-padding-end: 0;
   background-color: $field-background;
 
-  ion-input, ion-datetime {
+  ion-input,
+  ion-datetime {
     background-color: $field-background;
   }
 }
@@ -194,6 +195,7 @@ ion-chip {
 
 .select-field {
   --ion-font-family: "Assistant", sans-serif;
+  --background: transparent;
   border: solid 1px transparent;
   position: relative;
   background-color: $field-background;
@@ -209,7 +211,8 @@ ion-chip {
     background-color: $field-background;
   }
 
-  ion-select, ion-datetime {
+  ion-select,
+  ion-datetime {
     min-width: 100%;
     padding-left: 0;
     background-color: $field-background;
