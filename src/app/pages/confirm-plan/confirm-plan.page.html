@@ -160,6 +160,27 @@
             </ion-item>
           </ion-col>
         </ion-row>
+        <ion-row *ngIf="submitTry && creditCardForm.get('cw').hasError('minlength')">
+          <ion-col>
+            <ion-item class="red-text">
+              <span>CW length must be 3.</span>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="submitTry && creditCardForm.get('cw').hasError('maxlength')">
+          <ion-col>
+            <ion-item class="red-text">
+              <span>CW length must be 3.</span>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="submitTry && creditCardForm.get('cw').hasError('pattern')">
+          <ion-col>
+            <ion-item class="red-text">
+              <span>Only numbers are allowed in the CW field.</span>
+            </ion-item>
+          </ion-col>
+        </ion-row>
       </ion-grid>
     </ng-container>
     <ng-container *ngIf="activeTabIndex === 1">

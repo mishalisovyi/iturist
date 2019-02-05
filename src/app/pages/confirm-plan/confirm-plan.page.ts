@@ -43,7 +43,7 @@ export class ConfirmPlanPage implements OnInit {
       name: ["", Validators.required],
       number: ["", [Validators.required, Validators.minLength(16), Validators.pattern('^[0-9]+$')]],
       expire: ["", Validators.required],
-      cw: ["", Validators.required]
+      cw: ["", [Validators.required, Validators.minLength(3), Validators.maxLength(3), Validators.pattern('^[0-9]+$')]]
     });
     this.payPalForm = this.formBuilder.group({
       field1: ["", Validators.required],
