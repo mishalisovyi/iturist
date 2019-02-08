@@ -193,23 +193,27 @@ ion-chip {
   }
 }
 
+// ion-input {
+//   -webkit-transform: translateZ(0) !important;
+// }
+
 .select-field {
   --ion-font-family: "Assistant", sans-serif;
-  --background: transparent;
+  // --background: transparent;
   border: solid 1px transparent;
   position: relative;
   background-color: $field-background;
   padding-left: 20px;
 
-  div {
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: $field-background;
-  }
+  // > div {
+  //   position: absolute;
+  //   z-index: -1;
+  //   top: 0;
+  //   left: 0;
+  //   width: 100%;
+  //   height: 100%;
+  //   background-color: $field-background;
+  // }
 
   ion-select,
   ion-datetime {
