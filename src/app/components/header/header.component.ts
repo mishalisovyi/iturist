@@ -54,10 +54,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
           alert("Logout: " + JSON.stringify(res));
           console.log(res);
           return forkJoin(this.storage.remove("token"), this.storage.remove("profile"))
-        },
-        err => {
-          alert("Error while logout: " + err);
-          console.log(err);
         }
       ))
       .subscribe(() => this.router.navigateByUrl("/login"));

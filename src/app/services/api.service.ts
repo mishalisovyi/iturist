@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+
 import { of, Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import * as _ from 'lodash';
 
 import { StorageService } from '../services/storage.service';
+
 import { BaseResponse } from "../models/models";
+import { ProfileEditRequest } from "../models/models";
+
 import { environment } from '../../environments/environment';
 
 
@@ -80,6 +84,15 @@ export class ApiService {
     return this.http.post<BaseResponse>(`${environment.api}/registration`, data);
   }
 
+  public postImages(data: FormData) {
+    // const headers = new HttpHeaders({
+    //   "cache-control": "no-cache"
+    // })
+    // return this.http.post<BaseResponse>(`${environment.api}/user/profile/photo`, data, { headers });
+
+    return this.http.post<BaseResponse>(`${environment.api}/user/profile/photo`, data);
+  }
+
   public login(data: FormData): Observable<BaseResponse> {
     return this.http.post<BaseResponse>(`${environment.api}/login`, data);
   }
@@ -92,28 +105,26 @@ export class ApiService {
     return this.storage.get<any>("token");
   }
 
-  public getProfile() {
-    return of({
-      name: "name",
-      email: "email",
-      language: "english",
-      profile_photo: "../../assets/screens/test.png",
-      airline_photo: "../../assets/screens/test.png",
-      travel_photo: "../../assets/screens/test.png",
-      passport_photo: "../../assets/screens/test.png"
-    }).pipe(delay(200));
+  public getProfile(): Observable<BaseResponse> {
+    return this.http.get<BaseResponse>(`${environment.api}/user/profile`);
   }
 
-  public editProfile(data: FormData) {
-    return of({
-      name: "name",
-      email: "email",
-      language: "english",
-      profile_photo: "../../assets/screens/test.png",
-      airline_photo: "../../assets/screens/test.png",
-      travel_photo: "../../assets/screens/test.png",
-      passport_photo: "../../assets/screens/test.png"
-    }).pipe(delay(200));
+  public editProfile(id: number, user: ProfileEditRequest): Observable<BaseResponse> {
+    return this.http.patch<BaseResponse>(`${environment.api}/users/${id}`, user);
   }
+
+
+
+  // public editProfile(data: FormData) {
+  //   return of({
+  //     name: "name",
+  //     email: "email",
+  //     language: "english",
+  //     profile_photo: "../../assets/screens/test.png",
+  //     airline_photo: "../../assets/screens/test.png",
+  //     travel_photo: "../../assets/screens/test.png",
+  //     passport_photo: "../../assets/screens/test.png"
+  //   }).pipe(delay(200));
+  // }
 
 }

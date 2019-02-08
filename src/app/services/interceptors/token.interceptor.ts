@@ -25,7 +25,7 @@ export class TokenInterceptor implements HttpInterceptor {
         console.log("token from interceptor: ", token);
         const newRequest = token ? request.clone({ url: request.url + "/", setHeaders: { Authorization: `Token ${token}` } }) : request.clone({ url: request.url + "/" });
         if (!token) {
-          request.url.includes('register') ? this.router.navigateByUrl("/register") : this.router.navigateByUrl("/login");
+          this.router.url.includes('register') ? this.router.navigateByUrl("/register") : this.router.navigateByUrl("/login");
         }
 
         return next.handle(newRequest).pipe(

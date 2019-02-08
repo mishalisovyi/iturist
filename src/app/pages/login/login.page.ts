@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
-import { forkJoin, throwError } from "rxjs";
+import { throwError } from "rxjs";
 import { switchMap, catchError } from 'rxjs/operators';
 
 import { ApiService } from '../../services/api.service';
@@ -54,7 +54,7 @@ export class LoginPage implements OnInit {
           switchMap((res: BaseResponse) => {
             alert("Login: " + JSON.stringify(res));
             console.log(res);
-            return forkJoin(this.storage.set("token", res.content.token), this.storage.set("profile", JSON.stringify(res.content.profile)))
+            return this.storage.set("token", res.content.token)
           }),
           catchError((err => throwError(err)))
         )
@@ -65,7 +65,7 @@ export class LoginPage implements OnInit {
             this.router.navigateByUrl('/main');
           },
           err => {
-            alert("Error with storage: " + JSON.stringify(err));
+            alert("Error: " + JSON.stringify(err));
             console.log(err);
           }
         )
@@ -79,7 +79,7 @@ export class LoginPage implements OnInit {
           (res: BaseResponse) => {
             alert("Logout: " + JSON.stringify(res));
             console.log(res);
-            return forkJoin(this.storage.remove("token"), this.storage.remove("profile"))
+            return this.storage.remove("token")
           }
         )
       )
@@ -106,26 +106,26 @@ export class LoginPage implements OnInit {
 
   public googleLogin() {
     this.googlePlus.login({})
-      .then(res => alert(JSON.stringify(res)))
-      .catch(err => alert(err));
+      .then(res => console.log(res))
+      .catch(err => console.error(err));
   }
 
   public googleLogout() {
     this.googlePlus.logout()
-      .then(res => alert(JSON.stringify(res)))
-      .catch(err => alert(err));
+      .then(res => console.log(res))
+      .catch(err => console.error(err));
   }
 
   public facebookLogin() {
     this.fb.login(['public_profile', 'email'])
-      .then((res: FacebookLoginResponse) => alert(JSON.stringify(res)))
-      .catch(e => alert(e));
+      .then((res: FacebookLoginResponse) => console.log(res))
+      .catch(e => console.error(e));
   }
 
   public facebookLogout() {
     this.fb.logout()
-      .then(res => alert(JSON.stringify(res)))
-      .catch(e => alert(e));
+      .then(res => console.log(res))
+      .catch(e => console.error(e));
   }
 
   public navigateToRegister() {

@@ -6,13 +6,13 @@
     <span id="logout-label" (click)="logout()">Logout</span>
     <ion-img src="assets/screens/upper-gradient-background.png"></ion-img>
   </div>
-  <div *ngIf="!profile?.profile_photo" id="profile-no-img-block">
+  <div *ngIf="!profile?.photo" id="profile-no-img-block">
     <div>
       <ion-img src="assets/screens/icon-profile.svg"></ion-img>
       <div id="rect"></div>
     </div>
   </div>
-  <div *ngIf="profile?.profile_photo" id="profile-img-block" [ngStyle]="{'background-image': 'url(' + profile?.profile_photo + ')'}"></div>
+  <div *ngIf="profile?.photo" id="profile-img-block" [ngStyle]="{'background-image': 'url(' + profile?.photo + ')'}"></div>
   <ion-item id="profile-img-label" class="violet-text">
     <span>My Profile</span>
   </ion-item>
