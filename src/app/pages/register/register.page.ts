@@ -1,10 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
-import { Platform } from '@ionic/angular';
+
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
+
+import { from } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { ApiService } from '../../services/api.service';
 import { ImageService } from '../../services/image.service';
+import { StorageService } from '../../services/storage.service';
+import { LoadingService } from "../../services/loading.service";
+
+import { BaseResponse } from '../../models/models';
+
+import { PasswordValidator } from '../../validators/password.validator';
 
 @Component({
   selector: 'app-register',
@@ -19,9 +30,12 @@ export class RegisterPage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
+    private googlePlus: GooglePlus,
+    private fb: Facebook,
     private api: ApiService,
     public image: ImageService,
-    private platform: Platform
+    private storage: StorageService,
+    private loading: LoadingService
   ) { }
 
   ngOnInit() {
@@ -32,45 +46,88 @@ export class RegisterPage implements OnInit {
     this.form = this.formBuilder.group({
       name: ["", Validators.required],
       email: ["", [Validators.required, Validators.email]],
-      password: ["", Validators.required],
+      password: ["", [Validators.required, PasswordValidator.password]],
       confirmPassword: ["", Validators.required],
       language: [null, Validators.required]
     });
   }
 
-  public register() {
-    this.submitTry = true;
-    if (this.form.valid) {
+  private postTextData(): Promise<BaseResponse> {
+    return new Promise((resolve, reject) => {
       const formData: FormData = new FormData();
-      if (this.platform.is('android')) {
-        const queries: Array<any> = [];
-        if (!this.image.imgInfo.profile.deleted) {
-          queries.push(this.image.getImageFromFileEntry('profile'));
-        }
-        if (!this.image.imgInfo.airline.deleted) {
-          queries.push(this.image.getImageFromFileEntry('airline'));
-        }
-        if (!this.image.imgInfo.travel.deleted) {
-          queries.push(this.image.getImageFromFileEntry('travel'));
-        }
-        if (!this.image.imgInfo.passport.deleted) {
-          queries.push(this.image.getImageFromFileEntry('passport'));
-        }
-        Promise.all(queries).then(res => {
-          this.appendImagesToFormData(formData);
-        })
-      } else {
-        this.appendImagesToFormData(formData);
-      }
-      formData.append("name", this.form.get("name").value);
+      formData.append("first_name", this.form.get("name").value);
       formData.append("email", this.form.get("email").value);
       formData.append("password", this.form.get("password").value);
       formData.append("language", this.form.get("language").value);
-      this.api.register(formData).subscribe(res => {
-        alert(JSON.stringify(res));
-        this.router.navigateByUrl("/login");
-      })
+      this.api.register(formData).subscribe(
+        res => resolve(res),
+        err => reject(err)
+      )
+    })
+  }
+
+  private postImages() {
+    return new Promise((resolve, reject) => {
+      const formData: FormData = new FormData();
+      if (this.image.imgInfo.profile.changed) {
+        formData.append("photo", this.image.imgInfo.profile.file, this.image.createImageName());
+        console.log("photo");
+      }
+      if (this.image.imgInfo.airline.changed) {
+        formData.append("airline_image", this.image.imgInfo.airline.file, this.image.createImageName())
+        console.log("airline");
+      }
+      if (this.image.imgInfo.travel.changed) {
+        formData.append("travel_image", this.image.imgInfo.travel.file, this.image.createImageName())
+        console.log("travel");
+      }
+      if (this.image.imgInfo.passport.changed) {
+        formData.append("passport_image", this.image.imgInfo.passport.file, this.image.createImageName())
+        console.log("passport");
+      }
+
+      this.api.postImages(formData).subscribe(
+        res => {
+          console.log(res);
+          resolve(res);
+        },
+        err => reject(err)
+      )
+    });
+  }
+
+  public register() {
+    this.submitTry = true;
+
+    if (this.form.valid) {
+      this.loading.createLoading("Registering");
+      this.postTextData().then(
+        res => this.storage.set("token", res.content.token)
+          .pipe(switchMap(() => from(this.postImages())))
+          .subscribe(
+            res => {
+              console.log(res);
+              this.router.navigateByUrl('/main');
+            },
+            err => {
+              console.error(err);
+            },
+            () => this.loading.dismissLoading()
+          )
+      );
     }
+  }
+
+  public googleLogin() {
+    this.googlePlus.login({})
+      .then(res => console.log(res))
+      .catch(err => console.error(err));
+  }
+
+  public facebookLogin() {
+    this.fb.login(['public_profile', 'email'])
+      .then((res: FacebookLoginResponse) => alert(console.log(res)))
+      .catch(err => console.error(err));
   }
 
   public validatePasswordConfirmation() {
@@ -81,25 +138,6 @@ export class RegisterPage implements OnInit {
           this.form.get("confirmPassword").setErrors({ unmatch: true });
         }
       }
-    }
-  }
-
-  private appendImagesToFormData(formData: FormData) {
-    if (!this.image.imgInfo.profile.deleted) {
-      formData.append("profile_image", this.image.imgInfo.profile.file);
-      alert("profile: " + JSON.stringify(this.image.imgInfo.profile.file));
-    }
-    if (!this.image.imgInfo.airline.deleted) {
-      formData.append("airline_image", this.image.imgInfo.airline.file);
-      alert("airline: " + JSON.stringify(this.image.imgInfo.airline.file));
-    }
-    if (!this.image.imgInfo.travel.deleted) {
-      formData.append("travel_image", this.image.imgInfo.travel.file);
-      alert("travel: " + JSON.stringify(this.image.imgInfo.travel.file));
-    }
-    if (!this.image.imgInfo.passport.deleted) {
-      formData.append("passport_image", this.image.imgInfo.passport.file);
-      alert("passport: " + JSON.stringify(this.image.imgInfo.passport.file));
     }
   }
 }

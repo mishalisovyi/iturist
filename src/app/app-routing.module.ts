@@ -6,7 +6,7 @@ import { GuestGuard } from './guards/guest.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'choose-company',
+    redirectTo: 'main',
     pathMatch: 'full'
   },
   {

@@ -109,6 +109,7 @@
         <variable name="WEB_APPLICATION_CLIENT_ID" value="187369116197-v6ek0vdicnaqnd97t3gnmkq9sgk73eu8.apps.googleusercontent.com" />
         <variable name="PLAY_SERVICES_VERSION" value="11.8.0" />
     </plugin>
+    <allow-navigation href="http://192.168.2.103:8101" sessionid="915b9cba" />
     <engine name="ios" spec="4.5.5" />
     <engine name="android" spec="7.1.4" />
     <engine name="browser" spec="5.0.4" />

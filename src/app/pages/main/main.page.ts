@@ -55,11 +55,17 @@ export class MainPage implements OnInit {
   constructor(private router: Router, private api: ApiService, private storage: StorageService) { }
 
   ngOnInit() {
-    this.api.getProfile().subscribe(res => this.storage.set<Profile>("profile", res));
+    this.api.getProfile().subscribe(res => {
+      console.log(res);
+      this.storage.set<Profile>("profile", res.content);
+    });
   }
 
   public navigateTo(route: string) {
     this.router.navigateByUrl(route);
   }
 
+  public getProfile() {
+    this.api.getProfile().subscribe(res => console.log(res));
+  }
 }

@@ -20,16 +20,18 @@ export class TokenInterceptor implements HttpInterceptor {
   ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return this.apiService.getCurrentUser().pipe(
-      mergeMap(user => {
-        const token = _.get(user, "content.token");
+    return this.apiService.getToken().pipe(
+      mergeMap(token => {
+        console.log("token from interceptor: ", token);
         const newRequest = token ? request.clone({ url: request.url + "/", setHeaders: { Authorization: `Token ${token}` } }) : request.clone({ url: request.url + "/" });
-        if (!token) this.router.navigateByUrl("/login");
+        if (!token) {
+          this.router.url.includes('register') ? this.router.navigateByUrl("/register") : this.router.navigateByUrl("/login");
+        }
 
         return next.handle(newRequest).pipe(
           catchError(error => {
             if (error.status === 401 || error.status === 403) {
-              this.storage.remove("authorization").subscribe(() => {
+              this.storage.remove("token").subscribe(() => {
                 this.router.navigateByUrl("/login");
               })
             }

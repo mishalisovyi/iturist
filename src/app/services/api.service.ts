@@ -1,9 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+
 import { of, Observable } from 'rxjs';
-import { delay, switchMap } from 'rxjs/operators';
+import { delay } from 'rxjs/operators';
 import * as _ from 'lodash';
+
 import { StorageService } from '../services/storage.service';
+
+import { BaseResponse } from "../models/models";
+import { ProfileEditRequest } from "../models/models";
+
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -73,48 +80,51 @@ export class ApiService {
     return of(_.random(0, 2)).pipe(delay(100));
   }
 
-  public register(data: any): Observable<any> {
-    return of("success").pipe(delay(200));
+  public register(data: FormData): Observable<BaseResponse> {
+    return this.http.post<BaseResponse>(`${environment.api}/registration`, data);
   }
 
-  public login(data: any): Observable<any> {
-    return of("success").pipe(delay(200));
+  public postImages(data: FormData) {
+    // const headers = new HttpHeaders({
+    //   "cache-control": "no-cache"
+    // })
+    // return this.http.post<BaseResponse>(`${environment.api}/user/profile/photo`, data, { headers });
+
+    return this.http.post<BaseResponse>(`${environment.api}/user/profile/photo`, data);
   }
 
-  public logout(): Observable<any> {
-    return of("success")
-      .pipe(
-        delay(200),
-        switchMap(res => this.storage.remove("authorization"))
-      )
+  public login(data: FormData): Observable<BaseResponse> {
+    return this.http.post<BaseResponse>(`${environment.api}/login`, data);
   }
 
-  public getCurrentUser(): Observable<any> {
-    return this.storage.get<any>("authorization");
+  public logout(): Observable<BaseResponse> {
+    return this.http.get<BaseResponse>(`${environment.api}/logout`);
   }
 
-  public getProfile() {
-    return of({
-      name: "name",
-      email: "email",
-      language: "english",
-      profile_photo: "../../assets/screens/test.png",
-      airline_photo: "../../assets/screens/test.png",
-      travel_photo: "../../assets/screens/test.png",
-      passport_photo: "../../assets/screens/test.png"
-    }).pipe(delay(200));
+  public getToken(): Observable<any> {
+    return this.storage.get<any>("token");
   }
 
-  public editProfile(data: FormData) {
-    return of({
-      name: "name",
-      email: "email",
-      language: "english",
-      profile_photo: "../../assets/screens/test.png",
-      airline_photo: "../../assets/screens/test.png",
-      travel_photo: "../../assets/screens/test.png",
-      passport_photo: "../../assets/screens/test.png"
-    }).pipe(delay(200));
+  public getProfile(): Observable<BaseResponse> {
+    return this.http.get<BaseResponse>(`${environment.api}/user/profile`);
   }
+
+  public editProfile(id: number, user: ProfileEditRequest): Observable<BaseResponse> {
+    return this.http.patch<BaseResponse>(`${environment.api}/users/${id}`, user);
+  }
+
+
+
+  // public editProfile(data: FormData) {
+  //   return of({
+  //     name: "name",
+  //     email: "email",
+  //     language: "english",
+  //     profile_photo: "../../assets/screens/test.png",
+  //     airline_photo: "../../assets/screens/test.png",
+  //     travel_photo: "../../assets/screens/test.png",
+  //     passport_photo: "../../assets/screens/test.png"
+  //   }).pipe(delay(200));
+  // }
 
 }
