@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { Platform } from '@ionic/angular';
 import { Camera } from '@ionic-native/camera/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
@@ -39,7 +40,25 @@ export class ImageService {
     }
   }
 
-  constructor(private camera: Camera, private filePath: FilePath, private webview: WebView, private file: IonicFile, private loading: LoadingService) { }
+  constructor(
+    private camera: Camera,
+    private filePath: FilePath,
+    private webview: WebView,
+    private file: IonicFile,
+    private loading: LoadingService,
+    private platform: Platform
+  ) { }
+
+  private getPromiseForFile(directory: any, filename: any, imagePath: any): Promise<any> {
+    if (this.platform.is("ios")) {
+      return Promise.all([this.file.readAsArrayBuffer(directory, filename)]);
+    } else {
+      return Promise.all([
+        this.file.readAsArrayBuffer(directory, filename),
+        this.filePath.resolveNativePath(imagePath)
+      ]);
+    }
+  }
 
   public getPhoto(img: string) {
     this.deletePhoto(img);
@@ -58,20 +77,17 @@ export class ImageService {
           const filename = imagePath.substring(n + 1, x + 1);
           const directory = imagePath.substring(0, n);
 
-          Promise.all([
-            this.file.readAsArrayBuffer(directory, filename),
-            this.filePath.resolveNativePath(imagePath)
-          ])
-            .then(
+          this.getPromiseForFile(directory, filename, imagePath).then(
               res => {
                 console.log(res);
                 this.imgInfo[img].file = new Blob([res[0]], { type: "image/jpeg" });
-                this.imgInfo[img].src = this.webview.convertFileSrc(res[1]);
+                this.imgInfo[img].src = this.webview.convertFileSrc(this.platform.is("ios") ? imagePath : res[1]);
+                this.imgInfo[img].src = this.webview.convertFileSrc(imagePath);
                 this.imgInfo[img].deleted = false;
                 this.imgInfo[img].changed = true;
               },
               err => {
-                alert("Only JPEG images are allowed");
+                alert(this.platform.is("ios") ? JSON.stringify(err) : "Only JPEG images are allowed");
                 console.error(err);
               }
             )
