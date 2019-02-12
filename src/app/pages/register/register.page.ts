@@ -108,12 +108,18 @@ export class RegisterPage implements OnInit {
             res => {
               console.log(res);
               this.router.navigateByUrl('/main');
+              this.loading.dismissLoading();
             },
             err => {
               console.error(err);
-            },
-            () => this.loading.dismissLoading()
-          )
+              this.loading.dismissLoading();
+            }
+          ),
+        err => {
+          console.log(err);
+          alert(JSON.stringify(err));
+          this.loading.dismissLoading();
+        }
       );
     }
   }

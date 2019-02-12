@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
-import { throwError } from "rxjs";
+import { throwError, forkJoin } from "rxjs";
 import { switchMap, catchError } from 'rxjs/operators';
 
 import { ApiService } from '../../services/api.service';
@@ -54,7 +54,7 @@ export class LoginPage implements OnInit {
           switchMap((res: BaseResponse) => {
             alert("Login: " + JSON.stringify(res));
             console.log(res);
-            return this.storage.set("token", res.content.token)
+            return forkJoin(this.storage.set("token", res.content.token), this.storage.set("role", res.content.role))
           }),
           catchError((err => throwError(err)))
         )
@@ -62,7 +62,7 @@ export class LoginPage implements OnInit {
           res => {
             alert("token and profile are stored");
             console.log(res);
-            this.router.navigateByUrl('/main');
+            this.router.navigateByUrl(res[1] === 'CUSTOMER' ? '/main' : '/doctor-call-room');
           },
           err => {
             alert("Error: " + JSON.stringify(err));

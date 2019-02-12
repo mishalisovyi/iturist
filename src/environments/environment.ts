@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   storage: "iturist",
-  api: "http://192.168.2.232:8000/api/v1"
+  api: "http://192.168.2.232:8000/api/v1",
+  socket: "http://192.168.2.232:9999"
 };
 
 /*

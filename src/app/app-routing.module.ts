@@ -50,6 +50,26 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'doctor-call-room',
+    loadChildren: './pages/doctor-call-room/doctor-call-room.module#DoctorCallRoomPageModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'doctor-call-list',
+    loadChildren: './pages/doctor-call-list/doctor-call-list.module#DoctorCallListPageModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'online-doctor-start',
+    loadChildren: './pages/online-doctor-start/online-doctor-start.module#OnlineDoctorStartPageModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'online-doctor',
+    loadChildren: './pages/online-doctor/online-doctor.module#OnlineDoctorPageModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'register',
     loadChildren: './pages/register/register.module#RegisterPageModule',
     canActivate: [GuestGuard]

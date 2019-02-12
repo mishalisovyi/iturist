@@ -24,7 +24,9 @@ export class ProfileStartPage implements OnInit {
   }
 
   private getProfile() {
-    this.storage.get("profile").subscribe((profile: Profile) => this.profile = profile);
+    this.api.getProfile().subscribe(res => {
+      if (res) this.profile = res.content;
+    });
   }
 
   public navigateTo(path: string) {

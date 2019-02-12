@@ -1,0 +1,41 @@
+<app-header></app-header>
+
+<ion-content>
+  <div id="images-block">
+    <div class="additional-img">
+      <ion-img src="assets/screens/phone.svg"></ion-img>
+    </div>
+    <div id="main-image">
+      <div>
+        <ion-img src="assets/screens/doctor-instrument.svg"></ion-img>
+        <div id="rect"></div>
+      </div>
+    </div>
+    <div class="additional-img">
+      <ion-img src="assets/screens/stethoscope.svg"></ion-img>
+    </div>
+  </div>
+  <ion-item id="profile-img-label" class="violet-text">
+    <span>OnLine doctor</span>
+  </ion-item>
+  <div padding margin-vertical>
+    <ion-item>
+      <span class="violet-text">
+        Laure Caye est une architecte d’intérieur basée à Paris qui conçoit, scénographie et:
+      </span>
+    </ion-item>
+    <ion-item>
+      <ul class="violet-text">
+        <li>décore des lieux de vie et des espaces privés.</li>
+        <li>Trois petites pièces tristes et étriquées pour cet appartement destiné à une</li>
+        <li>meublée. Une mission : décloisonner les espaces pour une meilleure circulation,</li>
+        <li>valoriser le plan traversant pour profiter la lumière, et exploiter chaqmètre</li>
+      </ul>
+    </ion-item>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button class="btn bottom-btn" (click)="navigateTo('online-doctor')">Ok</ion-button>
+  </ion-toolbar>
+</ion-footer>

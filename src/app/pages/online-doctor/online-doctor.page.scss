@@ -1,0 +1,86 @@
+#main-text {
+  margin: auto;
+  font-size: 24px;
+}
+
+#grid-block {
+  color: #6ba0fe;
+}
+
+.grid-item {
+  width: 80%;
+  padding-top: 80%;
+  border-radius: 50%;
+  margin: auto;
+  // border: solid 1px #6ba0fe;
+  position: relative;
+
+  div {
+    position: absolute;
+    margin: auto;
+    padding-top: calc(100% - 2px);
+    background-color: white;
+    width: calc(100% - 2px);
+    /* margin: auto; */
+    top: 1px;
+    left: 1px;
+    border-radius: 50%;
+
+    ion-img {
+      position: absolute;
+      width: 40%;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+    }
+  }
+}
+
+.disabled {
+  opacity: 0.5;
+}
+
+.label {
+  width: 25px;
+  height: 25px;
+  background: linear-gradient(to right, #f56272, #f78a7b);
+  position: absolute;
+  border-radius: 50%;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+
+  ion-img {
+    width: 45%;
+  }
+}
+
+#phone-call {
+  background: linear-gradient(to bottom, #867fff, #789fff);
+}
+
+#ambulance {
+  background: linear-gradient(to bottom, #f7897a, #f56473);
+}
+
+#video-chat {
+  background: linear-gradient(to bottom, #867fff, #e44959);
+}
+
+#medical-escort {
+  background: linear-gradient(to bottom, #0181de, #867fff);
+}
+
+#schedule-appointment {
+  background: linear-gradient(to bottom, #f8d28b, #e44959);
+}
+
+#second-opinion {
+  background: linear-gradient(to bottom, #6600f1, #867fff);
+}

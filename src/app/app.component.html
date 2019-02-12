@@ -5,65 +5,71 @@
         <ion-item id="close-item" class="menu-item" (click)="menu.close()">
           <ion-icon name="close"></ion-icon>
         </ion-item>
-        <ion-item class="menu-item" (click)="navigateTo('/profile-start')">
+        <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item" (click)="navigateTo('/profile-start')">
           <span>My Profile</span>
           <div>8</div>
         </ion-item>
-        <ion-item class="menu-item">
+        <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item">
           <span>Your requests</span>
           <div>9</div>
         </ion-item>
-        <ion-item class="menu-item">
+        <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item">
           <span>Alerts</span>
           <div>10</div>
         </ion-item>
-        <ion-item class="menu-item">
+        <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item">
           <span>Weather</span>
           <div>11</div>
         </ion-item>
-        <ion-item class="menu-item">
+        <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item">
           <span>Currency Exchange Rates</span>
           <div>12</div>
         </ion-item>
-        <ion-item class="menu-item" (click)="navigateTo('/my-plan')">
+        <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item" (click)="navigateTo('/my-plan')">
           <span>SIM Card Charges</span>
           <div>13</div>
         </ion-item>
-        <ion-item class="menu-item">
+        <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item" (click)="navigateTo('/online-doctor-start')">
           <span>OnLine Doctor</span>
           <div>14</div>
         </ion-item>
-        <ion-item class="menu-item">
+        <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item">
           <span>Check Up Service</span>
           <div>15</div>
         </ion-item>
-        <ion-item class="menu-item">
+        <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item">
           <span>Insurance</span>
           <div>16</div>
         </ion-item>
-        <ion-item class="menu-item">
+        <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item">
           <span>Consular Service</span>
           <div>17</div>
         </ion-item>
-        <ion-item class="menu-item">
+        <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item">
           <span>Translation services</span>
           <div>18</div>
         </ion-item>
-        <ion-item class="menu-item">
+        <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item">
           <span>Tickets</span>
           <div>19</div>
         </ion-item>
-        <ion-item class="menu-item">
+        <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item">
           <span>Tours</span>
           <div>20</div>
         </ion-item>
-        <ion-item class="menu-item">
+        <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item">
           <span>Short time Apartments services</span>
           <div>21</div>
         </ion-item>
-        <ion-item class="menu-item">
+        <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item">
           <span>Discounts and Benefits</span>
           <div>22</div>
+        </ion-item>
+        <ion-item *ngIf="role === 'DOCTOR'" class="menu-item" (click)="navigateTo('/doctor-call-room')">
+          <span>Call Room</span>
+        </ion-item>
+        <ion-item *ngIf="role === 'DOCTOR'" class="menu-item" (click)="navigateTo('/doctor-call-list')">
+          <span>Call List</span>
         </ion-item>
       </ion-list>
     </ion-content>
