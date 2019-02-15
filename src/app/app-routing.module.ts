@@ -50,6 +50,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'doctor-call-checker',
+    loadChildren: './pages/doctor-call-checker/doctor-call-checker.module#DoctorCallCheckerPageModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'doctor-call-room',
     loadChildren: './pages/doctor-call-room/doctor-call-room.module#DoctorCallRoomPageModule',
     canActivate: [AuthGuard]
@@ -70,14 +75,19 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'client-call-room',
+    loadChildren: './pages/client-call-room/client-call-room.module#ClientCallRoomPageModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'register',
     loadChildren: './pages/register/register.module#RegisterPageModule',
-    canActivate: [GuestGuard]
+    // canActivate: [GuestGuard]
   },
   {
     path: 'login',
     loadChildren: './pages/login/login.module#LoginPageModule',
-    canActivate: [GuestGuard]
+    // canActivate: [GuestGuard]
   }
 ];
 

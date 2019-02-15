@@ -1,6 +1,34 @@
-<app-header></app-header>
+<ion-header *ngIf="showView" no-border>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-toggle>
+        <ion-button>
+          <ion-icon src="assets/screens/violet-menu-icon.svg"></ion-icon>
+        </ion-button>
+      </ion-menu-toggle>
+    </ion-buttons>
+    <ion-title class="violet-text text-center">WELCOME TO ISRAEL</ion-title>
+    <ion-buttons slot="end">
+      <ion-grid>
+        <ion-row>
+          <ion-col id="logout-col" (click)="logout()">
+            <span class="violet-text">Logout</span>
+          </ion-col>
+          <ion-col align-self-center>
+            <div id="logo">
+              <div id="top-part">
+                <div id="circle"></div>
+              </div>
+              <div id="bottom-part"></div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-<ion-content>
+<ion-content *ngIf="showView">
   <ion-grid>
     <ion-row justify-content-center>
       <ion-col size="10">
@@ -63,7 +91,8 @@
             Insurance
           </ion-col>
           <ion-col class="text-center">
-            <div *ngIf="!(!sectionsInfo.consularService.disabled && !sectionsInfo.consularService.number)" class="label">
+            <div *ngIf="!(!sectionsInfo.consularService.disabled && !sectionsInfo.consularService.number)"
+              class="label">
               <ion-img *ngIf="sectionsInfo.consularService.disabled" src="assets/screens/lock.svg"></ion-img>
               <div *ngIf="sectionsInfo.consularService.number">{{ sectionsInfo.consularService.number }}</div>
             </div>
@@ -74,7 +103,7 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col class="text-center">
+          <ion-col class="text-center" (click)="navigateTo('/online-doctor-start')">
             <div *ngIf="!(!sectionsInfo.onlineDoctor.disabled && !sectionsInfo.onlineDoctor.number)" class="label">
               <ion-img *ngIf="sectionsInfo.onlineDoctor.disabled" src="assets/screens/lock.svg"></ion-img>
               <div *ngIf="sectionsInfo.onlineDoctor.number">{{ sectionsInfo.onlineDoctor.number }}</div>

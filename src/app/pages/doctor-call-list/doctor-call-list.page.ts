@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+// import { SocketService } from '../../services/socket.service';
+
 @Component({
   selector: 'app-doctor-call-list',
   templateUrl: './doctor-call-list.page.html',
@@ -7,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DoctorCallListPage implements OnInit {
 
+  // constructor(private socket: SocketService) { }
   constructor() { }
 
   ngOnInit() {
+    // this.socket.createSocket();
   }
 
 }

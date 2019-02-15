@@ -60,6 +60,15 @@ export class ImageService {
     }
   }
 
+  public resetPhotoData() {
+    for (const image in this.imgInfo) {
+      this.imgInfo[image].src = null;
+      this.imgInfo[image].file = null;
+      this.imgInfo[image].deleted = true;
+      this.imgInfo[image].changed = false;
+    }
+  }
+
   public getPhoto(img: string) {
     this.deletePhoto(img);
     this.loading.createLoading("Please wait, uploading photo");
@@ -78,19 +87,19 @@ export class ImageService {
           const directory = imagePath.substring(0, n);
 
           this.getPromiseForFile(directory, filename, imagePath).then(
-              res => {
-                console.log(res);
-                this.imgInfo[img].file = new Blob([res[0]], { type: "image/jpeg" });
-                this.imgInfo[img].src = this.webview.convertFileSrc(this.platform.is("ios") ? imagePath : res[1]);
-                this.imgInfo[img].src = this.webview.convertFileSrc(imagePath);
-                this.imgInfo[img].deleted = false;
-                this.imgInfo[img].changed = true;
-              },
-              err => {
-                alert(this.platform.is("ios") ? JSON.stringify(err) : "Only JPEG images are allowed");
-                console.error(err);
-              }
-            )
+            res => {
+              console.log(res);
+              this.imgInfo[img].file = new Blob([res[0]], { type: "image/jpeg" });
+              this.imgInfo[img].src = this.webview.convertFileSrc(this.platform.is("ios") ? imagePath : res[1]);
+              this.imgInfo[img].src = this.webview.convertFileSrc(imagePath);
+              this.imgInfo[img].deleted = false;
+              this.imgInfo[img].changed = true;
+            },
+            err => {
+              alert(this.platform.is("ios") ? JSON.stringify(err) : "Only JPEG images are allowed");
+              console.error(err);
+            }
+          )
             .finally(() => this.loading.dismissLoading());
         },
         err => {

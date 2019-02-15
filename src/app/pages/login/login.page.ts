@@ -62,7 +62,7 @@ export class LoginPage implements OnInit {
           res => {
             alert("token and profile are stored");
             console.log(res);
-            this.router.navigateByUrl(res[1] === 'CUSTOMER' ? '/main' : '/doctor-call-room');
+            this.router.navigateByUrl(res[1] === 'CUSTOMER' ? '/main' : '/doctor-call-checker');
           },
           err => {
             alert("Error: " + JSON.stringify(err));

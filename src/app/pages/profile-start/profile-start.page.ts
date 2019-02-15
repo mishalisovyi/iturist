@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { forkJoin } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { StorageService } from '../../services/storage.service';
@@ -35,7 +34,7 @@ export class ProfileStartPage implements OnInit {
 
   public logout() {
     this.api.logout()
-      .pipe(switchMap(() => forkJoin(this.storage.remove("authorization"), this.storage.remove("profile"))))
-      .subscribe(() => this.navigateTo("/profile"));
+      .pipe(switchMap(() => this.storage.remove("token")))
+      .subscribe(() => this.navigateTo("/login"));
   }
 }

@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { forkJoin } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
 import { ApiService } from '../../services/api.service';
 import { StorageService } from '../../services/storage.service';
 
-import { Profile } from '../../models/models';
+import { BaseResponse } from "../../models/models";
 
 @Component({
   selector: 'app-main',
@@ -52,12 +55,21 @@ export class MainPage implements OnInit {
     },
   }
 
+  public showView: boolean = false;
+
   constructor(private router: Router, private api: ApiService, private storage: StorageService) { }
 
   ngOnInit() {
-    this.api.getProfile().subscribe(res => {
-      console.log(res);
-      this.storage.set<Profile>("profile", res.content);
+    // this.api.getProfile().subscribe(res => {
+    //   console.log(res);
+    //   this.storage.set<Profile>("profile", res.content);
+    // });
+    this.storage.get("role").subscribe(res => {
+      if (res === "DOCTOR") {
+        this.router.navigateByUrl("/doctor-call-checker");
+      } else {
+        this.showView = true;
+      }
     });
   }
 
@@ -67,5 +79,17 @@ export class MainPage implements OnInit {
 
   public getProfile() {
     this.api.getProfile().subscribe(res => console.log(res));
+  }
+
+  public logout() {
+    this.api.logout()
+      .pipe(switchMap(
+        (res: BaseResponse) => {
+          alert("Logout: " + JSON.stringify(res));
+          console.log(res);
+          return forkJoin(this.storage.remove("token"), this.storage.remove("profile"))
+        }
+      ))
+      .subscribe(() => this.router.navigateByUrl("/login"));
   }
 }

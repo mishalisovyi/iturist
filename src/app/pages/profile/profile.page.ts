@@ -47,7 +47,7 @@ export class ProfilePage implements OnInit {
 
   private createForm() {
     this.form = this.formBuilder.group({
-      name: ["", Validators.required],
+      name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z\\s]*$")]],
       email: ["", [Validators.required, Validators.email]],
       language: [null, Validators.required]
     });

@@ -113,6 +113,35 @@ export class ApiService {
     return this.http.patch<BaseResponse>(`${environment.api}/users/${id}`, user);
   }
 
+  postDeviceId(data): Observable<BaseResponse> {
+    return of({
+      content: {
+        success: "success"
+      },
+      metadata: {}
+    }).pipe(delay(200));
+  }
+
+  public checkCallPossibility(): Observable<BaseResponse> {
+    return of({
+      content: {
+        id: "aaaa",
+        token: "aaaaa",
+        possible: true
+      },
+      metadata: {}
+    });
+  }
+
+  public postCallInformation(info: any): Observable<BaseResponse> {
+    return of({
+      content: {
+        duration: info.duration
+      },
+      metadata: {}
+    }).pipe(delay(200));
+  }
+
 
 
   // public editProfile(data: FormData) {

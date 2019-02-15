@@ -14,7 +14,7 @@ export class GuestGuard implements CanActivate {
     return this.storage.get("authorization").pipe(
       switchMap(data => {
         const allowed = data ? false : true;
-        if (!allowed) this.router.navigateByUrl("/choose-company");
+        if (!allowed) this.router.navigateByUrl("/main");
         return of(allowed);
       })
     );

@@ -13,6 +13,10 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { File } from '@ionic-native/file/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -38,6 +42,10 @@ import { TokenInterceptor } from './services/interceptors/token.interceptor';
     WebView,
     FilePath,
     File,
+    BackgroundMode,
+    UniqueDeviceID,
+    LocalNotifications,
+    NativeAudio,
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy

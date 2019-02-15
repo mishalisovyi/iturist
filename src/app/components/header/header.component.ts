@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription, forkJoin } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
+import { switchMap, filter } from 'rxjs/operators';
 
 import { ApiService } from "../../services/api.service";
 import { StorageService } from "../../services/storage.service";
@@ -17,7 +17,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
 
   public hideBage: boolean = true;
-  public isMainPage: boolean = false;
   public isAuthorized: boolean;
 
   constructor(private router: Router, private storage: StorageService, private api: ApiService) {
@@ -26,6 +25,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     })
   }
 
+
   ngOnInit() {
     this.hideBage = this.defineHidingBage()
 
@@ -33,9 +33,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(
         filter(e => e instanceof NavigationEnd)
       )
-      .subscribe((e: NavigationEnd) => {
+      .subscribe((e: any) => {
         this.hideBage = this.defineHidingBage(e.url);
-        e.url.includes("main") ? this.isMainPage = true : this.isMainPage = false;
       });
   }
 

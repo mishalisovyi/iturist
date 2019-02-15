@@ -1,4 +1,22 @@
-<app-header></app-header>
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-grid>
+        <ion-row>
+          <ion-col align-self-center>
+            <div id="logo">
+              <div id="top-part">
+                <div id="circle"></div>
+              </div>
+              <div id="bottom-part"></div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content padding-horizontal>
   <form [formGroup]="form">
     <ion-grid>
@@ -51,6 +69,6 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button (click)="login()">Save</ion-button>
+    <ion-button (click)="login()">Sign In</ion-button>
   </ion-toolbar>
 </ion-footer>

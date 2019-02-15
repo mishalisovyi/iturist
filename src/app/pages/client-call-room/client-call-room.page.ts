@@ -2,18 +2,17 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { interval, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
-
+import { take, finalize } from 'rxjs/operators';
 import * as OT from '@opentok/client';
 
-import { environment } from '../../../environments/environment';
+import { ApiService } from "../../services/api.service";
 
 @Component({
-  selector: 'app-doctor-call-room',
-  templateUrl: './doctor-call-room.page.html',
-  styleUrls: ['./doctor-call-room.page.scss'],
+  selector: 'app-client-call-room',
+  templateUrl: './client-call-room.page.html',
+  styleUrls: ['./client-call-room.page.scss'],
 })
-export class DoctorCallRoomPage {
+export class ClientCallRoomPage {
 
   private sessionId: string;
   private userToken: string;
@@ -29,7 +28,7 @@ export class DoctorCallRoomPage {
   public callStarted: boolean;
   public callFinished: boolean;
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  constructor(private route: ActivatedRoute, private router: Router, private api: ApiService) { }
 
   ionViewWillEnter() {
     this.duration = 0;
@@ -41,13 +40,12 @@ export class DoctorCallRoomPage {
       this.userToken = res.token;
       this.apiKey = res.api;
 
-      const that = this;
       setTimeout(() => {
-        that.callStarted = true;
+        this.callStarted = true;
         this.subscription = interval(1000).pipe(take(300)).subscribe(
-          next => ++that.duration,
+          next => ++this.duration,
           err => { },
-          () => that.finishCall()
+          () => this.finishCall()
         );
       }, 2000);
 
@@ -82,9 +80,11 @@ export class DoctorCallRoomPage {
     // this.session.unsubscribe(this.subscriber);
     // this.session.unpublish(this.publisher);
     // this.session.disconnect();
+
     this.subscription.unsubscribe();
     this.callFinished = true;
-    this.router.navigateByUrl("/doctor-call-checker");
+
+    this.api.postCallInformation({ duration: this.duration }).pipe(finalize(() => this.router.navigateByUrl("/online-doctor"))).subscribe();
   }
 
   public getMinutes() {

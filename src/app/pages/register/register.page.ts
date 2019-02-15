@@ -42,9 +42,13 @@ export class RegisterPage implements OnInit {
     this.createForm();
   }
 
+  ionViewWillEnter() {
+    this.image.resetPhotoData();
+  }
+
   private createForm() {
     this.form = this.formBuilder.group({
-      name: ["", Validators.required],
+      name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z\\s]*$")]],
       email: ["", [Validators.required, Validators.email]],
       password: ["", [Validators.required, PasswordValidator.password]],
       confirmPassword: ["", Validators.required],
@@ -96,11 +100,11 @@ export class RegisterPage implements OnInit {
     });
   }
 
-  public register() {
+  public async register() {
     this.submitTry = true;
 
     if (this.form.valid) {
-      this.loading.createLoading("Registering");
+      await this.loading.createLoading("Registering");
       this.postTextData().then(
         res => this.storage.set("token", res.content.token)
           .pipe(switchMap(() => from(this.postImages())))
@@ -116,8 +120,7 @@ export class RegisterPage implements OnInit {
             }
           ),
         err => {
-          console.log(err);
-          alert(JSON.stringify(err));
+          if (err.error.metadata.api_error_codes.includes(103)) alert("User with email are already exists");
           this.loading.dismissLoading();
         }
       );
@@ -145,5 +148,9 @@ export class RegisterPage implements OnInit {
         }
       }
     }
+  }
+
+  public navigate(url: string) {
+    this.router.navigateByUrl(url);
   }
 }

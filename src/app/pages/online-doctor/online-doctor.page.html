@@ -11,10 +11,6 @@
       <ion-col size="10">
         <ion-row>
           <ion-col class="text-center">
-            <!-- <div *ngIf="!(!sectionsInfo.securityAlerts.disabled && !sectionsInfo.securityAlerts.number)" class="label">
-              <ion-img *ngIf="sectionsInfo.securityAlerts.disabled" src="assets/screens/lock.svg"></ion-img>
-              <div *ngIf="sectionsInfo.securityAlerts.number">{{ sectionsInfo.securityAlerts.number }}</div>
-            </div> -->
             <div id="phone-call" class="grid-item">
               <div>
                 <ion-img src="assets/screens/phone-call.svg"></ion-img>
@@ -23,10 +19,6 @@
             Security Alerts
           </ion-col>
           <ion-col class="text-center">
-            <!-- <div *ngIf="!(!sectionsInfo.currencyRates.disabled && !sectionsInfo.currencyRates.number)" class="label">
-              <ion-img *ngIf="sectionsInfo.currencyRates.disabled" src="assets/screens/lock.svg"></ion-img>
-              <div *ngIf="sectionsInfo.currencyRates.number">{{ sectionsInfo.currencyRates.number }}</div>
-            </div> -->
             <div id="ambulance" class="grid-item">
               <div>
                 <ion-img src="assets/screens/ambulance.svg"></ion-img>
@@ -37,10 +29,6 @@
         </ion-row>
         <ion-row>
           <ion-col class="text-center">
-            <!-- <div *ngIf="!(!sectionsInfo.simCard.disabled && !sectionsInfo.simCard.number)" class="label">
-              <ion-img *ngIf="sectionsInfo.simCard.disabled" src="assets/screens/lock.svg"></ion-img>
-              <div *ngIf="sectionsInfo.simCard.number">{{ sectionsInfo.simCard.number }}</div>
-            </div> -->
             <div id="video-chat" class="grid-item">
               <div>
                 <ion-img src="assets/screens/video-chat.svg"></ion-img>
@@ -49,10 +37,6 @@
             Sim Card
           </ion-col>
           <ion-col class="text-center">
-            <!-- <div *ngIf="!(!sectionsInfo.insurance.disabled && !sectionsInfo.insurance.number)" class="label">
-              <ion-img *ngIf="sectionsInfo.insurance.disabled" src="assets/screens/lock.svg"></ion-img>
-              <div *ngIf="sectionsInfo.insurance.number">{{ sectionsInfo.insurance.number }}</div>
-            </div> -->
             <div id="medical-escort" class="grid-item">
               <div>
                 <ion-img src="assets/screens/medical-escort.svg"></ion-img>
@@ -62,11 +46,7 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col class="text-center">
-            <!-- <div *ngIf="!(!sectionsInfo.onlineDoctor.disabled && !sectionsInfo.onlineDoctor.number)" class="label">
-              <ion-img *ngIf="sectionsInfo.onlineDoctor.disabled" src="assets/screens/lock.svg"></ion-img>
-              <div *ngIf="sectionsInfo.onlineDoctor.number">{{ sectionsInfo.onlineDoctor.number }}</div>
-            </div> -->
+          <ion-col class="text-center" (click)="callDoctor()">
             <div id="schedule-appointment" class="grid-item">
               <div>
                 <ion-img src="assets/screens/schedule-appointment.svg"></ion-img>
@@ -75,11 +55,6 @@
             OnLine Doctor
           </ion-col>
           <ion-col class="text-center">
-            <!-- <div *ngIf="!(!sectionsInfo.translationServices.disabled && !sectionsInfo.translationServices.number)"
-              class="label">
-              <ion-img *ngIf="sectionsInfo.translationServices.disabled" src="assets/screens/lock.svg"></ion-img>
-              <div *ngIf="sectionsInfo.translationServices.number">{{ sectionsInfo.translationServices.number }}</div>
-            </div> -->
             <div id="second-opinion" class="grid-item">
               <div>
                 <ion-img src="assets/screens/second-opinion.svg"></ion-img>

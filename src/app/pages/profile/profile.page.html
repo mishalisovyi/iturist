@@ -12,7 +12,8 @@
               <ion-img src="assets/screens/upload-img.svg"></ion-img>
             </div>
           </div>
-          <div *ngIf="image.imgInfo.profile.src" id="img-block" [ngStyle]="{'background-image': 'url(' + image.imgInfo.profile.src + ')'}"
+          <div *ngIf="image.imgInfo.profile.src" id="img-block"
+            [ngStyle]="{'background-image': 'url(' + image.imgInfo.profile.src + ')'}"
             (click)="image.getPhoto('profile')">
             <div id="label">
               <ion-img src="assets/screens/upload-img.svg"></ion-img>
@@ -37,13 +38,16 @@
             </ion-fab-button>
           </ng-container>
           <ng-container *ngIf="editInfo">
-            <ion-item class="violet-text register-form-field" [class.error-field]="submitTry && form.get('name').invalid">
+            <ion-item class="violet-text register-form-field"
+              [class.error-field]="submitTry && form.get('name').invalid">
               <ion-input type="text" formControlName="name" placeholder="Name"></ion-input>
             </ion-item>
-            <ion-item class="violet-text register-form-field" [class.error-field]="submitTry && form.get('email').invalid">
+            <ion-item class="violet-text register-form-field"
+              [class.error-field]="submitTry && form.get('email').invalid">
               <ion-input type="email" formControlName="email" placeholder="E-mail address"></ion-input>
             </ion-item>
-            <ion-item no-padding class="violet-text select-field" [class.error-field]="submitTry && form.get('language').invalid">
+            <ion-item no-padding class="violet-text select-field"
+              [class.error-field]="submitTry && form.get('language').invalid">
               <div></div>
               <ion-select formControlName="language" placeholder="Select language">
                 <ion-select-option value="En">English</ion-select-option>
@@ -52,6 +56,9 @@
             </ion-item>
             <ion-item *ngIf="submitTry && form.get('name').hasError('required')" class="red-text">
               <span>Name is required.</span>
+            </ion-item>
+            <ion-item *ngIf="submitTry && form.get('name').hasError('pattern')" class="red-text">
+              <span>Only a-z, A-Z letters and whitespaces not at the beginning are allowed in name.</span>
             </ion-item>
             <ion-item *ngIf="submitTry && form.get('email').hasError('required')" class="red-text">
               <span>Email is required.</span>
@@ -83,7 +90,8 @@
               <ion-img src="assets/screens/delete-img.svg"></ion-img>
             </div>
             <ion-button class="attach-btn">
-              <div class="btn-img-wrapper" [ngStyle]="{'background-image': 'url(' + image.imgInfo.airline.src + ')'}"></div>
+              <div class="btn-img-wrapper" [ngStyle]="{'background-image': 'url(' + image.imgInfo.airline.src + ')'}">
+              </div>
               <span class="hidden">airline tickets</span>
             </ion-button>
           </div>
@@ -102,7 +110,8 @@
               <ion-img src="assets/screens/delete-img.svg"></ion-img>
             </div>
             <ion-button class="attach-btn">
-              <div class="btn-img-wrapper" [ngStyle]="{'background-image': 'url(' + image.imgInfo.travel.src + ')'}"></div>
+              <div class="btn-img-wrapper" [ngStyle]="{'background-image': 'url(' + image.imgInfo.travel.src + ')'}">
+              </div>
               <span class="hidden">travel insurance</span>
             </ion-button>
           </div>
@@ -123,7 +132,8 @@
               <ion-img src="assets/screens/delete-img.svg"></ion-img>
             </div>
             <ion-button class="attach-btn">
-              <div class="btn-img-wrapper" [ngStyle]="{'background-image': 'url(' + image.imgInfo.passport.src + ')'}"></div>
+              <div class="btn-img-wrapper" [ngStyle]="{'background-image': 'url(' + image.imgInfo.passport.src + ')'}">
+              </div>
               <span class="hidden">passport</span>
             </ion-button>
           </div>
