@@ -1,6 +1,6 @@
 <ion-header no-border>
   <ion-toolbar>
-    <ion-buttons [hidden]="currentUrl === '/register' || currentUrl === '/login'" slot="start">
+    <ion-buttons slot="start">
       <ion-menu-toggle>
         <ion-button>
           <ion-icon src="assets/screens/violet-menu-icon.svg"></ion-icon>
@@ -10,7 +10,7 @@
     <ion-buttons slot="end">
       <ion-grid>
         <ion-row>
-          <ion-col *ngIf="!isMainPage" [class.hidden]="hideBage">
+          <ion-col [class.hidden]="hideBage">
             <ion-badge>Your plan</ion-badge>
           </ion-col>
           <ion-col id="logout-col" [hidden]="!isAuthorized" (click)="logout()">
