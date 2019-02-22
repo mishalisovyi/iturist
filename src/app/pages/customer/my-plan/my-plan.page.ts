@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { ApiService } from '../../../services/api.service';
 
-import { Plan } from "../../../models/models";
+// import { Plan } from "../../../models/models";
 
 @Component({
   selector: 'app-my-plan',
@@ -12,7 +12,8 @@ import { Plan } from "../../../models/models";
 })
 export class MyPlanPage implements OnInit {
 
-  public plan: Plan;
+  // public plan: Plan;
+  public plan: any;
 
   private companyId: number;
 
@@ -24,7 +25,8 @@ export class MyPlanPage implements OnInit {
   }
 
   private getMyPlan() {
-    this.api.getMyPlan().subscribe((res: Plan) => this.plan = res);
+    // this.api.getMyPlan().subscribe((res: Plan) => this.plan = res);
+    this.api.getMyPlan().subscribe(res => this.plan = res);
   }
 
   private getMyCompanyId() {

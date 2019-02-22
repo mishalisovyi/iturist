@@ -191,19 +191,20 @@ export class ConfirmPlanPage implements OnInit {
 
   public confirmPlan() {
     this.browser = this.iab.create(
-      "https://direct.tranzila.com/yoo/iframenew.php?hidesum=1&currency=1&tranmode=AK&sum=0.1",
+      // "https://direct.tranzila.com/yoo/iframenew.php?hidesum=1&currency=1&tranmode=AK&sum=0.1",
+      "https://www.google.com.ua/",
       "_blank",
-      { beforeload: "yes", hideurlbar: "yes" }
+      "hideurlbar=yes"
     );
     this.browser.insertCSS({ code: this.tranzilaCss });
     if (this.platform.is('android')) this.browser.hide();
+
     this.browser.on("loadstop").subscribe(() => {
       this.browser.insertCSS({ code: this.tranzilaCss }).then(() => {
         if (this.platform.is('android')) this.browser.show();
       });
       // if(this.platform.is('ios')) this.browser.executeScript({ code: this.tranzilaScript });
     })
-
 
     // this.browser.hide();
     // this.browser.on("loadstop").subscribe(() => {
