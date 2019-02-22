@@ -17,6 +17,7 @@ import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { NativeAudio } from '@ionic-native/native-audio/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -46,6 +47,7 @@ import { TokenInterceptor } from './services/interceptors/token.interceptor';
     UniqueDeviceID,
     LocalNotifications,
     NativeAudio,
+    InAppBrowser,
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy

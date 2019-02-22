@@ -1,0 +1,55 @@
+<app-header></app-header>
+
+<ion-content>
+  <div id="text-block" class="violet-text bold-text font-size-16">Choose plan</div>
+  <ion-card class="violet-text" *ngFor="let plan of plans" (click)="selectPlan(plan.id)">
+    <ion-card-content>
+      <ion-grid>
+        <ion-row justify-content-between>
+          <ion-col align-self-end class="font-size-16"><span class="bold-text">{{ plan.title }}</span></ion-col>
+          <ion-col class="col-auto font-size-20">{{ plan.price }}$</ion-col>
+        </ion-row>
+        <ion-row id="three-chips-container" justify-content-between>
+          <ion-col size="9">
+            <ion-row>
+              <ion-col class="col-auto text-center">
+                <ion-chip>
+                  <ion-icon name="call"></ion-icon>
+                </ion-chip>
+                <p class="bold-text mt-5">{{ plan.calls }}</p>
+              </ion-col>
+              <ion-col class="col-auto text-center">
+                <ion-chip>
+                  <ion-icon name="wifi"></ion-icon>
+                </ion-chip>
+                <p class="bold-text mt-5">{{ plan.traffic }} GB</p>
+              </ion-col>
+              <ion-col class="col-auto text-center">
+                <ion-chip>
+                  <ion-icon name="mail"></ion-icon>
+                </ion-chip>
+                <p class="bold-text mt-5">{{ plan.emails }}</p>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+          <ion-col class="col-auto">
+            <ion-chip *ngIf="plan.id !== selectedPlanId; else checkedChip" id="choose-chip">
+              <span class="bold-text">choose</span>
+            </ion-chip>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button class="btn bottom-btn" (click)="navigateToConfirmPlan()">Checkout</ion-button>
+  </ion-toolbar>
+</ion-footer>
+
+<ng-template #checkedChip>
+  <ion-chip id="checked-chip">
+    <ion-icon name="checkmark"></ion-icon>
+  </ion-chip>
+</ng-template>

@@ -1,0 +1,53 @@
+<app-header></app-header>
+
+<ion-content padding>
+  <ion-item class="violet-text">
+    <span id="top-label" text-center class="w-100">Please, select a callee</span>
+  </ion-item>
+  <ion-card class="violet-text" *ngFor="let callee of callees">
+    <ion-card-content>
+      <ion-item class="violet-text">
+        <span><span class="bold-text">Callee: </span>{{ callee.name }}</span>
+      </ion-item>
+      <ion-item class="violet-text">
+        <span><span class="bold-text">Last call: </span>{{ callee.lastCall | date: 'short' }}</span>
+      </ion-item>
+      <!-- <ion-grid>
+        aaaa
+        <ion-row justify-content-between>
+          <ion-col align-self-end class="font-size-16"><span class="bold-text">{{ plan.title }}</span></ion-col>
+          <ion-col class="col-auto font-size-20">{{ plan.price }}$</ion-col>
+        </ion-row>
+        <ion-row id="three-chips-container" justify-content-between>
+          <ion-col size="9">
+            <ion-row>
+              <ion-col class="col-auto text-center">
+                <ion-chip>
+                  <ion-icon name="call"></ion-icon>
+                </ion-chip>
+                <p class="bold-text mt-5">{{ plan.calls }}</p>
+              </ion-col>
+              <ion-col class="col-auto text-center">
+                <ion-chip>
+                  <ion-icon name="wifi"></ion-icon>
+                </ion-chip>
+                <p class="bold-text mt-5">{{ plan.traffic }} GB</p>
+              </ion-col>
+              <ion-col class="col-auto text-center">
+                <ion-chip>
+                  <ion-icon name="mail"></ion-icon>
+                </ion-chip>
+                <p class="bold-text mt-5">{{ plan.emails }}</p>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+          <ion-col class="col-auto">
+            <ion-chip *ngIf="plan.id !== selectedPlanId; else checkedChip" id="choose-chip">
+              <span class="bold-text">choose</span>
+            </ion-chip>
+          </ion-col>
+        </ion-row>
+      </ion-grid> -->
+    </ion-card-content>
+  </ion-card>
+</ion-content>

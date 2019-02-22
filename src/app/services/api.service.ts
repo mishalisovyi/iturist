@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 
 import { of, Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -22,40 +22,50 @@ export class ApiService {
 
   private _isOrderedSimCard: boolean = false;
 
-  public get isOrderedSimCard(): boolean {
-    return this._isOrderedSimCard;
-  }
+  // public get isOrderedSimCard(): boolean {
+  //   return this._isOrderedSimCard;
+  // }
 
-  public set isOrderedSimCard(isOrdered: boolean) {
-    this._isOrderedSimCard = isOrdered;
+  // public set isOrderedSimCard(isOrdered: boolean) {
+  //   this._isOrderedSimCard = isOrdered;
+  // }
+
+  public isChoosedCompany(): Observable<BaseResponse> {
+    return of({
+      content: _.sample([true, false]),
+      metadata: {}
+    }).pipe(delay(100));
   }
 
   public orderSim(data: any): Observable<any> {
     return of(data).pipe(delay(200));
   }
 
-  public getPlans(id: string): Observable<Array<any>> {
-    const plans: Array<any> = [];
-    for (let i = 0; i < _.random(3, 10); ++i) {
-      plans.push({
-        id: _.random(1, 100000),
-        calls: _.random(1, 500),
-        internet: _.random(1, 200),
-        sms: _.random(1, 200),
-        price: _.random(1, 100)
-      })
-    }
-    return of(plans).pipe(delay(200));
+  public getCompanies() {
+    return this.http.get<BaseResponse>(`${environment.api}/companies`);
   }
 
-  public getPlan(id: string): Observable<any> {
+  public getPlans(id: string): Observable<any> {
+    const httpParams = new HttpParams().set("company_id", id);
+    return this.http.get<BaseResponse>(`${environment.api}/simpackages`, { params: httpParams });
+  }
+
+  public getCallees(): Observable<BaseResponse> {
+    const callees: Array<any> = [];
+    for (let i = 0; i < _.random(2, 6); ++i) {
+      callees.push({
+        name: `Callee ${i + 1}`,
+        lastCall: new Date().toISOString()
+      })
+    }
     return of({
-      id: _.random(1, 100000),
-      calls: _.random(1, 500),
-      internet: _.random(1, 200),
-      sms: _.random(1, 200),
-      price: _.random(1, 100)
+      content: callees,
+      metadata: {}
     }).pipe(delay(200));
+  }
+
+  public getPlan(id: string): Observable<BaseResponse> {
+    return this.http.get<BaseResponse>(`${environment.api}/simpackages/${id}`);
   }
 
   public getMyPlan(): Observable<any> {

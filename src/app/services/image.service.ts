@@ -5,6 +5,7 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { File as IonicFile } from '@ionic-native/file/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 
 import { LoadingService } from "./loading.service";
 
@@ -46,7 +47,8 @@ export class ImageService {
     private webview: WebView,
     private file: IonicFile,
     private loading: LoadingService,
-    private platform: Platform
+    private platform: Platform,
+    private backgroundMode: BackgroundMode
   ) { }
 
   private getPromiseForFile(directory: any, filename: any, imagePath: any): Promise<any> {
@@ -70,6 +72,8 @@ export class ImageService {
   }
 
   public getPhoto(img: string) {
+
+    this.backgroundMode.disable();
     this.deletePhoto(img);
     this.loading.createLoading("Please wait, uploading photo");
 
@@ -81,32 +85,39 @@ export class ImageService {
       })
       .then(
         imagePath => {
+          console.log("image is readed");
           const n = imagePath.lastIndexOf("/");
           const x = imagePath.lastIndexOf("g");
           const filename = imagePath.substring(n + 1, x + 1);
           const directory = imagePath.substring(0, n);
 
-          this.getPromiseForFile(directory, filename, imagePath).then(
-            res => {
-              console.log(res);
-              this.imgInfo[img].file = new Blob([res[0]], { type: "image/jpeg" });
-              this.imgInfo[img].src = this.webview.convertFileSrc(this.platform.is("ios") ? imagePath : res[1]);
-              this.imgInfo[img].src = this.webview.convertFileSrc(imagePath);
-              this.imgInfo[img].deleted = false;
-              this.imgInfo[img].changed = true;
-            },
-            err => {
-              alert(this.platform.is("ios") ? JSON.stringify(err) : "Only JPEG images are allowed");
-              console.error(err);
-            }
-          )
-            .finally(() => this.loading.dismissLoading());
+          this.getPromiseForFile(directory, filename, imagePath)
+            .then(
+              res => {
+                console.log(res);
+                this.imgInfo[img].file = new Blob([res[0]], { type: "image/jpeg" });
+                this.imgInfo[img].src = this.webview.convertFileSrc(this.platform.is("ios") ? imagePath : res[1]);
+                this.imgInfo[img].src = this.webview.convertFileSrc(imagePath);
+                this.imgInfo[img].deleted = false;
+                this.imgInfo[img].changed = true;
+              },
+              err => {
+                alert(this.platform.is("ios") ? JSON.stringify(err) : "Only JPEG images are allowed");
+                console.error(err);
+              }
+            )
+            .finally(() => {
+              this.loading.dismissLoading();
+              this.backgroundMode.enable();
+            });
         },
         err => {
           console.error(err);
+          alert(JSON.stringify(err));
           this.loading.dismissLoading();
         }
-      );
+      )
+      .finally(() => this.backgroundMode.enable());
   }
 
   public deletePhoto(img: string) {
