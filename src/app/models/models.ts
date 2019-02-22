@@ -11,6 +11,17 @@ export interface Profile {
   passport_image?: string;
 }
 
+export interface Plan {
+  calls: number;
+  company: string;
+  company_id: number;
+  emails: number;
+  id: number;
+  price: string;
+  title: string;
+  traffic: number;
+}
+
 /* Request models */
 
 export interface ProfileEditRequest {

@@ -5,11 +5,11 @@
         <ion-item id="close-item" class="menu-item" (click)="menu.close()">
           <ion-icon name="close"></ion-icon>
         </ion-item>
-        <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item" (click)="navigateTo('/profile-start')">
+        <ion-item class="menu-item" (click)="navigateTo('/profile-start')">
           <span>My Profile</span>
-          <div>8</div>
+          <!-- <div>8</div> -->
         </ion-item>
-        <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item">
+        <!-- <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item">
           <span>Your requests</span>
           <div>9</div>
         </ion-item>
@@ -24,12 +24,12 @@
         <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item">
           <span>Currency Exchange Rates</span>
           <div>12</div>
-        </ion-item>
-        <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item" (click)="navigateTo('/my-plan')">
+        </ion-item> -->
+        <ion-item class="menu-item" (click)="determineIsChoosedCompany()">
           <span>SIM Card Charges</span>
-          <div>13</div>
+          <!-- <div>13</div> -->
         </ion-item>
-        <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item" (click)="navigateTo('/online-doctor-start')">
+        <!-- <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item" (click)="navigateTo('/online-doctor-start')">
           <span>OnLine Doctor</span>
           <div>14</div>
         </ion-item>
@@ -71,6 +71,9 @@
         <ion-item *ngIf="role === 'DOCTOR'" class="menu-item" (click)="navigateTo('/doctor-call-list')">
           <span>Calls List</span>
         </ion-item>
+        <ion-item *ngIf="role === 'DOCTOR'" class="menu-item" (click)="navigateTo('/callees-list')">
+          <span>Recipes</span>
+        </ion-item> -->
       </ion-list>
     </ion-content>
   </ion-menu>
