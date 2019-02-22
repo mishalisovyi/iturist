@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 // import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { Platform } from '@ionic/angular';
 
 import { AlertController } from '@ionic/angular';
 import { InAppBrowser, InAppBrowserObject } from '@ionic-native/in-app-browser/ngx';
@@ -65,10 +66,7 @@ export class ConfirmPlanPage implements OnInit {
       border-radius: 0 !important;
       background: linear-gradient(to right, #6c9eff, #a25ffd) !important;
       height: 60px !important;
-      position: fixed;
-      bottom: 0;
-      right: 0;
-      left: 0;
+      margin-top: 30px !important
     }
     input, select {
       height: 40px;
@@ -82,6 +80,28 @@ export class ConfirmPlanPage implements OnInit {
       left: -5px !important;
     }
   `;
+  private tranzilaScript: string = `
+    window.addEventListener("click", function(e) {
+      console.log('click', e);
+      if (e.target.localName !== "input" && e.target.localName !== "select") {
+        document.activeElement.blur();
+        alert("close");
+        console.log(document.activeElement);
+      }
+    });
+  `
+
+  // private tranzilaScript: string = `
+  //   document.addEventListener("click", function(e) {
+  //     const el = document.activeElement;
+  //     alert(el);
+  //     if(el !== document.getElementById("ccno")) document.getElementById("ccno").blur();
+  //     if(el !== document.getElementById("expmonth")) document.getElementById("expmonth").blur();
+  //     if(el !== document.getElementById("expyear")) document.getElementById("expyear").blur();
+  //     if(el !== document.getElementById("mycvv")) document.getElementById("mycvv").blur();
+  //     if(el !== document.getElementById("myid")) document.getElementById("myid").blur();
+  //   });
+  // `
 
   // public creditCardForm: FormGroup;
   // public payPalForm: FormGroup;
@@ -96,7 +116,8 @@ export class ConfirmPlanPage implements OnInit {
     // private formBuilder: FormBuilder,
     private alert: AlertController,
     private api: ApiService,
-    private iab: InAppBrowser
+    private iab: InAppBrowser,
+    private platform: Platform
   ) { }
 
   ngOnInit() {
@@ -174,10 +195,23 @@ export class ConfirmPlanPage implements OnInit {
       "_blank",
       { beforeload: "yes", hideurlbar: "yes" }
     );
-    this.browser.hide();
+    this.browser.insertCSS({ code: this.tranzilaCss });
+    if (this.platform.is('android')) this.browser.hide();
     this.browser.on("loadstop").subscribe(() => {
-      this.browser.insertCSS({ code: this.tranzilaCss }).then(() => this.browser.show());
+      this.browser.insertCSS({ code: this.tranzilaCss }).then(() => {
+        if (this.platform.is('android')) this.browser.show();
+      });
+      // if(this.platform.is('ios')) this.browser.executeScript({ code: this.tranzilaScript });
     })
+
+
+    // this.browser.hide();
+    // this.browser.on("loadstop").subscribe(() => {
+    //   this.browser.insertCSS({ code: this.tranzilaCss }).then(() => this.browser.show());
+    // })
+
+
+
     // this.browser.on("exit").subscribe((res: InAppBrowserEvent) => console.log("exit", res));
     // this.browser.on("message").subscribe((res: InAppBrowserEvent) => console.log("message", res));
 

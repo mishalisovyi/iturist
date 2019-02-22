@@ -98,7 +98,6 @@ import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
-import { NativeAudio } from '@ionic-native/native-audio/ngx';
 
 import { switchMap } from 'rxjs/operators';
 
@@ -126,7 +125,6 @@ export class DoctorCallCheckerPage implements OnInit {
     private socket: SocketService,
     private deviceId: UniqueDeviceID,
     private notifications: LocalNotifications,
-    private audio: NativeAudio,
     private platform: Platform
   ) { }
 
@@ -184,7 +182,6 @@ export class DoctorCallCheckerPage implements OnInit {
           title: 'iTurist',
           text: 'You have incoming call in iTurist application right now. Please, open Call Room to accept the call.'
         });
-        that.audio.loop('ringtone').then(res => console.log(res));
       });
     })
   }
@@ -205,8 +202,7 @@ export class DoctorCallCheckerPage implements OnInit {
     this.router.navigateByUrl(path);
   }
 
-  public async acceptCall() {
-    await this.audio.stop('ringtone');
+  public acceptCall() {
     this.incomingCall = false;
     this.router.navigate(['/doctor-call-room'], { queryParams: { id: this.socketReceiveData.id, token: this.socketReceiveData.token, key: this.socketReceiveData.key } });
     console.log("accept call");

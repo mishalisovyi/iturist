@@ -5,7 +5,6 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { File as IonicFile } from '@ionic-native/file/ngx';
-import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 
 import { LoadingService } from "./loading.service";
 
@@ -47,8 +46,7 @@ export class ImageService {
     private webview: WebView,
     private file: IonicFile,
     private loading: LoadingService,
-    private platform: Platform,
-    private backgroundMode: BackgroundMode
+    private platform: Platform
   ) { }
 
   private getPromiseForFile(directory: any, filename: any, imagePath: any): Promise<any> {
@@ -73,7 +71,6 @@ export class ImageService {
 
   public getPhoto(img: string) {
 
-    this.backgroundMode.disable();
     this.deletePhoto(img);
     this.loading.createLoading("Please wait, uploading photo");
 
@@ -106,10 +103,7 @@ export class ImageService {
                 console.error(err);
               }
             )
-            .finally(() => {
-              this.loading.dismissLoading();
-              this.backgroundMode.enable();
-            });
+            .finally(() => this.loading.dismissLoading())
         },
         err => {
           console.error(err);
@@ -117,7 +111,6 @@ export class ImageService {
           this.loading.dismissLoading();
         }
       )
-      .finally(() => this.backgroundMode.enable());
   }
 
   public deletePhoto(img: string) {

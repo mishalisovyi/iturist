@@ -3,7 +3,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { interval, Subscription } from 'rxjs';
 import { take, finalize } from 'rxjs/operators';
-import * as OT from '@opentok/client';
 
 import { ApiService } from "../../../services/api.service";
 
