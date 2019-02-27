@@ -6,7 +6,7 @@
           <ion-icon name="close"></ion-icon>
         </ion-item>
         <ion-item class="menu-item" (click)="navigateTo('/profile-start')">
-          <span>My Profile</span>
+          <span>{{ text?.my_profile }}</span>
           <!-- <div>8</div> -->
         </ion-item>
         <!-- <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item">
@@ -26,7 +26,7 @@
           <div>12</div>
         </ion-item> -->
         <ion-item class="menu-item" (click)="determineIsChoosedCompany()">
-          <span>SIM Card Charges</span>
+          <span>{{ text?.sim_card_charges }}</span>
           <!-- <div>13</div> -->
         </ion-item>
         <!-- <ion-item *ngIf="role === 'CUSTOMER'" class="menu-item" (click)="navigateTo('/online-doctor-start')">

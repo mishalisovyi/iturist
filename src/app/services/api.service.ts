@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
+
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { Facebook } from '@ionic-native/facebook/ngx';
 
 import { of, Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -18,7 +21,12 @@ import { environment } from '../../environments/environment';
 })
 export class ApiService {
 
-  constructor(private http: HttpClient, private storage: StorageService) { }
+  constructor(
+    private http: HttpClient,
+    private storage: StorageService,
+    private googlePlus: GooglePlus,
+    private fb: Facebook
+  ) { }
 
   private _isOrderedSimCard: boolean = false;
 
@@ -94,6 +102,14 @@ export class ApiService {
     return this.http.post<BaseResponse>(`${environment.api}/registration`, data);
   }
 
+  public socialRegister(data: { type: string, social_token: string }): Observable<BaseResponse> {
+    return this.http.post<BaseResponse>(`${environment.api}/social-registration`, data);
+  }
+
+  public socialUnregister(data: { type: string }): Observable<BaseResponse> {
+    return this.http.post<BaseResponse>(`${environment.api}/social-unregistration`, data);
+  }
+
   public postImages(data: FormData) {
     // const headers = new HttpHeaders({
     //   "cache-control": "no-cache"
@@ -103,12 +119,28 @@ export class ApiService {
     return this.http.post<BaseResponse>(`${environment.api}/user/profile/photo`, data);
   }
 
+  public googleLogin(data: { token: string }): Observable<BaseResponse> {
+    return this.http.post<BaseResponse>(`${environment.api}/login-google`, data);
+  }
+
+  public facebookLogin(data: { token: string }): Observable<BaseResponse> {
+    return this.http.post<BaseResponse>(`${environment.api}/login-facebook`, data);
+  }
+
   public login(data: FormData): Observable<BaseResponse> {
     return this.http.post<BaseResponse>(`${environment.api}/login`, data);
   }
 
   public logout(): Observable<BaseResponse> {
     return this.http.get<BaseResponse>(`${environment.api}/logout`);
+  }
+
+  public async googleLogout() {
+    await this.googlePlus.disconnect();
+  }
+
+  public async facebookLogout() {
+    await this.fb.logout();
   }
 
   public getToken(): Observable<any> {

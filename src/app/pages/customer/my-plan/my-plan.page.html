@@ -1,7 +1,7 @@
 <app-header></app-header>
 
 <ion-content>
-  <div id="text-block" class="violet-text bold-text font-size-16">Your plan</div>
+  <div id="text-block" class="violet-text bold-text font-size-16">{{ text?.your_plan }}</div>
   <ion-card class="violet-text">
     <ion-card-content>
       <ion-grid>
@@ -41,6 +41,6 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button class="btn bottom-btn" (click)="navigateToChoosePlan()">Choose another plan</ion-button>
+    <ion-button class="btn bottom-btn" (click)="navigateToChoosePlan()">{{ text?.choose_another_plan }}</ion-button>
   </ion-toolbar>
 </ion-footer>

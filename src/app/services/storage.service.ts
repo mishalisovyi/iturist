@@ -30,7 +30,7 @@ export class StorageService {
 
   remove<T>(key: string): Observable<any> {
     if (!key) throw Error('argument "key" is required');
-    return from(this.storage.remove(this.key(key))).pipe(map(res => { }));
+    return from(this.storage.remove(this.key(key)));
   }
 
   key(key: string): string {

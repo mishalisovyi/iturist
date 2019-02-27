@@ -3,22 +3,14 @@
 <ion-content>
   <ion-grid id="container">
     <ion-row id="text-block" class="violet-text">
-      <ion-col>Choose a media company</ion-col>
+      <ion-col>{{ text?.choose_company }}</ion-col>
     </ion-row>
     <ion-row id="main-block" justify-content-center>
       <ion-col size="7" size-md="6" size-lg="3">
         <ion-grid class="h-100">
           <ion-row class="media-company-row">
             <ion-col align-self-center>
-              <ion-button id="first-company" class="w-100 company-btn" [class.disabled-btn]="selectedCompanyId !== 0"
-                (click)="selectCompany(0)">
-                <div></div>
-              </ion-button>
-            </ion-col>
-          </ion-row>
-          <ion-row class="media-company-row">
-            <ion-col align-self-center>
-              <ion-button id="second-company" class="w-100 company-btn" [class.disabled-btn]="selectedCompanyId !== 1"
+              <ion-button id="first-company" class="w-100 company-btn" [class.disabled-btn]="selectedCompanyId !== 1"
                 (click)="selectCompany(1)">
                 <div></div>
               </ion-button>
@@ -26,8 +18,16 @@
           </ion-row>
           <ion-row class="media-company-row">
             <ion-col align-self-center>
-              <ion-button id="third-company" class="w-100 company-btn" [class.disabled-btn]="selectedCompanyId !== 2"
+              <ion-button id="second-company" class="w-100 company-btn" [class.disabled-btn]="selectedCompanyId !== 2"
                 (click)="selectCompany(2)">
+                <div></div>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+          <ion-row class="media-company-row">
+            <ion-col align-self-center>
+              <ion-button id="third-company" class="w-100 company-btn" [class.disabled-btn]="selectedCompanyId !== 3"
+                (click)="selectCompany(3)">
                 <div></div>
               </ion-button>
             </ion-col>
@@ -46,6 +46,6 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button class="btn bottom-btn" (click)="navigateToChoosePlanPage()">Choose plan</ion-button>
+    <ion-button class="btn bottom-btn" (click)="navigateToChoosePlanPage()">{{ text?.choose_plan }}</ion-button>
   </ion-toolbar>
 </ion-footer>

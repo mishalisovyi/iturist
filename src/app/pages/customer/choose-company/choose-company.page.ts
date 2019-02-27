@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ApiService } from '../../../services/api.service';
+import { LanguageService } from "../../../services/language.service";
 
 import { BaseResponse } from "../../../models/models";
 
@@ -15,11 +16,21 @@ export class ChooseCompanyPage {
   public isOrderedSimCard: boolean;
   public companyIsSelected: boolean = false;
   public selectedCompanyId: number;
+  public text: any;
 
-  constructor(private router: Router, private api: ApiService) { }
+  constructor(
+    private router: Router,
+    private api: ApiService,
+    private language: LanguageService
+  ) { }
 
   ionViewWillEnter() {
     this.api.getCompanies().subscribe((res: BaseResponse) => console.log(res));
+    this.getPageText();
+  }
+
+  private getPageText() {
+    this.text = this.language.getTextByCategories("choose_company");
   }
 
   public selectCompany(id: number) {

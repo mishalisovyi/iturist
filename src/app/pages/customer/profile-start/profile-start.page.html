@@ -3,7 +3,7 @@
     <ion-menu-toggle slot="start">
       <ion-icon src="assets/screens/white-menu-icon.svg"></ion-icon>
     </ion-menu-toggle>
-    <span id="logout-label" (click)="logout()">Logout</span>
+    <span id="logout-label" (click)="logout()">{{ text?.logout }}</span>
     <ion-img src="assets/screens/upper-gradient-background-violet.png"></ion-img>
   </div>
   <div *ngIf="!profile?.photo" id="profile-no-img-block">
@@ -12,21 +12,22 @@
       <div id="rect"></div>
     </div>
   </div>
-  <div *ngIf="profile?.photo" id="profile-img-block" [ngStyle]="{'background-image': 'url(' + profile?.photo + ')'}"></div>
+  <div *ngIf="profile?.photo" id="profile-img-block" [ngStyle]="{'background-image': 'url(' + profile?.photo + ')'}">
+  </div>
   <ion-item id="profile-img-label" class="violet-text">
-    <span>My Profile</span>
+    <span>{{ text?.my_profile }}</span>
   </ion-item>
   <div id="text-block" padding margin-vertical>
-    <ion-item *ngFor="let item of [1, 2, 3]">
-      <span class="violet-text">
-        You can connect to Doctor anytime, anywhere - whether it's the middle of the night or the middle of a road
-        trip.
-      </span>
+    <ion-item>
+      <span class="violet-text">{{ text?.first_text }}</span>
+    </ion-item>
+    <ion-item>
+      <span class="violet-text">{{ text?.second_text }}</span>
     </ion-item>
   </div>
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button class="btn bottom-btn" (click)="navigateTo('profile')">Go</ion-button>
+    <ion-button class="btn bottom-btn" (click)="navigateTo('profile')">{{ text?.go }}</ion-button>
   </ion-toolbar>
 </ion-footer>

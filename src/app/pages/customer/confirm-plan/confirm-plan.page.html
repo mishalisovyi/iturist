@@ -2,7 +2,7 @@
 
 <ion-content>
   <!-- <form [formGroup]="activeTabIndex === 0 ? creditCardForm : payPalForm"> -->
-    <div id="text-block" class="violet-text bold-text font-size-16">Payment</div>
+    <div id="text-block" class="violet-text bold-text font-size-16">{{ text?.payment }}</div>
     <ion-card class="violet-text">
       <ion-card-content>
         <ion-grid>
@@ -244,6 +244,6 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button class="btn bottom-btn" (click)="confirmPlan()">Confirm</ion-button>
+    <ion-button class="btn bottom-btn" (click)="confirmPlan()">{{ text?.confirm }}</ion-button>
   </ion-toolbar>
 </ion-footer>
