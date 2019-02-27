@@ -81,8 +81,9 @@ export class ConfirmPlanPage implements OnInit {
     }
   `;
   private tranzilaScript: string = `
-    window.addEventListener("click", function(e) {
-      console.log('click', e);
+    document.addEventListener("click", function(e) {
+      console.log('click', e.target);
+      alert(e.target.localName);
       if (e.target.localName !== "input" && e.target.localName !== "select") {
         document.activeElement.blur();
         alert("close");
@@ -191,8 +192,8 @@ export class ConfirmPlanPage implements OnInit {
 
   public confirmPlan() {
     this.browser = this.iab.create(
-      // "https://direct.tranzila.com/yoo/iframenew.php?hidesum=1&currency=1&tranmode=AK&sum=0.1",
-      "https://www.google.com.ua/",
+      "https://direct.tranzila.com/yoo/iframenew.php?hidesum=1&currency=1&tranmode=AK&sum=0.1",
+      // "https://www.google.com.ua/",
       "_blank",
       "hideurlbar=yes"
     );
@@ -203,7 +204,7 @@ export class ConfirmPlanPage implements OnInit {
       this.browser.insertCSS({ code: this.tranzilaCss }).then(() => {
         if (this.platform.is('android')) this.browser.show();
       });
-      // if(this.platform.is('ios')) this.browser.executeScript({ code: this.tranzilaScript });
+      if(this.platform.is('ios')) this.browser.executeScript({ code: this.tranzilaScript });
     })
 
     // this.browser.hide();
