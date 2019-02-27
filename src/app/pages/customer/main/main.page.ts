@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { forkJoin } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { forkJoin, Subscription } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 
 import { ApiService } from '../../../services/api.service';
 import { StorageService } from '../../../services/storage.service';
+import { LanguageService } from "../../../services/language.service";
 
 import { BaseResponse } from "../../../models/models";
 
@@ -14,8 +15,11 @@ import { BaseResponse } from "../../../models/models";
   templateUrl: './main.page.html',
   styleUrls: ['./main.page.scss'],
 })
-export class MainPage {
+export class MainPage implements OnInit, OnDestroy {
 
+  private subscription: Subscription;
+
+  public text: any;
   public sectionsInfo = {
     securityAlerts: {
       disabled: false,
@@ -55,18 +59,34 @@ export class MainPage {
     },
   }
 
-  public showView: boolean = false;
+  // public showView: boolean = false;
 
-  constructor(private router: Router, private api: ApiService, private storage: StorageService) { }
+  constructor(
+    private router: Router,
+    private api: ApiService,
+    private storage: StorageService,
+    private language: LanguageService
+  ) { }
+
+  ngOnInit() {
+    this.storage.get("language").subscribe((res: string) => {
+      console.log(res);
+      if (res) this.language.loadLanguage(res);
+    });
+    this.subscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) this.subscription.unsubscribe();
+  }
 
   ionViewWillEnter() {
-    this.storage.get("role").subscribe(res => {
-      if (res === "DOCTOR") {
-        this.router.navigateByUrl("/doctor-call-checker");
-      } else {
-        this.showView = true;
-      }
-    });
+    this.api.getProfile().subscribe(res => console.log(res));
+  }
+
+  private getPageText() {
+    console.log('get page text');
+    this.text = this.language.getTextByCategories("main");
   }
 
   public determineIsChoosedCompany() {
@@ -83,15 +103,28 @@ export class MainPage {
     this.api.getProfile().subscribe(res => console.log(res));
   }
 
+  // public logout() {
+  //   this.api.logout()
+  //     .pipe(switchMap(
+  //       (res: BaseResponse) => {
+
+  //         return forkJoin(this.storage.remove("token"), this.storage.remove("profile"))
+  //       }
+  //     ))
+  //     .subscribe(() => this.router.navigateByUrl("/login"));
+  // }
+
   public logout() {
-    this.api.logout()
-      .pipe(switchMap(
-        (res: BaseResponse) => {
-          alert("Logout: " + JSON.stringify(res));
-          console.log(res);
-          return forkJoin(this.storage.remove("token"), this.storage.remove("profile"))
-        }
-      ))
+    this.storage.get("auth_type")
+      .pipe(
+        tap(async (res: string) => {
+          if (res === "GOOGLE") await this.api.googleLogout();
+          if (res === "FACEBOOK") await this.api.facebookLogout();
+        }),
+        switchMap(() => this.api.logout().pipe(
+          switchMap(() => forkJoin(this.storage.remove("token"), this.storage.remove("profile"), this.storage.remove("auth_type")))
+        ))
+      )
       .subscribe(() => this.router.navigateByUrl("/login"));
   }
 }

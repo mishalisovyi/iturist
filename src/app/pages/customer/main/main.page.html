@@ -1,4 +1,4 @@
-<ion-header *ngIf="showView" no-border>
+<ion-header no-border>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-toggle>
@@ -7,12 +7,12 @@
         </ion-button>
       </ion-menu-toggle>
     </ion-buttons>
-    <ion-title class="violet-text text-center">WELCOME TO ISRAEL</ion-title>
+    <ion-title class="violet-text text-center">{{ text?.welcome_to_israel }}</ion-title>
     <ion-buttons slot="end">
       <ion-grid>
         <ion-row>
           <ion-col id="logout-col" (click)="logout()">
-            <span class="violet-text">Logout</span>
+            <span class="violet-text">{{ text?.logout }}</span>
           </ion-col>
           <ion-col align-self-center>
             <div id="logo">
@@ -28,7 +28,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="showView">
+<ion-content>
   <ion-grid id="main-block">
     <!-- <ion-row justify-content-center>
       <ion-col size="10">
@@ -142,7 +142,7 @@
         <div class="grid-item">
           <ion-img src="assets/screens/my-profile-main-menu.svg"></ion-img>
         </div>
-        My profile
+        {{ text?.my_profile }}
       </ion-col>
     </ion-row>
     <ion-row justify-content-center (click)="determineIsChoosedCompany()">
@@ -150,7 +150,7 @@
         <div class="grid-item">
           <ion-img src="assets/screens/sim-card.svg"></ion-img>
         </div>
-        Sim Card
+        {{ text?.sim_card }}
       </ion-col>
     </ion-row>
   </ion-grid>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+
 import { ApiService } from '../../../services/api.service';
+import { LanguageService } from '../../../services/language.service';
 
 @Component({
   selector: 'app-choose-plan',
@@ -14,12 +16,26 @@ export class ChoosePlanPage implements OnInit {
 
   public plans: Array<any>;
   public selectedPlanId: string;
+  public text: any;
 
-  constructor(private router: Router, private route: ActivatedRoute, private api: ApiService) { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private api: ApiService,
+    private language: LanguageService
+  ) { }
 
   ngOnInit() {
     this.getCompanyId();
     this.getPlans();
+  }
+
+  ionViewWillEnter() {
+    this.getPageText();
+  }
+
+  private getPageText() {
+    this.text = this.language.getTextByCategories("choose_plan");
   }
 
   private getCompanyId() {

@@ -22,26 +22,12 @@
     <ion-grid>
       <ion-row id="text-block" class="violet-text" justify-content-between>
         <ion-col>
-          <span>Registration</span>
+          <span>{{ text?.registration }}</span>
         </ion-col>
         <ion-col size="4">
-          <ion-button (click)="navigate('/login')" class="w-100">To login</ion-button>
+          <ion-button (click)="navigate('/login')" class="w-100">{{ text?.to_login }}</ion-button>
         </ion-col>
         <!-- <ion-col><ion-button>To login</ion-button></ion-col> -->
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-row>
-            <ion-col>
-              <ion-button id="google-btn" class="w-100" (click)="googleLogin()">Google Login</ion-button>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col>
-              <ion-button id="facebook-btn" class="w-100" (click)="facebookLogin()">Facebook Login</ion-button>
-            </ion-col>
-          </ion-row>
-        </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
@@ -64,29 +50,33 @@
       <ion-row justify-content-center>
         <ion-col size-md="7" size-lg="5">
           <ion-item class="violet-text register-form-field" [class.error-field]="submitTry && form.get('name').invalid">
-            <ion-input type="text" formControlName="name" placeholder="Name"></ion-input>
+            <ion-input type="text" formControlName="name" placeholder="{{ text?.name }}"></ion-input>
           </ion-item>
           <ion-item class="violet-text register-form-field"
             [class.error-field]="submitTry && form.get('email').invalid">
-            <ion-input type="email" formControlName="email" placeholder="E-mail address"></ion-input>
+            <ion-input type="email" formControlName="email" placeholder="{{ text?.email_address }}"></ion-input>
           </ion-item>
           <ion-item class="violet-text register-form-field"
             [class.error-field]="submitTry && form.get('password').invalid">
-            <ion-input type="password" formControlName="password" placeholder="Password"
+            <ion-input type="password" formControlName="password" placeholder="{{ text?.password }}"
               (ionChange)="validatePasswordConfirmation()"></ion-input>
           </ion-item>
           <ion-item class="violet-text register-form-field"
             [class.error-field]="submitTry && form.get('confirmPassword').invalid">
-            <ion-input type="password" formControlName="confirmPassword" placeholder="Confirm Password"
+            <ion-input type="password" formControlName="confirmPassword" placeholder="{{ text?.confirm_password }}"
               (ionChange)="validatePasswordConfirmation()"></ion-input>
           </ion-item>
-          <ion-item no-padding class="violet-text select-field"
+          <!-- <ion-item no-padding class="violet-text select-field"
             [class.error-field]="submitTry && form.get('language').invalid">
             <div></div>
             <ion-select formControlName="language" placeholder="Select language">
               <ion-select-option value="En">English</ion-select-option>
               <ion-select-option value="He">Hebrew</ion-select-option>
             </ion-select>
+          </ion-item> -->
+          <ion-item class="violet-text register-form-field"
+            [class.error-field]="submitTry && form.get('language').invalid" (click)="presentActionSheet()">
+            <ion-input type="text" readonly formControlName="language" placeholder="{{ text?.select_language }}"></ion-input>
           </ion-item>
           <!-- <ion-item no-padding class="violet-text" [class.error-field]="submitTry && form.get('language').invalid">
             <div></div>
@@ -96,45 +86,45 @@
             </ion-select>
           </ion-item> -->
           <ion-item *ngIf="submitTry && form.get('name').hasError('required')" class="red-text">
-            <span>Name is required.</span>
+            <span>{{ text?.name_required }}</span>
           </ion-item>
           <ion-item *ngIf="submitTry && form.get('name').hasError('pattern')" class="red-text">
-            <span>Only a-z, A-Z letters and whitespaces not at the beginning are allowed in name.</span>
+            <span>{{ text?.only_letters }}</span>
           </ion-item>
           <ion-item *ngIf="submitTry && form.get('email').hasError('required')" class="red-text">
-            <span>Email is required.</span>
+            <span>{{ text?.email_required }}</span>
           </ion-item>
           <ion-item *ngIf="submitTry && form.get('email').hasError('email')" class="red-text">
-            <span>Email is not valid.</span>
+            <span>{{ text?.email_not_valid }}</span>
           </ion-item>
           <ion-item *ngIf="submitTry && form.get('password').hasError('required')" class="red-text">
-            <span>Password is required.</span>
+            <span>{{ text?.password_required }}</span>
           </ion-item>
           <ion-item *ngIf="submitTry && form.get('password').hasError('noDigits')" class="red-text">
-            <span>Password should contain at least one digit.</span>
+            <span>{{ text?.password_one_digit }}</span>
           </ion-item>
           <ion-item *ngIf="submitTry && form.get('password').hasError('noLowercase')" class="red-text">
-            <span>Password should contain at least one lowercase symbol.</span>
+            <span>{{ text?.password_one_lowercase }}</span>
           </ion-item>
           <ion-item *ngIf="submitTry && form.get('password').hasError('noUppercase')" class="red-text">
-            <span>Password should contain at least one uppercase symbol.</span>
+            <span>{{ text?.password_one_uppercase }}</span>
           </ion-item>
           <ion-item *ngIf="submitTry && form.get('password').hasError('short')" class="red-text">
-            <span>Password minimum length is 8.</span>
+            <span>{{ text?.password_minlength }}</span>
           </ion-item>
           <ion-item *ngIf="submitTry && form.get('confirmPassword').hasError('required')" class="red-text">
-            <span>Confirm password.</span>
+            <span>{{ text?.confirm_password_validation }}</span>
           </ion-item>
           <ion-item *ngIf="submitTry && form.get('confirmPassword').hasError('unmatch')" class="red-text">
-            <span>Passwords do not match.</span>
+            <span>{{ text?.password_not_match }}</span>
           </ion-item>
           <ion-item *ngIf="submitTry && form.get('language').hasError('required')" class="red-text">
-            <span>Language is required.</span>
+            <span>{{ text?.language_required }}</span>
           </ion-item>
         </ion-col>
       </ion-row>
       <ion-row id="text-block" class="violet-text">
-        <ion-col>Attach a passport photo, airline tickets, and travel insurance</ion-col>
+        <ion-col>{{ text?.attach_photo }}</ion-col>
       </ion-row>
       <ion-row>
         <ion-col class="attach-btn-col" size-5>
@@ -143,7 +133,7 @@
               <ion-img src="assets/screens/small-upload-img.svg"></ion-img>
             </div>
             <ion-button class="attach-btn">
-              airline tickets
+              {{ text?.airline_tickets }}
             </ion-button>
           </div>
           <div *ngIf="!image.imgInfo.airline.deleted" (click)="image.deletePhoto('airline')">
@@ -153,7 +143,7 @@
             <ion-button class="attach-btn">
               <div class="btn-img-wrapper" [ngStyle]="{'background-image': 'url(' + image.imgInfo.airline.src + ')'}">
               </div>
-              <span class="hidden">airline tickets</span>
+              <span class="hidden">{{ text?.airline_tickets }}</span>
             </ion-button>
           </div>
         </ion-col>
@@ -163,7 +153,7 @@
               <ion-img src="assets/screens/small-upload-img.svg"></ion-img>
             </div>
             <ion-button class="attach-btn">
-              travel insurance
+              {{ text?.travel_insurance }}
             </ion-button>
           </div>
           <div *ngIf="!image.imgInfo.travel.deleted" (click)="image.deletePhoto('travel')">
@@ -173,7 +163,7 @@
             <ion-button class="attach-btn">
               <div class="btn-img-wrapper" [ngStyle]="{'background-image': 'url(' + image.imgInfo.travel.src + ')'}">
               </div>
-              <span class="hidden">travel insurance</span>
+              <span class="hidden">{{ text?.travel_insurance }}</span>
             </ion-button>
           </div>
         </ion-col>
@@ -185,7 +175,7 @@
               <ion-img src="assets/screens/small-upload-img.svg"></ion-img>
             </div>
             <ion-button class="attach-btn">
-              passport
+              {{ text?.passport }}
             </ion-button>
           </div>
           <div *ngIf="!image.imgInfo.passport.deleted" (click)="image.deletePhoto('passport')">
@@ -195,7 +185,7 @@
             <ion-button class="attach-btn">
               <div class="btn-img-wrapper" [ngStyle]="{'background-image': 'url(' + image.imgInfo.passport.src + ')'}">
               </div>
-              <span class="hidden">passport</span>
+              <span class="hidden">{{ text?.passport }}</span>
             </ion-button>
           </div>
         </ion-col>
@@ -205,6 +195,6 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button class="btn bottom-btn" (click)="register()">Sign Up</ion-button>
+    <ion-button class="btn bottom-btn" (click)="register()">{{ text?.sign_up }}</ion-button>
   </ion-toolbar>
 </ion-footer>

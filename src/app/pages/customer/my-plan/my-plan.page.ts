@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ApiService } from '../../../services/api.service';
-
+import { LanguageService } from "../../../services/language.service";
 // import { Plan } from "../../../models/models";
 
 @Component({
@@ -14,14 +14,27 @@ export class MyPlanPage implements OnInit {
 
   // public plan: Plan;
   public plan: any;
+  public text: any;
 
   private companyId: number;
 
-  constructor(private router: Router, private api: ApiService) { }
+  constructor(
+    private router: Router,
+    private api: ApiService,
+    private language: LanguageService
+  ) { }
 
   ngOnInit() {
     this.getMyPlan();
     this.getMyCompanyId();
+  }
+
+  ionViewWillEnter() {
+    this.getPageText();
+  }
+
+  private getPageText() {
+    this.text = this.language.getTextByCategories("my_plan");
   }
 
   private getMyPlan() {
