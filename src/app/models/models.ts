@@ -5,6 +5,7 @@ export interface Profile {
   first_name: string;
   user: string;
   language: string;
+  language_long: string;
   photo?: string;
   airline_image?: string;
   travel_image?: string;

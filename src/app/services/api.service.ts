@@ -102,13 +102,13 @@ export class ApiService {
     return this.http.post<BaseResponse>(`${environment.api}/registration`, data);
   }
 
-  public socialRegister(data: { type: string, social_token: string }): Observable<BaseResponse> {
-    return this.http.post<BaseResponse>(`${environment.api}/social-registration`, data);
-  }
+  // public socialRegister(data: { type: string, social_token: string }): Observable<BaseResponse> {
+  //   return this.http.post<BaseResponse>(`${environment.api}/social-registration`, data);
+  // }
 
-  public socialUnregister(data: { type: string }): Observable<BaseResponse> {
-    return this.http.post<BaseResponse>(`${environment.api}/social-unregistration`, data);
-  }
+  // public socialUnregister(data: { type: string }): Observable<BaseResponse> {
+  //   return this.http.post<BaseResponse>(`${environment.api}/social-unregistration`, data);
+  // }
 
   public postImages(data: FormData) {
     // const headers = new HttpHeaders({
@@ -119,11 +119,11 @@ export class ApiService {
     return this.http.post<BaseResponse>(`${environment.api}/user/profile/photo`, data);
   }
 
-  public googleLogin(data: { token: string }): Observable<BaseResponse> {
+  public googleLogin(data: { id_token: string }): Observable<BaseResponse> {
     return this.http.post<BaseResponse>(`${environment.api}/login-google`, data);
   }
 
-  public facebookLogin(data: { token: string }): Observable<BaseResponse> {
+  public facebookLogin(data: { access_token: string }): Observable<BaseResponse> {
     return this.http.post<BaseResponse>(`${environment.api}/login-facebook`, data);
   }
 
