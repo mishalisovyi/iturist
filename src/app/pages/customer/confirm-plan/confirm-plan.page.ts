@@ -114,8 +114,9 @@ export class ConfirmPlanPage implements OnInit {
    }
   `;
   private tranzilaScript: string = `
-    window.addEventListener("click", function(e) {
-      console.log('click', e);
+    document.addEventListener("click", function(e) {
+      console.log('click', e.target);
+      alert(e.target.localName);
       if (e.target.localName !== "input" && e.target.localName !== "select") {
         document.activeElement.blur();
         alert("close");
@@ -247,7 +248,7 @@ export class ConfirmPlanPage implements OnInit {
       this.browser.insertCSS({ code: this.tranzilaCss }).then(() => {
         if (this.platform.is('android')) this.browser.show();
       });
-      // if(this.platform.is('ios')) this.browser.executeScript({ code: this.tranzilaScript });
+      if(this.platform.is('ios')) this.browser.executeScript({ code: this.tranzilaScript });
     })
 
     // this.browser.hide();
