@@ -145,7 +145,9 @@ export class ProfilePage implements OnInit, OnDestroy {
   public async attachGoogle() {
     await this.loading.createLoading(this.text.attaching);
     try {
-      const { idToken } = await this.googlePlus.login({ webClientId: environment.googleClientId });
+      const res = await this.googlePlus.login({ webClientId: environment.googleClientId });
+      console.log(res);
+      const { idToken } = res;
       this.api.socialRegister({ type: "GOOGLE", social_token: idToken })
         .pipe(
           finalize(async () => await this.loading.dismissLoading()),
