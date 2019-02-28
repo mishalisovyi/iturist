@@ -108,6 +108,7 @@ export class LoginPage implements OnInit, OnDestroy {
     await this.loading.createLoading(this.text.login);
     try {
       const { idToken } = await this.googlePlus.login({ webClientId: environment.googleClientId });
+      console.log(idToken);
       this.api.googleLogin({ id_token: idToken })
         .pipe(
           switchMap((res: BaseResponse) => (
