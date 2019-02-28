@@ -138,36 +138,32 @@ export class LoginPage implements OnInit, OnDestroy {
 
   public async facebookLogin() {
     await this.loading.createLoading(this.text.login);
-    const loginResponse = await this.fb.login(['public_profile', 'email']);
-    const checkEmailResponse = await this.fb.api(loginResponse.authResponse.userID + '/?fields=email', ['public_profile', 'email']);
-    alert(JSON.stringify(checkEmailResponse));
-    if (checkEmailResponse.email) {
-      try {
-        this.api.facebookLogin({ access_token: loginResponse.authResponse.accessToken })
-          .pipe(
-            switchMap((res: BaseResponse) => (
-              forkJoin(
-                this.storage.set("auth_type", "FACEBOOK"),
-                this.storage.set("token", res.content.token),
-                this.storage.set("language", res.content.profile.language)
-              )
-            )),
-            finalize(async () => await this.loading.dismissLoading()),
-            catchError((err => throwError(err)))
-          )
-          .subscribe(
-            () => this.router.navigateByUrl("/main"),
-            async err => {
-              console.log(err);
+    // const checkEmailResponse = await this.fb.api(loginResponse.authResponse.userID + '/?fields=email', ['public_profile', 'email']);
+    try {
+      const loginResponse = await this.fb.login(['public_profile', 'email']);
+      alert(JSON.stringify(loginResponse));
+      this.api.facebookLogin({ access_token: loginResponse.authResponse.accessToken })
+        .pipe(
+          switchMap((res: BaseResponse) => (
+            forkJoin(
+              this.storage.set("auth_type", "FACEBOOK"),
+              this.storage.set("token", res.content.token),
+              this.storage.set("language", res.content.profile.language)
+            )
+          )),
+          finalize(async () => await this.loading.dismissLoading()),
+          catchError((err => throwError(err)))
+        )
+        .subscribe(
+          () => this.router.navigateByUrl("/main"),
+          async err => {
+            if (err.error.metadata.api_error_codes.includes(106)) {
+              alert("You can not sign in TravelSim via this Facebook account because you are registered in Facebook using mobile phone");
               await this.fb.logout();
-
             }
-          );
-      } catch (error) {
-        await this.loading.dismissLoading();
-      }
-    } else {
-      alert("You can not sign in TravelSim via this Facebook account because you are registered in Facebook using mobile phone");
+          }
+        );
+    } catch (error) {
       await this.loading.dismissLoading();
     }
   }
