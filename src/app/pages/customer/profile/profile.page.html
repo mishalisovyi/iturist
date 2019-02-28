@@ -25,10 +25,10 @@
         <ion-col id="profile-info-block" size-md="7" size-lg="5" margin-vertical>
           <ng-container *ngIf="!editInfo">
             <ion-item class="violet-text">
-              <b>{{ text?.name }}:</b>&nbsp; {{ form?.get('name')?.value }}
+              <b>{{ text?.email_address }}:</b>&nbsp; {{ form?.get('email')?.value }}
             </ion-item>
             <ion-item class="violet-text">
-              <b>{{ text?.email_address }}:</b>&nbsp; {{ form?.get('email')?.value }}
+              <b>{{ text?.name }}:</b>&nbsp; {{ form?.get('name')?.value }}
             </ion-item>
             <ion-item id="last-info-item" class="violet-text">
               <b>{{ text?.language }}:</b>&nbsp; {{ action?.language }}
@@ -39,12 +39,12 @@
           </ng-container>
           <ng-container *ngIf="editInfo">
             <ion-item class="violet-text register-form-field"
-              [class.error-field]="submitTry && form.get('name').invalid">
-              <ion-input type="text" formControlName="name" placeholder="{{ text?.name }}"></ion-input>
+              [class.error-field]="submitTry && form.get('email').invalid">
+              <ion-input readonly type="email" formControlName="email" placeholder="{{ text?.email_address }}"></ion-input>
             </ion-item>
             <ion-item class="violet-text register-form-field"
-              [class.error-field]="submitTry && form.get('email').invalid">
-              <ion-input type="email" formControlName="email" placeholder="{{ text?.email_address }}"></ion-input>
+              [class.error-field]="submitTry && form.get('name').invalid">
+              <ion-input type="text" formControlName="name" placeholder="{{ text?.name }}"></ion-input>
             </ion-item>
             <ion-item class="violet-text register-form-field"
               [class.error-field]="submitTry && form.get('language').invalid" (click)="presentActionSheet()">
@@ -66,12 +66,12 @@
             <ion-item *ngIf="submitTry && form.get('name').hasError('pattern')" class="red-text">
               <span>{{ text?.only_letters }}</span>
             </ion-item>
-            <ion-item *ngIf="submitTry && form.get('email').hasError('required')" class="red-text">
+            <!-- <ion-item *ngIf="submitTry && form.get('email').hasError('required')" class="red-text">
               <span>{{ text?.email_required }}</span>
             </ion-item>
             <ion-item *ngIf="submitTry && form.get('email').hasError('email')" class="red-text">
               <span>{{ text?.email_not_valid }}</span>
-            </ion-item>
+            </ion-item> -->
             <ion-item *ngIf="submitTry && form.get('language').hasError('required')" class="red-text">
               <span>{{ text?.language_required }}</span>
             </ion-item>
@@ -145,7 +145,7 @@
           </div>
         </ion-col>
       </ion-row>
-      <ion-row>
+      <!-- <ion-row>
         <ion-col>
           <ion-button id="google-btn" class="w-100" (click)="attachGoogle()">Attach Google account</ion-button>
         </ion-col>
@@ -160,7 +160,7 @@
         <ion-col>
           <ion-button id="facebook-btn" class="w-100" (click)="detachSocial('FACEBOOK')">Detach Facebook account</ion-button>
         </ion-col>
-      </ion-row>
+      </ion-row> -->
     </ion-grid>
   </form>
 </ion-content>

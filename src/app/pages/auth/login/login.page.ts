@@ -108,8 +108,7 @@ export class LoginPage implements OnInit, OnDestroy {
     await this.loading.createLoading(this.text.login);
     try {
       const { idToken } = await this.googlePlus.login({ webClientId: environment.googleClientId });
-      console.log(idToken);
-      this.api.googleLogin({ token: idToken })
+      this.api.googleLogin({ id_token: idToken })
         .pipe(
           switchMap((res: BaseResponse) => (
             forkJoin(
@@ -124,10 +123,12 @@ export class LoginPage implements OnInit, OnDestroy {
         .subscribe(
           () => this.router.navigateByUrl("/main"),
           async err => {
-            if (err.error.metadata.api_error_codes.includes(120) || err.error.metadata.api_error_codes.includes(110)) {
-              alert(this.text.not_registered_with_google);
-              await this.googlePlus.disconnect();
-            }
+            // if (err.error.metadata.api_error_codes.includes(120) || err.error.metadata.api_error_codes.includes(110)) {
+            //   alert(this.text.not_registered_with_google);
+            //   await this.googlePlus.disconnect();
+            // }
+            console.log(err);
+            await this.googlePlus.disconnect();
           }
         );
     } catch (error) {
@@ -137,9 +138,11 @@ export class LoginPage implements OnInit, OnDestroy {
 
   public async facebookLogin() {
     await this.loading.createLoading(this.text.login);
+    // const checkEmailResponse = await this.fb.api(loginResponse.authResponse.userID + '/?fields=email', ['public_profile', 'email']);
     try {
-      const { authResponse: { accessToken } } = await this.fb.login(['public_profile', 'email']);
-      this.api.facebookLogin({ token: accessToken })
+      const loginResponse = await this.fb.login(['public_profile', 'email']);
+      alert(JSON.stringify(loginResponse));
+      this.api.facebookLogin({ access_token: loginResponse.authResponse.accessToken })
         .pipe(
           switchMap((res: BaseResponse) => (
             forkJoin(
@@ -154,8 +157,8 @@ export class LoginPage implements OnInit, OnDestroy {
         .subscribe(
           () => this.router.navigateByUrl("/main"),
           async err => {
-            if (err.error.metadata.api_error_codes.includes(120) || err.error.metadata.api_error_codes.includes(110)) {
-              alert(this.text.not_registered_with_facebook);
+            if (err.error.metadata.api_error_codes.includes(106)) {
+              alert("You can not sign in TravelSim via this Facebook account because you are registered in Facebook using mobile phone");
               await this.fb.logout();
             }
           }
