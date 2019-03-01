@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
-import { map } from "rxjs/operators";
+import { map, finalize } from "rxjs/operators";
 import * as moment from "moment";
 
 import { LanguageService } from "../../../services/language.service";
@@ -13,19 +13,18 @@ import { History, BaseResponse } from "../../../models/models";
   templateUrl: './my-requests.page.html',
   styleUrls: ['./my-requests.page.scss'],
 })
-export class MyRequestsPage implements OnInit {
+export class MyRequestsPage {
 
   public text: any;
-  public requests: Array<History>;
+  public requests: Array<History> = [];
+  public requestsAreLoaded: boolean = false;
 
   constructor(private language: LanguageService, private api: ApiService) { }
 
-  ngOnInit() {
-    this.getRequests();
-  }
 
   ionViewWillEnter() {
     this.getPageText();
+    this.getRequests();
   }
 
   private getPageText() {
@@ -38,8 +37,12 @@ export class MyRequestsPage implements OnInit {
         map((res: BaseResponse) => {
           res.content.forEach((item: History) => item.created = moment(item.created.replace("UTC:00", "")));
           return res.content;
-        })
+        }),
+        finalize(() => this.requestsAreLoaded = true)
       )
-      .subscribe((res: History[]) => this.requests = res);
+      .subscribe(
+        (res: History[]) => this.requests = res,
+        () => this.requests = []
+      );
   }
 }

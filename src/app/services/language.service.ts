@@ -98,7 +98,9 @@ export class LanguageService {
       choose_another_plan: "Choose another plan"
     },
     my_requests: {
-      your_requests: "Your requests"
+      your_requests: "Your requests",
+      requirement_created: "Requirement created",
+      no_any_requests: "You don't have any requests"
     }
   };
 
