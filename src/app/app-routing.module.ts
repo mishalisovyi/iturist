@@ -50,38 +50,8 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'doctor-call-checker',
-    loadChildren: './pages/doctor/doctor-call-checker/doctor-call-checker.module#DoctorCallCheckerPageModule',
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'doctor-call-room',
-    loadChildren: './pages/doctor/doctor-call-room/doctor-call-room.module#DoctorCallRoomPageModule',
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'doctor-call-list',
-    loadChildren: './pages/doctor/doctor-call-list/doctor-call-list.module#DoctorCallListPageModule',
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'online-doctor-start',
-    loadChildren: './pages/customer/online-doctor-start/online-doctor-start.module#OnlineDoctorStartPageModule',
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'online-doctor',
-    loadChildren: './pages/customer/online-doctor/online-doctor.module#OnlineDoctorPageModule',
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'client-call-room',
-    loadChildren: './pages/customer/client-call-room/client-call-room.module#ClientCallRoomPageModule',
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'callees-list',
-    loadChildren: './pages/doctor/callees-list/callees-list.module#CalleesListPageModule',
+    path: 'my-requests',
+    loadChildren: './pages/customer/my-requests/my-requests.module#MyRequestsPageModule',
     canActivate: [AuthGuard]
   },
   {

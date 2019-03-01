@@ -30,127 +30,26 @@
 
 <ion-content>
   <ion-grid id="main-block">
-    <!-- <ion-row justify-content-center>
-      <ion-col size="10">
-        <ion-button id="go-to-request-btn">Go to my request</ion-button>
-      </ion-col>
-    </ion-row> -->
-    <!-- <ion-row justify-content-center id="grid-block">
-      <ion-col size="10">
-        <ion-row>
-          <ion-col class="text-center">
-            <div *ngIf="!(!sectionsInfo.securityAlerts.disabled && !sectionsInfo.securityAlerts.number)" class="label">
-              <ion-img *ngIf="sectionsInfo.securityAlerts.disabled" src="assets/screens/lock.svg"></ion-img>
-              <div *ngIf="sectionsInfo.securityAlerts.number">{{ sectionsInfo.securityAlerts.number }}</div>
-            </div>
-            <div class="grid-item" [class.disabled]="sectionsInfo.securityAlerts.disabled">
-              <ion-img src="assets/screens/security-alerts.svg"></ion-img>
-            </div>
-            Security Alerts
-          </ion-col>
-          <ion-col class="text-center">
-            <div *ngIf="!(!sectionsInfo.currencyRates.disabled && !sectionsInfo.currencyRates.number)" class="label">
-              <ion-img *ngIf="sectionsInfo.currencyRates.disabled" src="assets/screens/lock.svg"></ion-img>
-              <div *ngIf="sectionsInfo.currencyRates.number">{{ sectionsInfo.currencyRates.number }}</div>
-            </div>
-            <div class="grid-item" [class.disabled]="sectionsInfo.currencyRates.disabled">
-              <ion-img src="assets/screens/currency-rates.svg"></ion-img>
-            </div>
-            Currency Rates
-          </ion-col>
-          <ion-col class="text-center">
-            <div *ngIf="!(!sectionsInfo.checkUpService.disabled && !sectionsInfo.checkUpService.number)" class="label">
-              <ion-img *ngIf="sectionsInfo.checkUpService.disabled" src="assets/screens/lock.svg"></ion-img>
-              <div *ngIf="sectionsInfo.checkUpService.number">{{ sectionsInfo.checkUpService.number }}</div>
-            </div>
-            <div class="grid-item" [class.disabled]="sectionsInfo.checkUpService.disabled">
-              <ion-img src="assets/screens/check-up-service.svg"></ion-img>
-            </div>
-            Check Up Service
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col class="text-center" (click)="determineIsChoosedCompany()">
-            <div *ngIf="!(!sectionsInfo.simCard.disabled && !sectionsInfo.simCard.number)" class="label">
-              <ion-img *ngIf="sectionsInfo.simCard.disabled" src="assets/screens/lock.svg"></ion-img>
-              <div *ngIf="sectionsInfo.simCard.number">{{ sectionsInfo.simCard.number }}</div>
-            </div>
-            <div class="grid-item" [class.disabled]="sectionsInfo.simCard.disabled">
-              <ion-img src="assets/screens/sim-card.svg"></ion-img>
-            </div>
-            Sim Card
-          </ion-col>
-          <ion-col class="text-center">
-            <div *ngIf="!(!sectionsInfo.insurance.disabled && !sectionsInfo.insurance.number)" class="label">
-              <ion-img *ngIf="sectionsInfo.insurance.disabled" src="assets/screens/lock.svg"></ion-img>
-              <div *ngIf="sectionsInfo.insurance.number">{{ sectionsInfo.insurance.number }}</div>
-            </div>
-            <div class="grid-item" [class.disabled]="sectionsInfo.insurance.disabled">
-              <ion-img src="assets/screens/insurance.svg"></ion-img>
-            </div>
-            Insurance
-          </ion-col>
-          <ion-col class="text-center">
-            <div *ngIf="!(!sectionsInfo.consularService.disabled && !sectionsInfo.consularService.number)"
-              class="label">
-              <ion-img *ngIf="sectionsInfo.consularService.disabled" src="assets/screens/lock.svg"></ion-img>
-              <div *ngIf="sectionsInfo.consularService.number">{{ sectionsInfo.consularService.number }}</div>
-            </div>
-            <div class="grid-item" [class.disabled]="sectionsInfo.consularService.disabled">
-              <ion-img src="assets/screens/consular-service.svg"></ion-img>
-            </div>
-            Consular Service
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col class="text-center" (click)="navigateTo('/online-doctor-start')">
-            <div *ngIf="!(!sectionsInfo.onlineDoctor.disabled && !sectionsInfo.onlineDoctor.number)" class="label">
-              <ion-img *ngIf="sectionsInfo.onlineDoctor.disabled" src="assets/screens/lock.svg"></ion-img>
-              <div *ngIf="sectionsInfo.onlineDoctor.number">{{ sectionsInfo.onlineDoctor.number }}</div>
-            </div>
-            <div class="grid-item" [class.disabled]="sectionsInfo.onlineDoctor.disabled">
-              <ion-img src="assets/screens/online-doctor.svg"></ion-img>
-            </div>
-            OnLine Doctor
-          </ion-col>
-          <ion-col class="text-center">
-            <div *ngIf="!(!sectionsInfo.translationServices.disabled && !sectionsInfo.translationServices.number)"
-              class="label">
-              <ion-img *ngIf="sectionsInfo.translationServices.disabled" src="assets/screens/lock.svg"></ion-img>
-              <div *ngIf="sectionsInfo.translationServices.number">{{ sectionsInfo.translationServices.number }}</div>
-            </div>
-            <div class="grid-item" [class.disabled]="sectionsInfo.translationServices.disabled">
-              <ion-img src="assets/screens/translation-services.svg"></ion-img>
-            </div>
-            Translation services
-          </ion-col>
-          <ion-col class="text-center">
-            <div *ngIf="!(!sectionsInfo.tickets.disabled && !sectionsInfo.tickets.number)" class="label">
-              <ion-img *ngIf="sectionsInfo.tickets.disabled" src="assets/screens/lock.svg"></ion-img>
-              <div *ngIf="sectionsInfo.tickets.number">{{ sectionsInfo.tickets.number }}</div>
-            </div>
-            <div class="grid-item" [class.disabled]="sectionsInfo.tickets.disabled">
-              <ion-img src="assets/screens/tickets.svg"></ion-img>
-            </div>
-            Tickets
-          </ion-col>
-        </ion-row>
-      </ion-col>
-    </ion-row> -->
     <ion-row justify-content-center (click)="navigateTo('/profile-start')">
-      <ion-col size="6" text-center class="violet-text">
+      <ion-col size="6" class="violet-text" text-center>
         <div class="grid-item">
           <ion-img src="assets/screens/my-profile-main-menu.svg"></ion-img>
         </div>
-        {{ text?.my_profile }}
+        <span id="my-profile-label">{{ text?.my_profile }}</span>
       </ion-col>
     </ion-row>
-    <ion-row justify-content-center (click)="determineIsChoosedCompany()">
-      <ion-col size="6" text-center class="violet-text">
+    <ion-row justify-content-around>
+      <ion-col size="4" text-center class="violet-text" (click)="determineIsChoosedCompany()">
         <div class="grid-item">
           <ion-img src="assets/screens/sim-card.svg"></ion-img>
         </div>
-        {{ text?.sim_card }}
+        <span>{{ text?.sim_card }}</span>
+      </ion-col>
+      <ion-col size="4" text-center class="violet-text" (click)="navigateTo('/my-requests')">
+        <div class="grid-item">
+          <ion-img src="assets/screens/security-alerts.svg"></ion-img>
+        </div>
+        <span>{{ text?.my_requests }}</span>
       </ion-col>
     </ion-row>
   </ion-grid>

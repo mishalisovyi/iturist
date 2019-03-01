@@ -10,8 +10,7 @@ import * as _ from 'lodash';
 
 import { StorageService } from '../services/storage.service';
 
-import { BaseResponse } from "../models/models";
-import { ProfileEditRequest } from "../models/models";
+import { BaseResponse, ProfileEditRequest, History } from "../models/models";
 
 import { environment } from '../../environments/environment';
 
@@ -27,16 +26,6 @@ export class ApiService {
     private googlePlus: GooglePlus,
     private fb: Facebook
   ) { }
-
-  private _isOrderedSimCard: boolean = false;
-
-  // public get isOrderedSimCard(): boolean {
-  //   return this._isOrderedSimCard;
-  // }
-
-  // public set isOrderedSimCard(isOrdered: boolean) {
-  //   this._isOrderedSimCard = isOrdered;
-  // }
 
   public isChoosedCompany(): Observable<BaseResponse> {
     return of({
@@ -58,20 +47,6 @@ export class ApiService {
     return this.http.get<BaseResponse>(`${environment.api}/simpackages`, { params: httpParams });
   }
 
-  public getCallees(): Observable<BaseResponse> {
-    const callees: Array<any> = [];
-    for (let i = 0; i < _.random(2, 6); ++i) {
-      callees.push({
-        name: `Callee ${i + 1}`,
-        lastCall: new Date().toISOString()
-      })
-    }
-    return of({
-      content: callees,
-      metadata: {}
-    }).pipe(delay(200));
-  }
-
   public getPlan(id: string): Observable<BaseResponse> {
     return this.http.get<BaseResponse>(`${environment.api}/simpackages/${id}`);
   }
@@ -90,10 +65,6 @@ export class ApiService {
     }).pipe(delay(200));
   }
 
-  public confirmPlan(data: any): Observable<any> {
-    return of(data).pipe(delay(200));
-  }
-
   public getMyCompanyId(): Observable<number> {
     return of(_.random(0, 2)).pipe(delay(100));
   }
@@ -102,20 +73,11 @@ export class ApiService {
     return this.http.post<BaseResponse>(`${environment.api}/registration`, data);
   }
 
-  // public socialRegister(data: { type: string, social_token: string }): Observable<BaseResponse> {
-  //   return this.http.post<BaseResponse>(`${environment.api}/social-registration`, data);
-  // }
-
-  // public socialUnregister(data: { type: string }): Observable<BaseResponse> {
-  //   return this.http.post<BaseResponse>(`${environment.api}/social-unregistration`, data);
-  // }
-
   public postImages(data: FormData) {
     // const headers = new HttpHeaders({
     //   "cache-control": "no-cache"
     // })
     // return this.http.post<BaseResponse>(`${environment.api}/user/profile/photo`, data, { headers });
-
     return this.http.post<BaseResponse>(`${environment.api}/user/profile/photo`, data);
   }
 
@@ -155,47 +117,22 @@ export class ApiService {
     return this.http.patch<BaseResponse>(`${environment.api}/users/${id}`, user);
   }
 
-  postDeviceId(data): Observable<BaseResponse> {
+  public getHistory(): Observable<BaseResponse> {
+    const requests: Array<History> = [];
+    for (let i = 0; i < _.random(3, 9); ++i) {
+      requests.push({
+        title: `Plan #${i + 1}`,
+        status: _.sample(["pending", "done"]),
+        created: new Date(),
+        type: "SIM card"
+      })
+    }
     return of({
-      content: {
-        success: "success"
-      },
+      content: requests,
       metadata: {}
-    }).pipe(delay(200));
+    })
+      .pipe(
+        delay(200)
+      )
   }
-
-  public checkCallPossibility(): Observable<BaseResponse> {
-    return of({
-      content: {
-        id: "aaaa",
-        token: "aaaaa",
-        possible: true
-      },
-      metadata: {}
-    });
-  }
-
-  public postCallInformation(info: any): Observable<BaseResponse> {
-    return of({
-      content: {
-        duration: info.duration
-      },
-      metadata: {}
-    }).pipe(delay(200));
-  }
-
-
-
-  // public editProfile(data: FormData) {
-  //   return of({
-  //     name: "name",
-  //     email: "email",
-  //     language: "english",
-  //     profile_photo: "../../assets/screens/test.png",
-  //     airline_photo: "../../assets/screens/test.png",
-  //     travel_photo: "../../assets/screens/test.png",
-  //     passport_photo: "../../assets/screens/test.png"
-  //   }).pipe(delay(200));
-  // }
-
 }

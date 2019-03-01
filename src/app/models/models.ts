@@ -23,6 +23,13 @@ export interface Plan {
   traffic: number;
 }
 
+export interface History {
+  type: string;
+  title: string;
+  status: "pending" | "done";
+  created: Date
+}
+
 /* Request models */
 
 export interface ProfileEditRequest {

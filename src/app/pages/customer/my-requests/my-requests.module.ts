@@ -5,14 +5,14 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { SharedModule } from "../../../components/share.module";
+import { SharedModule } from '../../../components/share.module';
 
-import { OnlineDoctorPage } from './online-doctor.page';
+import { MyRequestsPage } from './my-requests.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: OnlineDoctorPage
+    component: MyRequestsPage
   }
 ];
 
@@ -24,6 +24,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     SharedModule
   ],
-  declarations: [OnlineDoctorPage]
+  declarations: [MyRequestsPage]
 })
-export class OnlineDoctorPageModule { }
+export class MyRequestsPageModule { }

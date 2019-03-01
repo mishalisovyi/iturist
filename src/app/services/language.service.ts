@@ -43,8 +43,7 @@ export class LanguageService {
       only_letters: "Only a-z, A-Z letters and whitespaces not at the beginning are allowed in name.",
       language_required: "Language is required.",
       login: "Login",
-      // not_registered_with_google: "There are not registered users with this Google account. To login via Google account you must attach it in your profile page.",
-      // not_registered_with_facebook: "There are not registered users with this Facebook account. To login via Facebook account you must attach it in your profile page."
+      my_requests: "My requests"
     },
     login: {
       email: "Email",
@@ -61,7 +60,7 @@ export class LanguageService {
       password_one_uppercase: "Password should contain at least one uppercase symbol.",
       password_minlength: "Password minimum length is 8.",
       confirm_password_validation: "Confirm password.",
-      password_not_match: "Passwords do not match.",
+      password_not_match: "Passwords do not match."
     },
     menu: {
       sim_card_charges: "SIM Card Charges",
@@ -79,12 +78,6 @@ export class LanguageService {
       language: "Language",
       save: "Save",
       updating_profile_msg: "Wait please, your information is updating",
-      // attaching: "Attaching",
-      // account_already_attached: "This account is already attached",
-      // attach_google_account: "Attach Google account",
-      // detach_google_account: "Detach Google account",
-      // attach_facebook_account: "Attach Facebook account",
-      // detach_facebook_account: "Detach Facebook account"
     },
     choose_company: {
       choose_company: "Choose a media company",
@@ -102,6 +95,9 @@ export class LanguageService {
     },
     my_plan: {
       choose_another_plan: "Choose another plan"
+    },
+    my_requests: {
+      your_requests: "Your requests"
     }
   };
 

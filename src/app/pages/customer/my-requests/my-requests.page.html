@@ -1,0 +1,28 @@
+<app-header></app-header>
+
+<ion-content>
+  <div id="text-block" class="violet-text bold-text font-size-16">{{ text?.your_requests }}</div>
+
+  <ion-card class="violet-text" *ngFor="let request of requests">
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col align-self-end class="font-size-16">
+            <span class="bold-text">{{ request?.type }}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col align-self-end class="font-size-16">
+            <span>{{ request?.title }}</span>
+          </ion-col>
+        </ion-row>
+        <ion-row id="stepper-block">
+          <ion-col>
+            <div class="step-item violet-text">{{ request?.status | titlecase }}</div>
+            <div class="step-item violet-text">Requirement created {{ request?.created | date:'short' }}</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
