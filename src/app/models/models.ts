@@ -25,9 +25,11 @@ export interface Plan {
 
 export interface History {
   type: string;
-  title: string;
-  status: "pending" | "done";
-  created: Date
+  status: string;
+  created: any;
+  package: {
+    title: string;
+  }
 }
 
 /* Request models */
