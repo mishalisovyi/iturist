@@ -47,7 +47,8 @@ export class LanguageService {
     },
     login: {
       email: "Email",
-      sign_in: "Sign In"
+      sign_in: "Sign In",
+      can_not_sign_in: "You can not sign in TravelSim via this Facebook account because you are registered in Facebook using mobile phone"
     },
     registration: {
       to_login: "To login",

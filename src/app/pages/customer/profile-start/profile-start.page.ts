@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { forkJoin } from "rxjs";
@@ -15,7 +15,7 @@ import { Profile } from '../../../models/models';
   templateUrl: './profile-start.page.html',
   styleUrls: ['./profile-start.page.scss'],
 })
-export class ProfileStartPage implements OnInit {
+export class ProfileStartPage {
 
   public profile: Profile;
   public text: any;
@@ -27,12 +27,9 @@ export class ProfileStartPage implements OnInit {
     private language: LanguageService
   ) { }
 
-  ngOnInit() {
-    this.getProfile();
-  }
-
   ionViewWillEnter() {
     this.getPageText();
+    this.getProfile();
   }
 
   private getPageText() {

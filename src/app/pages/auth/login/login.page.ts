@@ -159,7 +159,7 @@ export class LoginPage implements OnInit, OnDestroy {
           () => this.router.navigateByUrl("/main"),
           async err => {
             if (err.error.metadata.api_error_codes.includes(106)) {
-              alert("You can not sign in TravelSim via this Facebook account because you are registered in Facebook using mobile phone");
+              alert(this.text.can_not_sign_in);
               await this.fb.logout();
             }
           }

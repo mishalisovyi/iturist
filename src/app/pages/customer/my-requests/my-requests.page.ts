@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { map } from "rxjs/operators";
+import * as moment from "moment";
 
 import { LanguageService } from "../../../services/language.service";
 import { ApiService } from "../../../services/api.service";
@@ -32,6 +33,13 @@ export class MyRequestsPage implements OnInit {
   }
 
   private getRequests() {
-    this.api.getHistory().pipe(map((res: BaseResponse) => res.content)).subscribe((res: History[]) => this.requests = res);
+    this.api.getHistory()
+      .pipe(
+        map((res: BaseResponse) => {
+          res.content.forEach((item: History) => item.created = moment(item.created.replace("UTC:00", "")));
+          return res.content;
+        })
+      )
+      .subscribe((res: History[]) => this.requests = res);
   }
 }

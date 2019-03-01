@@ -118,21 +118,6 @@ export class ApiService {
   }
 
   public getHistory(): Observable<BaseResponse> {
-    const requests: Array<History> = [];
-    for (let i = 0; i < _.random(3, 9); ++i) {
-      requests.push({
-        title: `Plan #${i + 1}`,
-        status: _.sample(["pending", "done"]),
-        created: new Date(),
-        type: "SIM card"
-      })
-    }
-    return of({
-      content: requests,
-      metadata: {}
-    })
-      .pipe(
-        delay(200)
-      )
+    return this.http.get<BaseResponse>(`${environment.api}/action-requests`);
   }
 }
