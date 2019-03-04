@@ -142,7 +142,6 @@ export class LoginPage implements OnInit, OnDestroy {
     // const checkEmailResponse = await this.fb.api(loginResponse.authResponse.userID + '/?fields=email', ['public_profile', 'email']);
     try {
       const loginResponse = await this.fb.login(['public_profile', 'email']);
-      alert(JSON.stringify(loginResponse));
       this.api.facebookLogin({ access_token: loginResponse.authResponse.accessToken })
         .pipe(
           switchMap((res: BaseResponse) => (

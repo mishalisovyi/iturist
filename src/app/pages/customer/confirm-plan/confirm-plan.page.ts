@@ -52,17 +52,18 @@ export class ConfirmPlanPage implements OnInit {
     }
  `;
 
-  private tranzilaScript: string = `
-   document.addEventListener("click", function(e) {
-     console.log('click', e.target);
-     alert(e.target.localName);
-     if (e.target.localName !== "input" && e.target.localName !== "select") {
-       document.activeElement.blur();
-       alert("close");
-       console.log(document.activeElement);
-     }
-   });
-  `
+  // private tranzilaScript: string = `
+  //  document.addEventListener("click", function(e) {
+  //    console.log('click', e.target);
+  //    alert(e.target.localName);
+  //    if (e.target.localName !== "input" && e.target.localName !== "select") {
+  //      document.activeElement.blur();
+  //      alert("close");
+  //      console.log(document.activeElement);
+  //    }
+  //  });
+  // `
+
   public plan: Plan;
   public text: any;
 
@@ -110,10 +111,14 @@ export class ConfirmPlanPage implements OnInit {
   }
 
   public confirmPlan() {
+
+    let interval: any;
+
+
     this.browser = this.iab.create(
       "https://direct.tranzila.com/diplomacy/newiframe.php?sum=5&currency=1&tranmode=AK&user=1",
       "_blank",
-      { beforeload: "yes", hideurlbar: "yes" }
+      { beforeload: "yes", hideurlbar: "yes", location: "yes" }
     );
     this.browser.insertCSS({ code: this.tranzilaCss });
     if (this.platform.is('android')) this.browser.hide();
@@ -122,7 +127,26 @@ export class ConfirmPlanPage implements OnInit {
       this.browser.insertCSS({ code: this.tranzilaCss }).then(() => {
         if (this.platform.is('android')) this.browser.show();
       });
-      if (this.platform.is('ios')) this.browser.executeScript({ code: this.tranzilaScript });
-    })
+      // if (this.platform.is('ios')) this.browser.executeScript({ code: this.tranzilaScript });
+
+
+      this.browser.executeScript({ code: "localStorage.setItem('status', '')" })
+      setTimeout(() => {
+        this.browser.executeScript({ code: "localStorage.setItem('status', 'close')" });
+      }, 3000);
+
+      interval = setInterval(() => {
+        this.browser.executeScript({ code: "localStorage.getItem('status')" }).then((values: any) => {
+          const status = values[0];
+          if (status) {
+            alert("status: " + status);
+            this.browser.executeScript({ code: "localStorage.setItem('status', '')" }).then(() => {
+              clearInterval(interval);
+              this.browser.close();
+            });
+          }          
+        });
+      }, 300)
+    });
   }
 }

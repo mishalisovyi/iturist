@@ -109,7 +109,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   private setFormValues() {
     this.form.get("name").setValue(this.profile.first_name);
     this.form.get("email").setValue(this.profile.user);
-    this.form.get("language").setValue(this.profile.language_long);
+    this.form.get("language").setValue(this.profile.language);
     this.action.language = this.profile.language;
   }
 
