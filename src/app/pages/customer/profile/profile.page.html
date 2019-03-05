@@ -24,13 +24,13 @@
       <ion-row justify-content-center>
         <ion-col id="profile-info-block" size-md="7" size-lg="5" margin-vertical>
           <ng-container *ngIf="!editInfo">
-            <ion-item class="violet-text">
-              <b>{{ text?.email_address }}:</b>&nbsp; {{ form?.get('email')?.value }}
+            <ion-item class="violet-text profile-item">
+              <b>{{ text?.email_address }}:</b><span>&nbsp; {{ form?.get('email')?.value }}</span>
             </ion-item>
-            <ion-item class="violet-text">
+            <ion-item class="violet-text profile-item">
               <b>{{ text?.name }}:</b>&nbsp; {{ form?.get('name')?.value }}
             </ion-item>
-            <ion-item id="last-info-item" class="violet-text">
+            <ion-item id="last-info-item profile-item" class="violet-text">
               <b>{{ text?.language }}:</b>&nbsp; {{ form?.get('language')?.value | lowercase }}
             </ion-item>
             <ion-fab-button (click)="editInfo = true">
