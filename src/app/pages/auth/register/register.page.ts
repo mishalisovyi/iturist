@@ -127,15 +127,14 @@ export class RegisterPage implements OnInit {
       await this.loading.createLoading("Registering");
       this.postTextData().then(
         res => {
-          console.log(res);
-          return forkJoin(this.storage.set("token", res.content.token), this.storage.set("language", res.content.profile.language))
+          forkJoin(this.storage.set("token", res.content.token), this.storage.set("language", res.content.profile.language))
             .pipe(switchMap(() => from(this.postImages())))
             .subscribe(
-              res => {
+              () => {
                 this.router.navigateByUrl('/main');
                 this.loading.dismissLoading();
               },
-              err => this.loading.dismissLoading()
+              () => this.loading.dismissLoading()
             )
         },
         err => {

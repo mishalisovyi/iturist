@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { map } from "rxjs/operators";
+
 import { ApiService } from '../../../services/api.service';
 import { LanguageService } from "../../../services/language.service";
-// import { Plan } from "../../../models/models";
+
+import { Plan, BaseResponse } from "../../../models/models";
 
 @Component({
   selector: 'app-my-plan',
@@ -12,8 +15,7 @@ import { LanguageService } from "../../../services/language.service";
 })
 export class MyPlanPage implements OnInit {
 
-  // public plan: Plan;
-  public plan: any;
+  public plan: Plan;
   public text: any;
 
   private companyId: number;
@@ -26,7 +28,6 @@ export class MyPlanPage implements OnInit {
 
   ngOnInit() {
     this.getMyPlan();
-    this.getMyCompanyId();
   }
 
   ionViewWillEnter() {
@@ -38,15 +39,10 @@ export class MyPlanPage implements OnInit {
   }
 
   private getMyPlan() {
-    // this.api.getMyPlan().subscribe((res: Plan) => this.plan = res);
-    this.api.getMyPlan().subscribe(res => this.plan = res);
-  }
-
-  private getMyCompanyId() {
-    this.api.getMyCompanyId().subscribe(id => this.companyId = id);
+    this.api.getMyPlan().pipe(map((res: BaseResponse) => res.content)).subscribe((res: Array<Plan>) => this.plan = res[0]);
   }
 
   public navigateToChoosePlan() {
-    this.router.navigateByUrl(`/choose-plan/${this.companyId}`);
+    this.router.navigateByUrl(`/choose-plan/${this.plan.package.company_id}`);
   }
 }

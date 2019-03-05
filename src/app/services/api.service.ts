@@ -27,17 +27,6 @@ export class ApiService {
     private fb: Facebook
   ) { }
 
-  public isChoosedCompany(): Observable<BaseResponse> {
-    return of({
-      content: _.sample([true, false]),
-      metadata: {}
-    }).pipe(delay(100));
-  }
-
-  public orderSim(data: any): Observable<any> {
-    return of(data).pipe(delay(200));
-  }
-
   public getCompanies() {
     return this.http.get<BaseResponse>(`${environment.api}/companies`);
   }
@@ -51,22 +40,8 @@ export class ApiService {
     return this.http.get<BaseResponse>(`${environment.api}/simpackages/${id}`);
   }
 
-  public getMyPlan(): Observable<any> {
-    return of({
-      id: _.random(1, 100000),
-      calls: _.random(1, 500),
-      internet: _.random(1, 200),
-      sms: _.random(1, 200),
-      used: {
-        calls: _.random(1, 500),
-        internet: _.random(1, 200),
-        sms: _.random(1, 200)
-      }
-    }).pipe(delay(200));
-  }
-
-  public getMyCompanyId(): Observable<number> {
-    return of(_.random(0, 2)).pipe(delay(100));
+  public getMyPlan() {
+    return this.http.get<BaseResponse>(`${environment.api}/my-simpackages`); 
   }
 
   public register(data: FormData): Observable<BaseResponse> {
@@ -74,10 +49,6 @@ export class ApiService {
   }
 
   public postImages(data: FormData) {
-    // const headers = new HttpHeaders({
-    //   "cache-control": "no-cache"
-    // })
-    // return this.http.post<BaseResponse>(`${environment.api}/user/profile/photo`, data, { headers });
     return this.http.post<BaseResponse>(`${environment.api}/user/profile/photo`, data);
   }
 

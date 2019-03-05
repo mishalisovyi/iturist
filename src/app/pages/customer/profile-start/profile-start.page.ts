@@ -34,6 +34,7 @@ export class ProfileStartPage {
 
   private getPageText() {
     this.text = this.language.getTextByCategories("profile_start");
+    console.log("text", this.text);
   }
 
   private getProfile() {

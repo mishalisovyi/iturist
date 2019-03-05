@@ -6,7 +6,7 @@
     <ion-card-content>
       <ion-grid>
         <ion-row>
-          <ion-col align-self-end class="font-size-16"><span class="bold-text">Plan</span> #{{ plan?.id }}</ion-col>
+          <ion-col align-self-end class="font-size-16"><span class="bold-text">{{ text?.plan }}</span> {{ plan?.package?.title }}</ion-col>
         </ion-row>
         <ion-row id="three-chips-container">
           <ion-col size="9">
@@ -15,22 +15,22 @@
                 <ion-chip>
                   <ion-icon name="call"></ion-icon>
                 </ion-chip>
-                <p class="bold-text mt-5">{{ plan?.used?.calls }}</p>
-                <p class="mt-5">({{ plan?.calls }})</p>
+                <p class="bold-text mt-5">0</p>
+                <p class="mt-5">({{ plan?.package?.calls }})</p>
               </ion-col>
               <ion-col class="col-auto text-center">
                 <ion-chip>
                   <ion-icon name="wifi"></ion-icon>
                 </ion-chip>
-                <p class="bold-text mt-5">{{ plan?.used?.internet }}</p>
-                <p class="mt-5">({{ plan?.internet }} GB)</p>
+                <p class="bold-text mt-5">0</p>
+                <p class="mt-5">({{ plan?.package?.traffic }} GB)</p>
               </ion-col>
               <ion-col class="col-auto text-center">
                 <ion-chip>
                   <ion-icon name="mail"></ion-icon>
                 </ion-chip>
-                <p class="bold-text mt-5">{{ plan?.used?.sms }}</p>
-                <p class="mt-5">({{ plan?.sms }})</p>
+                <p class="bold-text mt-5">0</p>
+                <p class="mt-5">({{ plan?.package?.emails }})</p>
               </ion-col>
             </ion-row>
           </ion-col>

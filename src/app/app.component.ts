@@ -6,12 +6,13 @@ import { MenuController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
-import { Subscription } from "rxjs";
+import { Subscription, of } from "rxjs";
+import { map, catchError } from "rxjs/operators";
 
 import { ApiService } from "./services/api.service";
 import { LanguageService } from "./services/language.service";
 
-import { BaseResponse } from "./models/models";
+import { BaseResponse, Plan } from "./models/models";
 
 @Component({
   selector: 'app-root',
@@ -63,8 +64,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public determineIsChoosedCompany() {
-    this.api.isChoosedCompany().subscribe((res: BaseResponse) => {
-      this.navigateTo(res.content ? "/my-plan" : "/choose-company");
-    })
+    this.api.getMyPlan()
+      .pipe(
+        map((res: BaseResponse) => res.content),
+        catchError(() => of([]))
+      )
+      .subscribe((res: Array<Plan>) => this.navigateTo(res.length ? "/my-plan" : "/choose-company"));
   }
 }

@@ -15,11 +15,6 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'order-sim',
-    loadChildren: './pages/customer/order-sim/order-sim.module#OrderSimPageModule',
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'choose-plan/:companyId',
     loadChildren: './pages/customer/choose-plan/choose-plan.module#ChoosePlanPageModule',
     canActivate: [AuthGuard]

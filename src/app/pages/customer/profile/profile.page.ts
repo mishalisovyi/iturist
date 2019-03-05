@@ -54,16 +54,8 @@ export class ProfilePage implements OnInit, OnDestroy {
       this.setFormValues();
       this.manageImagesVariables();
     });
-    this.action.actionSheetDismiss$.subscribe((res: { label: string, value: string }) => this.form.get("language").setValue(res.label));
+    this.action.actionSheetDismiss$.subscribe((res: { label: string, value: string }) => this.form.get("language").setValue(res.label.toLowerCase()));
     this.language.languageIsLoaded$.subscribe(() => this.getPageText());
-
-    // this.storage.get("profile").subscribe((res: any) => {
-    //   console.log(res);
-    //   if (res) this.profile = res;
-    //   console.log(this.profile);
-    //   this.setFormValues();
-    //   this.manageImagesVariables();
-    // });
   }
 
   ngOnDestroy() {
@@ -109,7 +101,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   private setFormValues() {
     this.form.get("name").setValue(this.profile.first_name);
     this.form.get("email").setValue(this.profile.user);
-    this.form.get("language").setValue(this.profile.language);
+    this.form.get("language").setValue(this.profile.language_full.toLowerCase());
     this.action.language = this.profile.language;
   }
 
@@ -142,70 +134,6 @@ export class ProfilePage implements OnInit, OnDestroy {
     });
   }
 
-  // public async attachGoogle() {
-  //   await this.loading.createLoading(this.text.attaching);
-  //   try {
-  //     const { idToken } = await this.googlePlus.login({ webClientId: environment.googleClientId });
-  //     this.api.socialRegister({ type: "GOOGLE", social_token: idToken })
-  //       .pipe(
-  //         finalize(async () => await this.loading.dismissLoading()),
-  //         catchError((err => throwError(err)))
-  //       )
-  //       .subscribe(
-  //         res => console.log("server response", res),
-  //         async err => {
-  //           /*if (err.error.metadata.api_error_codes.includes(110)) {*/
-  //             alert(this.text.account_already_attached);
-  //             await this.googlePlus.disconnect();
-  //          /* }*/
-  //         }
-  //       );
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
-  // public async attachFacebook() {
-  //   await this.loading.createLoading(this.text.attaching);
-  //   try {
-  //     const response: FacebookLoginResponse = await this.fb.login(['public_profile', 'email']);
-  //     console.log("facebook response", response);
-  //     this.api.socialRegister({ type: "FACEBOOK", social_token: response.authResponse.accessToken })
-  //       .pipe(
-  //         finalize(async () => await this.loading.dismissLoading()),
-  //         catchError((err => throwError(err)))
-  //       )
-  //       .subscribe(
-  //         res => console.log("server response", res),
-  //         async err => {
-  //           if (err.error.metadata.api_error_codes.includes(110)) {
-  //             alert(this.text.account_already_attached);
-  //             await this.fb.logout();
-  //           }
-  //         }
-  //       );
-  //   } catch (error) {
-  //     console.log("error", error);
-  //   }
-  // }
-
-  // public async detachSocial(social: string) {
-  //   await this.loading.createLoading("Detaching");
-  //   try {
-  //     this.api.socialUnregister({ type: social })
-  //       .pipe(
-  //         finalize(async () => {
-  //           await this.loading.dismissLoading();
-  //           if (social === "GOOGLE") await this.api.googleLogout();
-  //           if (social === "FACEBOOK") await this.api.facebookLogout();
-  //         })
-  //       )
-  //       .subscribe((res: BaseResponse) => console.log(res));
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
   public async presentActionSheet() {
     await this.action.createLanguageActionSheet();
   }
@@ -216,7 +144,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     if (this.form.valid) {
       if (this.editInfo) this.editInfo = false;
       else {
-        await this.loading.createLoading("Wait please, your information is updating");
+        await this.loading.createLoading(this.text.updating_profile_msg);
         Promise.all([this.postTextData(), this.postImages()])
           .then((res: [BaseResponse, any]) => {
             if (res[0]) {

@@ -31,7 +31,7 @@
               <b>{{ text?.name }}:</b>&nbsp; {{ form?.get('name')?.value }}
             </ion-item>
             <ion-item id="last-info-item" class="violet-text">
-              <b>{{ text?.language }}:</b>&nbsp; {{ action?.language }}
+              <b>{{ text?.language }}:</b>&nbsp; {{ form?.get('language')?.value | lowercase }}
             </ion-item>
             <ion-fab-button (click)="editInfo = true">
               <ion-icon src="assets/screens/icon-pen.svg"></ion-icon>
@@ -51,27 +51,12 @@
               <ion-input type="text" readonly formControlName="language" placeholder="{{ text?.select_language }}">
               </ion-input>
             </ion-item>
-            <!-- <ion-item no-padding class="violet-text select-field"
-              [class.error-field]="submitTry && form.get('language').invalid" (click)="presentActionSheet()">
-              <div></div>
-              <ion-select formControlName="language" placeholder="Select language">
-                <ion-select-option value="En">English</ion-select-option>
-                <ion-select-option value="He">Hebrew</ion-select-option>
-              </ion-select>
-              fsdfsfd
-            </ion-item> -->
             <ion-item *ngIf="submitTry && form.get('name').hasError('required')" class="red-text">
               <span>{{ text?.name_required }}</span>
             </ion-item>
             <ion-item *ngIf="submitTry && form.get('name').hasError('pattern')" class="red-text">
               <span>{{ text?.only_letters }}</span>
             </ion-item>
-            <!-- <ion-item *ngIf="submitTry && form.get('email').hasError('required')" class="red-text">
-              <span>{{ text?.email_required }}</span>
-            </ion-item>
-            <ion-item *ngIf="submitTry && form.get('email').hasError('email')" class="red-text">
-              <span>{{ text?.email_not_valid }}</span>
-            </ion-item> -->
             <ion-item *ngIf="submitTry && form.get('language').hasError('required')" class="red-text">
               <span>{{ text?.language_required }}</span>
             </ion-item>
@@ -145,22 +130,6 @@
           </div>
         </ion-col>
       </ion-row>
-      <!-- <ion-row>
-        <ion-col>
-          <ion-button id="google-btn" class="w-100" (click)="attachGoogle()">Attach Google account</ion-button>
-        </ion-col>
-        <ion-col>
-          <ion-button id="google-btn" class="w-100" (click)="detachSocial('GOOGLE')">Detach Google account</ion-button>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-button id="facebook-btn" class="w-100" (click)="attachFacebook()">Attach Facebook account</ion-button>
-        </ion-col>
-        <ion-col>
-          <ion-button id="facebook-btn" class="w-100" (click)="detachSocial('FACEBOOK')">Detach Facebook account</ion-button>
-        </ion-col>
-      </ion-row> -->
     </ion-grid>
   </form>
 </ion-content>

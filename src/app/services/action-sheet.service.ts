@@ -32,7 +32,6 @@ export class ActionSheetService {
 
   public async createLanguageActionSheet() {
     this.text = this.languageService.getTextByCategories("menu");
-    console.log(this.text);
     const actionSheet = await this.action.create({
       header: this.text.select_language,
       buttons: [

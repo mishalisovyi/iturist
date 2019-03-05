@@ -5,7 +5,7 @@ export interface Profile {
   first_name: string;
   user: string;
   language: string;
-  language_long: string;
+  language_full: string;
   photo?: string;
   airline_image?: string;
   travel_image?: string;
@@ -13,14 +13,17 @@ export interface Profile {
 }
 
 export interface Plan {
-  calls: number;
-  company: string;
-  company_id: number;
-  emails: number;
-  id: number;
-  price: string;
-  title: string;
-  traffic: number;
+  created: string;
+  package: {
+    calls: number;
+    company: string;
+    company_id: number;
+    emails: number;
+    id: number;
+    price: string;
+    title: string;
+    traffic: number;
+  }
 }
 
 export interface History {
@@ -30,6 +33,13 @@ export interface History {
   package: {
     title: string;
   }
+}
+
+export interface Language {
+  id: number;
+  file_url: string;
+  title: string;
+  title_full: string;
 }
 
 /* Request models */

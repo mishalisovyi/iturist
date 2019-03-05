@@ -11,10 +11,10 @@
       <ion-grid>
         <ion-row>
           <ion-col [class.hidden]="hideBage">
-            <ion-badge>Your plan</ion-badge>
+            <ion-badge>{{ text?.your_plan }}</ion-badge>
           </ion-col>
           <ion-col id="logout-col" [hidden]="!isAuthorized" (click)="logout()">
-            <span class="violet-text">Logout</span>
+            <span class="violet-text">{{ text?.logout }}</span>
           </ion-col>
           <ion-col align-self-center>
             <div id="logo">

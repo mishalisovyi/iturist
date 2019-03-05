@@ -66,25 +66,10 @@
             <ion-input type="password" formControlName="confirmPassword" placeholder="{{ text?.confirm_password }}"
               (ionChange)="validatePasswordConfirmation()"></ion-input>
           </ion-item>
-          <!-- <ion-item no-padding class="violet-text select-field"
-            [class.error-field]="submitTry && form.get('language').invalid">
-            <div></div>
-            <ion-select formControlName="language" placeholder="Select language">
-              <ion-select-option value="En">English</ion-select-option>
-              <ion-select-option value="He">Hebrew</ion-select-option>
-            </ion-select>
-          </ion-item> -->
           <ion-item class="violet-text register-form-field"
             [class.error-field]="submitTry && form.get('language').invalid" (click)="presentActionSheet()">
             <ion-input type="text" readonly formControlName="language" placeholder="{{ text?.select_language }}"></ion-input>
           </ion-item>
-          <!-- <ion-item no-padding class="violet-text" [class.error-field]="submitTry && form.get('language').invalid">
-            <div></div>
-            <ion-select formControlName="language" placeholder="Select language">
-              <ion-select-option value="english">English</ion-select-option>
-              <ion-select-option value="hebrew">Hebrew</ion-select-option>
-            </ion-select>
-          </ion-item> -->
           <ion-item *ngIf="submitTry && form.get('name').hasError('required')" class="red-text">
             <span>{{ text?.name_required }}</span>
           </ion-item>
