@@ -7,11 +7,14 @@ import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { File as IonicFile } from '@ionic-native/file/ngx';
 
 import { LoadingService } from "./loading.service";
+import { LanguageService } from "./language.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImageService {
+
+  private text: any;
 
   public imgInfo = {
     profile: {
@@ -46,7 +49,8 @@ export class ImageService {
     private webview: WebView,
     private file: IonicFile,
     private loading: LoadingService,
-    private platform: Platform
+    private platform: Platform,
+    private language: LanguageService
   ) { }
 
   private getPromiseForFile(directory: any, filename: any, imagePath: any): Promise<any> {
@@ -60,6 +64,10 @@ export class ImageService {
     }
   }
 
+  private getPageText() {
+    this.text = this.language.getTextByCategories();
+  }
+
   public resetPhotoData() {
     for (const image in this.imgInfo) {
       this.imgInfo[image].src = null;
@@ -70,9 +78,9 @@ export class ImageService {
   }
 
   public getPhoto(img: string) {
-
+    this.getPageText();
     this.deletePhoto(img);
-    this.loading.createLoading("Please wait, uploading photo");
+    this.loading.createLoading(this.text.loading_photo);
 
     this.camera
       .getPicture({
@@ -82,7 +90,6 @@ export class ImageService {
       })
       .then(
         imagePath => {
-          console.log("image is readed");
           const n = imagePath.lastIndexOf("/");
           const x = imagePath.lastIndexOf("g");
           const filename = imagePath.substring(n + 1, x + 1);
@@ -91,22 +98,17 @@ export class ImageService {
           this.getPromiseForFile(directory, filename, imagePath)
             .then(
               res => {
-                console.log(res);
                 this.imgInfo[img].file = new Blob([res[0]], { type: "image/jpeg" });
                 this.imgInfo[img].src = this.webview.convertFileSrc(this.platform.is("ios") ? imagePath : res[1]);
                 this.imgInfo[img].src = this.webview.convertFileSrc(imagePath);
                 this.imgInfo[img].deleted = false;
                 this.imgInfo[img].changed = true;
               },
-              err => {
-                alert(this.platform.is("ios") ? JSON.stringify(err) : "Only JPEG images are allowed");
-                console.error(err);
-              }
+              err => alert(this.platform.is("ios") ? JSON.stringify(err) : this.text.image_allowed)
             )
             .finally(() => this.loading.dismissLoading())
         },
         err => {
-          console.error(err);
           alert(JSON.stringify(err));
           this.loading.dismissLoading();
         }

@@ -41,7 +41,7 @@ export class LanguageService {
       });
   }
 
-  public getTextByCategories(category: string) {
-    return { ...this.language.common, ...this.language[category] };
+  public getTextByCategories(category?: string) {
+    return category ? { ...this.language.common, ...this.language[category] } : { ...this.language.common };
   }
 }

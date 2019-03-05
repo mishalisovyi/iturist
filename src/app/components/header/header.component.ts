@@ -8,8 +8,6 @@ import { ApiService } from "../../services/api.service";
 import { StorageService } from "../../services/storage.service";
 import { LanguageService } from "../../services/language.service";
 
-import { BaseResponse } from "../../models/models";
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -17,7 +15,8 @@ import { BaseResponse } from "../../models/models";
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  private subscription: Subscription;
+  private navigationSubscription: Subscription;
+  private languageSubscription: Subscription;
 
   public hideBage: boolean = true;
   public isAuthorized: boolean;
@@ -39,17 +38,21 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.hideBage = this.defineHidingBage();
     this.getPageText();
 
-    this.subscription = this.router.events
+    this.languageSubscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
+
+    this.navigationSubscription = this.router.events
       .pipe(
         filter(e => e instanceof NavigationEnd)
       )
       .subscribe((e: any) => {
+        this.getPageText();
         this.hideBage = this.defineHidingBage(e.url);
       });
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    this.navigationSubscription.unsubscribe();
+    this.languageSubscription.unsubscribe();
   }
 
   private defineHidingBage(url: string = this.router.url): boolean {

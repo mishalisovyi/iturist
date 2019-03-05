@@ -11,6 +11,6 @@ import { HeaderComponent } from './header/header.component';
     IonicModule
   ],
   declarations: [HeaderComponent],
-  exports: [HeaderComponent]
+  exports: [HeaderComponent],
 })
 export class SharedModule { }

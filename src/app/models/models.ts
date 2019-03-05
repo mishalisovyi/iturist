@@ -14,16 +14,26 @@ export interface Profile {
 
 export interface Plan {
   created: string;
-  package: {
-    calls: number;
-    company: string;
-    company_id: number;
-    emails: number;
-    id: number;
-    price: string;
-    title: string;
-    traffic: number;
-  }
+  package?: Package;
+  calls?: number;
+  company?: string;
+  company_id?: number;
+  emails?: number;
+  id?: number;
+  price?: string;
+  title?: string;
+  traffic?: number;
+}
+
+export interface Package {
+  calls: number;
+  company: string;
+  company_id: number;
+  emails: number;
+  id: number;
+  price: string;
+  title: string;
+  traffic: number;
 }
 
 export interface History {
