@@ -123,17 +123,17 @@ export class ConfirmPlanPage implements OnInit {
       await this.browser.insertCSS({ code: this.tranzilaCss });
       if (this.platform.is('android')) this.browser.show();
 
-      // this.browser.executeScript({
-      //   code: `
-      //     localStorage.setItem('status', '');
-      //     const button = document.getElementById('ok');
-      //     button.addEventListener('click', () => localStorage.setItem('status', 'close'));
-      //   `
-      // });
-      this.browser.executeScript({ code: "localStorage.setItem('status', '')" });
-      setTimeout(() => {
-        this.browser.executeScript({ code: "localStorage.setItem('status', 'close')" });
-      }, 3000);
+      this.browser.executeScript({
+        code: `
+          localStorage.setItem('status', '');
+          const button = document.getElementById('ok');
+          button.addEventListener('click', () => localStorage.setItem('status', 'close'));
+        `
+      });
+      // this.browser.executeScript({ code: "localStorage.setItem('status', '')" });
+      // setTimeout(() => {
+      //   this.browser.executeScript({ code: "localStorage.setItem('status', 'close')" });
+      // }, 3000);
 
       const interval = setInterval(async () => {
         const values: Array<any> = await this.browser.executeScript({ code: "localStorage.getItem('status')" });

@@ -7,5 +7,6 @@ $chip-active-color: #7c84c0;
 $assistant: "Assistant", sans-serif;
 
 @mixin assistant-font-family {
-  font-family: $assistant;
+  font-family: $assistant !important;
+  font-weight: 200;
 }
