@@ -8,11 +8,17 @@
 
   ion-menu-toggle {
     position: absolute;
-    top: 50px;
+    top: 20px;
     left: 10px;
 
     ion-icon {
       width: 32px;
+    }
+  }
+
+  &.ios-header {
+    ion-menu-toggle {
+      top: 50px;
     }
   }
 }
@@ -64,9 +70,13 @@
 
 #logout-label {
   position: absolute;
-  top: 50px;
+  top: 20px;
   right: 20px;
   color: white;
+
+  &.ios-header {
+    top: 50px;
+  }
 }
 
 #profile-img-label {

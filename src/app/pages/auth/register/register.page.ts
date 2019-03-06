@@ -124,7 +124,7 @@ export class RegisterPage implements OnInit {
     this.submitTry = true;
 
     if (this.form.valid) {
-      await this.loading.createLoading("Registering");
+      await this.loading.createLoading(this.text.registering);
       this.postTextData().then(
         res => {
           forkJoin(this.storage.set("token", res.content.token), this.storage.set("language", res.content.profile.language))

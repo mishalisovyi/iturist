@@ -24,10 +24,9 @@
         <ion-col>
           <span>{{ text?.registration }}</span>
         </ion-col>
-        <ion-col size="4">
-          <ion-button (click)="navigate('/login')" class="w-100">{{ text?.to_login }}</ion-button>
+        <ion-col>
+          <ion-button id="to-login-btn" (click)="navigate('/login')" class="w-100">{{ text?.to_login }}</ion-button>
         </ion-col>
-        <!-- <ion-col><ion-button>To login</ion-button></ion-col> -->
       </ion-row>
       <ion-row>
         <ion-col>
@@ -68,7 +67,8 @@
           </ion-item>
           <ion-item class="violet-text register-form-field"
             [class.error-field]="submitTry && form.get('language').invalid" (click)="presentActionSheet()">
-            <ion-input type="text" readonly formControlName="language" placeholder="{{ text?.select_language }}"></ion-input>
+            <ion-input type="text" readonly formControlName="language" placeholder="{{ text?.select_language }}">
+            </ion-input>
           </ion-item>
           <ion-item *ngIf="submitTry && form.get('name').hasError('required')" class="red-text">
             <span>{{ text?.name_required }}</span>

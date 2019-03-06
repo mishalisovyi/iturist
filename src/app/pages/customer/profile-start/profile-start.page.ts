@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { Platform } from '@ionic/angular';
+
 import { forkJoin } from "rxjs";
 import { switchMap, tap } from 'rxjs/operators';
 
@@ -19,17 +21,24 @@ export class ProfileStartPage {
 
   public profile: Profile;
   public text: any;
+  public iosPlatform: boolean = false;
 
   constructor(
     private router: Router,
     private storage: StorageService,
     private api: ApiService,
-    private language: LanguageService
+    private language: LanguageService,
+    private platform: Platform
   ) { }
 
   ionViewWillEnter() {
     this.getPageText();
     this.getProfile();
+    this.detectPlatform();
+  }
+
+  private detectPlatform() {
+    if (this.platform.is('ios')) this.iosPlatform = true;
   }
 
   private getPageText() {

@@ -22,8 +22,8 @@
     <ion-grid>
       <ion-row id="text-block" class="violet-text" justify-content-between>
         <ion-col>{{ text?.login }}</ion-col>
-        <ion-col size="5">
-          <ion-button class="w-100" (click)="navigateToRegister()">{{ text?.registration }}</ion-button>
+        <ion-col>
+          <ion-button id="register-btn" class="w-100" (click)="navigateToRegister()">{{ text?.registration }}</ion-button>
         </ion-col>
       </ion-row>
       <ion-row>
