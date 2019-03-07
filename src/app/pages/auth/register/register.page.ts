@@ -116,6 +116,21 @@ export class RegisterPage implements OnInit {
     });
   }
 
+  // private postImages() {
+  //   const formData: FormData = new FormData();
+
+  //   for (let key in this.image.imgInfo) {
+  //     if (this.image.imgInfo[key].changed) formData.append(key === 'photo' ? key : `${key}_image`, this.image.imgInfo[key].file, this.image.createImageName());
+  //   }
+
+  //   return new Promise((resolve, reject) => {
+  //     this.api.postImages(formData).subscribe(
+  //       res => resolve(res),
+  //       err => reject(err)
+  //     )
+  //   });
+  // }
+
   public async presentActionSheet() {
     await this.action.createLanguageActionSheet();
   }

@@ -1,10 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
-import { Subscription, throwError } from "rxjs";
-
-import { GooglePlus } from '@ionic-native/google-plus/ngx';
-import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook/ngx';
+import { Subscription } from "rxjs";
 
 import { ImageService } from '../../../services/image.service';
 import { ApiService } from '../../../services/api.service';
@@ -14,9 +11,6 @@ import { LanguageService } from "../../../services/language.service";
 import { StorageService } from "../../../services/storage.service";
 
 import { Profile, ProfileEditRequest, BaseResponse } from '../../../models/models';
-
-import { environment } from "../../../../environments/environment";
-import { finalize, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
@@ -36,8 +30,6 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   constructor(
     private formBuilder: FormBuilder,
-    private googlePlus: GooglePlus,
-    private fb: Facebook,
     private api: ApiService,
     private loading: LoadingService,
     private language: LanguageService,
@@ -107,11 +99,26 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   private postImages() {
     return new Promise((resolve, reject) => {
-      const formData: FormData = new FormData();
-      this.image.imgInfo.profile.file ? formData.append("photo", this.image.imgInfo.profile.file, this.image.createImageName()) : formData.append("photo", "");
-      this.image.imgInfo.airline.file ? formData.append("airline_image", this.image.imgInfo.airline.file, this.image.createImageName()) : formData.append("airline_image", "");
-      this.image.imgInfo.travel.file ? formData.append("travel_image", this.image.imgInfo.travel.file, this.image.createImageName()) : formData.append("travel_image", "");
-      this.image.imgInfo.passport.file ? formData.append("passport_image", this.image.imgInfo.passport.file, this.image.createImageName()) : formData.append("passport_image", "");
+      const formData: any = new FormData();
+
+      for (let key in this.image.imgInfo) {
+        console.log(key);
+        console.log("deleted", this.image.imgInfo[key].deleted);
+        console.log("file", this.image.imgInfo[key].file);
+        console.log("");
+        if (this.image.imgInfo[key].file) formData.append(key === 'profile' ? 'photo' : `${key}_image`, this.image.imgInfo[key].file, this.image.createImageName());
+        if (this.image.imgInfo[key].deleted) formData.append(key === 'profile' ? 'photo' : `${key}_image`, "");
+      }
+
+      // this.image.imgInfo.profile.file ? formData.append("photo", this.image.imgInfo.profile.file, this.image.createImageName()) : formData.append("photo", "");
+      // this.image.imgInfo.airline.file ? formData.append("airline_image", this.image.imgInfo.airline.file, this.image.createImageName()) : formData.append("airline_image", "");
+      // this.image.imgInfo.travel.file ? formData.append("travel_image", this.image.imgInfo.travel.file, this.image.createImageName()) : formData.append("travel_image", "");
+      // this.image.imgInfo.passport.file ? formData.append("passport_image", this.image.imgInfo.passport.file, this.image.createImageName()) : formData.append("passport_image", "");
+
+      // !this.image.imgInfo.profile.deleted ? formData.append("photo", this.image.imgInfo.profile.file, this.image.createImageName()) : formData.append("photo", "");
+      // !this.image.imgInfo.airline.deleted ? formData.append("airline_image", this.image.imgInfo.airline.file, this.image.createImageName()) : formData.append("airline_image", "");
+      // !this.image.imgInfo.travel.deleted ? formData.append("travel_image", this.image.imgInfo.travel.file, this.image.createImageName()) : formData.append("travel_image", "");
+      // !this.image.imgInfo.passport.deleted ? formData.append("passport_image", this.image.imgInfo.passport.file, this.image.createImageName()) : formData.append("passport_image", "");
 
       this.api.postImages(formData).subscribe(
         res => resolve(res),
@@ -119,6 +126,34 @@ export class ProfilePage implements OnInit, OnDestroy {
       )
     });
   }
+
+  // private postImages() {
+  //   const formData: FormData = new FormData();
+
+  //   for (let key in this.image.imgInfo) {
+  //     if (this.image.imgInfo[key].changed) formData.append(key === 'photo' ? key : `${key}_image`, this.image.imgInfo[key].file, this.image.createImageName());
+  //   }
+
+  //   return new Promise((resolve, reject) => {
+  //     this.api.postImages(formData).subscribe(
+  //       res => resolve(res),
+  //       err => reject(err)
+  //     )
+  //   });
+  // }
+
+  // private deleteImages() {
+  //   const imagesForDeleting: string[] = [];
+  //   for (let key in this.image.imgInfo) {
+  //     if (this.image.imgInfo[key].deleted) imagesForDeleting.push(key === 'photo' ? key : `${key}_image`);
+  //   }
+  //   return new Promise((resolve, reject) => {
+  //     this.api.deleteImages(imagesForDeleting).subscribe(
+  //       res => resolve(res),
+  //       err => reject(err)
+  //     )
+  //   })
+  // }
 
   private postTextData() {
     return new Promise((resolve, reject) => {

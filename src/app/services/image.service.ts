@@ -116,6 +116,7 @@ export class ImageService {
   }
 
   public deletePhoto(img: string) {
+    console.log(img);
     this.imgInfo[img].file = null;
     this.imgInfo[img].src = null;
     this.imgInfo[img].deleted = true;

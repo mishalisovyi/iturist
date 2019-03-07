@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
 
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook } from '@ionic-native/facebook/ngx';
@@ -41,15 +41,22 @@ export class ApiService {
   }
 
   public getMyPlan() {
-    return this.http.get<BaseResponse>(`${environment.api}/my-simpackages`); 
+    return this.http.get<BaseResponse>(`${environment.api}/my-simpackages`);
   }
 
   public register(data: FormData): Observable<BaseResponse> {
     return this.http.post<BaseResponse>(`${environment.api}/registration`, data);
   }
 
-  public postImages(data: FormData) {
+  public postImages(data: any) {
+    // console.log(f)
+    // const headers = new HttpHeaders().append('Content-Type', 'application/json');
     return this.http.post<BaseResponse>(`${environment.api}/user/profile/photo`, data);
+    // return this.http.post<BaseResponse>(`${environment.api}/user/profile/photo`, data, { headers });
+  }
+
+  public deleteImages(images: string[]) {
+    return this.http.post<BaseResponse>(`${environment.api}/user/profile/photo`, images);
   }
 
   public googleLogin(data: { id_token: string }): Observable<BaseResponse> {
