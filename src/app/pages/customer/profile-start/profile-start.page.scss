@@ -2,8 +2,21 @@
   width: 100%;
   position: relative;
 
-  ion-img {
+  #background-img {
     width: 100%;
+  }
+
+  #home-img {
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    width: 25px;
+    top: 15px;
+
+    &.ios-header {
+      top: 45px;
+    }
   }
 
   ion-menu-toggle {

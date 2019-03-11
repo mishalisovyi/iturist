@@ -33,9 +33,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     })
   }
 
-
   ngOnInit() {
-    this.hideBage = this.defineHidingBage();
     this.getPageText();
 
     this.languageSubscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
@@ -44,10 +42,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(
         filter(e => e instanceof NavigationEnd)
       )
-      .subscribe((e: any) => {
-        this.getPageText();
-        this.hideBage = this.defineHidingBage(e.url);
-      });
+      .subscribe(() => this.getPageText());
   }
 
   ngOnDestroy() {
@@ -55,12 +50,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.languageSubscription.unsubscribe();
   }
 
-  private defineHidingBage(url: string = this.router.url): boolean {
-    return url.includes('choose-plan') ? false : true;
-  }
-
   private getPageText() {
     this.text = this.language.getTextByCategories("menu");
+  }
+
+  public navigateTo(to: string) {
+    this.router.navigateByUrl(`/${to}`);
   }
 
   public logout() {
@@ -74,6 +69,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
           switchMap(() => forkJoin(this.storage.remove("token"), this.storage.remove("profile"), this.storage.remove("auth_type")))
         ))
       )
-      .subscribe(() => this.router.navigateByUrl("/login"));
+      .subscribe(() => this.navigateTo('login'));
   }
 }

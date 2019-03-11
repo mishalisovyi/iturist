@@ -46,7 +46,7 @@ export class LoginPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.createForm();
     this.storage.get("language").subscribe((res: string) => {
-      if (res) this.language.loadLanguage(res);
+      res ? this.language.loadLanguage(res) : this.language.loadLanguage('En');
     });
     this.subscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
   }

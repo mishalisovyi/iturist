@@ -17,6 +17,7 @@ export class ChoosePlanPage implements OnInit {
   public plans: Array<any>;
   public selectedPlanId: string;
   public text: any;
+  public hideBage: boolean;
 
   constructor(
     private router: Router,
@@ -32,6 +33,15 @@ export class ChoosePlanPage implements OnInit {
 
   ionViewWillEnter() {
     this.getPageText();
+    this.defineHidingBage();
+  }
+
+  private defineHidingBage(url: string = this.router.url) {
+    this.hideBage = true;
+
+    this.api.getMyPlan().subscribe(res => {
+      if (res) this.hideBage = false;   
+    });
   }
 
   private getPageText() {
@@ -44,6 +54,10 @@ export class ChoosePlanPage implements OnInit {
 
   private getPlans() {
     this.api.getPlans(this.companyId).subscribe(res => this.plans = res.content);
+  }
+
+  public navigateTo(to: string) {
+    this.router.navigateByUrl(`/${to}`);
   }
 
   public selectPlan(id: string) {

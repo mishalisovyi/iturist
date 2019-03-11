@@ -26,6 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
 
   public text: any;
+  public iosPlatform;
 
   constructor(
     private platform: Platform,
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
+    this.getPlatform();
   }
 
   ngOnDestroy() {
@@ -56,6 +58,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private getPageText() {
     this.text = this.language.getTextByCategories("menu");
+  }
+
+  private getPlatform() {
+    this.iosPlatform = this.platform.is('ios');   
   }
 
   public navigateTo(path: string) {

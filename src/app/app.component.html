@@ -2,7 +2,7 @@
   <ion-menu #menu contentId="content">
     <ion-content>
       <ion-list no-padding no-margin>
-        <ion-item id="close-item" class="menu-item" (click)="menu.close()">
+        <ion-item id="close-item" class="menu-item" [class.ios-item]="iosPlatform" (click)="menu.close()">
           <ion-icon name="close"></ion-icon>
         </ion-item>
         <ion-item class="menu-item" (click)="navigateTo('/profile-start')">

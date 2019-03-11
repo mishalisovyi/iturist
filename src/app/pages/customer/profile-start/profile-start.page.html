@@ -3,8 +3,9 @@
     <ion-menu-toggle slot="start">
       <ion-icon src="assets/screens/white-menu-icon.svg"></ion-icon>
     </ion-menu-toggle>
+    <ion-img id="home-img" [class.ios-header]="iosPlatform" src="assets/screens/home-white.svg" (click)="navigateTo('main')"></ion-img>
     <span id="logout-label" [class.ios-header]="iosPlatform" (click)="logout()">{{ text?.logout }}</span>
-    <ion-img src="assets/screens/upper-gradient-background-violet.png"></ion-img>
+    <ion-img id="background-img" src="assets/screens/upper-gradient-background-violet.png"></ion-img>
   </div>
   <div *ngIf="!profile?.photo" id="profile-no-img-block">
     <div>

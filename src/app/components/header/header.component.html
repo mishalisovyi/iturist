@@ -7,12 +7,10 @@
         </ion-button>
       </ion-menu-toggle>
     </ion-buttons>
+    <ion-img id="home-img" src="assets/screens/home-blue.svg" (click)="navigateTo('main')"></ion-img>
     <ion-buttons slot="end">
       <ion-grid>
         <ion-row>
-          <ion-col [class.hidden]="hideBage">
-            <ion-badge>{{ text?.your_plan }}</ion-badge>
-          </ion-col>
           <ion-col id="logout-col" [hidden]="!isAuthorized" (click)="logout()">
             <span class="violet-text">{{ text?.logout }}</span>
           </ion-col>
