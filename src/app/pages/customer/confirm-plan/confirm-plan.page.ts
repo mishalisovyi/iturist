@@ -5,7 +5,7 @@ import { Platform } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { InAppBrowser, InAppBrowserObject } from '@ionic-native/in-app-browser/ngx';
 
-import { Plan, BaseResponse } from "../../../models/models";
+import { Plan, Profile, BaseResponse } from "../../../models/models";
 
 import { LanguageService } from "../../../services/language.service";
 import { ApiService } from '../../../services/api.service';
@@ -17,6 +17,7 @@ import { ApiService } from '../../../services/api.service';
 })
 export class ConfirmPlanPage implements OnInit {
 
+  private profile: Profile;
   private planId: string;
   private browser: InAppBrowserObject;
   private tranzilaCss: string = `
@@ -79,15 +80,22 @@ export class ConfirmPlanPage implements OnInit {
 
   ionViewWillEnter() {
     this.getPageText();
+    this.getUser();
+  }
+
+  ngOnInit() {
+    this.getPlanId();
+    this.getPlan(this.planId);
   }
 
   private getPageText() {
     this.text = this.language.getTextByCategories("confirm_plan");
   }
 
-  ngOnInit() {
-    this.getPlanId();
-    this.getPlan(this.planId);
+  private getUser() {
+    this.api.getProfile().subscribe(res => {
+      if (res) this.profile = res.content;
+    });
   }
 
   private getPlanId() {
@@ -111,8 +119,9 @@ export class ConfirmPlanPage implements OnInit {
   }
 
   public confirmPlan() {
+    console.log(this.plan);
     this.browser = this.iab.create(
-      "https://direct.tranzila.com/diplomacy/newiframe.php?sum=5&currency=1&tranmode=AK&user=1",
+      `https://direct.tranzila.com/diplomacy/newiframe.php?sum=${parseFloat(this.plan.price)}&currency=1&tranmode=AK&user_id=${this.profile.user_id}&package_id=${this.plan.id}`,
       "_blank",
       { beforeload: "yes", hideurlbar: "yes", location: "yes" }
     );
@@ -130,10 +139,17 @@ export class ConfirmPlanPage implements OnInit {
           button.addEventListener('click', () => localStorage.setItem('status', 'close'));
         `
       });
-      // this.browser.executeScript({ code: "localStorage.setItem('status', '')" });
-      // setTimeout(() => {
-      //   this.browser.executeScript({ code: "localStorage.setItem('status', 'close')" });
-      // }, 3000);
+      if (this.platform.is('ios')) {
+        this.browser.executeScript({
+          code: `
+            document.addEventListener('touchend', (e) => {
+              if (document.activeElement !== e.target) {  
+                document.activeElement.blur();
+              }
+           })
+          `
+        });
+      }
 
       const interval = setInterval(async () => {
         const values: Array<any> = await this.browser.executeScript({ code: "localStorage.getItem('status')" });
@@ -143,7 +159,7 @@ export class ConfirmPlanPage implements OnInit {
           clearInterval(interval);
           this.browser.close();
         }
-      }, 300)
+      }, 300);
     });
   }
 }
