@@ -34,7 +34,7 @@
     <ion-card-content>
       <ion-grid>
         <ion-row justify-content-between>
-          <ion-col align-self-end class="font-size-16"><span class="bold-text">Plan {{ plan.title }}</span></ion-col>
+          <ion-col align-self-end class="font-size-16"><span class="bold-text">Plan</span> {{ plan.title }}</ion-col>
           <ion-col class="col-auto font-size-20">{{ plan.price }}$</ion-col>
         </ion-row>
         <ion-row id="three-chips-container" justify-content-between>
@@ -72,7 +72,7 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button class="btn bottom-btn" (click)="navigateToConfirmPlan()">{{ text?.checkout }}</ion-button>
+    <ion-button [disabled]="!planIsSelected" class="btn bottom-btn" (click)="navigateToConfirmPlan()">{{ text?.checkout }}</ion-button>
   </ion-toolbar>
 </ion-footer>
 

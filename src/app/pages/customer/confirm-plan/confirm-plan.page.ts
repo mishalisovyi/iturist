@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Platform } from '@ionic/angular';
-import { AlertController } from '@ionic/angular';
 import { InAppBrowser, InAppBrowserObject } from '@ionic-native/in-app-browser/ngx';
 
 import { Plan, Profile, BaseResponse } from "../../../models/models";
@@ -53,25 +52,13 @@ export class ConfirmPlanPage implements OnInit {
     }
  `;
 
-  // private tranzilaScript: string = `
-  //  document.addEventListener("click", function(e) {
-  //    console.log('click', e.target);
-  //    alert(e.target.localName);
-  //    if (e.target.localName !== "input" && e.target.localName !== "select") {
-  //      document.activeElement.blur();
-  //      alert("close");
-  //      console.log(document.activeElement);
-  //    }
-  //  });
-  // `
-
   public plan: Plan;
   public text: any;
+  public hideBage: boolean;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private alert: AlertController,
     private api: ApiService,
     private language: LanguageService,
     private iab: InAppBrowser,
@@ -106,20 +93,15 @@ export class ConfirmPlanPage implements OnInit {
     this.api.getPlan(id).subscribe((plan: BaseResponse) => this.plan = plan.content);
   }
 
-  private async presentInfoAlert() {
-    const alert = await this.alert.create({
-      message: `
-      <p>${this.text.transaction}</p>
-      <p>${this.text.completed}</p>
-      `,
-      buttons: [this.text.ok]
+  private defineHidingBage() {
+    this.hideBage = true;
+
+    this.api.getMyPlan().subscribe(res => {
+      if (res) this.hideBage = false;
     });
-    alert.onDidDismiss().then(() => this.router.navigateByUrl('/my-plan'));
-    await alert.present();
   }
 
   public confirmPlan() {
-    console.log(this.plan);
     this.browser = this.iab.create(
       `https://direct.tranzila.com/diplomacy/newiframe.php?sum=${parseFloat(this.plan.price)}&currency=1&tranmode=AK&user_id=${this.profile.user_id}&package_id=${this.plan.id}`,
       "_blank",
@@ -161,5 +143,11 @@ export class ConfirmPlanPage implements OnInit {
         }
       }, 300);
     });
+
+    this.browser.on('exit').subscribe(() => this.defineHidingBage());
+  }
+
+  public navigateTo(route: string) {
+    this.router.navigateByUrl(`/${route}`);    
   }
 }

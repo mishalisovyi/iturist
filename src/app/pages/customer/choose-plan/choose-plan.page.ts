@@ -12,12 +12,12 @@ import { LanguageService } from '../../../services/language.service';
 export class ChoosePlanPage implements OnInit {
 
   private companyId: string;
-  private planIsSelected: boolean = false;
 
   public plans: Array<any>;
   public selectedPlanId: string;
   public text: any;
   public hideBage: boolean;
+  public planIsSelected: boolean = false;
 
   constructor(
     private router: Router,
@@ -34,13 +34,14 @@ export class ChoosePlanPage implements OnInit {
   ionViewWillEnter() {
     this.getPageText();
     this.defineHidingBage();
+    this.deselectPlan();
   }
 
   private defineHidingBage(url: string = this.router.url) {
     this.hideBage = true;
 
     this.api.getMyPlan().subscribe(res => {
-      if (res) this.hideBage = false;   
+      if (res) this.hideBage = false;
     });
   }
 
@@ -54,6 +55,11 @@ export class ChoosePlanPage implements OnInit {
 
   private getPlans() {
     this.api.getPlans(this.companyId).subscribe(res => this.plans = res.content);
+  }
+
+  private deselectPlan() {
+    this.selectedPlanId = null;
+    this.planIsSelected = false;
   }
 
   public navigateTo(to: string) {

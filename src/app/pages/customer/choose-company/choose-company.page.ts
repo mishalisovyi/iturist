@@ -27,10 +27,16 @@ export class ChooseCompanyPage {
   ionViewWillEnter() {
     this.api.getCompanies().subscribe((res: BaseResponse) => console.log(res));
     this.getPageText();
+    this.deselectCompany();
   }
 
   private getPageText() {
     this.text = this.language.getTextByCategories("choose_company");
+  }
+
+  private deselectCompany() {
+    this.selectedCompanyId = null;
+    this.companyIsSelected = false;
   }
 
   public selectCompany(id: number) {

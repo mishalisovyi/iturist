@@ -6,7 +6,7 @@
       <ion-col>{{ text?.choose_company }}</ion-col>
     </ion-row>
     <ion-row id="main-block" justify-content-center>
-      <ion-col size="7" size-md="6" size-lg="3">
+      <ion-col size="7" size-md="6">
         <ion-grid class="h-100">
           <ion-row class="media-company-row">
             <ion-col align-self-center>
@@ -46,6 +46,6 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button class="btn bottom-btn" (click)="navigateToChoosePlanPage()">{{ text?.choose_plan }}</ion-button>
+    <ion-button class="btn bottom-btn" [disabled]="!companyIsSelected" (click)="navigateToChoosePlanPage()">{{ text?.choose_plan }}</ion-button>
   </ion-toolbar>
 </ion-footer>

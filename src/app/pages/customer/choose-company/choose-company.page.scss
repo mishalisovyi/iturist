@@ -22,6 +22,15 @@
   ion-button {
     --border-radius: 45px;
     height: 50px;
+    @media (min-width: 450px) {
+      height: 75px;     
+    }
+    @media (min-width: 600px) {
+      height: 100px;     
+    }
+    @media (min-width: 900px) {
+      height: 125px;     
+    }
   }
 }
 
