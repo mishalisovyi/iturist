@@ -100,7 +100,12 @@ export class LoginPage implements OnInit, OnDestroy {
           finalize(async () => await this.loading.dismissLoading()),
           catchError((err => throwError(err)))
         )
-        .subscribe(() => this.router.navigateByUrl('/main'))
+        .subscribe(
+          () => this.router.navigateByUrl('/main'),
+          err => {
+            if(err.error.metadata.api_error_codes.includes(101)) alert(this.text.wrong_credentials);
+          }          
+        )
     }
   }
 
