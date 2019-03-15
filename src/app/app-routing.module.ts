@@ -58,6 +58,11 @@ const routes: Routes = [
     path: 'login',
     loadChildren: './pages/auth/login/login.module#LoginPageModule',
     canActivate: [GuestGuard]
+  },
+  {
+    path: 'forgot-password',
+    loadChildren: './pages/auth/forgot-password/forgot-password.module#ForgotPasswordPageModule',
+    canActivate: [GuestGuard]
   }
 ];
 

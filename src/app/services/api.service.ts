@@ -48,8 +48,11 @@ export class ApiService {
     return this.http.post<BaseResponse>(`${environment.api}/registration`, data);
   }
 
+  public sendEmail(email: string) {
+    return this.http.post<BaseResponse>(`${environment.api}/password-reset`, { email });
+  }
+
   public postImages(data: any) {
-    // console.log(f)
     // const headers = new HttpHeaders().append('Content-Type', 'application/json');
     return this.http.post<BaseResponse>(`${environment.api}/user/profile/photo`, data);
     // return this.http.post<BaseResponse>(`${environment.api}/user/profile/photo`, data, { headers });

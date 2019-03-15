@@ -56,6 +56,7 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   ionViewWillEnter() {
+    this.resetForm();
     this.getPageText();
   }
 
@@ -74,8 +75,17 @@ export class LoginPage implements OnInit, OnDestroy {
     });
   }
 
+  private resetForm() {
+    this.submitTry = false;
+    this.form.reset();
+  }
+
   private getPageText() {
     this.text = this.language.getTextByCategories("login");
+  }
+
+  public navigateTo(route: string) {
+    this.router.navigateByUrl(`/${route}`);
   }
 
   public async login() {
@@ -103,8 +113,8 @@ export class LoginPage implements OnInit, OnDestroy {
         .subscribe(
           () => this.router.navigateByUrl('/main'),
           err => {
-            if(err.error.metadata.api_error_codes.includes(101)) alert(this.text.wrong_credentials);
-          }          
+            if (err.error.metadata.api_error_codes.includes(101)) alert(this.text.wrong_credentials);
+          }
         )
     }
   }
