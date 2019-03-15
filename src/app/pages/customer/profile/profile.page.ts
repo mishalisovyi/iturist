@@ -39,13 +39,9 @@ export class ProfilePage implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    console.log("on init");
     this.createForm();
-    this.api.getProfile().subscribe(res => {
-      if (res) this.profile = res.content;
-
-      this.setFormValues();
-      this.manageImagesVariables();
-    });
+   
     this.action.actionSheetDismiss$.subscribe((res: { label: string, value: string }) => this.form.get("language").setValue(res.label.toLowerCase()));
     this.language.languageIsLoaded$.subscribe(() => this.getPageText());
   }
@@ -56,7 +52,15 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   ionViewWillEnter() {
+    console.log("ion view will enter");
     this.getPageText();
+
+    this.api.getProfile().subscribe(res => {
+      if (res) this.profile = res.content;
+
+      this.setFormValues();
+      this.manageImagesVariables();
+    });
   }
 
   private createForm() {
@@ -72,22 +76,37 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   private manageImagesVariables() {
-    if (this.profile.photo) {
+    // if (this.profile.photo) {
+    //   this.image.imgInfo.profile.src = this.profile.photo;
+    //   this.image.imgInfo.profile.deleted = false;
+    // }
+    // if (this.profile.airline_image) {
+    //   this.image.imgInfo.airline.src = this.profile.airline_image;
+    //   this.image.imgInfo.airline.deleted = false;
+    // }
+    // if (this.profile.travel_image) {
+    //   this.image.imgInfo.travel.src = this.profile.travel_image;
+    //   this.image.imgInfo.travel.deleted = false;
+    // }
+    // if (this.profile.passport_image) {
+    //   this.image.imgInfo.passport.src = this.profile.passport_image;
+    //   this.image.imgInfo.passport.deleted = false;
+    // }
+  
       this.image.imgInfo.profile.src = this.profile.photo;
-      this.image.imgInfo.profile.deleted = false;
-    }
-    if (this.profile.airline_image) {
+      this.image.imgInfo.profile.deleted = this.image.imgInfo.profile.src ? false : true;
+    
+   
       this.image.imgInfo.airline.src = this.profile.airline_image;
-      this.image.imgInfo.airline.deleted = false;
-    }
-    if (this.profile.travel_image) {
+      this.image.imgInfo.airline.deleted = this.image.imgInfo.airline.src ? false : true;
+    
+    
       this.image.imgInfo.travel.src = this.profile.travel_image;
-      this.image.imgInfo.travel.deleted = false;
-    }
-    if (this.profile.passport_image) {
+      this.image.imgInfo.travel.deleted = this.image.imgInfo.travel.src ? false : true;
+
       this.image.imgInfo.passport.src = this.profile.passport_image;
-      this.image.imgInfo.passport.deleted = false;
-    }
+      this.image.imgInfo.passport.deleted = this.image.imgInfo.passport.src ? false : true;
+    
   }
 
   private setFormValues() {
@@ -102,23 +121,9 @@ export class ProfilePage implements OnInit, OnDestroy {
       const formData: any = new FormData();
 
       for (let key in this.image.imgInfo) {
-        console.log(key);
-        console.log("deleted", this.image.imgInfo[key].deleted);
-        console.log("file", this.image.imgInfo[key].file);
-        console.log("");
         if (this.image.imgInfo[key].file) formData.append(key === 'profile' ? 'photo' : `${key}_image`, this.image.imgInfo[key].file, this.image.createImageName());
         if (this.image.imgInfo[key].deleted) formData.append(key === 'profile' ? 'photo' : `${key}_image`, "");
       }
-
-      // this.image.imgInfo.profile.file ? formData.append("photo", this.image.imgInfo.profile.file, this.image.createImageName()) : formData.append("photo", "");
-      // this.image.imgInfo.airline.file ? formData.append("airline_image", this.image.imgInfo.airline.file, this.image.createImageName()) : formData.append("airline_image", "");
-      // this.image.imgInfo.travel.file ? formData.append("travel_image", this.image.imgInfo.travel.file, this.image.createImageName()) : formData.append("travel_image", "");
-      // this.image.imgInfo.passport.file ? formData.append("passport_image", this.image.imgInfo.passport.file, this.image.createImageName()) : formData.append("passport_image", "");
-
-      // !this.image.imgInfo.profile.deleted ? formData.append("photo", this.image.imgInfo.profile.file, this.image.createImageName()) : formData.append("photo", "");
-      // !this.image.imgInfo.airline.deleted ? formData.append("airline_image", this.image.imgInfo.airline.file, this.image.createImageName()) : formData.append("airline_image", "");
-      // !this.image.imgInfo.travel.deleted ? formData.append("travel_image", this.image.imgInfo.travel.file, this.image.createImageName()) : formData.append("travel_image", "");
-      // !this.image.imgInfo.passport.deleted ? formData.append("passport_image", this.image.imgInfo.passport.file, this.image.createImageName()) : formData.append("passport_image", "");
 
       this.api.postImages(formData).subscribe(
         res => resolve(res),
@@ -126,34 +131,6 @@ export class ProfilePage implements OnInit, OnDestroy {
       )
     });
   }
-
-  // private postImages() {
-  //   const formData: FormData = new FormData();
-
-  //   for (let key in this.image.imgInfo) {
-  //     if (this.image.imgInfo[key].changed) formData.append(key === 'photo' ? key : `${key}_image`, this.image.imgInfo[key].file, this.image.createImageName());
-  //   }
-
-  //   return new Promise((resolve, reject) => {
-  //     this.api.postImages(formData).subscribe(
-  //       res => resolve(res),
-  //       err => reject(err)
-  //     )
-  //   });
-  // }
-
-  // private deleteImages() {
-  //   const imagesForDeleting: string[] = [];
-  //   for (let key in this.image.imgInfo) {
-  //     if (this.image.imgInfo[key].deleted) imagesForDeleting.push(key === 'photo' ? key : `${key}_image`);
-  //   }
-  //   return new Promise((resolve, reject) => {
-  //     this.api.deleteImages(imagesForDeleting).subscribe(
-  //       res => resolve(res),
-  //       err => reject(err)
-  //     )
-  //   })
-  // }
 
   private postTextData() {
     return new Promise((resolve, reject) => {
