@@ -6,6 +6,7 @@ export interface Profile {
   user: string;
   language: string;
   language_full: string;
+  phone: string;
   photo?: string;
   airline_image?: string;
   travel_image?: string;
@@ -57,7 +58,8 @@ export interface Language {
 export interface ProfileEditRequest {
   email: string,
   first_name: string,
-  language: string
+  language: string,
+  phone: string
 }
 
 /* Response models */

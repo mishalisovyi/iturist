@@ -75,7 +75,8 @@ export class RegisterPage implements OnInit {
       email: ["", [Validators.required, Validators.email]],
       password: ["", [Validators.required, PasswordValidator.password]],
       confirmPassword: ["", Validators.required],
-      language: ["", Validators.required]
+      language: ["", Validators.required],
+      phone: ["", [Validators.required, Validators.minLength(14)]]
     });
   }
 
@@ -86,6 +87,7 @@ export class RegisterPage implements OnInit {
       formData.append("email", this.form.get("email").value);
       formData.append("password", this.form.get("password").value);
       formData.append("language", this.action.language);
+      formData.append("phone", this.form.get('phone').value.replace(/\s|\+/g, ''));
       this.api.register(formData).subscribe(
         res => resolve(res),
         err => reject(err)
@@ -96,18 +98,10 @@ export class RegisterPage implements OnInit {
   private postImages() {
     return new Promise((resolve, reject) => {
       const formData: FormData = new FormData();
-      if (this.image.imgInfo.profile.changed) {
-        formData.append("photo", this.image.imgInfo.profile.file, this.image.createImageName());
-      }
-      if (this.image.imgInfo.airline.changed) {
-        formData.append("airline_image", this.image.imgInfo.airline.file, this.image.createImageName())
-      }
-      if (this.image.imgInfo.travel.changed) {
-        formData.append("travel_image", this.image.imgInfo.travel.file, this.image.createImageName())
-      }
-      if (this.image.imgInfo.passport.changed) {
-        formData.append("passport_image", this.image.imgInfo.passport.file, this.image.createImageName())
-      }
+      if (this.image.imgInfo.profile.changed) formData.append("photo", this.image.imgInfo.profile.file, this.image.createImageName());
+      if (this.image.imgInfo.airline.changed) formData.append("airline_image", this.image.imgInfo.airline.file, this.image.createImageName());
+      if (this.image.imgInfo.travel.changed) formData.append("travel_image", this.image.imgInfo.travel.file, this.image.createImageName());
+      if (this.image.imgInfo.passport.changed) formData.append("passport_image", this.image.imgInfo.passport.file, this.image.createImageName());
 
       this.api.postImages(formData).subscribe(
         res => resolve(res),
@@ -115,21 +109,6 @@ export class RegisterPage implements OnInit {
       )
     });
   }
-
-  // private postImages() {
-  //   const formData: FormData = new FormData();
-
-  //   for (let key in this.image.imgInfo) {
-  //     if (this.image.imgInfo[key].changed) formData.append(key === 'photo' ? key : `${key}_image`, this.image.imgInfo[key].file, this.image.createImageName());
-  //   }
-
-  //   return new Promise((resolve, reject) => {
-  //     this.api.postImages(formData).subscribe(
-  //       res => resolve(res),
-  //       err => reject(err)
-  //     )
-  //   });
-  // }
 
   public async presentActionSheet() {
     await this.action.createLanguageActionSheet();
@@ -142,7 +121,11 @@ export class RegisterPage implements OnInit {
       await this.loading.createLoading(this.text.registering);
       this.postTextData().then(
         res => {
-          forkJoin(this.storage.set("token", res.content.token), this.storage.set("language", res.content.profile.language))
+          forkJoin(
+            this.storage.set("token", res.content.token),
+            this.storage.set("language", res.content.profile.language),
+            this.storage.set('phone', res.content.profile.phone ? res.content.profile.phone : 'none')
+          )
             .pipe(switchMap(() => from(this.postImages())))
             .subscribe(
               () => {

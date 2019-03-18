@@ -59,10 +59,10 @@ export class ForgotPasswordPage implements OnInit {
     this.submitTry = true;
 
     if (this.email.valid) {
-      this.loading.createLoading(this.text.sending);
+      await this.loading.createLoading(this.text.sending);
 
       this.api.sendEmail(this.email.value)
-        .pipe(finalize(() => this.loading.dismissLoading()))
+        .pipe(finalize(async () => await this.loading.dismissLoading()))
         .subscribe(
           async () => {
             const alert = await this.alert.create({
@@ -77,6 +77,8 @@ export class ForgotPasswordPage implements OnInit {
             let message: string = this.text.unknown_error;
             if (err.error.metadata) {
               if (err.error.metadata.api_error_codes.includes(104)) message = this.text.no_users;
+              if (err.error.metadata.api_error_codes.includes(126)) message = this.text.error_facebook;
+              if (err.error.metadata.api_error_codes.includes(127)) message = this.text.error_google;
             }
             if (err.error.email) message = this.text.no_users;
             const alert = await this.alert.create({

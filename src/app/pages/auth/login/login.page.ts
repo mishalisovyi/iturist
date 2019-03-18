@@ -104,7 +104,8 @@ export class LoginPage implements OnInit, OnDestroy {
             forkJoin(
               this.storage.set("token", res.content.token),
               this.storage.set("language", res.content.profile.language),
-              this.storage.set("auth_type", "REGULAR")
+              this.storage.set('phone', res.content.profile.phone ? res.content.profile.phone : 'none'),
+              this.storage.set("auth_type", "REGULAR"),
             )
           )),
           finalize(async () => await this.loading.dismissLoading()),
@@ -113,7 +114,10 @@ export class LoginPage implements OnInit, OnDestroy {
         .subscribe(
           () => this.router.navigateByUrl('/main'),
           err => {
-            if (err.error.metadata.api_error_codes.includes(101)) alert(this.text.wrong_credentials);
+            console.log(err);
+            if (err.error) {
+              if (err.error.metadata.api_error_codes.includes(101)) alert(this.text.wrong_credentials);
+            }
           }
         )
     }
@@ -130,7 +134,8 @@ export class LoginPage implements OnInit, OnDestroy {
             forkJoin(
               this.storage.set("auth_type", "GOOGLE"),
               this.storage.set("token", res.content.token),
-              this.storage.set("language", res.content.profile.language)
+              this.storage.set("language", res.content.profile.language),
+              this.storage.set('phone', res.content.profile.phone ? res.content.profile.phone : 'none')
             )
           )),
           finalize(async () => await this.loading.dismissLoading()),
@@ -163,7 +168,8 @@ export class LoginPage implements OnInit, OnDestroy {
             forkJoin(
               this.storage.set("auth_type", "FACEBOOK"),
               this.storage.set("token", res.content.token),
-              this.storage.set("language", res.content.profile.language)
+              this.storage.set("language", res.content.profile.language),
+              this.storage.set('phone', res.content.profile.phone ? res.content.profile.phone : 'none')
             )
           )),
           finalize(async () => await this.loading.dismissLoading()),

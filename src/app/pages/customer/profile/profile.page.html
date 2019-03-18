@@ -30,17 +30,23 @@
             <ion-item class="violet-text profile-item">
               <b>{{ text?.name }}:</b>&nbsp; {{ form?.get('name')?.value }}
             </ion-item>
-            <ion-item id="last-info-item profile-item" class="violet-text">
+            <ion-item class="violet-text profile-item">
               <b>{{ text?.language }}:</b>&nbsp; {{ form?.get('language')?.value | lowercase }}
             </ion-item>
-            <ion-fab-button (click)="editInfo = true">
+            <ion-item class="violet-text profile-item">
+              <b>{{ text?.phone }}:</b>
+              <span *ngIf="displayedPhone">&nbsp;+972 {{ displayedPhone }}</span>
+              <span *ngIf="!displayedPhone">&nbsp;-</span>
+            </ion-item>
+            <ion-fab-button (click)="switchToEditInfo()">
               <ion-icon src="assets/screens/icon-pen.svg"></ion-icon>
             </ion-fab-button>
           </ng-container>
           <ng-container *ngIf="editInfo">
             <ion-item class="violet-text register-form-field"
               [class.error-field]="submitTry && form.get('email').invalid">
-              <ion-input readonly type="email" formControlName="email" placeholder="{{ text?.email_address }}"></ion-input>
+              <ion-input readonly type="email" formControlName="email" placeholder="{{ text?.email_address }}">
+              </ion-input>
             </ion-item>
             <ion-item class="violet-text register-form-field"
               [class.error-field]="submitTry && form.get('name').invalid">
@@ -51,6 +57,13 @@
               <ion-input type="text" readonly formControlName="language" placeholder="{{ text?.select_language }}">
               </ion-input>
             </ion-item>
+            <ion-item class="violet-text register-form-field"
+              [class.error-field]="submitTry && form.get('phone').invalid">
+              <ion-input #input (ionChange)="validatePhone()" type="text" formControlName="phone" prefix="+972 "
+                mask="000000000" (focusout)="getDisplayedPhone(input.value)" placeholder="{{ text?.phone }}"
+                dropSpecialCharacters="true">
+              </ion-input>
+            </ion-item>
             <ion-item *ngIf="submitTry && form.get('name').hasError('required')" class="red-text">
               <span>{{ text?.name_required }}</span>
             </ion-item>
@@ -59,6 +72,12 @@
             </ion-item>
             <ion-item *ngIf="submitTry && form.get('language').hasError('required')" class="red-text">
               <span>{{ text?.language_required }}</span>
+            </ion-item>
+            <ion-item *ngIf="submitTry && form.get('phone').hasError('required')" class="red-text">
+              <span>{{ text?.phone_required }}</span>
+            </ion-item>
+            <ion-item *ngIf="submitTry && form.get('phone').hasError('minlength')" class="red-text">
+              <span>{{ text?.phone_minlength }}</span>
             </ion-item>
           </ng-container>
         </ion-col>

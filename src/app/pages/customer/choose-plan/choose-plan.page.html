@@ -11,8 +11,8 @@
     <ion-buttons slot="end">
       <ion-grid>
         <ion-row>
-          <ion-col [class.hidden]="hideBage">
-            <ion-badge (click)="navigateTo('my-plan')">{{ text?.your_plan }}</ion-badge>
+          <ion-col id="logout-col" (click)="logout()">
+            <span class="violet-text">{{ text?.logout }}</span>
           </ion-col>
           <ion-col align-self-center>
             <div id="logo">
@@ -72,7 +72,8 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button [disabled]="!planIsSelected" class="btn bottom-btn" (click)="navigateToConfirmPlan()">{{ text?.checkout }}</ion-button>
+    <ion-button [disabled]="!planIsSelected" class="btn bottom-btn" (click)="navigateToConfirmPlan()">
+      {{ text?.checkout }}</ion-button>
   </ion-toolbar>
 </ion-footer>
 

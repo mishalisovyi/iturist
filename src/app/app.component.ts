@@ -1,16 +1,16 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Platform } from '@ionic/angular';
-import { MenuController } from '@ionic/angular';
+import { Platform, AlertController, MenuController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
-import { Subscription, of } from "rxjs";
-import { map, catchError } from "rxjs/operators";
+import { Subscription, of, iif, forkJoin } from "rxjs";
+import { map, catchError, switchMap, tap } from "rxjs/operators";
 
 import { ApiService } from "./services/api.service";
 import { LanguageService } from "./services/language.service";
+import { StorageService } from './services/storage.service';
 
 import { BaseResponse, Plan } from "./models/models";
 
@@ -34,7 +34,9 @@ export class AppComponent implements OnInit, OnDestroy {
     private statusBar: StatusBar,
     private router: Router,
     private api: ApiService,
-    private language: LanguageService
+    private language: LanguageService,
+    private alert: AlertController,
+    private storage: StorageService
   ) {
     this.initializeApp();
   }
@@ -61,7 +63,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private getPlatform() {
-    this.iosPlatform = this.platform.is('ios');   
+    this.iosPlatform = this.platform.is('ios');
   }
 
   public navigateTo(path: string) {
@@ -70,11 +72,48 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public determineIsChoosedCompany() {
-    this.api.getMyPlan()
+    this.storage.get('phone')
       .pipe(
-        map((res: BaseResponse) => res.content),
-        catchError(() => of([]))
+        switchMap(res => (
+          iif(
+            () => res !== 'none',
+            this.api.getMyPlan()
+              .pipe(
+                map((res: BaseResponse) => res.content),
+                catchError(() => of([]))
+              ),
+            of('none')
+          )
+        ))
       )
-      .subscribe((res: Array<Plan>) => this.navigateTo(res.length ? "/my-plan" : "/choose-company"));
+      .subscribe(async (res: Array<Plan> | string) => {
+        if (res !== 'none') {
+          this.navigateTo(res.length ? "/my-plan" : "/choose-company")
+        } else {
+          this.menu.close();
+          const alert = await this.alert.create({
+            message: this.text.no_phone,
+            buttons: [this.text.ok]
+          });
+
+          await alert.present();
+          alert.onDidDismiss().then(() => this.navigateTo('/profile'));
+        }
+      });
+  }
+
+  public logout() {
+    this.storage.get("auth_type")
+      .pipe(
+        tap(async (res: string) => {
+          if (res === "GOOGLE") await this.api.googleLogout();
+          if (res === "FACEBOOK") await this.api.facebookLogout();
+          this.menu.close();
+        }),
+        switchMap(() => this.api.logout().pipe(
+          switchMap(() => forkJoin(this.storage.remove("token"), this.storage.remove("profile"), this.storage.remove("auth_type"), this.storage.remove('phone')))
+        ))
+      )
+      .subscribe(() => this.navigateTo('login'));
   }
 }

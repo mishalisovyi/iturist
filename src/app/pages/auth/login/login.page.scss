@@ -2,7 +2,7 @@
 
 #google-btn {
   --background: red;
-  margin-top: 20%;
+  margin-top: 10%;
 }
 
 #facebook-btn {
@@ -72,4 +72,8 @@ ion-title {
 #register-btn {
   width: max-content;
   float: right;
+}
+
+#last-password {
+  margin-bottom: 0;
 }
