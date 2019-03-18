@@ -76,7 +76,7 @@ export class RegisterPage implements OnInit {
       password: ["", [Validators.required, PasswordValidator.password]],
       confirmPassword: ["", Validators.required],
       language: ["", Validators.required],
-      phone: ["", [Validators.required, Validators.minLength(14)]]
+      phone: ["", [Validators.required, Validators.minLength(14), Validators.pattern('\\+*[\\d]{0,3}\\s*[\\d]+')]]
     });
   }
 

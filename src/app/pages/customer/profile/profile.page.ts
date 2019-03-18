@@ -67,7 +67,7 @@ export class ProfilePage implements OnInit, OnDestroy {
       name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z\\s]*$")]],
       email: ["", [Validators.required, Validators.email]],
       language: ["", Validators.required],
-      phone: ["", Validators.required]
+      phone: ["", [Validators.required, Validators.pattern('\\+*[\\d]{0,3}\\s*[\\d]+')]]
     });
   }
 
@@ -76,23 +76,6 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   private manageImagesVariables() {
-    // if (this.profile.photo) {
-    //   this.image.imgInfo.profile.src = this.profile.photo;
-    //   this.image.imgInfo.profile.deleted = false;
-    // }
-    // if (this.profile.airline_image) {
-    //   this.image.imgInfo.airline.src = this.profile.airline_image;
-    //   this.image.imgInfo.airline.deleted = false;
-    // }
-    // if (this.profile.travel_image) {
-    //   this.image.imgInfo.travel.src = this.profile.travel_image;
-    //   this.image.imgInfo.travel.deleted = false;
-    // }
-    // if (this.profile.passport_image) {
-    //   this.image.imgInfo.passport.src = this.profile.passport_image;
-    //   this.image.imgInfo.passport.deleted = false;
-    // }
-
     this.image.imgInfo.profile.src = this.profile.photo;
     this.image.imgInfo.profile.deleted = this.image.imgInfo.profile.src ? false : true;
     this.image.imgInfo.airline.src = this.profile.airline_image;

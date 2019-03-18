@@ -117,6 +117,9 @@
           <ion-item *ngIf="submitTry && form.get('phone').hasError('minlength')" class="red-text">
             <span>{{ text?.phone_minlength }}</span>
           </ion-item>
+          <ion-item *ngIf="submitTry && form.get('phone').hasError('pattern')" class="red-text">
+            <span>{{ text?.only_numbers }}</span>
+          </ion-item>
         </ion-col>
       </ion-row>
       <ion-row id="text-block" class="violet-text">

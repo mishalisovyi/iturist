@@ -127,7 +127,6 @@ export class LoginPage implements OnInit, OnDestroy {
     await this.loading.createLoading(this.text.login);
     try {
       const { idToken } = await this.googlePlus.login({ webClientId: environment.googleClientId });
-      console.log(idToken);
       this.api.googleLogin({ id_token: idToken })
         .pipe(
           switchMap((res: BaseResponse) => (
@@ -143,14 +142,7 @@ export class LoginPage implements OnInit, OnDestroy {
         )
         .subscribe(
           () => this.router.navigateByUrl("/main"),
-          async err => {
-            // if (err.error.metadata.api_error_codes.includes(120) || err.error.metadata.api_error_codes.includes(110)) {
-            //   alert(this.text.not_registered_with_google);
-            //   await this.googlePlus.disconnect();
-            // }
-            console.log(err);
-            await this.googlePlus.disconnect();
-          }
+          async () => await this.googlePlus.disconnect()          
         );
     } catch (error) {
       await this.loading.dismissLoading();

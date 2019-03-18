@@ -14,8 +14,6 @@ import { Camera } from '@ionic-native/camera/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { File } from '@ionic-native/file/ngx';
-import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
-import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -43,8 +41,6 @@ import { TokenInterceptor } from './services/interceptors/token.interceptor';
     WebView,
     FilePath,
     File,
-    UniqueDeviceID,
-    LocalNotifications,
     InAppBrowser,
     {
       provide: RouteReuseStrategy,

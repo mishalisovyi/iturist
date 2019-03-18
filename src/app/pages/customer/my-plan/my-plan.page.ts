@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { map } from "rxjs/operators";
@@ -13,12 +13,10 @@ import { Plan, BaseResponse } from "../../../models/models";
   templateUrl: './my-plan.page.html',
   styleUrls: ['./my-plan.page.scss'],
 })
-export class MyPlanPage implements OnInit {
+export class MyPlanPage {
 
   public plan: Plan;
   public text: any;
-
-  private companyId: number;
 
   constructor(
     private router: Router,
@@ -26,12 +24,9 @@ export class MyPlanPage implements OnInit {
     private language: LanguageService
   ) { }
 
-  ngOnInit() {
-    this.getMyPlan();
-  }
-
   ionViewWillEnter() {
     this.getPageText();
+    this.getMyPlan();
   }
 
   private getPageText() {
