@@ -39,7 +39,8 @@
           <ion-item class="violet-text form-field" [class.error-field]="submitTry && form.get('email').invalid">
             <ion-input type="text" formControlName="email" placeholder="{{ text?.email }}"></ion-input>
           </ion-item>
-          <ion-item id="last-password" class="violet-text form-field" [class.error-field]="submitTry && form.get('password').invalid">
+          <ion-item id="last-password" class="violet-text form-field"
+            [class.error-field]="submitTry && form.get('password').invalid">
             <ion-input type="password" formControlName="password" placeholder="{{ text?.password }}"></ion-input>
           </ion-item>
           <div id="errors-block">
@@ -64,12 +65,16 @@
       </ion-row>
       <ion-row justify-content-center>
         <ion-col size-md="7" size-lg="5">
-          <ion-button id="google-btn" class="w-100" (click)="googleLogin()">{{ text?.google_login }}</ion-button>
+          <ion-button id="google-btn" class="w-100" (click)="googleLogin()">
+            <ion-icon slot="start" name="logo-google"></ion-icon>{{ text?.google_login }}
+          </ion-button>
         </ion-col>
       </ion-row>
       <ion-row justify-content-center>
         <ion-col size-md="7" size-lg="5">
-          <ion-button id="facebook-btn" class="w-100" (click)="facebookLogin()">{{ text?.facebook_login }}</ion-button>
+          <ion-button id="facebook-btn" class="w-100" (click)="facebookLogin()">
+            <ion-icon name="logo-facebook"></ion-icon>{{ text?.facebook_login }}
+          </ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>

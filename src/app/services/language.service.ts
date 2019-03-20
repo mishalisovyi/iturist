@@ -37,11 +37,13 @@ export class LanguageService {
       )
       .subscribe((res: any) => {
         this.language = res;
+        console.log('language', this.language);
         this.languageIsLoadedSubject.next(true);
       });
   }
 
   public getTextByCategories(category?: string) {
-    return category ? { ...this.language.common, ...this.language[category] } : { ...this.language.common };
+    if (this.language) return category ? { ...this.language.common, ...this.language[category] } : { ...this.language.common };
+    return {};
   }
 }

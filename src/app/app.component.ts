@@ -1,9 +1,10 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Platform, AlertController, MenuController } from '@ionic/angular';
+import { Platform, AlertController, MenuController, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { Network } from '@ionic-native/network/ngx';
 
 import { Subscription, of, iif, forkJoin } from "rxjs";
 import { map, catchError, switchMap, tap } from "rxjs/operators";
@@ -23,10 +24,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   @ViewChild("menu") public menu: MenuController;
 
-  private subscription: Subscription;
+  private languageSubscription: Subscription;
+  private connectSubscription: Subscription;
+  private disconnectSubscription: Subscription;
+  private previousConnectionStatus: string = 'online';
 
   public text: any;
-  public iosPlatform;
+  public iosPlatform: boolean;
 
   constructor(
     private platform: Platform,
@@ -36,25 +40,36 @@ export class AppComponent implements OnInit, OnDestroy {
     private api: ApiService,
     private language: LanguageService,
     private alert: AlertController,
-    private storage: StorageService
+    private storage: StorageService,
+    private network: Network,
+    private toast: ToastController
   ) {
     this.initializeApp();
   }
 
   ngOnInit() {
-    this.subscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
     this.getPlatform();
+    this.languageSubscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
   }
 
   ngOnDestroy() {
-    if (this.subscription) this.subscription.unsubscribe();
+    if (this.languageSubscription) this.languageSubscription.unsubscribe();
+    if (this.connectSubscription) this.connectSubscription.unsubscribe();
+    if (this.disconnectSubscription) this.disconnectSubscription.unsubscribe();
   }
 
   initializeApp() {
-    this.platform.ready().then(() => {
+    this.platform.ready().then(async () => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
       this.language.loadLanguage();
+
+      if (this.network.type === this.network.Connection.NONE) await this.showToast('offline')
+      this.network.onchange().pipe().subscribe(async res => {
+        await this.showToast(res.type);
+        if (res.type === 'online') this.storage.get("language").subscribe((res: string) => this.language.loadLanguage(res ? res : "En"))
+      });
     });
   }
 
@@ -64,6 +79,30 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private getPlatform() {
     this.iosPlatform = this.platform.is('ios');
+  }
+
+  private async showToast(type: string) {
+    if (type !== this.previousConnectionStatus) {
+      const toast = await this.toast.create({
+        message: this.getMessageText(type),
+        duration: 2000
+      });
+      toast.present();
+    }
+    this.previousConnectionStatus = type;
+  }
+
+  private getMessageText(type: string): string {
+    // let message: string;
+    // if (type === 'online') {
+    //   message = this.text ? this.text.connected : 'Connected to Internet!';
+    // } else {
+    //   message = this.text ? this.text.disconnected : 'Missing connection to Internet!';
+    // }
+    // return message;
+    return type === 'online'
+      ? this.text ? this.text.connected : 'Connected to Internet!'
+      : this.text ? this.text.disconnected : 'Missing connection to Internet!'
   }
 
   public navigateTo(path: string) {

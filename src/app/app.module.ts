@@ -15,11 +15,14 @@ import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Network } from '@ionic-native/network/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
+
 import { TokenInterceptor } from './services/interceptors/token.interceptor';
+import { NetworkInterceptor } from './services/interceptors/network.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,9 +45,15 @@ import { TokenInterceptor } from './services/interceptors/token.interceptor';
     FilePath,
     File,
     InAppBrowser,
+    Network,
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: NetworkInterceptor,
+      multi: true
     },
     {
       provide: HTTP_INTERCEPTORS,

@@ -27,8 +27,7 @@ export class ChoosePlanPage implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private api: ApiService,
-    private language: LanguageService,
-    private storage: StorageService
+    private language: LanguageService
   ) { }
 
   ngOnInit() {
@@ -80,19 +79,5 @@ export class ChoosePlanPage implements OnInit {
     if (this.planIsSelected) {
       this.router.navigateByUrl(`/confirm-plan/${this.selectedPlanId}`);
     }
-  }
-
-  public logout() {
-    this.storage.get("auth_type")
-      .pipe(
-        tap(async (res: string) => {
-          if (res === "GOOGLE") await this.api.googleLogout();
-          if (res === "FACEBOOK") await this.api.facebookLogout();
-        }),
-        switchMap(() => this.api.logout().pipe(
-          switchMap(() => forkJoin(this.storage.remove("token"), this.storage.remove("profile"), this.storage.remove("auth_type"), this.storage.remove('phone')))
-        ))
-      )
-      .subscribe(() => this.navigateTo('login'));
   }
 }

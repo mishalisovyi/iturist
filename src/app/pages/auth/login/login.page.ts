@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 
@@ -23,7 +23,7 @@ import { environment } from "../../../../environments/environment";
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit, OnDestroy {
+export class LoginPage implements OnInit {
 
   public text: any;
   public form: FormGroup;
@@ -40,24 +40,18 @@ export class LoginPage implements OnInit, OnDestroy {
     private fb: Facebook,
     private menu: MenuController,
     private language: LanguageService,
-    private loading: LoadingService
+    private loading: LoadingService,
   ) { }
 
   ngOnInit() {
     this.createForm();
-    this.storage.get("language").subscribe((res: string) => {
-      res ? this.language.loadLanguage(res) : this.language.loadLanguage('En');
-    });
-    this.subscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) this.subscription.unsubscribe();
   }
 
   ionViewWillEnter() {
     this.resetForm();
     this.getPageText();
+    this.storage.get("language").subscribe((res: string) => res ? this.language.loadLanguage(res) : this.language.loadLanguage('En'));
+    this.subscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
   }
 
   ionViewDidEnter() {
@@ -66,6 +60,7 @@ export class LoginPage implements OnInit, OnDestroy {
 
   ionViewWillLeave() {
     this.menu.enable(true);
+    if (this.subscription) this.subscription.unsubscribe();
   }
 
   private createForm() {
@@ -81,6 +76,7 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   private getPageText() {
+    console.log('subscription works');
     this.text = this.language.getTextByCategories("login");
   }
 
@@ -114,7 +110,6 @@ export class LoginPage implements OnInit, OnDestroy {
         .subscribe(
           () => this.router.navigateByUrl('/main'),
           err => {
-            console.log(err);
             if (err.error) {
               if (err.error.metadata.api_error_codes.includes(101)) alert(this.text.wrong_credentials);
             }
@@ -142,7 +137,7 @@ export class LoginPage implements OnInit, OnDestroy {
         )
         .subscribe(
           () => this.router.navigateByUrl("/main"),
-          async () => await this.googlePlus.disconnect()          
+          async () => await this.googlePlus.disconnect()
         );
     } catch (error) {
       await this.loading.dismissLoading();

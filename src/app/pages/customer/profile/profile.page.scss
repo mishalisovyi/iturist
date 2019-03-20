@@ -175,4 +175,8 @@
 
 .profile-item {
   white-space: nowrap;
+
+  &:last-of-type {
+    margin-bottom: 45px;
+  }
 }

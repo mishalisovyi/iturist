@@ -68,6 +68,7 @@ export class ConfirmPlanPage implements OnInit {
   ionViewWillEnter() {
     this.getPageText();
     this.getUser();
+    this.defineHidingBage();
   }
 
   ngOnInit() {
