@@ -37,7 +37,6 @@ export class LanguageService {
       )
       .subscribe((res: any) => {
         this.language = res;
-        console.log('language', this.language);
         this.languageIsLoadedSubject.next(true);
       });
   }

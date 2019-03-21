@@ -1,4 +1,4 @@
-<ion-header no-border>
+<!-- <ion-header no-border>
   <ion-toolbar>
     <ion-buttons slot="end">
       <ion-grid>
@@ -75,6 +75,78 @@
           <ion-button id="facebook-btn" class="w-100" (click)="facebookLogin()">
             <ion-icon name="logo-facebook"></ion-icon>{{ text?.facebook_login }}
           </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button (click)="login()">{{ text?.sign_in }}</ion-button>
+  </ion-toolbar>
+</ion-footer> -->
+<ion-content padding-horizontal>
+  <form [formGroup]="form">
+    <ion-grid>
+      <ion-row id="text-block" class="violet-text" justify-content-between>
+        <ion-col>{{ text?.login }}</ion-col>
+        <ion-col>
+          <ion-button id="register-btn" class="w-100" (click)="navigateToRegister()">{{ text?.registration }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row id="social-block" justify-content-between>
+        <ion-col size="5">
+          <ion-button id="google-btn" class="w-100" (click)="googleLogin()">{{ text?.google_login }}
+            <ion-icon name="logo-google"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col size="5">
+          <ion-button id="facebook-btn" class="w-100" (click)="facebookLogin()">{{ text?.facebook_login }}
+            <ion-icon name="logo-facebook"></ion-icon>Join
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col align-self-center>
+          <div id="logo">
+            <div id="top-part">
+              <div id="circle"></div>
+            </div>
+            <div id="bottom-part"></div>
+          </div>
+          <ion-item>
+            <span text-center class="violet-text w-100 font-size-20">{{ text?.welcome_to_israel }}</span>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row justify-content-center>
+        <ion-col size-md="7" size-lg="5">
+          <ion-item class="violet-text form-field" [class.error-field]="submitTry && form.get('email').invalid">
+            <ion-input type="text" formControlName="email" placeholder="{{ text?.email }}"></ion-input>
+          </ion-item>
+          <ion-item id="last-password" class="violet-text form-field"
+            [class.error-field]="submitTry && form.get('password').invalid">
+            <ion-input type="password" formControlName="password" placeholder="{{ text?.password }}"></ion-input>
+          </ion-item>
+          <div id="errors-block">
+            <ion-item *ngIf="submitTry && form.get('email').hasError('required')" class="red-text">
+              <span>{{ text?.email_required }}</span>
+            </ion-item>
+            <ion-item *ngIf="submitTry && form.get('email').hasError('email')" class="red-text">
+              <span>{{ text?.email_not_valid }}</span>
+            </ion-item>
+            <ion-item *ngIf="submitTry && form.get('password').hasError('required')" class="red-text">
+              <span>{{ text?.password_required }}</span>
+            </ion-item>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item (click)="navigateTo('forgot-password')">
+            <span text-right class="violet-text w-100">{{ text?.forgot_password }}?</span>
+          </ion-item>
         </ion-col>
       </ion-row>
     </ion-grid>

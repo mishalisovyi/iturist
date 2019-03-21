@@ -53,6 +53,13 @@ export interface Language {
   title_full: string;
 }
 
+export interface Alert {
+  title: string;
+  subTitle: string;
+  link: string;
+  pubDate: string;
+}
+
 /* Request models */
 
 export interface ProfileEditRequest {

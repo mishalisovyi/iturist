@@ -86,7 +86,8 @@ export class ImageService {
       .getPicture({
         sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
         mediaType: this.camera.MediaType.PICTURE,
-        encodingType: this.camera.EncodingType.PNG
+        encodingType: this.camera.EncodingType.PNG,
+        correctOrientation: true
       })
       .then(
         imagePath => {

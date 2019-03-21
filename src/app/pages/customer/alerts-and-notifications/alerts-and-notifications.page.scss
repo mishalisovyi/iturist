@@ -1,0 +1,100 @@
+@import "../../../../utilities";
+
+#logo {
+  height: 26px;
+  width: 18px;
+
+  #top-part {
+    height: 6px;
+    width: 100%;
+    border-radius: 6px;
+    background: linear-gradient(to right, #6c9eff, #a25ffd);
+
+    #circle {
+      width: 6px;
+      height: 6px;
+      margin: 0 auto;
+      border-radius: 50%;
+      background-color: white;
+    }
+  }
+
+  #bottom-part {
+    height: 18px;
+    width: 6px;
+    margin: 2px auto 0;
+    border-radius: 6px;
+    background: linear-gradient(to bottom, #6c9eff, #a25ffd);
+  }
+}
+
+#logout-col {
+  padding-top: 7px;
+
+  span {
+    white-space: nowrap;
+  }
+}
+
+#home-img {
+  position: absolute;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  width: 25px;
+  top: 15px;
+}
+
+#text-block {
+  padding: 5% 36px;
+}
+
+ion-card {
+  margin: 30px 10px 0 !important;
+  border-bottom-style: solid;
+
+  ion-card-title {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    font-weight: bold;
+
+    #title-block {
+      position: relative;
+
+      ion-img {
+        width: 30px;
+        float: left;
+        margin-right: 15px;
+        transform: translateY(3px);
+      }
+
+      span {
+        position: absolute;
+        bottom: 0;
+        white-space: nowrap;
+        font-weight: bold;
+      }
+    }
+
+    #date-block {
+      font-weight: bold;
+      font-size: 18px;
+    }
+  }
+
+  ion-card-content {
+    padding: 0 16px !important;
+  }
+}
+
+.no-padding-margin-right {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+
+.link-btn {
+  --background: linear-gradient(to right, #6c9eff, #a25ffd);
+  --background-activated: linear-gradient(to right, #6c9eff, #a25ffd);
+  --border-radius: 15px;
+}

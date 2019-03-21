@@ -1,0 +1,56 @@
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-toggle>
+        <ion-button>
+          <ion-icon src="assets/screens/violet-menu-icon.svg"></ion-icon>
+        </ion-button>
+      </ion-menu-toggle>
+    </ion-buttons>
+    <ion-img id="home-img" src="assets/screens/home-blue.svg" (click)="navigateTo('main')"></ion-img>
+    <ion-buttons slot="end">
+      <ion-grid>
+        <ion-row>
+          <ion-col id="logout-col" (click)="logout()">
+            <span class="violet-text">{{ text?.logout }}</span>
+          </ion-col>
+          <ion-col align-self-center>
+            <div id="logo">
+              <div id="top-part">
+                <div id="circle"></div>
+              </div>
+              <div id="bottom-part"></div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-buttons>
+  </ion-toolbar>
+  <div id="text-block" class="violet-text bold-text font-size-16">{{ text?.alert_history }}</div>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let item of alerts" class="violet-text">
+    <ion-card-header>
+      <ion-card-title class="violet-text">
+        <div id="title-block">
+          <ion-img src="assets/screens/alerts-and-notifications-violet.svg"></ion-img>
+          <span>{{ item.title }}</span>
+        </div>
+        <div id="date-block">{{ item.pubDate | date:'HH:mm' }} | {{ item.pubDate | date:'d:M:yyyy' }}</div>
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid class="no-padding-margin-right">
+        <ion-row class="ion-justify-content-between no-padding-margin-right">
+          <ion-col>
+            {{ item.subTitle }}
+          </ion-col>
+          <ion-col class="col-auto no-padding-margin-right">
+            <ion-button class="link-btn" href="{{item.link}}">{{ text?.read_more }}</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,12 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { forkJoin } from 'rxjs';
-import { tap, switchMap } from 'rxjs/operators';
-
 import { ApiService } from '../../../services/api.service';
 import { LanguageService } from '../../../services/language.service';
-import { StorageService } from "../../../services/storage.service";
 
 @Component({
   selector: 'app-choose-plan',

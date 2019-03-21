@@ -50,6 +50,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'alerts-and-notifications',
+    loadChildren: './pages/customer/alerts-and-notifications/alerts-and-notifications.module#AlertsAndNotificationsPageModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'register',
     loadChildren: './pages/auth/register/register.module#RegisterPageModule',
     canActivate: [GuestGuard]

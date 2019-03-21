@@ -32,24 +32,30 @@
 
 <ion-content>
   <ion-grid id="main-block">
-    <ion-row justify-content-center (click)="navigateTo('/profile-start')">
-      <ion-col size="6" class="violet-text" text-center>
+    <ion-row justify-content-around>
+      <ion-col size="4" text-center class="violet-text" (click)="navigateTo('/profile-start')">
         <div class="grid-item">
           <ion-img src="assets/screens/my-profile-main-menu.svg"></ion-img>
         </div>
-        <span id="my-profile-label">{{ text?.my_profile }}</span>
+        <span>{{ text?.my_profile }}</span>
       </ion-col>
-    </ion-row>
-    <ion-row justify-content-around>
       <ion-col size="4" text-center class="violet-text" (click)="determineIsChoosedCompany()">
         <div class="grid-item">
           <ion-img src="assets/screens/sim-card.svg"></ion-img>
         </div>
         <span>{{ text?.sim_card }}</span>
       </ion-col>
+    </ion-row>
+    <ion-row justify-content-around>
+      <ion-col size="4" text-center class="violet-text" (click)="navigateTo('/alerts-and-notifications')">
+        <div class="grid-item">
+          <ion-img src="assets/screens/alerts-and-notifications.svg"></ion-img>
+        </div>
+        <span>{{ text?.alerts_and_notifications }}</span>
+      </ion-col>
       <ion-col size="4" text-center class="violet-text" (click)="navigateTo('/my-requests')">
         <div class="grid-item">
-          <ion-img src="assets/screens/security-alerts.svg"></ion-img>
+          <ion-img src="assets/screens/my-requests.svg"></ion-img>
         </div>
         <span>{{ text?.my_requests }}</span>
       </ion-col>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook } from '@ionic-native/facebook/ngx';
@@ -13,7 +13,6 @@ import { StorageService } from '../services/storage.service';
 import { BaseResponse, ProfileEditRequest, History } from "../models/models";
 
 import { environment } from '../../environments/environment';
-
 
 @Injectable({
   providedIn: 'root'
@@ -100,5 +99,22 @@ export class ApiService {
 
   public getHistory(): Observable<BaseResponse> {
     return this.http.get<BaseResponse>(`${environment.api}/action-requests`);
+  }
+
+  public getAlerts(): Observable<BaseResponse> {
+    // return this.http.get<BaseResponse>(`${environment.api}/action-requests`);
+    const response: Array<any> = [];
+    for (let i = 0; i < _.random(20, 30); ++i) {
+      response.push({
+        title: `Title ${i + 1}`,
+        subTitle: `Subtitle ${i + 1} `.repeat(10),
+        link: 'https://www.google.com.ua',
+        pubDate: new Date().toISOString()
+      })
+    }
+    return of({
+      content: response,
+      metadata: {}
+    }).pipe(delay(200))
   }
 }

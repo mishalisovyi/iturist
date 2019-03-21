@@ -76,7 +76,6 @@ export class LoginPage implements OnInit {
   }
 
   private getPageText() {
-    console.log('subscription works');
     this.text = this.language.getTextByCategories("login");
   }
 
