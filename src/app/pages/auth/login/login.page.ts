@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Router } from '@angular/router';
 
-import { MenuController } from '@ionic/angular';
+import { MenuController, ToastController } from '@ionic/angular';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook } from '@ionic-native/facebook/ngx';
+import { Network } from '@ionic-native/network/ngx';
 
 import { throwError, forkJoin, Subscription } from "rxjs";
 import { switchMap, catchError, finalize } from 'rxjs/operators';
@@ -42,15 +43,14 @@ export class LoginPage implements OnInit {
     private menu: MenuController,
     private language: LanguageService,
     private loading: LoadingService,
+    private toast: ToastController,
+    private network: Network
   ) { }
 
   ngOnInit() {
     this.createForm();
-    console.log('on init');
 
-    setTimeout(() => {
-      this.displayedLogo = true;
-    }, 500);
+    setTimeout(() => this.displayedLogo = true, 500);
   }
 
   ionViewWillEnter() {
@@ -83,6 +83,15 @@ export class LoginPage implements OnInit {
 
   private getPageText() {
     this.text = this.language.getTextByCategories("login");
+  }
+
+  private async showToast() {
+    const toast = await this.toast.create({
+      message: this.text ? this.text.disconnected : 'Missing connection to Internet!',
+      duration: 2000
+    });
+    toast.present();
+
   }
 
   public navigateTo(route: string) {
@@ -124,6 +133,10 @@ export class LoginPage implements OnInit {
   }
 
   public async googleLogin() {
+    if (this.network.type === this.network.Connection.NONE) {
+      await this.showToast();
+      return;
+    }
     await this.loading.createLoading(this.text.login);
     try {
       const { idToken } = await this.googlePlus.login({ webClientId: environment.googleClientId });
@@ -150,8 +163,11 @@ export class LoginPage implements OnInit {
   }
 
   public async facebookLogin() {
+    if (this.network.type === this.network.Connection.NONE) {
+      await this.showToast();
+      return;
+    }
     await this.loading.createLoading(this.text.login);
-    // const checkEmailResponse = await this.fb.api(loginResponse.authResponse.userID + '/?fields=email', ['public_profile', 'email']);
     try {
       const loginResponse = await this.fb.login(['public_profile', 'email']);
       this.api.facebookLogin({ access_token: loginResponse.authResponse.accessToken })

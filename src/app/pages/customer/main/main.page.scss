@@ -5,12 +5,9 @@ ion-menu-button {
 }
 
 ion-badge {
-  // width: 125px;
   height: 120%;
   background: linear-gradient(to right, #6c9eff, #a25ffd);
   border-radius: 20px;
-  // padding-top: 12px;
-  // padding-bottom: 6px;
   padding: 12px 15px 6px;
   position: relative;
   top: -3px;
@@ -41,6 +38,16 @@ ion-badge {
     margin: 2px auto 0;
     border-radius: 6px;
     background: linear-gradient(to bottom, #6c9eff, #a25ffd);
+  }
+}
+
+#easy-link-btn {
+  --background: rgba(0,161,214,0.85);
+  --background-activated: rgba(0,161,214,0.85);
+
+  ion-img {
+    width: 25px;
+    margin-top: 5px;
   }
 }
 
@@ -112,16 +119,83 @@ ion-title {
 
 #main-block {
   margin-top: 75px;
+  margin-bottom: 30px;
 
   ion-row:nth-child(2) {
     margin-top: 50px;
   }
 }
 
-// #my-profile-label {
-//   font-size: 20px;
-// }
-
-.title-ios, .title-md {
+.title-ios,
+.title-md {
   padding: 0;
+}
+
+#alert-block {
+  width: 100%;
+  min-height: 100px;
+
+  #gradient-line {
+    width: 100%;
+    height: 7px;
+    background: linear-gradient(to right, #6c9eff, #a25ffd);
+    position: relative;
+
+    #close-btn {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      --box-shadow: none;
+      --background: #6c9eff;
+      --background-activated: #6c9eff;
+      --border-radius: 0;
+      margin: 0;
+      left: 10%;
+      bottom: 0;
+      color: white;
+      font-weight: bold;
+      font-size: 0;
+
+      ion-icon {
+        color: white;
+        font-weight: bold;
+        font-size: 36px;
+      }
+    }
+  }
+
+  #alert-body {
+    width: 100%;
+    padding: 20px 20px;
+    display: flex;
+    justify-content: space-between;
+
+    #alert-text {
+      font-size: 20px;
+    }
+
+    #link-btn {
+      --background: linear-gradient(to right, #6c9eff, #a25ffd);
+      --background-activated: linear-gradient(to right, #6c9eff, #a25ffd);
+      --border-radius: 30px;
+    }
+  }
+}
+
+.alert-theme {
+  #gradient-line {
+    background: linear-gradient(to right, #f56473, #f8d28b) !important;
+
+    #close-btn {
+      --background: #f56473 !important;
+      --background-activated: #f56473 !important;
+    }
+  }
+
+  #alert-body {
+    #link-btn {
+      --background: linear-gradient(to bottom, #f7897a, #f56473) !important;
+      --background-activated: linear-gradient(to bottom, #f7897a, #f56473) !important;
+    }
+  }
 }

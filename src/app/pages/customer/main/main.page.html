@@ -13,9 +13,6 @@
     <ion-buttons slot="end">
       <ion-grid>
         <ion-row>
-          <!-- <ion-col id="logout-col" (click)="logout()">
-            <span class="violet-text">{{ text?.logout }}</span>
-          </ion-col> -->
           <ion-col align-self-center>
             <div id="logo">
               <div id="top-part">
@@ -31,6 +28,11 @@
 </ion-header>
 
 <ion-content>
+  <ion-fab horizontal="end" vertical="top" (click)="openEasySite()">
+    <ion-fab-button id="easy-link-btn" size="small">
+      <ion-img src="assets/screens/easy.png"></ion-img>
+    </ion-fab-button>
+  </ion-fab>
   <ion-grid id="main-block">
     <ion-row justify-content-around>
       <ion-col size="4" text-center class="violet-text" (click)="navigateTo('/profile-start')">
@@ -48,7 +50,6 @@
     </ion-row>
     <ion-row justify-content-around>
       <ion-col size="4" text-center class="violet-text" (click)="navigateTo('/alerts-and-notifications-start')">
-      <!-- <ion-col size="4" text-center class="violet-text"> -->
         <div class="grid-item">
           <ion-img src="assets/screens/alerts-and-notifications.svg"></ion-img>
         </div>
@@ -63,3 +64,16 @@
     </ion-row>
   </ion-grid>
 </ion-content>
+<ion-footer *ngIf="showPopup">
+  <div id="alert-block" [class.alert-theme]="alert?.type !== 'YNET'">
+    <div id="gradient-line">
+      <ion-button size="small" id="close-btn" (click)="togglePopup(false)">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </div>
+    <div id="alert-body">
+      <div id="alert-text" class="violet-text">{{ alert?.title }}</div>
+      <ion-button href="{{alert?.link}}" id="link-btn">{{ text?.read_more }}</ion-button>
+    </div>
+  </div>
+</ion-footer>

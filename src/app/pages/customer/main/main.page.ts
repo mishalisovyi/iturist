@@ -1,10 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-// import { AlertController } from '@ionic/angular';
-
-// import { forkJoin, Subscription, of, iif } from 'rxjs';
-// import { switchMap, tap, map, catchError } from 'rxjs/operators';
+import { InAppBrowser, InAppBrowserObject } from '@ionic-native/in-app-browser/ngx';
 
 import { forkJoin, Subscription } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
@@ -13,26 +10,34 @@ import { ApiService } from '../../../services/api.service';
 import { StorageService } from '../../../services/storage.service';
 import { LanguageService } from "../../../services/language.service";
 
-// import { BaseResponse, Plan } from "../../../models/models";
+import { Alert } from '../../../models/models';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.page.html',
   styleUrls: ['./main.page.scss'],
 })
-export class MainPage {
+export class MainPage implements OnInit {
 
   private subscription: Subscription;
+  private browser: InAppBrowserObject;
 
   public text: any;
+  public showPopup: boolean;
+  public alert: Alert;
 
   constructor(
     private router: Router,
-    // private alert: AlertController,
+    private iab: InAppBrowser,
     private api: ApiService,
     private storage: StorageService,
     private language: LanguageService
   ) { }
+
+  ngOnInit() {
+    this.api.getLatestAlert().subscribe(res => this.alert = res.content);
+    this.togglePopup(true);
+  }
 
   ionViewWillEnter() {
     this.storage.get("language").subscribe((res: string) => this.language.loadLanguage(res ? res : "En"));
@@ -47,38 +52,16 @@ export class MainPage {
     this.text = this.language.getTextByCategories("main");
   }
 
-  // public determineIsChoosedCompany() {
-  //   this.storage.get('phone')
-  //     .pipe(
-  //       switchMap(res => (
-  //         iif(
-  //           () => res !== 'none',
-  //           this.api.getMyPlan()
-  //             .pipe(
-  //               map((res: BaseResponse) => res.content),
-  //               catchError(() => of([]))
-  //             ),
-  //           of('none')
-  //         )
-  //       ))
-  //     )
-  //     .subscribe(async (res: Array<Plan> | string) => {
-  //       if (res !== 'none') {
-  //         this.navigateTo(res.length ? "/my-plan" : "/choose-company")
-  //       } else {
-  //         const alert = await this.alert.create({
-  //           message: this.text.no_phone,
-  //           buttons: [this.text.ok]
-  //         });
-
-  //         await alert.present();
-  //         alert.onDidDismiss().then(() => this.navigateTo('/profile'));
-  //       }
-  //     });
-  // }
-
   public navigateTo(route: string) {
     this.router.navigateByUrl(route);
+  }
+
+  public openEasySite() {
+    this.browser = this.iab.create('https://easy.co.il/en/list/Eurovision-2019', '_blank', { beforeload: "yes", hideurlbar: "yes", location: "yes" });
+  }
+
+  public togglePopup(toggle: boolean) {
+    this.showPopup = toggle;
   }
 
   public logout() {

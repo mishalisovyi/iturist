@@ -52,34 +52,36 @@
 ion-card {
   margin: 30px 10px 0 !important;
   border-bottom-style: solid;
+  border-radius: 0;
 
   ion-card-title {
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     justify-content: space-between;
     font-weight: bold;
 
     #title-block {
       position: relative;
+      display: flex;
+      margin-right: 10px;
 
       ion-img {
+        min-width: 30px;
         width: 30px;
-        float: left;
         margin-right: 15px;
         transform: translateY(3px);
       }
 
       span {
-        position: absolute;
-        bottom: 0;
-        white-space: nowrap;
         font-weight: bold;
+        font-size: 20px;
       }
     }
 
     #date-block {
       font-weight: bold;
       font-size: 18px;
+      white-space: nowrap;
     }
   }
 
@@ -96,5 +98,19 @@ ion-card {
 .link-btn {
   --background: linear-gradient(to right, #6c9eff, #a25ffd);
   --background-activated: linear-gradient(to right, #6c9eff, #a25ffd);
-  --border-radius: 15px;
+  --border-radius: 30px;
+}
+
+.alert-link-btn {
+  --background: linear-gradient(to right, #f56272, #f78a7b);
+  --background-activated: linear-gradient(to right, #f56272, #f78a7b);
+  --border-radius: 30px;
+}
+
+.alert-text {
+  color: #f56473;
+}
+
+.alert-border-text {
+  color: #F7897A;
 }

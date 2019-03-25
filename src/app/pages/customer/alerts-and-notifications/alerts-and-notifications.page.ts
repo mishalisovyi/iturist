@@ -40,7 +40,9 @@ export class AlertsAndNotificationsPage {
   private getAlerts() {
     this.api.getAlerts()
       .pipe(map((res: BaseResponse) => {
-        res.content.forEach((item: Alert) => item.pubDate = moment.utc(item.pubDate.replace("UTC:00", "")).toString());
+        res.content.forEach((item: Alert) => {
+          if (item.pubDate) item.pubDate = moment.utc(item.pubDate.replace("UTC:00", "")).toString();
+        });
         return res.content;
       }))
       .subscribe((res: Alert[]) => this.alerts = res);

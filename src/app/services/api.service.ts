@@ -103,19 +103,10 @@ export class ApiService {
 
   public getAlerts(): Observable<BaseResponse> {
     return this.http.get<BaseResponse>(`${environment.api}/alerts`);
-    // this.http.get<BaseResponse>(`${environment.api}/alerts`).subscribe(res => console.log(res));
-    // const response: Array<any> = [];
-    // for (let i = 0; i < _.random(20, 30); ++i) {
-    //   response.push({
-    //     title: `Title ${i + 1}`,
-    //     subTitle: `Subtitle ${i + 1} `.repeat(10),
-    //     link: 'https://www.google.com.ua',
-    //     pubDate: new Date().toISOString()
-    //   })
-    // }
-    // return of({
-    //   content: response,
-    //   metadata: {}
-    // }).pipe(delay(200))
+  }
+
+  public getLatestAlert(): Observable<BaseResponse> {
+    const params = new HttpParams().set('earliest', '1');
+    return this.http.get<BaseResponse>(`${environment.api}/alerts`, { params });
   }
 }
