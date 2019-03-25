@@ -78,42 +78,49 @@ export class ImageService {
   }
 
   public getPhoto(img: string) {
-    this.getPageText();
-    this.deletePhoto(img);
-    this.loading.createLoading(this.text.loading_photo);
+    return new Promise((resolve, reject) => {
+      this.getPageText();
+      this.deletePhoto(img);
+      this.loading.createLoading(this.text.loading_photo);
 
-    this.camera
-      .getPicture({
-        sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-        mediaType: this.camera.MediaType.PICTURE,
-        encodingType: this.camera.EncodingType.PNG,
-        correctOrientation: true
-      })
-      .then(
-        imagePath => {
-          const n = imagePath.lastIndexOf("/");
-          const x = imagePath.lastIndexOf("g");
-          const filename = imagePath.substring(n + 1, x + 1);
-          const directory = imagePath.substring(0, n);
+      this.camera
+        .getPicture({
+          sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+          mediaType: this.camera.MediaType.PICTURE,
+          encodingType: this.camera.EncodingType.PNG,
+          correctOrientation: true
+        })
+        .then(
+          imagePath => {
+            const n = imagePath.lastIndexOf("/");
+            const x = imagePath.lastIndexOf("g");
+            const filename = imagePath.substring(n + 1, x + 1);
+            const directory = imagePath.substring(0, n);
 
-          this.getPromiseForFile(directory, filename, imagePath)
-            .then(
-              res => {
-                this.imgInfo[img].file = new Blob([res[0]], { type: "image/jpeg" });
-                this.imgInfo[img].src = this.webview.convertFileSrc(this.platform.is("ios") ? imagePath : res[1]);
-                this.imgInfo[img].src = this.webview.convertFileSrc(imagePath);
-                this.imgInfo[img].deleted = false;
-                this.imgInfo[img].changed = true;
-              },
-              err => alert(this.platform.is("ios") ? JSON.stringify(err) : this.text.image_allowed)
-            )
-            .finally(() => this.loading.dismissLoading())
-        },
-        err => {
-          alert(JSON.stringify(err));
-          this.loading.dismissLoading();
-        }
-      )
+            this.getPromiseForFile(directory, filename, imagePath)
+              .then(
+                res => {
+                  this.imgInfo[img].file = new Blob([res[0]], { type: "image/jpeg" });
+                  this.imgInfo[img].src = this.webview.convertFileSrc(this.platform.is("ios") ? imagePath : res[1]);
+                  this.imgInfo[img].src = this.webview.convertFileSrc(imagePath);
+                  this.imgInfo[img].deleted = false;
+                  this.imgInfo[img].changed = true;
+                  resolve()
+                },
+                err => {
+                  alert(this.platform.is("ios") ? JSON.stringify(err) : this.text.image_allowed);
+                  reject();
+                }
+              )
+              .finally(() => this.loading.dismissLoading())
+          },
+          err => {
+            alert(JSON.stringify(err));
+            this.loading.dismissLoading();
+            reject();
+          }
+        )
+    })
   }
 
   public deletePhoto(img: string) {

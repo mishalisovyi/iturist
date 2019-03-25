@@ -39,7 +39,7 @@
         </div>
         <span>{{ text?.my_profile }}</span>
       </ion-col>
-      <ion-col size="4" text-center class="violet-text" (click)="determineIsChoosedCompany()">
+      <ion-col size="4" text-center class="violet-text" (click)="navigateTo('/sim-card-start')">
         <div class="grid-item">
           <ion-img src="assets/screens/sim-card.svg"></ion-img>
         </div>
@@ -47,7 +47,8 @@
       </ion-col>
     </ion-row>
     <ion-row justify-content-around>
-      <ion-col size="4" text-center class="violet-text" (click)="navigateTo('/alerts-and-notifications')">
+      <ion-col size="4" text-center class="violet-text" (click)="navigateTo('/alerts-and-notifications-start')">
+      <!-- <ion-col size="4" text-center class="violet-text"> -->
         <div class="grid-item">
           <ion-img src="assets/screens/alerts-and-notifications.svg"></ion-img>
         </div>

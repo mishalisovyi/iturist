@@ -1,0 +1,40 @@
+<app-header></app-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col align-self-end>
+        <ion-img id="left-img" src="assets/screens/security-alerts.svg"></ion-img>
+      </ion-col>
+      <ion-col class="col-auto">
+        <div id="profile-no-img-block">
+          <div>
+            <ion-img src="assets/screens/sim-card.svg"></ion-img>
+            <div id="rect"></div>
+          </div>
+        </div>
+      </ion-col>
+      <ion-col align-self-end>
+        <ion-img id="right-img" src="assets/screens/stethoscope.svg"></ion-img>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-item id="profile-img-label" class="violet-text">
+    <!-- <span>{{ text?.sim_card_charges }}</span> -->
+    <span>Sim card charges</span>
+  </ion-item>
+  <div id="text-block" padding>
+    <!-- <p class="violet-text">{{ text?.first_text }}</p> -->
+    <p class="violet-text">Text text text text text</p>
+    <ul class="violet-text">
+      <li>Text mdfm sdfds fdfds fsdfsdf</li>
+      <li>Text mdfm sdfds fdfds fsdfsdf</li>
+      <li>Text mdfm sdfds fdfds fsdfsdf</li>
+    </ul>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button class="btn bottom-btn" (click)="determineIsChoosedCompany()">{{ text?.choose_plan }}</ion-button>
+  </ion-toolbar>
+</ion-footer>

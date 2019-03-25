@@ -96,18 +96,20 @@
         </ion-col>
       </ion-row>
       <ion-row id="social-block" justify-content-between>
-        <ion-col size="5">
-          <ion-button id="google-btn" class="w-100" (click)="googleLogin()">{{ text?.google_login }}
+        <ion-col class="col-auto">
+          <ion-button id="google-btn" (click)="googleLogin()">
             <ion-icon name="logo-google"></ion-icon>
+            &nbsp;{{ text?.google_login }}
           </ion-button>
         </ion-col>
-        <ion-col size="5">
-          <ion-button id="facebook-btn" class="w-100" (click)="facebookLogin()">{{ text?.facebook_login }}
-            <ion-icon name="logo-facebook"></ion-icon>Join
+        <ion-col class="col-auto">
+          <ion-button id="facebook-btn" (click)="facebookLogin()">
+            <ion-icon name="logo-facebook"></ion-icon>
+            &nbsp;{{ text?.facebook_login }}
           </ion-button>
         </ion-col>
       </ion-row>
-      <ion-row>
+      <ion-row id="logo-block" [class.displayed-logo]="displayedLogo">
         <ion-col align-self-center>
           <div id="logo">
             <div id="top-part">

@@ -2,10 +2,10 @@
 
 <ion-content padding-horizontal>
   <form [formGroup]="form" (submit)="saveProfile()">
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <div *ngIf="!image.imgInfo.profile.src" id="upload-img-block" (click)="image.getPhoto('profile')">
+    <ion-grid no-margin no-padding>
+      <ion-row no-margin no-padding align-items-center>
+        <ion-col no-margin no-padding>
+          <div *ngIf="!image.imgInfo.profile.src" id="upload-img-block" (click)="getPhoto('profile')">
             <ion-img src="assets/screens/icon-profile.svg"></ion-img>
             <div id="rect"></div>
             <div id="label">
@@ -14,29 +14,34 @@
           </div>
           <div *ngIf="image.imgInfo.profile.src" id="img-block"
             [ngStyle]="{'background-image': 'url(' + image.imgInfo.profile.src + ')'}"
-            (click)="image.getPhoto('profile')">
+            (click)="getPhoto('profile')">
             <div id="label">
               <ion-img src="assets/screens/upload-img.svg"></ion-img>
             </div>
           </div>
         </ion-col>
+        <ion-col *ngIf="editInfo">
+          <ion-button style="float: right" (click)="closeEditInfo()">{{ text?.cancel }}</ion-button>
+        </ion-col>
       </ion-row>
-      <ion-row justify-content-center>
-        <ion-col id="profile-info-block" size-md="7" size-lg="5" margin-vertical>
+      <ion-row justify-content-center no-margin no-padding>
+        <ion-col id="profile-info-block" size-md="7" size-lg="5" margin-vertical no-padding>
           <ng-container *ngIf="!editInfo">
             <ion-item class="violet-text profile-item">
-              <b>{{ text?.email_address }}:</b><span>&nbsp; {{ form?.get('email')?.value }}</span>
+              <b>{{ text?.email_address }}:</b><span>&nbsp; {{ displayedInfo?.email }}</span>
             </ion-item>
             <ion-item class="violet-text profile-item">
-              <b>{{ text?.name }}:</b>&nbsp; {{ form?.get('name')?.value }}
+              <b>{{ text?.name }}:</b>&nbsp; {{ displayedInfo?.name }}
             </ion-item>
             <ion-item class="violet-text profile-item">
-              <b>{{ text?.language }}:</b>&nbsp; {{ form?.get('language')?.value | lowercase }}
+              <b>{{ text?.language }}:</b>&nbsp; {{ displayedInfo?.language | lowercase }}
             </ion-item>
             <ion-item class="violet-text profile-item">
               <b>{{ text?.phone }}:</b>
-              <span *ngIf="displayedPhone">&nbsp;+972 {{ displayedPhone }}</span>
-              <span *ngIf="!displayedPhone">&nbsp;-</span>
+              <!-- <span *ngIf="displayedPhone">&nbsp;+972 {{ displayedPhone }}</span>
+              <span *ngIf="!displayedPhone">&nbsp;-</span> -->
+              <span *ngIf="displayedInfo?.phone">&nbsp;+972 {{ displayedInfo?.phone }}</span>
+              <span *ngIf="!displayedInfo?.phone">&nbsp;-</span>
             </ion-item>
             <ion-fab-button (click)="switchToEditInfo()">
               <ion-icon src="assets/screens/icon-pen.svg"></ion-icon>
@@ -59,9 +64,12 @@
             </ion-item>
             <ion-item class="violet-text register-form-field"
               [class.error-field]="submitTry && form.get('phone').invalid">
-              <ion-input #input (ionChange)="validatePhone()" type="text" formControlName="phone" prefix="+972 "
+              <!-- <ion-input #input (ionChange)="validatePhone()" type="text" formControlName="phone" prefix="+972 "
                 mask="000000000" (focusout)="getDisplayedPhone(input.value)" placeholder="{{ text?.phone }}"
                 dropSpecialCharacters="true">
+              </ion-input> -->
+              <ion-input #input (ionChange)="validatePhone()" type="text" formControlName="phone" prefix="+972 "
+                mask="000000000" placeholder="{{ text?.phone }}" dropSpecialCharacters="true">
               </ion-input>
             </ion-item>
             <ion-item *ngIf="submitTry && form.get('name').hasError('required')" class="red-text">
@@ -85,12 +93,12 @@
           </ng-container>
         </ion-col>
       </ion-row>
-      <ion-row id="text-block" class="violet-text">
-        <ion-col>{{ text?.attach_photo }}</ion-col>
+      <ion-row id="text-block" class="violet-text" no-margin no-padding>
+        <ion-col no-margin no-padding>{{ text?.attach_photo }}</ion-col>
       </ion-row>
-      <ion-row>
-        <ion-col class="attach-btn-col" size-5>
-          <div *ngIf="image.imgInfo.airline.deleted" (click)="image.getPhoto('airline')">
+      <ion-row no-margin no-padding>
+        <ion-col class="attach-btn-col" size-5 no-margin padding-vertical>
+          <div *ngIf="image.imgInfo.airline.deleted" (click)="getPhoto('airline')">
             <div>
               <ion-img src="assets/screens/upload-img.svg"></ion-img>
             </div>
@@ -98,7 +106,7 @@
               {{ text?.airline_tickets }}
             </ion-button>
           </div>
-          <div *ngIf="!image.imgInfo.airline.deleted" (click)="image.deletePhoto('airline')">
+          <div *ngIf="!image.imgInfo.airline.deleted" (click)="deletePhoto('airline')">
             <div>
               <ion-img src="assets/screens/delete-img.svg"></ion-img>
             </div>
@@ -109,8 +117,8 @@
             </ion-button>
           </div>
         </ion-col>
-        <ion-col class="attach-btn-col" size-5>
-          <div *ngIf="image.imgInfo.travel.deleted" (click)="image.getPhoto('travel')">
+        <ion-col class="attach-btn-col" size-5 no-margin padding-vertical>
+          <div *ngIf="image.imgInfo.travel.deleted" (click)="getPhoto('travel')">
             <div>
               <ion-img src="assets/screens/upload-img.svg"></ion-img>
             </div>
@@ -118,7 +126,7 @@
               {{ text?.travel_insurance }}
             </ion-button>
           </div>
-          <div *ngIf="!image.imgInfo.travel.deleted" (click)="image.deletePhoto('travel')">
+          <div *ngIf="!image.imgInfo.travel.deleted" (click)="deletePhoto('travel')">
             <div>
               <ion-img src="assets/screens/delete-img.svg"></ion-img>
             </div>
@@ -130,9 +138,9 @@
           </div>
         </ion-col>
       </ion-row>
-      <ion-row>
-        <ion-col class="attach-btn-col" size-5>
-          <div *ngIf="image.imgInfo.passport.deleted" (click)="image.getPhoto('passport')">
+      <ion-row no-margin no-padding>
+        <ion-col class="attach-btn-col" size-5 no-margin padding-vertical>
+          <div *ngIf="image.imgInfo.passport.deleted" (click)="getPhoto('passport')">
             <div>
               <ion-img src="assets/screens/upload-img.svg"></ion-img>
             </div>
@@ -140,7 +148,7 @@
               {{ text?.passport }}
             </ion-button>
           </div>
-          <div *ngIf="!image.imgInfo.passport.deleted" (click)="image.deletePhoto('passport')">
+          <div *ngIf="!image.imgInfo.passport.deleted" (click)="deletePhoto('passport')">
             <div>
               <ion-img src="assets/screens/delete-img.svg"></ion-img>
             </div>
@@ -155,7 +163,7 @@
     </ion-grid>
   </form>
 </ion-content>
-<ion-footer>
+<ion-footer *ngIf="editInfo">
   <ion-toolbar>
     <ion-button class="btn bottom-btn" (click)="saveProfile()">{{ text?.save }}</ion-button>
   </ion-toolbar>

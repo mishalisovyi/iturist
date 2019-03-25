@@ -35,7 +35,7 @@ export class MyRequestsPage {
     this.api.getHistory()
       .pipe(
         map((res: BaseResponse) => {
-          res.content.forEach((item: History) => item.created = moment(item.created.replace("UTC:00", "")));
+          res.content.forEach((item: History) => item.created = moment.utc(item.created.replace("UTC:00", "")));
           return res.content;
         }),
         finalize(() => this.requestsAreLoaded = true)

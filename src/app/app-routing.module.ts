@@ -55,6 +55,16 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'sim-card-start',
+    loadChildren: './pages/customer/sim-card-start/sim-card-start.module#SimCardStartPageModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'alerts-and-notifications-start',
+    loadChildren: './pages/customer/alerts-and-notifications-start/alerts-and-notifications-start.module#AlertsAndNotificationsStartPageModule',
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'register',
     loadChildren: './pages/auth/register/register.module#RegisterPageModule',
     canActivate: [GuestGuard]

@@ -1,111 +1,11 @@
-// @import "../../../../utilities";
-
-// #google-btn {
-//   --background: red;
-//   margin-top: 10%;
-// }
-
-// #facebook-btn {
-//   --background: cornflowerblue;
-// }
-
-// #errors-block {
-//   position: absolute;
-//   top: 165px;
-// }
-
-// ion-menu-button {
-//   color: $pale-blue;
-// }
-
-// ion-badge {
-//   width: 125px;
-//   height: 120%;
-//   background: linear-gradient(to right, #6c9eff, #a25ffd);
-//   border-radius: 20px;
-//   padding-top: 12px;
-//   padding-bottom: 6px;
-//   position: relative;
-//   top: -3px;
-// }
-
-// #logo {
-//   height: 26px;
-//   width: 18px;
-
-//   #top-part {
-//     height: 6px;
-//     width: 100%;
-//     border-radius: 6px;
-//     background: linear-gradient(to right, #6c9eff, #a25ffd);
-
-//     #circle {
-//       width: 6px;
-//       height: 6px;
-//       margin: 0 auto;
-//       border-radius: 50%;
-//       background-color: white;
-//     }
-//   }
-
-//   #bottom-part {
-//     height: 18px;
-//     width: 6px;
-//     margin: 2px auto 0;
-//     border-radius: 6px;
-//     background: linear-gradient(to bottom, #6c9eff, #a25ffd);
-//   }
-// }
-
-// .hidden {
-//   visibility: hidden;
-// }
-
-// #logout-col {
-//   padding-top: 7px;
-// }
-
-// ion-title {
-//   font-weight: 100;
-// }
-
-// #register-btn {
-//   width: max-content;
-//   float: right;
-// }
-
-// #last-password {
-//   margin-bottom: 0;
-// }
-
-// ion-icon {
-//   position: absolute;
-//   left: 5px;
-//   color: white;
-// }
-
-
-
-
-
-
 @import "../../../../utilities";
 
-// #google-btn {
-//   --background: red;
-//   margin-top: 10%;
-// }
-
-// #facebook-btn {
-//   --background: cornflowerblue;
-// }
-
 #google-btn {
-  --background: red;
+  --background: #dd4335;
 }
 
 #facebook-btn {
-  --background: cornflowerblue;
+  --background: #3d5a9a;
 }
 
 #errors-block {
@@ -118,44 +18,13 @@ ion-menu-button {
 }
 
 ion-badge {
-  width: 125px;
   height: 120%;
   background: linear-gradient(to right, #6c9eff, #a25ffd);
   border-radius: 20px;
-  padding-top: 12px;
-  padding-bottom: 6px;
+  padding: 12px 15px 6px;
   position: relative;
   top: -3px;
 }
-
-// #logo {
-//   height: 26px;
-//   width: 18px;
-//   margin: auto;
-
-//   #top-part {
-//     height: 6px;
-//     width: 100%;
-//     border-radius: 6px;
-//     background: linear-gradient(to right, #6c9eff, #a25ffd);
-
-//     #circle {
-//       width: 6px;
-//       height: 6px;
-//       margin: 0 auto;
-//       border-radius: 50%;
-//       background-color: white;
-//     }
-//   }
-
-//   #bottom-part {
-//     height: 18px;
-//     width: 6px;
-//     margin: 2px auto 0;
-//     border-radius: 6px;
-//     background: linear-gradient(to bottom, #6c9eff, #a25ffd);
-//   }
-// }
 
 #logo {
   height: 72px;
@@ -208,8 +77,6 @@ ion-title {
 }
 
 ion-icon {
-  position: absolute;
-  left: 5px;
   color: white;
 }
 
@@ -219,4 +86,13 @@ ion-icon {
 
 #social-block {
   margin-top: 10%;
+}
+
+#logo-block {
+  opacity: 0;
+  transition: all 2s;
+}
+
+.displayed-logo {
+  opacity: 1 !important;
 }

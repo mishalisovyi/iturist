@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ComponentFactoryResolver } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 import { Subscription } from "rxjs";
@@ -28,6 +28,12 @@ export class ProfilePage implements OnInit, OnDestroy {
   public editInfo: boolean = false;
   public text: any;
   public displayedPhone: string;
+  public displayedInfo = {
+    name: '',
+    email: '',
+    language: '',
+    phone: ''
+  }
 
   constructor(
     private formBuilder: FormBuilder,
@@ -58,6 +64,7 @@ export class ProfilePage implements OnInit, OnDestroy {
       if (res) this.profile = res.content;
 
       this.setFormValues();
+      this.getDisplayedInfo();
       this.manageImagesVariables();
     });
   }
@@ -69,6 +76,12 @@ export class ProfilePage implements OnInit, OnDestroy {
       language: ["", Validators.required],
       phone: ["", [Validators.required, Validators.pattern('\\+*[\\d]{0,3}\\s*[\\d]+')]]
     });
+  }
+
+  private getDisplayedInfo() {
+    for (let key in this.form.controls) {
+      this.displayedInfo[key] = this.form.get(key).value.replace('+972 ', '');
+    }
   }
 
   private getPageText() {
@@ -87,7 +100,6 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   private setFormValues() {
-    this.getDisplayedPhone(this.profile.phone, true);
     this.form.get("name").setValue(this.profile.first_name);
     this.form.get("email").setValue(this.profile.user);
     this.form.get("language").setValue(this.profile.language_full.toLowerCase());
@@ -127,6 +139,19 @@ export class ProfilePage implements OnInit, OnDestroy {
     });
   }
 
+  public deletePhoto(photo: string) {
+    this.image.deletePhoto(photo);
+    this.postImages();
+  }
+
+  public getPhoto(photo: string) {
+    this.image.getPhoto(photo)
+      .then(async () => {
+        await this.loading.createLoading(this.text.updating_profile_msg);
+        this.postImages().finally(async () => await this.loading.dismissLoading())
+      })
+  }
+
   public validatePhone() {
     const value = this.form.get('phone').value;
     if (value.length > 14) this.form.get('phone').setValue(value.slice(0, -1));
@@ -142,36 +167,64 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   public switchToEditInfo() {
-    this.editInfo = true;
     this.form.get('phone').setValue(this.form.get('phone').value.replace('+972 ', ''));
-    this.validatePhone();
+    this.editInfo = true;
+    for (let key in this.displayedInfo) {
+      this.form.get(key).setValue(this.displayedInfo[key])
+    }
+  }
+
+  public closeEditInfo() {
+    this.editInfo = false;
+    this.form.reset();
   }
 
   public async presentActionSheet() {
     await this.action.createLanguageActionSheet();
   }
 
+  // public async saveProfile() {
+  //   this.submitTry = true;
+
+  //   if (this.form.valid) {
+  //     if (this.editInfo) {
+  //       this.editInfo = false;
+  //     } else {
+  //       await this.loading.createLoading(this.text.updating_profile_msg);
+  //       Promise.all([this.postTextData(), this.postImages()])
+  //         .then((res: [BaseResponse, any]) => {
+  //           if (res[0]) {
+  //             this.storage.set('phone', res[0].content.profile.phone)
+  //             this.storage.set("language", res[0].content.language);
+  //             this.language.loadLanguage(res[0].content.language);
+  //           }
+  //         })
+  //         .finally(async () => await this.loading.dismissLoading());
+  //     }
+  //   } else {
+  //     this.editInfo = true;
+  //     this.submitTry = true;
+  //   }
+  // }
+
   public async saveProfile() {
     this.submitTry = true;
 
     if (this.form.valid) {
-      if (this.editInfo) {
-        this.editInfo = false;
-      } else {
-        await this.loading.createLoading(this.text.updating_profile_msg);
-        Promise.all([this.postTextData(), this.postImages()])
-          .then((res: [BaseResponse, any]) => {
-            if (res[0]) {
-              this.storage.set('phone', res[0].content.profile.phone)
-              this.storage.set("language", res[0].content.language);
-              this.language.loadLanguage(res[0].content.language);
-            }
-          })
-          .finally(async () => await this.loading.dismissLoading());
-      }
-    } else {
-      this.editInfo = true;
-      this.submitTry = true;
+      await this.loading.createLoading(this.text.updating_profile_msg);
+      this.postTextData()
+        .then((res: BaseResponse) => {
+          if (res) {
+            this.storage.set('phone', res.content.profile.phone)
+            this.storage.set("language", res.content.language);
+            this.language.loadLanguage(res.content.language);
+          }
+          this.getDisplayedInfo();
+        })
+        .finally(async () => {
+          await this.loading.dismissLoading();
+          this.editInfo = false;
+        });
     }
   }
 }

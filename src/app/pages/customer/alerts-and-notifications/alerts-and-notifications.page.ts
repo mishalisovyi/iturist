@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { forkJoin } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap, map } from 'rxjs/operators';
+import * as moment from 'moment';
 
 import { ApiService } from "../../../services/api.service";
 import { StorageService } from "../../../services/storage.service";
@@ -37,7 +38,12 @@ export class AlertsAndNotificationsPage {
   }
 
   private getAlerts() {
-    this.api.getAlerts().subscribe((res: BaseResponse) => this.alerts = res.content);
+    this.api.getAlerts()
+      .pipe(map((res: BaseResponse) => {
+        res.content.forEach((item: Alert) => item.pubDate = moment.utc(item.pubDate.replace("UTC:00", "")).toString());
+        return res.content;
+      }))
+      .subscribe((res: Alert[]) => this.alerts = res);
   }
 
   public navigateTo(to: string) {

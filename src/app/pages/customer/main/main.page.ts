@@ -1,16 +1,19 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AlertController } from '@ionic/angular';
+// import { AlertController } from '@ionic/angular';
 
-import { forkJoin, Subscription, of, iif } from 'rxjs';
-import { switchMap, tap, map, catchError } from 'rxjs/operators';
+// import { forkJoin, Subscription, of, iif } from 'rxjs';
+// import { switchMap, tap, map, catchError } from 'rxjs/operators';
+
+import { forkJoin, Subscription } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 
 import { ApiService } from '../../../services/api.service';
 import { StorageService } from '../../../services/storage.service';
 import { LanguageService } from "../../../services/language.service";
 
-import { BaseResponse, Plan } from "../../../models/models";
+// import { BaseResponse, Plan } from "../../../models/models";
 
 @Component({
   selector: 'app-main',
@@ -25,7 +28,7 @@ export class MainPage {
 
   constructor(
     private router: Router,
-    private alert: AlertController,
+    // private alert: AlertController,
     private api: ApiService,
     private storage: StorageService,
     private language: LanguageService
@@ -44,43 +47,34 @@ export class MainPage {
     this.text = this.language.getTextByCategories("main");
   }
 
-  public determineIsChoosedCompany() {
-    this.storage.get('phone')
-      .pipe(
-        switchMap(res => (
-          iif(
-            () => res !== 'none',
-            this.api.getMyPlan()
-              .pipe(
-                map((res: BaseResponse) => res.content),
-                catchError(() => of([]))
-              ),
-            of('none')
-          )
-        ))
-      )
-      .subscribe(async (res: Array<Plan> | string) => {
-        if (res !== 'none') {
-          this.navigateTo(res.length ? "/my-plan" : "/choose-company")
-        } else {
-          const alert = await this.alert.create({
-            message: this.text.no_phone,
-            buttons: [this.text.ok]
-          });
-
-          await alert.present();
-          alert.onDidDismiss().then(() => this.navigateTo('/profile'));
-        }
-      });
-  }
-
   // public determineIsChoosedCompany() {
-  //   this.api.getMyPlan()
+  //   this.storage.get('phone')
   //     .pipe(
-  //       map((res: BaseResponse) => res.content),
-  //       catchError(() => of([]))
+  //       switchMap(res => (
+  //         iif(
+  //           () => res !== 'none',
+  //           this.api.getMyPlan()
+  //             .pipe(
+  //               map((res: BaseResponse) => res.content),
+  //               catchError(() => of([]))
+  //             ),
+  //           of('none')
+  //         )
+  //       ))
   //     )
-  //     .subscribe(res => this.navigateTo(res.length ? "/my-plan" : "/choose-company"));
+  //     .subscribe(async (res: Array<Plan> | string) => {
+  //       if (res !== 'none') {
+  //         this.navigateTo(res.length ? "/my-plan" : "/choose-company")
+  //       } else {
+  //         const alert = await this.alert.create({
+  //           message: this.text.no_phone,
+  //           buttons: [this.text.ok]
+  //         });
+
+  //         await alert.present();
+  //         alert.onDidDismiss().then(() => this.navigateTo('/profile'));
+  //       }
+  //     });
   // }
 
   public navigateTo(route: string) {

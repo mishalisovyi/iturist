@@ -28,6 +28,7 @@ export class LoginPage implements OnInit {
   public text: any;
   public form: FormGroup;
   public submitTry: boolean = false;
+  public displayedLogo: boolean = false;
 
   private subscription: Subscription;
 
@@ -45,6 +46,11 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.createForm();
+    console.log('on init');
+
+    setTimeout(() => {
+      this.displayedLogo = true;
+    }, 500);
   }
 
   ionViewWillEnter() {
