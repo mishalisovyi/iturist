@@ -10,6 +10,8 @@ import { SharedModule } from '../../../components/share.module';
 
 import { ProfilePage } from './profile.page';
 
+import { PhoneNumberPipe } from '../../../pipes/phone-number.pipe';
+
 const routes: Routes = [
   {
     path: '',
@@ -27,6 +29,6 @@ const routes: Routes = [
     NgxMaskIonicModule,
     SharedModule
   ],
-  declarations: [ProfilePage]
+  declarations: [ProfilePage, PhoneNumberPipe]
 })
 export class ProfilePageModule {}

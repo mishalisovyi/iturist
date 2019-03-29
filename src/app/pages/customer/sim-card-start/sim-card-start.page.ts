@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { AlertController } from '@ionic/angular';
 
-import { forkJoin, iif, of } from "rxjs";
+import { forkJoin, of } from "rxjs";
 import { switchMap, tap, map, catchError } from 'rxjs/operators';
 
 import { StorageService } from '../../../services/storage.service';
@@ -42,34 +42,43 @@ export class SimCardStartPage {
     this.router.navigateByUrl(path);
   }
 
-  public determineIsChoosedCompany() {
-    this.storage.get('phone')
-      .pipe(
-        switchMap(res => (
-          iif(
-            () => res !== 'none',
-            this.api.getMyPlan()
-              .pipe(
-                map((res: BaseResponse) => res.content),
-                catchError(() => of([]))
-              ),
-            of('none')
-          )
-        ))
-      )
-      .subscribe(async (res: Array<Plan> | string) => {
-        if (res !== 'none') {
-          this.navigateTo(res.length ? "/my-plan" : "/choose-company")
-        } else {
-          const alert = await this.alert.create({
-            message: this.text.no_phone,
-            buttons: [this.text.ok]
-          });
+  // public determineIsChoosedCompany() {
+  //   this.storage.get('phone')
+  //     .pipe(
+  //       switchMap(res => (
+  //         iif(
+  //           () => res !== 'none',
+  //           this.api.getMyPlan()
+  //             .pipe(
+  //               map((res: BaseResponse) => res.content),
+  //               catchError(() => of([]))
+  //             ),
+  //           of('none')
+  //         )
+  //       ))
+  //     )
+  //     .subscribe(async (res: Array<Plan> | string) => {
+  //       if (res !== 'none') {
+  //         this.navigateTo(res.length ? "/my-plan" : "/choose-company")
+  //       } else {
+  //         const alert = await this.alert.create({
+  //           message: this.text.no_phone,
+  //           buttons: [this.text.ok]
+  //         });
 
-          await alert.present();
-          alert.onDidDismiss().then(() => this.navigateTo('/profile'));
-        }
-      });
+  //         await alert.present();
+  //         alert.onDidDismiss().then(() => this.navigateTo('/profile'));
+  //       }
+  //     });
+  // }
+
+  public determineIsChoosedCompany() {
+    this.api.getMyPlan()
+      .pipe(
+        map((res: BaseResponse) => res.content),
+        catchError(() => of([]))
+      )
+      .subscribe(async (res: Array<Plan> | string) => this.navigateTo(res.length ? "/my-plan" : "/choose-company"));
   }
 
   public logout() {
@@ -84,7 +93,7 @@ export class SimCardStartPage {
             this.storage.remove("token"),
             this.storage.remove("profile"),
             this.storage.remove("auth_type"),
-            this.storage.remove('phone')
+            // this.storage.remove('phone')
           ))
         ))
       )

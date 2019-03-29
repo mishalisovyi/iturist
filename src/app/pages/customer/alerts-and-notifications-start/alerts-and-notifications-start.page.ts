@@ -48,8 +48,8 @@ export class AlertsAndNotificationsStartPage {
           switchMap(() => forkJoin(
             this.storage.remove("token"),
             this.storage.remove("profile"),
-            this.storage.remove("auth_type"),
-            this.storage.remove('phone')
+            this.storage.remove("auth_type")
+            // this.storage.remove('phone')
           ))
         ))
       )

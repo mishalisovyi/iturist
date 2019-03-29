@@ -1,5 +1,5 @@
 import { HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
-import { Injectable, Injector } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { Observable, throwError } from "rxjs";
 import { ApiService } from "../api.service";
 import { StorageService } from "../storage.service";
@@ -13,7 +13,6 @@ export class TokenInterceptor implements HttpInterceptor {
   private http: HttpClient;
 
   constructor(
-    private injector: Injector,
     private apiService: ApiService,
     private router: Router,
     private storage: StorageService
@@ -29,10 +28,10 @@ export class TokenInterceptor implements HttpInterceptor {
           if (this.router.url.includes('forgot-password')) this.router.navigateByUrl("/forgot-password");
         }
         return next.handle(newRequest).pipe(
-          catchError(error => {
-            if (error.status === 401 || error.status === 403) this.storage.remove("token").subscribe(() => this.router.navigateByUrl("/login"))
-            return throwError(error);
-          })
+          // catchError(error => {
+          //   if (error.status === 401 || error.status === 403) this.storage.remove("token").subscribe(() => this.router.navigateByUrl("/login"))
+          //   return throwError(error);
+          // })
         );
       })
     );

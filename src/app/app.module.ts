@@ -16,6 +16,7 @@ import { FilePath } from '@ionic-native/file-path/ngx';
 import { File } from '@ionic-native/file/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Network } from '@ionic-native/network/ngx';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -46,6 +47,7 @@ import { NetworkInterceptor } from './services/interceptors/network.interceptor'
     File,
     InAppBrowser,
     Network,
+    CallNumber,
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy

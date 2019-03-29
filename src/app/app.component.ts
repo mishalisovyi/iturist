@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 
 import { Platform, MenuController, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -7,7 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Network } from '@ionic-native/network/ngx';
 
 import { Subscription, forkJoin } from "rxjs";
-import { switchMap, tap } from "rxjs/operators";
+import { switchMap, tap, filter } from "rxjs/operators";
 
 import { ApiService } from "./services/api.service";
 import { LanguageService } from "./services/language.service";
@@ -25,10 +25,12 @@ export class AppComponent implements OnInit, OnDestroy {
   private languageSubscription: Subscription;
   private connectSubscription: Subscription;
   private disconnectSubscription: Subscription;
+  private routerSubscription: Subscription;
   private previousConnectionStatus: string = 'online';
 
   public text: any;
   public iosPlatform: boolean;
+  public isAuthorized: boolean;
 
   constructor(
     private platform: Platform,
@@ -47,12 +49,20 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getPlatform();
     this.languageSubscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
+    this.routerSubscription = this.router.events
+      .pipe(
+        tap((event) => { if (event instanceof NavigationStart) this.storage.lastUrl = this.router.url}),
+        filter(event => event instanceof NavigationEnd),
+        switchMap(() => this.api.getToken())
+      )
+      .subscribe(token => this.isAuthorized = token ? true : false);
   }
 
   ngOnDestroy() {
     if (this.languageSubscription) this.languageSubscription.unsubscribe();
     if (this.connectSubscription) this.connectSubscription.unsubscribe();
     if (this.disconnectSubscription) this.disconnectSubscription.unsubscribe();
+    if (this.routerSubscription) this.routerSubscription.unsubscribe();
   }
 
   initializeApp() {
@@ -109,7 +119,8 @@ export class AppComponent implements OnInit, OnDestroy {
           this.menu.close();
         }),
         switchMap(() => this.api.logout().pipe(
-          switchMap(() => forkJoin(this.storage.remove("token"), this.storage.remove("profile"), this.storage.remove("auth_type"), this.storage.remove('phone')))
+          // switchMap(() => forkJoin(this.storage.remove("token"), this.storage.remove("profile"), this.storage.remove("auth_type"), this.storage.remove('phone')))
+          switchMap(() => forkJoin(this.storage.remove("token"), this.storage.remove("profile"), this.storage.remove("auth_type")))
         ))
       )
       .subscribe(() => this.navigateTo('login'));

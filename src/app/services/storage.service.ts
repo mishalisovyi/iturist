@@ -11,6 +11,16 @@ export class StorageService {
 
   constructor(private storage: Storage) { }
 
+  private _lastUrl: string = '/login';
+
+  public get lastUrl() {
+    return this._lastUrl;
+  }
+
+  public set lastUrl(url: string) {
+    this._lastUrl = url;
+  }
+
   set<T>(key: string, value: any): Observable<T> {
     if (!key) throw Error('argument "key" is required');
     if (!value) throw Error('argument "value" is required');

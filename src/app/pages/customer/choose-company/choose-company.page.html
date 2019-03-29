@@ -35,17 +35,18 @@
         </ion-grid>
       </ion-col>
     </ion-row>
-    <!-- <ion-row id="order-sim-block" justify-content-center>
+    <ion-row id="order-sim-block" justify-content-center>
       <ion-col align-self-center size="8" size-md="7" size-lg="4">
-        <ion-button *ngIf="!isOrderedSimCard" id="oder-sim-btn" class="w-100 btn" (click)="navigateToOrderSimPage()">
-          Order of new SIM card
+        <ion-button id="oder-sim-btn" class="w-100" (click)="navigateToOrderSimPage()">
+          {{ text?.order_sim }}
         </ion-button>
       </ion-col>
-    </ion-row> -->
+    </ion-row>
   </ion-grid>
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button class="btn bottom-btn" [disabled]="!companyIsSelected" (click)="navigateToChoosePlanPage()">{{ text?.choose_plan }}</ion-button>
+    <ion-button class="bottom-btn" [disabled]="!companyIsSelected" (click)="navigateToChoosePlanPage()">
+      {{ text?.choose_plan }}</ion-button>
   </ion-toolbar>
 </ion-footer>

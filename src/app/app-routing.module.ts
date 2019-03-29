@@ -6,7 +6,7 @@ import { GuestGuard } from './guards/guest.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'main',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
@@ -31,8 +31,7 @@ const routes: Routes = [
   },
   {
     path: 'main',
-    loadChildren: './pages/customer/main/main.module#MainPageModule',
-    canActivate: [AuthGuard]
+    loadChildren: './pages/customer/main/main.module#MainPageModule'
   },
   {
     path: 'profile-start',
@@ -51,8 +50,7 @@ const routes: Routes = [
   },
   {
     path: 'alerts-and-notifications',
-    loadChildren: './pages/customer/alerts-and-notifications/alerts-and-notifications.module#AlertsAndNotificationsPageModule',
-    canActivate: [AuthGuard]
+    loadChildren: './pages/customer/alerts-and-notifications/alerts-and-notifications.module#AlertsAndNotificationsPageModule'
   },
   {
     path: 'sim-card-start',
@@ -60,9 +58,23 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'alerts-and-notifications-start',
-    loadChildren: './pages/customer/alerts-and-notifications-start/alerts-and-notifications-start.module#AlertsAndNotificationsStartPageModule',
+    path: 'order-sim-start',
+    loadChildren: './pages/customer/order-sim-start/order-sim-start.module#OrderSimStartPageModule',
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'addresses-list',
+    loadChildren: './pages/customer/addresses-list/addresses-list.module#AddressesListPageModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'order-sim-form',
+    loadChildren: './pages/customer/order-sim-form/order-sim-form.module#OrderSimFormPageModule',
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'alerts-and-notifications-start',
+    loadChildren: './pages/customer/alerts-and-notifications-start/alerts-and-notifications-start.module#AlertsAndNotificationsStartPageModule'
   },
   {
     path: 'register',
@@ -78,7 +90,7 @@ const routes: Routes = [
     path: 'forgot-password',
     loadChildren: './pages/auth/forgot-password/forgot-password.module#ForgotPasswordPageModule',
     canActivate: [GuestGuard]
-  }
+  },
 ];
 
 @NgModule({

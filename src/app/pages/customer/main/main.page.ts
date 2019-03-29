@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { InAppBrowser, InAppBrowserObject } from '@ionic-native/in-app-browser/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 
 import { forkJoin, Subscription } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
@@ -19,11 +20,11 @@ import { Alert } from '../../../models/models';
 })
 export class MainPage implements OnInit {
 
-  private subscription: Subscription;
-  private browser: InAppBrowserObject;
+  private languageSubscription: Subscription;
 
   public text: any;
   public showPopup: boolean;
+  public isAuthorized: boolean;
   public alert: Alert;
 
   constructor(
@@ -31,7 +32,8 @@ export class MainPage implements OnInit {
     private iab: InAppBrowser,
     private api: ApiService,
     private storage: StorageService,
-    private language: LanguageService
+    private language: LanguageService,
+    private callNumber: CallNumber
   ) { }
 
   ngOnInit() {
@@ -41,15 +43,29 @@ export class MainPage implements OnInit {
 
   ionViewWillEnter() {
     this.storage.get("language").subscribe((res: string) => this.language.loadLanguage(res ? res : "En"));
-    this.subscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
+    this.languageSubscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
+
+    this.getIsAuthorized();
+
+    if (this.storage.lastUrl === '/login') this.togglePopup(true);
   }
 
   ionViewWillLeave() {
-    if (this.subscription) this.subscription.unsubscribe();
+    if (this.languageSubscription) this.languageSubscription.unsubscribe();
   }
 
   private getPageText() {
     this.text = this.language.getTextByCategories("main");
+  }
+
+  private getIsAuthorized() {
+    this.api.getToken().subscribe((res: string) => this.isAuthorized = res ? true : false);
+  }
+
+  public call() {
+    this.callNumber.callNumber("0982026637", true)
+      .then(res => console.log('Launched dialer!', res))
+      .catch(err => console.log('Error launching dialer', err));
   }
 
   public navigateTo(route: string) {
@@ -57,7 +73,7 @@ export class MainPage implements OnInit {
   }
 
   public openEasySite() {
-    this.browser = this.iab.create('https://easy.co.il/en/list/Eurovision-2019', '_blank', { beforeload: "yes", hideurlbar: "yes", location: "yes" });
+    this.iab.create('https://easy.co.il/en/list/Eurovision-2019', '_blank', { beforeload: "yes", hideurlbar: "yes", location: "yes" });
   }
 
   public togglePopup(toggle: boolean) {

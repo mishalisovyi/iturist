@@ -13,7 +13,6 @@ import { BaseResponse } from "../../../models/models";
 })
 export class ChooseCompanyPage {
 
-  public isOrderedSimCard: boolean;
   public companyIsSelected: boolean = false;
   public selectedCompanyId: number;
   public text: any;
@@ -45,7 +44,7 @@ export class ChooseCompanyPage {
   }
 
   public navigateToOrderSimPage() {
-    this.router.navigateByUrl('/order-sim');
+    this.router.navigateByUrl('/order-sim-start');
   }
 
   public navigateToChoosePlanPage() {

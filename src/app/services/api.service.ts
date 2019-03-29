@@ -10,7 +10,7 @@ import * as _ from 'lodash';
 
 import { StorageService } from '../services/storage.service';
 
-import { BaseResponse, ProfileEditRequest, History } from "../models/models";
+import { BaseResponse, ProfileEditRequest, OrderSimCardRequest } from "../models/models";
 
 import { environment } from '../../environments/environment';
 
@@ -108,5 +108,13 @@ export class ApiService {
   public getLatestAlert(): Observable<BaseResponse> {
     const params = new HttpParams().set('earliest', '1');
     return this.http.get<BaseResponse>(`${environment.api}/alerts`, { params });
+  }
+
+  public getAddressesList(): Observable<BaseResponse> {
+    return this.http.get<BaseResponse>(`${environment.api}/action-requests/pickup-points`);
+  }
+
+  public orderSimCard(body: OrderSimCardRequest): Observable<BaseResponse> {
+    return this.http.post<BaseResponse>(`${environment.api}/action-requests`, body);
   }
 }

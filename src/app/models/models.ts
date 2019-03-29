@@ -60,6 +60,20 @@ export interface Alert {
   pubDate: string;
 }
 
+export interface Address {
+  city: string;
+  street: string;
+  number: string;
+  note: string;
+  zip: string;
+}
+
+export interface Company {
+  id: number;
+  logo: string;
+  title: string;
+}
+
 /* Request models */
 
 export interface ProfileEditRequest {
@@ -67,6 +81,16 @@ export interface ProfileEditRequest {
   first_name: string,
   language: string,
   phone: string
+}
+
+export interface OrderSimCardRequest {
+  type: string;
+  name: string,
+  email: string,
+  address: string,
+  city: string,
+  phone_number: string,
+  company: number
 }
 
 /* Response models */

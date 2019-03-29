@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 import { Subscription } from "rxjs";
@@ -48,7 +48,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   ngOnInit() {
     this.createForm();
 
-    this.action.actionSheetDismiss$.subscribe((res: { label: string, value: string }) => this.form.get("language").setValue(res.label.toLowerCase()));
+    this.action.actionSheetDismissLanguage$.subscribe((res: { label: string, value: string }) => this.form.get("language").setValue(res.label.toLowerCase()));
     this.language.languageIsLoaded$.subscribe(() => this.getPageText());
   }
 
@@ -72,7 +72,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   private createForm() {
     this.form = this.formBuilder.group({
       name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z\\s-]*$")]],
-      email: ["", [Validators.required, Validators.email]],
+      email: "",
       language: ["", Validators.required],
       phone: ["", [Validators.required, Validators.pattern('\\+*[\\d]{0,3}\\s*[\\d]+')]]
     });
@@ -80,7 +80,8 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   private getDisplayedInfo() {
     for (let key in this.form.controls) {
-      this.displayedInfo[key] = this.form.get(key).value.replace('+972 ', '');
+      // this.displayedInfo[key] = this.form.get(key).value.replace('+972 ', '');
+      this.displayedInfo[key] = this.form.get(key).value;
     }
   }
 
@@ -103,7 +104,8 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.form.get("name").setValue(this.profile.first_name);
     this.form.get("email").setValue(this.profile.user);
     this.form.get("language").setValue(this.profile.language_full.toLowerCase());
-    this.form.get("phone").setValue(this.profile.phone ? this.profile.phone.replace('972', '') : '');
+    // this.form.get("phone").setValue(this.profile.phone ? this.profile.phone.replace('972', '') : '');
+    this.form.get("phone").setValue(this.profile.phone);
     this.action.language = this.profile.language;
   }
 
@@ -125,12 +127,12 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   private postTextData() {
     return new Promise((resolve, reject) => {
-      let phone: string = `${this.form.get('phone').value.length < 12 ? '972' : ''}${this.form.get('phone').value.replace(/\s|\+|\D/g, '')}`;
+      // let phone: string = `${this.form.get('phone').value.length < 12 ? '972' : ''}${this.form.get('phone').value.replace(/\s|\+|\D/g, '')}`;
       const profile: ProfileEditRequest = {
         email: this.form.get("email").value,
         first_name: this.form.get("name").value,
         language: this.action.language,
-        phone
+        phone: this.form.get("phone").value
       }
       this.api.editProfile(this.profile.user_id, profile).subscribe(
         res => resolve(res),
@@ -152,22 +154,22 @@ export class ProfilePage implements OnInit, OnDestroy {
       })
   }
 
-  public validatePhone() {
-    const value = this.form.get('phone').value;
-    if (value.length > 14) this.form.get('phone').setValue(value.slice(0, -1));
-    if (this.form.get('phone').hasError('required') || this.form.get('phone').hasError('pattern')) return;
+  // public validatePhone() {
+  //   const value = this.form.get('phone').value;
+  //   if (value.length > 14) this.form.get('phone').setValue(value.slice(0, -1));
+  //   if (this.form.get('phone').hasError('required') || this.form.get('phone').hasError('pattern')) return;
 
-    this.form.get('phone').setErrors(null);
-    if (value.includes('+972') && value.length < 14) this.form.get('phone').setErrors({ minlength: true });
-    if (!value.includes('+972') && value.length < 9) this.form.get('phone').setErrors({ minlength: true });
-  }
+  //   this.form.get('phone').setErrors(null);
+  //   if (value.includes('+972') && value.length < 14) this.form.get('phone').setErrors({ minlength: true });
+  //   if (!value.includes('+972') && value.length < 9) this.form.get('phone').setErrors({ minlength: true });
+  // }
 
-  public getDisplayedPhone(phone: string, start: boolean = false) {
-    if (phone) this.displayedPhone = start ? phone.substring(3) : phone.replace(/\s|(\+972)/g, '');
-  }
+  // public getDisplayedPhone(phone: string, start: boolean = false) {
+  //   if (phone) this.displayedPhone = start ? phone.substring(3) : phone.replace(/\s|(\+972)/g, '');
+  // }
 
   public switchToEditInfo() {
-    this.form.get('phone').setValue(this.form.get('phone').value.replace('+972 ', ''));
+    // this.form.get('phone').setValue(this.form.get('phone').value.replace('+972 ', ''));
     this.editInfo = true;
     for (let key in this.displayedInfo) {
       this.form.get(key).setValue(this.displayedInfo[key])
@@ -215,7 +217,7 @@ export class ProfilePage implements OnInit, OnDestroy {
       this.postTextData()
         .then((res: BaseResponse) => {
           if (res) {
-            this.storage.set('phone', res.content.profile.phone)
+            // this.storage.set('phone', res.content.profile.phone)
             this.storage.set("language", res.content.language);
             this.language.loadLanguage(res.content.language);
           }

@@ -13,8 +13,7 @@
             </div>
           </div>
           <div *ngIf="image.imgInfo.profile.src" id="img-block"
-            [ngStyle]="{'background-image': 'url(' + image.imgInfo.profile.src + ')'}"
-            (click)="getPhoto('profile')">
+            [ngStyle]="{'background-image': 'url(' + image.imgInfo.profile.src + ')'}" (click)="getPhoto('profile')">
             <div id="label">
               <ion-img src="assets/screens/upload-img.svg"></ion-img>
             </div>
@@ -38,9 +37,7 @@
             </ion-item>
             <ion-item class="violet-text profile-item">
               <b>{{ text?.phone }}:</b>
-              <!-- <span *ngIf="displayedPhone">&nbsp;+972 {{ displayedPhone }}</span>
-              <span *ngIf="!displayedPhone">&nbsp;-</span> -->
-              <span *ngIf="displayedInfo?.phone">&nbsp;+972 {{ displayedInfo?.phone }}</span>
+              <span *ngIf="displayedInfo?.phone">&nbsp;{{ displayedInfo?.phone | phone }}</span>
               <span *ngIf="!displayedInfo?.phone">&nbsp;-</span>
             </ion-item>
             <ion-fab-button (click)="switchToEditInfo()">
@@ -48,8 +45,7 @@
             </ion-fab-button>
           </ng-container>
           <ng-container *ngIf="editInfo">
-            <ion-item class="violet-text register-form-field"
-              [class.error-field]="submitTry && form.get('email').invalid">
+            <ion-item class="violet-text register-form-field">
               <ion-input readonly type="email" formControlName="email" placeholder="{{ text?.email_address }}">
               </ion-input>
             </ion-item>
@@ -64,14 +60,14 @@
             </ion-item>
             <ion-item class="violet-text register-form-field"
               [class.error-field]="submitTry && form.get('phone').invalid">
-              <!-- <ion-input #input (ionChange)="validatePhone()" type="text" formControlName="phone" prefix="+972 "
-                mask="000000000" (focusout)="getDisplayedPhone(input.value)" placeholder="{{ text?.phone }}"
-                dropSpecialCharacters="true">
-              </ion-input> -->
-              <ion-input #input (ionChange)="validatePhone()" type="text" formControlName="phone" prefix="+972 "
+              <ion-input readonly type="text" formControlName="phone" placeholder="{{ text?.phone }}"></ion-input>
+            </ion-item>
+            <!-- <ion-item class="violet-text register-form-field"
+              [class.error-field]="submitTry && form.get('phone').invalid">
+              <ion-input readonly #input (ionChange)="validatePhone()" type="text" formControlName="phone" prefix="+972 "
                 mask="000000000" placeholder="{{ text?.phone }}" dropSpecialCharacters="true">
               </ion-input>
-            </ion-item>
+            </ion-item> -->
             <ion-item *ngIf="submitTry && form.get('name').hasError('required')" class="red-text">
               <span>{{ text?.name_required }}</span>
             </ion-item>

@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 
 import { MenuController } from '@ionic/angular';
 
-import { from, forkJoin, Subscription } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { from, forkJoin } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { ApiService } from '../../../services/api.service';
 import { ImageService } from '../../../services/image.service';
@@ -25,8 +25,6 @@ import { PasswordValidator } from '../../../validators/password.validator';
 })
 export class RegisterPage implements OnInit {
 
-  private subscription: Subscription;
-
   public form: FormGroup;
   public text: any;
   public submitTry: boolean = false;
@@ -45,11 +43,7 @@ export class RegisterPage implements OnInit {
 
   ngOnInit() {
     this.createForm();
-    this.action.actionSheetDismiss$.subscribe((res: { label: string, value: string }) => this.form.get("language").setValue(res.label));
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) this.subscription.unsubscribe();
+    this.action.actionSheetDismissLanguage$.subscribe((res: { label: string, value: string }) => this.form.get("language").setValue(res.label));
   }
 
   ionViewWillEnter() {
@@ -75,8 +69,8 @@ export class RegisterPage implements OnInit {
       email: ["", [Validators.required, Validators.email]],
       password: ["", [Validators.required, PasswordValidator.password]],
       confirmPassword: ["", Validators.required],
-      language: ["", Validators.required],
-      phone: ["", [Validators.required, Validators.minLength(14), Validators.pattern('\\+*[\\d]{0,3}\\s*[\\d]+')]]
+      language: ["", Validators.required]
+      // phone: ["", [Validators.required, Validators.minLength(14), Validators.pattern('\\+*[\\d]{0,3}\\s*[\\d]+')]]
     });
   }
 
@@ -87,7 +81,7 @@ export class RegisterPage implements OnInit {
       formData.append("email", this.form.get("email").value);
       formData.append("password", this.form.get("password").value);
       formData.append("language", this.action.language);
-      formData.append("phone", this.form.get('phone').value.replace(/\s|\+/g, ''));
+      // formData.append("phone", this.form.get('phone').value.replace(/\s|\+/g, ''));
       this.api.register(formData).subscribe(
         res => resolve(res),
         err => reject(err)
@@ -124,7 +118,7 @@ export class RegisterPage implements OnInit {
           forkJoin(
             this.storage.set("token", res.content.token),
             this.storage.set("language", res.content.profile.language),
-            this.storage.set('phone', res.content.profile.phone ? res.content.profile.phone : 'none')
+            // this.storage.set('phone', res.content.profile.phone ? res.content.profile.phone : 'none')
           )
             .pipe(switchMap(() => from(this.postImages())))
             .subscribe(

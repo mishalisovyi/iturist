@@ -70,11 +70,11 @@
             <ion-input type="text" readonly formControlName="language" placeholder="{{ text?.select_language }}">
             </ion-input>
           </ion-item>
-          <ion-item class="violet-text register-form-field"
+          <!-- <ion-item class="violet-text register-form-field"
             [class.error-field]="submitTry && form.get('phone').invalid">
             <ion-input type="text" prefix="+972 " mask="000000000" formControlName="phone"
               placeholder="{{ text?.phone }}"></ion-input>
-          </ion-item>
+          </ion-item> -->
           <ion-item *ngIf="submitTry && form.get('name').hasError('required')" class="red-text">
             <span>{{ text?.name_required }}</span>
           </ion-item>

@@ -17,6 +17,7 @@ export class ChoosePlanPage implements OnInit {
   public selectedPlanId: string;
   public text: any;
   public hideBage: boolean;
+  public hideOrderSimBtn: boolean;
   public planIsSelected: boolean = false;
 
   constructor(
@@ -33,15 +34,19 @@ export class ChoosePlanPage implements OnInit {
 
   ionViewWillEnter() {
     this.getPageText();
-    this.defineHidingBage();
+    this.defineHidingBages();
     this.deselectPlan();
   }
 
-  private defineHidingBage(url: string = this.router.url) {
+  private defineHidingBages(url: string = this.router.url) {
     this.hideBage = true;
+    this.hideOrderSimBtn = true;
 
     this.api.getMyPlan().subscribe(res => {
-      if (res) this.hideBage = false;
+      if (res) {
+        this.hideBage = false;
+        this.hideOrderSimBtn = false;
+      }
     });
   }
 

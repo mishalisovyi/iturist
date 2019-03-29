@@ -63,7 +63,8 @@ export class ProfileStartPage {
           if (res === "FACEBOOK") await this.api.facebookLogout();
         }),
         switchMap(() => this.api.logout().pipe(
-          switchMap(() => forkJoin(this.storage.remove("token"), this.storage.remove("profile"), this.storage.remove("auth_type"), this.storage.remove('phone')))
+          // switchMap(() => forkJoin(this.storage.remove("token"), this.storage.remove("profile"), this.storage.remove("auth_type"), this.storage.remove('phone')))
+          switchMap(() => forkJoin(this.storage.remove("token"), this.storage.remove("profile"), this.storage.remove("auth_type")))
         ))
       )
       .subscribe(() => this.router.navigateByUrl("/login"));

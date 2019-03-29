@@ -29,7 +29,18 @@
 </ion-header>
 
 <ion-content>
-  <div id="text-block" class="violet-text bold-text font-size-16">{{ text?.choose_plan }}</div>
+  <ion-grid id="upper-block">
+    <ion-row align-items-center>
+      <ion-col>
+        <ion-text>
+          <div class="violet-text bold-text font-size-16">{{ text?.choose_plan }}</div>
+        </ion-text>
+      </ion-col>
+      <ion-col class="col-auto">
+        <ion-button [hidden]="hideOrderSimBtn" id="order-sim-btn" (click)="navigateTo('order-sim-start')">{{ text?.order_sim }}</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
   <ion-card class="violet-text" *ngFor="let plan of plans" (click)="selectPlan(plan.id)">
     <ion-card-content>
       <ion-grid>

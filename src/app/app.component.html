@@ -5,20 +5,19 @@
         <ion-item id="close-item" class="menu-item" [class.ios-item]="iosPlatform" (click)="menu.close()">
           <ion-icon name="close"></ion-icon>
         </ion-item>
-        <ion-item class="menu-item" (click)="navigateTo('/profile-start')">
+        <ion-item *ngIf="isAuthorized" class="menu-item" (click)="navigateTo('/profile-start')">
           <span>{{ text?.my_profile }}</span>
         </ion-item>
-        <ion-item class="menu-item" (click)="navigateTo('/sim-card-start')">
+        <ion-item *ngIf="isAuthorized" class="menu-item" (click)="navigateTo('/sim-card-start')">
           <span>{{ text?.sim_card_charges }}</span>
         </ion-item>
         <ion-item class="menu-item" (click)="navigateTo('/alerts-and-notifications-start')">
-        <!-- <ion-item class="menu-item"> -->
           <span>{{ text?.alerts_and_notifications }}</span>
         </ion-item>
-        <ion-item class="menu-item" (click)="navigateTo('/my-requests')">
+        <ion-item *ngIf="isAuthorized" class="menu-item" (click)="navigateTo('/my-requests')">
           <span>{{ text?.my_requests }}</span>
         </ion-item>
-        <ion-item class="menu-item" (click)="logout()">
+        <ion-item *ngIf="isAuthorized" class="menu-item" (click)="logout()">
           <span slot="start" class="bold-text">{{ text?.logout }}</span>
           <ion-icon id="logout-icon" name="log-out" slot="end"></ion-icon>
         </ion-item>

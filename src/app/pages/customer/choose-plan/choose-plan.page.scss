@@ -1,8 +1,19 @@
 @import "../../../../utilities";
 
-#text-block {
-  padding: 40px 36px 0;
+#upper-block {
+  margin-top: 40px;
+  padding: 0 8px 0 40px;
+
+  #order-sim-btn {
+    --background: linear-gradient(to right, #f56272, #f78a7b);
+    --background-activated: linear-gradient(to right, #f56272, #f78a7b);
+    --border-radius: 30px;
+  }
 }
+
+// #text-block {
+//   padding: 40px 36px 0;
+// }
 
 #choose-chip {
   padding: 0;
@@ -22,12 +33,9 @@ ion-menu-button {
 }
 
 ion-badge {
-  // width: 125px;
   height: 120%;
   background: linear-gradient(to right, #6c9eff, #a25ffd);
   border-radius: 20px;
-  // padding-top: 12px;
-  // padding-bottom: 6px;
   padding: 12px 15px 6px;
   position: relative;
   top: -3px;

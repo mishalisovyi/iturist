@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 
 import { MenuController, ToastController } from '@ionic/angular';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
@@ -114,7 +114,7 @@ export class LoginPage implements OnInit {
             forkJoin(
               this.storage.set("token", res.content.token),
               this.storage.set("language", res.content.profile.language),
-              this.storage.set('phone', res.content.profile.phone ? res.content.profile.phone : 'none'),
+              // this.storage.set('phone', res.content.profile.phone ? res.content.profile.phone : 'none'),
               this.storage.set("auth_type", "REGULAR"),
             )
           )),
@@ -122,7 +122,7 @@ export class LoginPage implements OnInit {
           catchError((err => throwError(err)))
         )
         .subscribe(
-          () => this.router.navigateByUrl('/main'),
+          () => this.router.navigateByUrl("/main"),
           err => {
             if (err.error) {
               if (err.error.metadata.api_error_codes.includes(101)) alert(this.text.wrong_credentials);
@@ -147,7 +147,7 @@ export class LoginPage implements OnInit {
               this.storage.set("auth_type", "GOOGLE"),
               this.storage.set("token", res.content.token),
               this.storage.set("language", res.content.profile.language),
-              this.storage.set('phone', res.content.profile.phone ? res.content.profile.phone : 'none')
+              // this.storage.set('phone', res.content.profile.phone ? res.content.profile.phone : 'none')
             )
           )),
           finalize(async () => await this.loading.dismissLoading()),
@@ -177,7 +177,7 @@ export class LoginPage implements OnInit {
               this.storage.set("auth_type", "FACEBOOK"),
               this.storage.set("token", res.content.token),
               this.storage.set("language", res.content.profile.language),
-              this.storage.set('phone', res.content.profile.phone ? res.content.profile.phone : 'none')
+              // this.storage.set('phone', res.content.profile.phone ? res.content.profile.phone : 'none')
             )
           )),
           finalize(async () => await this.loading.dismissLoading()),

@@ -11,6 +11,9 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <allow-intent href="zoiper:*" />
+    <allow-intent href="org.jitsi.meet:*" />
+    <allow-intent href="jitsi:*" />
     <preference name="ScrollEnabled" value="false" />
     <preference name="android-minSdkVersion" value="19" />
     <preference name="BackupWebStorage" value="none" />
@@ -112,6 +115,7 @@
     <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <plugin name="cordova-plugin-filepath" spec="^1.5.1" />
     <plugin name="cordova-plugin-inappbrowser" spec="3.0.0" />
+    <plugin name="mx.ferreyra.callnumber" spec="~0.0.2" />
     <engine name="ios" spec="4.5.5" />
     <engine name="android" spec="7.1.4" />
     <engine name="browser" spec="5.0.4" />

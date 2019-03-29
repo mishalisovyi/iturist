@@ -42,8 +42,8 @@ ion-badge {
 }
 
 #easy-link-btn {
-  --background: rgba(0,161,214,0.85);
-  --background-activated: rgba(0,161,214,0.85);
+  --background: rgba(0, 161, 214, 0.85);
+  --background-activated: rgba(0, 161, 214, 0.85);
 
   ion-img {
     width: 25px;
@@ -80,7 +80,9 @@ ion-title {
   width: 100%;
   padding-top: 100%;
   border-radius: 50%;
-  border: solid 1px #6ba0fe;
+  // border: solid 1px #6ba0fe;
+  border-style: solid;
+  border-width: 2px;
   position: relative;
 
   ion-img {
@@ -118,7 +120,6 @@ ion-title {
 }
 
 #main-block {
-  margin-top: 75px;
   margin-bottom: 30px;
 
   ion-row:nth-child(2) {
@@ -197,5 +198,27 @@ ion-title {
       --background: linear-gradient(to bottom, #f7897a, #f56473) !important;
       --background-activated: linear-gradient(to bottom, #f7897a, #f56473) !important;
     }
+  }
+}
+
+#to-login-btn {
+  float: left;
+  width: max-content;
+}
+
+.lock-badge {
+  position: absolute;
+  height: 25%;
+  width: 25%;
+  background: linear-gradient(to bottom, #f7897a, #f56473);
+  border-radius: 50%;
+  right: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  ion-icon {
+    font-size: 4vw;
   }
 }

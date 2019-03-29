@@ -1,0 +1,47 @@
+<app-header></app-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <ion-item>
+        <ion-text>
+          <p text-center class="violet-text font-size-20">
+            {{text?.addresses_text}}
+          </p>
+        </ion-text>
+      </ion-item>
+      <ion-grid>
+        <ion-row justify-content-center>
+          <ion-col class="col-auto">
+            <ion-button class="blue-btn" (click)="navigateTo('addresses-list')">{{ text?.addresses_button }}</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <ion-item>
+    <ion-text class="w-100">
+      <p text-center class="violet-text font-size-32">
+        {{ text?.or | uppercase }}
+      </p>
+    </ion-text>
+  </ion-item>
+  <ion-card>
+    <ion-card-content>
+      <ion-item>
+        <ion-text>
+          <p text-center class="violet-text font-size-20">
+            {{ text?.order_text }}
+          </p>
+        </ion-text>
+      </ion-item>
+      <ion-grid>
+        <ion-row justify-content-center>
+          <ion-col class="col-auto">
+            <ion-button class="blue-btn" (click)="navigateTo('order-sim-form')">{{ text?.order_button }}</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
