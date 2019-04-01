@@ -1,30 +1,4 @@
-@import "../../../../utilities";
-
-#upper-block {
-  margin-top: 40px;
-  padding: 0 8px 0 40px;
-}
-
-#text-block {
-  padding: 5% 36px 0;
-}
-
-#choose-chip {
-  padding: 0;
-  border: solid 1px $chip-active-color;
-  background-color: $chip-inactive-color;
-  box-shadow: 0 0 20px $chip-active-color;
-
-  span {
-    margin: 0 auto;
-    color: $violet;
-    font-size: 12px;
-  }
-}
-
-ion-menu-button {
-  color: $pale-blue;
-}
+/* header */
 
 ion-badge {
   height: 120%;
@@ -63,22 +37,6 @@ ion-badge {
   }
 }
 
-.hidden {
-  visibility: hidden;
-}
-
-#logout-col {
-  padding-top: 7px;
-
-  span {
-    white-space: nowrap;
-  }
-}
-
-ion-title {
-  font-weight: 100;
-}
-
 #home-img {
   position: absolute;
   margin: 0 auto;
@@ -88,11 +46,13 @@ ion-title {
   top: 15px;
 }
 
-ion-card {
-  margin-left: 10px !important;
-  margin-right: 10px !important;
+/* end header */
 
-  ion-card-content {
-    padding: 0 16px !important;
-  }
+#text-block {
+  margin-top: 30px;
+}
+
+#back-btn {
+  float: right;
+  width: max-content;
 }

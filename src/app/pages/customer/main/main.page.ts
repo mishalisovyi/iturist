@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
-import { CallNumber } from '@ionic-native/call-number/ngx';
 
 import { forkJoin, Subscription } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
@@ -32,8 +31,7 @@ export class MainPage implements OnInit {
     private iab: InAppBrowser,
     private api: ApiService,
     private storage: StorageService,
-    private language: LanguageService,
-    private callNumber: CallNumber
+    private language: LanguageService
   ) { }
 
   ngOnInit() {
@@ -60,12 +58,6 @@ export class MainPage implements OnInit {
 
   private getIsAuthorized() {
     this.api.getToken().subscribe((res: string) => this.isAuthorized = res ? true : false);
-  }
-
-  public call() {
-    this.callNumber.callNumber("0982026637", true)
-      .then(res => console.log('Launched dialer!', res))
-      .catch(err => console.log('Error launching dialer', err));
   }
 
   public navigateTo(route: string) {

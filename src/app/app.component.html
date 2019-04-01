@@ -8,14 +8,20 @@
         <ion-item *ngIf="isAuthorized" class="menu-item" (click)="navigateTo('/profile-start')">
           <span>{{ text?.my_profile }}</span>
         </ion-item>
-        <ion-item *ngIf="isAuthorized" class="menu-item" (click)="navigateTo('/sim-card-start')">
-          <span>{{ text?.sim_card_charges }}</span>
+        <ion-item *ngIf="isAuthorized" class="menu-item" (click)="navigateTo('/my-requests')">
+          <span>{{ text?.my_requests }}</span>
         </ion-item>
         <ion-item class="menu-item" (click)="navigateTo('/alerts-and-notifications-start')">
           <span>{{ text?.alerts_and_notifications }}</span>
         </ion-item>
-        <ion-item *ngIf="isAuthorized" class="menu-item" (click)="navigateTo('/my-requests')">
-          <span>{{ text?.my_requests }}</span>
+        <ion-item class="menu-item">
+          <span>{{ text?.online_doctor}}</span>
+        </ion-item>
+        <ion-item class="menu-item" (click)="navigateTo('/order-sim-start')">
+          <span>{{ text?.sim_card_ordering }}</span>
+        </ion-item>
+        <ion-item *ngIf="isAuthorized" class="menu-item" (click)="navigateTo('/sim-card-start')">
+          <span>{{ text?.sim_card_activating }}</span>
         </ion-item>
         <ion-item *ngIf="isAuthorized" class="menu-item" (click)="logout()">
           <span slot="start" class="bold-text">{{ text?.logout }}</span>

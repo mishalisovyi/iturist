@@ -19,7 +19,8 @@
           </ion-row>
           <ion-row id="stepper-block">
             <ion-col>
-              <div class="step-item violet-text">{{ request?.status | titlecase }}</div>
+              <!-- <div class="step-item violet-text">{{ request?.status | titlecase }}</div> -->
+              <div class="step-item violet-text" *ngFor="let item of request.request_status">{{ item.status | titlecase }}</div>
               <div class="step-item violet-text">{{ text?.requirement_created }} {{ request?.created | date:'short' }}</div>
             </ion-col>
           </ion-row>

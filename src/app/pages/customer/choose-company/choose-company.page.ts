@@ -43,9 +43,9 @@ export class ChooseCompanyPage {
     this.companyIsSelected = true;
   }
 
-  public navigateToOrderSimPage() {
-    this.router.navigateByUrl('/order-sim-start');
-  }
+  // public navigateToOrderSimPage() {
+  //   this.router.navigateByUrl('/order-sim-start');
+  // }
 
   public navigateToChoosePlanPage() {
     if (this.companyIsSelected) {

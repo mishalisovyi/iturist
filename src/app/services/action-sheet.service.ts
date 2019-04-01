@@ -95,7 +95,7 @@ export class ActionSheetService {
     this.api.getCompanies().pipe(map((res: BaseResponse) => res.content)).subscribe(async (res: Company[]) => {
       this.text = this.languageService.getTextByCategories("order_sim_form");
       const actionSheet = await this.action.create({
-        header: this.text.local_address,
+        header: this.text.choose_sim_company,
         buttons: [
           ...res.map((item: Company) => ({
             text: item.title,

@@ -17,8 +17,8 @@ export class ChoosePlanPage implements OnInit {
   public selectedPlanId: string;
   public text: any;
   public hideBage: boolean;
-  public hideOrderSimBtn: boolean;
   public planIsSelected: boolean = false;
+  public defaultHref: string = 'choose-company';
 
   constructor(
     private router: Router,
@@ -40,12 +40,11 @@ export class ChoosePlanPage implements OnInit {
 
   private defineHidingBages(url: string = this.router.url) {
     this.hideBage = true;
-    this.hideOrderSimBtn = true;
 
     this.api.getMyPlan().subscribe(res => {
       if (res) {
         this.hideBage = false;
-        this.hideOrderSimBtn = false;
+        this.defaultHref = 'my-plan'
       }
     });
   }
@@ -76,9 +75,15 @@ export class ChoosePlanPage implements OnInit {
     this.planIsSelected = true;
   }
 
-  public navigateToConfirmPlan() {
+  public navigateToEnterMobileNumber() {
     if (this.planIsSelected) {
-      this.router.navigateByUrl(`/confirm-plan/${this.selectedPlanId}`);
+      this.router.navigateByUrl(`/enter-mobile-number/${this.companyId}/${this.selectedPlanId}`);
     }
   }
+
+  // public navigateToConfirmPlan() {
+  //   if (this.planIsSelected) {
+  //     this.router.navigateByUrl(`/confirm-plan/${this.selectedPlanId}`);
+  //   }
+  // }
 }

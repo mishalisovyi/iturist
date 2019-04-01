@@ -1,5 +1,9 @@
 <ion-header no-border>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button class="violet-text" defaultHref="login" text="{{ text ? text.to_login : '' }}">
+      </ion-back-button>
+    </ion-buttons>
     <ion-buttons slot="end">
       <ion-grid>
         <ion-row>
@@ -24,9 +28,9 @@
         <ion-col>
           <span>{{ text?.registration }}</span>
         </ion-col>
-        <ion-col>
+        <!-- <ion-col>
           <ion-button id="to-login-btn" (click)="navigate('/login')" class="w-100">{{ text?.to_login }}</ion-button>
-        </ion-col>
+        </ion-col> -->
       </ion-row>
       <ion-row>
         <ion-col>

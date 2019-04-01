@@ -63,7 +63,7 @@ ion-title {
   font-weight: 100;
 }
 
-#go-to-request-btn {
+.top-btn {
   width: 100%;
   height: 45px;
   text-transform: unset;
@@ -122,9 +122,9 @@ ion-title {
 #main-block {
   margin-bottom: 30px;
 
-  ion-row:nth-child(2) {
-    margin-top: 50px;
-  }
+  // ion-row:nth-child(2) {
+  //   margin-top: 50px;
+  // }
 }
 
 .title-ios,
@@ -201,11 +201,6 @@ ion-title {
   }
 }
 
-#to-login-btn {
-  float: left;
-  width: max-content;
-}
-
 .lock-badge {
   position: absolute;
   height: 25%;
@@ -222,3 +217,9 @@ ion-title {
     font-size: 4vw;
   }
 }
+
+// #request-btn {
+//   --background: linear-gradient(to bottom, #f7897a, #f56473) !important;
+//   --background-activated: linear-gradient(to bottom, #f7897a, #f56473) !important;
+
+// }

@@ -96,3 +96,7 @@ ion-icon {
 .displayed-logo {
   opacity: 1 !important;
 }
+
+ion-footer::before {
+  background-image: none !important;
+}

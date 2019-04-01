@@ -28,19 +28,39 @@
 </ion-header>
 
 <ion-content>
-  <ion-fab horizontal="end" vertical="top" (click)="openEasySite()">
+  <ion-fab horizontal="end" vertical="top" (click)="openEasySite()" slot="fixed">
     <ion-fab-button id="easy-link-btn" size="small">
       <ion-img src="assets/screens/easy.png"></ion-img>
     </ion-fab-button>
   </ion-fab>
-  <ion-grid id="main-block" [style.marginTop.px]="isAuthorized ? 75 : 0">
-    <ion-row *ngIf="!isAuthorized">
-      <ion-col>
-        <ion-button id="to-login-btn" (click)="navigateTo('/login')">{{ text?.to_login }}</ion-button>
+  <ion-grid id="main-block">
+    <ion-row justify-content-center margin-bottom>
+      <ion-col size="8" size-md="6">
+        <ion-button class="w-100 top-btn" (click)="navigateTo(isAuthorized ? '/my-requests' : '/login')">
+          {{ isAuthorized ? text?.go_to_my_request : text?.to_login }}</ion-button>
       </ion-col>
     </ion-row>
     <ion-row justify-content-around>
-      <ion-col size="4" text-center class="violet-text" (click)="isAuthorized ? navigateTo('/profile-start') : null">
+      <ion-col size="4" text-center class="violet-text" (click)="navigateTo('/alerts-and-notifications-start')">
+        <div class="grid-item">
+          <ion-img src="assets/screens/alerts-and-notifications.svg"></ion-img>
+        </div>
+        <span>{{ text?.alerts_and_notifications }}</span>
+      </ion-col>
+      <ion-col size="4" text-center class="violet-text">
+        <div class="grid-item" [style.borderColor]="isAuthorized ? '#6ba0fe' : '#D4DCEF'">
+          <ion-img
+            [attr.src]="isAuthorized ? 'assets/screens/online-doctor.svg' : 'assets/screens/online-doctor-disable.svg'">
+          </ion-img>
+          <div *ngIf="!isAuthorized" class="lock-badge">
+            <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
+          </div>
+        </div>
+        <span>{{ text?.online_doctor }}</span>
+      </ion-col>
+    </ion-row>
+    <ion-row justify-content-center>
+      <ion-col size="5" text-center class="violet-text" (click)="isAuthorized ? navigateTo('/profile') : null">
         <div class="grid-item" [style.borderColor]="isAuthorized ? '#6ba0fe' : '#D4DCEF'">
           <ion-img
             [attr.src]="isAuthorized ? 'assets/screens/my-profile-main-menu.svg' : 'assets/screens/my-profile-main-menu-disable.svg'">
@@ -51,41 +71,26 @@
         </div>
         <span>{{ text?.my_profile }}</span>
       </ion-col>
-      <ion-col size="4" text-center class="violet-text" (click)="isAuthorized ? navigateTo('/sim-card-start') : null">
-        <div class="grid-item" [style.borderColor]="isAuthorized ? '#6ba0fe' : '#D4DCEF'">
-          <ion-img [attr.src]="isAuthorized ? 'assets/screens/sim-card.svg' : 'assets/screens/sim-card-disable.svg'">
-          </ion-img>
-          <div *ngIf="!isAuthorized" class="lock-badge">
-            <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
-          </div>
-        </div>
-        <span>{{ text?.sim_card }}</span>
-      </ion-col>
     </ion-row>
     <ion-row justify-content-around>
-      <ion-col size="4" text-center class="violet-text" (click)="navigateTo('/alerts-and-notifications-start')">
+      <ion-col size="4" text-center class="violet-text" (click)="navigateTo('/order-sim-start')">
         <div class="grid-item">
-          <ion-img src="assets/screens/alerts-and-notifications.svg"></ion-img>
+          <ion-img src="assets/screens/sim-card-blue.png"></ion-img>
         </div>
-        <span>{{ text?.alerts_and_notifications }}</span>
+        <span>{{ text?.sim_card_ordering }}</span>
       </ion-col>
-      <ion-col size="4" text-center class="violet-text" (click)="isAuthorized ? navigateTo('/my-requests') : null">
+      <ion-col size="4" text-center class="violet-text" (click)="isAuthorized ? navigateTo('/sim-card-start') : null">
         <div class="grid-item" [style.borderColor]="isAuthorized ? '#6ba0fe' : '#D4DCEF'">
           <ion-img
-            [attr.src]="isAuthorized ? 'assets/screens/my-requests.svg' : 'assets/screens/my-requests-disable.svg'">
+            [attr.src]="isAuthorized ? 'assets/screens/phone-with-sim.png' : 'assets/screens/phone-with-sim-disable.png'">
           </ion-img>
           <div *ngIf="!isAuthorized" class="lock-badge">
             <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
           </div>
         </div>
-        <span>{{ text?.my_requests }}</span>
+        <span>{{ text?.sim_card_activating }}</span>
       </ion-col>
     </ion-row>
-    <!-- <ion-button href="zoiper://3424234" (click)="aaa()">btn zoiper://</ion-button>
-    <ion-button href="zoiper:3424234">btn zoiper:</ion-button>
-    <a href="zoiper://3424234">a zoiper://</a>
-    <a href="zoiper:3424234">a zoiper:</a> -->
-    <ion-button (click)="call()">call</ion-button>
   </ion-grid>
 </ion-content>
 <ion-footer *ngIf="showPopup">

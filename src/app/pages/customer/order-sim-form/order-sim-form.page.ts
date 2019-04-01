@@ -60,14 +60,18 @@ export class OrderSimFormPage implements OnInit {
     this.router.navigateByUrl(`/${path}`);
   }
 
-  private async createAlert(error: boolean = false) {
-    const alert = await this.alert.create({
-      message: error ? this.text.unknown_error : this.text.request_accepted,
-      buttons: [this.text.ok]
-    });
-    await alert.present();
-    alert.onDidDismiss().then(() => {
-      if (!error) this.navigate('main');
+  private createAlert(error: boolean = false) {
+    let confirmText: string;
+    this.api.getToken().subscribe(async (res: string) => {
+      confirmText = res ? this.text.request_accepted : this.text.request_accepted_without_token;
+      const alert = await this.alert.create({
+        message: error ? this.text.unknown_error : confirmText,
+        buttons: [this.text.ok]
+      });
+      await alert.present();
+      alert.onDidDismiss().then(() => {
+        if (!error) this.navigate('main');
+      });
     });
   }
 
@@ -83,8 +87,6 @@ export class OrderSimFormPage implements OnInit {
     this.submitTry = true;
 
     if (this.form.valid) {
-      console.log({ ...this.form.value, type: 'SIM-REQUEST-DELIVERY' });
-
       await this.loading.createLoading(this.text.creating_order);
       this.api.orderSimCard({
         name: this.form.get('name').value,
@@ -97,8 +99,8 @@ export class OrderSimFormPage implements OnInit {
       })
         .pipe(finalize(async () => await this.loading.dismissLoading()))
         .subscribe(
-          async () => await this.createAlert(),
-          async () => await this.createAlert(true)
+          () => this.createAlert(),
+          () => this.createAlert(true)
         )
     }
   }

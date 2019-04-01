@@ -2,20 +2,18 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-// import { NgxMaskIonicModule } from 'ngx-mask-ionic';
+import { NgxMaskIonicModule } from 'ngx-mask-ionic';
 
 import { IonicModule } from '@ionic/angular';
 
 import { SharedModule } from '../../../components/share.module';
 
-import { ProfilePage } from './profile.page';
-
-import { PhoneNumberPipe } from '../../../pipes/phone-number.pipe';
+import { EnterMobileNumberPage } from './enter-mobile-number.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: ProfilePage
+    component: EnterMobileNumberPage
   }
 ];
 
@@ -26,9 +24,9 @@ const routes: Routes = [
     ReactiveFormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    // NgxMaskIonicModule,
+    NgxMaskIonicModule,
     SharedModule
   ],
-  declarations: [ProfilePage, PhoneNumberPipe]
+  declarations: [EnterMobileNumberPage]
 })
-export class ProfilePageModule {}
+export class EnterMobileNumberPageModule {}

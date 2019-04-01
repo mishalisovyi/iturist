@@ -106,7 +106,7 @@ export class ApiService {
   }
 
   public getLatestAlert(): Observable<BaseResponse> {
-    const params = new HttpParams().set('earliest', '1');
+    let params = new HttpParams().set('earliest', '1');
     return this.http.get<BaseResponse>(`${environment.api}/alerts`, { params });
   }
 

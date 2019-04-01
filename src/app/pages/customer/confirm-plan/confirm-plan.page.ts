@@ -14,10 +14,11 @@ import { ApiService } from '../../../services/api.service';
   templateUrl: './confirm-plan.page.html',
   styleUrls: ['./confirm-plan.page.scss'],
 })
-export class ConfirmPlanPage implements OnInit {
+export class ConfirmPlanPage {
 
   private profile: Profile;
   private planId: string;
+  private companyId: string;
   private browser: InAppBrowserObject;
   private tranzilaCss: string = `
     #header, #footergreenstripe, #geo {
@@ -55,6 +56,7 @@ export class ConfirmPlanPage implements OnInit {
   public plan: Plan;
   public text: any;
   public hideBage: boolean;
+  public defaultHref: string;
 
   constructor(
     private router: Router,
@@ -69,11 +71,11 @@ export class ConfirmPlanPage implements OnInit {
     this.getPageText();
     this.getUser();
     this.defineHidingBage();
-  }
-
-  ngOnInit() {
+    this.getCompanyId();
     this.getPlanId();
     this.getPlan(this.planId);
+    this.getCompanyId();
+    this.getDefaultHref();
   }
 
   private getPageText() {
@@ -90,6 +92,10 @@ export class ConfirmPlanPage implements OnInit {
     this.planId = this.route.snapshot.params.planId;
   }
 
+  private getCompanyId() {
+    this.companyId = this.route.snapshot.params.companyId;
+  }
+
   private getPlan(id: string) {
     this.api.getPlan(id).subscribe((plan: BaseResponse) => this.plan = plan.content);
   }
@@ -100,6 +106,10 @@ export class ConfirmPlanPage implements OnInit {
     this.api.getMyPlan().subscribe(res => {
       if (res) this.hideBage = false;
     });
+  }
+
+  private getDefaultHref() {
+    this.defaultHref = `enter-mobile-number/${this.companyId}/${this.planId}`;
   }
 
   public confirmPlan() {
@@ -149,6 +159,6 @@ export class ConfirmPlanPage implements OnInit {
   }
 
   public navigateTo(route: string) {
-    this.router.navigateByUrl(`/${route}`);    
+    this.router.navigateByUrl(`/${route}`);
   }
 }

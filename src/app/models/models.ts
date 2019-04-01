@@ -77,14 +77,14 @@ export interface Company {
 /* Request models */
 
 export interface ProfileEditRequest {
-  email: string,
-  first_name: string,
-  language: string,
+  email?: string,
+  first_name?: string,
+  language?: string,
   phone: string
 }
 
 export interface OrderSimCardRequest {
-  type: string;
+  type: string,
   name: string,
   email: string,
   address: string,

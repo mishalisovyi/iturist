@@ -1,4 +1,4 @@
-<app-header></app-header>
+<app-header showBackBtn="false" defaultHref="order-sim-start" backBtnText="{{text ? text.back : ''}}"></app-header>
 
 <ion-content padding-horizontal>
   <form [formGroup]="form">
@@ -6,10 +6,6 @@
       <ion-row class="violet-text" justify-content-between>
         <ion-col>
           <span>{{ text?.order_sim }}</span>
-        </ion-col>
-        <ion-col>
-          <ion-button id="to-login-btn" class="w-100" (click)="navigateTo('order-sim-start')">{{ text?.cancel }}
-          </ion-button>
         </ion-col>
       </ion-row>
       <ion-row justify-content-center>

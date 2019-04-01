@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
 import { Subscription, forkJoin } from 'rxjs';
@@ -17,6 +17,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private navigationSubscription: Subscription;
   private languageSubscription: Subscription;
+
+  @Input() public showBackBtn: boolean = false;
+  @Input() public defaultHref?: string;
+  @Input() public backBtnText?: string;
 
   public hideBage: boolean = true;
   public isAuthorized: boolean;
