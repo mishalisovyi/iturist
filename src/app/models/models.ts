@@ -3,6 +3,7 @@
 export interface Profile {
   user_id: number;
   first_name: string;
+  last_name: string;
   user: string;
   language: string;
   language_full: string;
@@ -79,6 +80,7 @@ export interface Company {
 export interface ProfileEditRequest {
   email?: string,
   first_name?: string,
+  last_name?: string,
   language?: string,
   phone: string
 }

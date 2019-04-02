@@ -29,8 +29,14 @@
             <ion-item class="violet-text profile-item">
               <b>{{ text?.email_address }}:</b><span>&nbsp; {{ displayedInfo?.email }}</span>
             </ion-item>
-            <ion-item class="violet-text profile-item">
+            <!-- <ion-item class="violet-text profile-item">
               <b>{{ text?.name }}:</b>&nbsp; {{ displayedInfo?.name }}
+            </ion-item> -->
+            <ion-item class="violet-text profile-item">
+              <b>{{ text?.first_name }}:</b>&nbsp; {{ displayedInfo?.first_name }}
+            </ion-item>
+            <ion-item class="violet-text profile-item">
+              <b>{{ text?.last_name }}:</b>&nbsp; {{ displayedInfo?.last_name }}
             </ion-item>
             <ion-item class="violet-text profile-item">
               <b>{{ text?.language }}:</b>&nbsp; {{ displayedInfo?.language | lowercase }}
@@ -49,9 +55,17 @@
               <ion-input readonly type="email" formControlName="email" placeholder="{{ text?.email_address }}">
               </ion-input>
             </ion-item>
-            <ion-item class="violet-text register-form-field"
+            <!-- <ion-item class="violet-text register-form-field"
               [class.error-field]="submitTry && form.get('name').invalid">
               <ion-input type="text" formControlName="name" placeholder="{{ text?.name }}"></ion-input>
+            </ion-item> -->
+            <ion-item class="violet-text register-form-field"
+              [class.error-field]="submitTry && form.get('first_name').invalid">
+              <ion-input type="text" formControlName="first_name" placeholder="{{ text?.first_name }}"></ion-input>
+            </ion-item>
+            <ion-item class="violet-text register-form-field"
+              [class.error-field]="submitTry && form.get('last_name').invalid">
+              <ion-input type="text" formControlName="last_name" placeholder="{{ text?.last_name }}"></ion-input>
             </ion-item>
             <ion-item class="violet-text register-form-field"
               [class.error-field]="submitTry && form.get('language').invalid" (click)="presentActionSheet()">
@@ -68,10 +82,13 @@
                 mask="000000000" placeholder="{{ text?.phone }}" dropSpecialCharacters="true">
               </ion-input>
             </ion-item> -->
-            <ion-item *ngIf="submitTry && form.get('name').hasError('required')" class="red-text">
-              <span>{{ text?.name_required }}</span>
+            <ion-item *ngIf="submitTry && form.get('first_name').hasError('required')" class="red-text">
+              <span>{{ text?.first_name_required }}</span>
             </ion-item>
-            <ion-item *ngIf="submitTry && form.get('name').hasError('pattern')" class="red-text">
+            <ion-item *ngIf="submitTry && form.get('last_name').hasError('required')" class="red-text">
+              <span>{{ text?.last_name_required }}</span>
+            </ion-item>
+            <ion-item *ngIf="submitTry && (form.get('first_name').hasError('pattern') || form.get('last_name').hasError('pattern'))" class="red-text">
               <span>{{ text?.only_letters }}</span>
             </ion-item>
             <ion-item *ngIf="submitTry && form.get('language').hasError('required')" class="red-text">

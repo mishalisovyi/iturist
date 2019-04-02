@@ -16,7 +16,6 @@ import { ApiService } from '../../../services/api.service';
 })
 export class ConfirmPlanPage {
 
-  private profile: Profile;
   private planId: string;
   private companyId: string;
   private browser: InAppBrowserObject;
@@ -57,6 +56,7 @@ export class ConfirmPlanPage {
   public text: any;
   public hideBage: boolean;
   public defaultHref: string;
+  public profile: Profile;
 
   constructor(
     private router: Router,

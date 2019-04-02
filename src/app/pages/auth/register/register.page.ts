@@ -65,7 +65,9 @@ export class RegisterPage implements OnInit {
 
   private createForm() {
     this.form = this.formBuilder.group({
-      name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z\\s-]*$")]],
+      // name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z\\s-]*$")]],
+      first_name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z-]*$")]],
+      last_name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z-]*$")]],
       email: ["", [Validators.required, Validators.email]],
       password: ["", [Validators.required, PasswordValidator.password]],
       confirmPassword: ["", Validators.required],
@@ -77,7 +79,8 @@ export class RegisterPage implements OnInit {
   private postTextData(): Promise<BaseResponse> {
     return new Promise((resolve, reject) => {
       const formData: FormData = new FormData();
-      formData.append("first_name", this.form.get("name").value);
+      formData.append("first_name", this.form.get("first_name").value);
+      formData.append("last_name", this.form.get("last_name").value);
       formData.append("email", this.form.get("email").value);
       formData.append("password", this.form.get("password").value);
       formData.append("language", this.action.language);

@@ -29,7 +29,9 @@ export class ProfilePage implements OnInit, OnDestroy {
   public text: any;
   public displayedPhone: string;
   public displayedInfo = {
-    name: '',
+    first_name: '',
+    last_name: '',
+    // name: '',
     email: '',
     language: '',
     phone: ''
@@ -71,7 +73,9 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   private createForm() {
     this.form = this.formBuilder.group({
-      name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z\\s-]*$")]],
+      // name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z\\s-]*$")]],
+      first_name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z-]*$")]],
+      last_name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z-]*$")]],
       email: "",
       language: ["", Validators.required],
       phone: ["", [Validators.required, Validators.pattern('\\+*[\\d]{0,3}\\s*[\\d]+')]]
@@ -101,7 +105,8 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   private setFormValues() {
-    this.form.get("name").setValue(this.profile.first_name);
+    this.form.get("first_name").setValue(this.profile.first_name);
+    this.form.get("last_name").setValue(this.profile.last_name);
     this.form.get("email").setValue(this.profile.user);
     this.form.get("language").setValue(this.profile.language_full.toLowerCase());
     // this.form.get("phone").setValue(this.profile.phone ? this.profile.phone.replace('972', '') : '');
@@ -130,7 +135,8 @@ export class ProfilePage implements OnInit, OnDestroy {
       // let phone: string = `${this.form.get('phone').value.length < 12 ? '972' : ''}${this.form.get('phone').value.replace(/\s|\+|\D/g, '')}`;
       const profile: ProfileEditRequest = {
         email: this.form.get("email").value,
-        first_name: this.form.get("name").value,
+        first_name: this.form.get("first_name").value,
+        last_name: this.form.get("last_name").value,
         language: this.action.language,
         phone: this.form.get("phone").value
       }
