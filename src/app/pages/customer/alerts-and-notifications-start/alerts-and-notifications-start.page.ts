@@ -32,27 +32,7 @@ export class AlertsAndNotificationsStartPage {
     this.text = this.language.getTextByCategories('alerts_and_notifications_start');
   }
 
-
   public navigateTo(path: string) {
     this.router.navigateByUrl(path);
-  }
-
-  public logout() {
-    this.storage.get("auth_type")
-      .pipe(
-        tap(async (res: string) => {
-          if (res === "GOOGLE") await this.api.googleLogout();
-          if (res === "FACEBOOK") await this.api.facebookLogout();
-        }),
-        switchMap(() => this.api.logout().pipe(
-          switchMap(() => forkJoin(
-            this.storage.remove("token"),
-            this.storage.remove("profile"),
-            this.storage.remove("auth_type")
-            // this.storage.remove('phone')
-          ))
-        ))
-      )
-      .subscribe(() => this.router.navigateByUrl("/login"));
   }
 }

@@ -34,43 +34,13 @@ export class SimCardStartPage {
   }
 
   private getPageText() {
-    this.text = this.language.getTextByCategories();
+    this.text = this.language.getTextByCategories('sim_card_start');
   }
 
 
   public navigateTo(path: string) {
     this.router.navigateByUrl(path);
   }
-
-  // public determineIsChoosedCompany() {
-  //   this.storage.get('phone')
-  //     .pipe(
-  //       switchMap(res => (
-  //         iif(
-  //           () => res !== 'none',
-  //           this.api.getMyPlan()
-  //             .pipe(
-  //               map((res: BaseResponse) => res.content),
-  //               catchError(() => of([]))
-  //             ),
-  //           of('none')
-  //         )
-  //       ))
-  //     )
-  //     .subscribe(async (res: Array<Plan> | string) => {
-  //       if (res !== 'none') {
-  //         this.navigateTo(res.length ? "/my-plan" : "/choose-company")
-  //       } else {
-  //         const alert = await this.alert.create({
-  //           message: this.text.no_phone,
-  //           buttons: [this.text.ok]
-  //         });
-
-  //         await alert.present();
-  //         alert.onDidDismiss().then(() => this.navigateTo('/profile'));
-  //       }
-  //     });
-  // }
 
   public determineIsChoosedCompany() {
     this.api.getMyPlan()
@@ -92,8 +62,7 @@ export class SimCardStartPage {
           switchMap(() => forkJoin(
             this.storage.remove("token"),
             this.storage.remove("profile"),
-            this.storage.remove("auth_type"),
-            // this.storage.remove('phone')
+            this.storage.remove("auth_type")
           ))
         ))
       )

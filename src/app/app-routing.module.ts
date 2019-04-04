@@ -67,6 +67,21 @@ const routes: Routes = [
     canActivate: [AuthGuard, NetworkGuard]
   },
   {
+    path: 'online-doctor-start',
+    loadChildren: './pages/customer/online-doctor-start/online-doctor-start.module#OnlineDoctorStartPageModule',
+    canActivate: [AuthGuard, NetworkGuard]
+  },
+  {
+    path: 'online-doctor-choose',
+    loadChildren: './pages/customer/online-doctor-choose/online-doctor-choose.module#OnlineDoctorChoosePageModule',
+    canActivate: [AuthGuard, NetworkGuard]
+  },
+  {
+    path: 'online-doctor-prescriptions',
+    loadChildren: './pages/customer/online-doctor-prescriptions/online-doctor-prescriptions.module#OnlineDoctorPrescriptionsPageModule',
+    canActivate: [AuthGuard, NetworkGuard]
+  },
+  {
     path: 'order-sim-start',
     loadChildren: './pages/customer/order-sim-start/order-sim-start.module#OrderSimStartPageModule',
     canActivate: [NetworkGuard]

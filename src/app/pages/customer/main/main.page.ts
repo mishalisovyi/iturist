@@ -12,6 +12,14 @@ import { LanguageService } from "../../../services/language.service";
 
 import { Alert } from '../../../models/models';
 
+
+
+
+
+import { Storage } from "@ionic/storage";
+
+
+
 @Component({
   selector: 'app-main',
   templateUrl: './main.page.html',
@@ -31,7 +39,12 @@ export class MainPage implements OnInit {
     private iab: InAppBrowser,
     private api: ApiService,
     private storage: StorageService,
-    private language: LanguageService
+    private language: LanguageService,
+
+
+
+
+    private storagee: Storage
   ) { }
 
   ngOnInit() {
@@ -46,6 +59,10 @@ export class MainPage implements OnInit {
     this.getIsAuthorized();
 
     if (this.storage.lastUrl === '/login') this.togglePopup(true);
+  }
+
+  aaa() {
+    this.storagee.clear().then(res => console.log(res));
   }
 
   ionViewWillLeave() {

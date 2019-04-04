@@ -20,16 +20,12 @@
     </ion-row>
   </ion-grid>
   <ion-item id="profile-img-label" class="violet-text">
-    <!-- <span>{{ text?.security_alerts }}</span> -->
-    <span>Security Alerts</span>
+    <span>{{ text?.security_alerts }}</span>
   </ion-item>
   <div id="text-block" padding>
-    <!-- <p class="violet-text">{{ text?.first_text }}</p> -->
-    <p class="violet-text">Text text text text text</p>
+    <p class="violet-text">{{ text?.start_text }}</p>
     <ul class="violet-text">
-      <li>Text mdfm sdfds fdfds fsdfsdf</li>
-      <li>Text mdfm sdfds fdfds fsdfsdf</li>
-      <li>Text mdfm sdfds fdfds fsdfsdf</li>
+      <li *ngFor="let item of text?.items_text">{{ item }}</li>
     </ul>
   </div>
 </ion-content>

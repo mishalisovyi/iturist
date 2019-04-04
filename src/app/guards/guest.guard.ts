@@ -11,7 +11,7 @@ export class GuestGuard implements CanActivate {
   constructor(private storage: StorageService, private router: Router) { }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return this.storage.get("authorization").pipe(
+    return this.storage.get("token").pipe(
       switchMap(data => {
         const allowed = data ? false : true;
         if (!allowed) this.router.navigateByUrl("/main");

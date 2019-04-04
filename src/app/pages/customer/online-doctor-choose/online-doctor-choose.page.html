@@ -1,0 +1,25 @@
+<app-header></app-header>
+
+<ion-content>
+  <div id="text-block" class="violet-text bold-text font-size-16">{{ text?.online_doctor }}</div>
+  <ion-grid>
+    <ion-row justify-content-around>
+      <ion-col size="4" text-center class="violet-text">
+        <div class="grid-item" (click)="navigate('online-doctor-prescriptions')">
+          <ion-img src="assets/screens/prescriptions.svg"></ion-img>
+        </div>
+        <span>{{ text?.my_prescriptions }}</span>
+      </ion-col>
+    </ion-row>
+    <ion-row justify-content-center>
+      <ion-col size="4" text-center class="violet-text">
+        <div class="grid-item" (click)="call()">
+          <ion-img
+            src="assets/screens/phone-call.svg">
+          </ion-img>
+        </div>
+        <span>{{ text?.phone_call }}</span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
