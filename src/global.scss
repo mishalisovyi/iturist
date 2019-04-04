@@ -10,13 +10,16 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-// @import url("https://fonts.googleapis.com/css?family=Quicksand");
-@import url("https://fonts.googleapis.com/css?family=Assistant:400");
+@import url("https://fonts.googleapis.com/css?family=Assistant:400,600");
 
 @import "utilities";
 
 * {
   @include assistant-font-family;
+}
+
+ion-button {
+  text-transform: unset !important;
 }
 
 ion-item:not(.menu-item) {
@@ -124,7 +127,7 @@ ion-backdrop {
 }
 
 .bold-text {
-  font-weight: bold !important;
+  font-weight: 600 !important;
 }
 
 .font-size-16 {
