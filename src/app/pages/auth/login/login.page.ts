@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { Router, NavigationExtras } from '@angular/router';
+import { Router } from '@angular/router';
 
-import { MenuController, ToastController } from '@ionic/angular';
+import { Platform, MenuController, ToastController } from '@ionic/angular';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook } from '@ionic-native/facebook/ngx';
 import { Network } from '@ionic-native/network/ngx';
@@ -31,7 +31,8 @@ export class LoginPage implements OnInit {
   public submitTry: boolean = false;
   public displayedLogo: boolean = false;
 
-  private subscription: Subscription;
+  private languageSubscription: Subscription;
+  private backBtnSubscription: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,7 +45,8 @@ export class LoginPage implements OnInit {
     private language: LanguageService,
     private loading: LoadingService,
     private toast: ToastController,
-    private network: Network
+    private network: Network,
+    private platform: Platform
   ) { }
 
   ngOnInit() {
@@ -57,7 +59,9 @@ export class LoginPage implements OnInit {
     this.resetForm();
     this.getPageText();
     this.storage.get("language").subscribe((res: string) => res ? this.language.loadLanguage(res) : this.language.loadLanguage('En'));
-    this.subscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
+    this.languageSubscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
+
+    this.backBtnSubscription = this.platform.backButton.subscribe(() => navigator['app'].exitApp());
   }
 
   ionViewDidEnter() {
@@ -66,7 +70,9 @@ export class LoginPage implements OnInit {
 
   ionViewWillLeave() {
     this.menu.enable(true);
-    if (this.subscription) this.subscription.unsubscribe();
+
+    if (this.languageSubscription) this.languageSubscription.unsubscribe();
+    if (this.backBtnSubscription) this.backBtnSubscription.unsubscribe();
   }
 
   private createForm() {

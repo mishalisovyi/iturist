@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { Platform } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 import { forkJoin, Subscription } from 'rxjs';
@@ -12,14 +13,6 @@ import { LanguageService } from "../../../services/language.service";
 
 import { Alert } from '../../../models/models';
 
-
-
-
-
-import { Storage } from "@ionic/storage";
-
-
-
 @Component({
   selector: 'app-main',
   templateUrl: './main.page.html',
@@ -28,6 +21,7 @@ import { Storage } from "@ionic/storage";
 export class MainPage implements OnInit {
 
   private languageSubscription: Subscription;
+  private backBtnSubscription: Subscription;
 
   public text: any;
   public showPopup: boolean;
@@ -40,11 +34,7 @@ export class MainPage implements OnInit {
     private api: ApiService,
     private storage: StorageService,
     private language: LanguageService,
-
-
-
-
-    private storagee: Storage
+    private platform: Platform
   ) { }
 
   ngOnInit() {
@@ -61,12 +51,9 @@ export class MainPage implements OnInit {
     if (this.storage.lastUrl === '/login') this.togglePopup(true);
   }
 
-  aaa() {
-    this.storagee.clear().then(res => console.log(res));
-  }
-
   ionViewWillLeave() {
     if (this.languageSubscription) this.languageSubscription.unsubscribe();
+    if (this.backBtnSubscription) this.backBtnSubscription.unsubscribe();
   }
 
   private getPageText() {
@@ -74,7 +61,14 @@ export class MainPage implements OnInit {
   }
 
   private getIsAuthorized() {
-    this.api.getToken().subscribe((res: string) => this.isAuthorized = res ? true : false);
+    this.api.getToken().subscribe((res: string) => {
+      this.isAuthorized = res ? true : false;
+      if (this.isAuthorized) this.registerBackBtn();
+    });
+  }
+
+  private registerBackBtn() {
+    this.backBtnSubscription = this.platform.backButton.subscribe(() => navigator['app'].exitApp());
   }
 
   public navigateTo(route: string) {
