@@ -38,7 +38,7 @@
           <ion-img *ngIf="item?.type !== 'YNET'" src="assets/screens/security-alerts-red.svg"></ion-img>
           <span>{{ item.title }}</span>
         </div>
-        <div id="date-block">{{ item.pubDate | date:'HH:mm' }} | {{ item.pubDate | date:'d:M:yyyy' }}</div>
+        <div id="date-block">{{ item.pubDate | date:'HH:mm' }} | {{ item.pubDate | date:'d.M.yyyy' }}</div>
       </ion-card-title>
     </ion-card-header>
     <ion-card-content class="violet-text" [class.alert-text]="item?.type !== 'YNET'">

@@ -82,6 +82,11 @@ const routes: Routes = [
     canActivate: [AuthGuard, NetworkGuard]
   },
   {
+    path: 'online-doctor-calls-list',
+    loadChildren: './pages/customer/online-doctor-calls-list/online-doctor-calls-list.module#OnlineDoctorCallsListPageModule',
+    canActivate: [AuthGuard, NetworkGuard]
+  },
+  {
     path: 'order-sim-start',
     loadChildren: './pages/customer/order-sim-start/order-sim-start.module#OrderSimStartPageModule',
     canActivate: [NetworkGuard]

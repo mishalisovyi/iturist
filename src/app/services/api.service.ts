@@ -117,4 +117,28 @@ export class ApiService {
   public orderSimCard(body: OrderSimCardRequest): Observable<BaseResponse> {
     return this.http.post<BaseResponse>(`${environment.api}/action-requests`, body);
   }
+
+  public getPrescriptions(): Observable<BaseResponse> {
+    // return this.http.post<BaseResponse>(`${environment.api}/action-requests`);
+    let content: Array<any> = [];
+    for (let i = 0; i < _.random(10, 20); ++i) {
+      content.push(i);
+    }
+    return of({
+      content,
+      metadata: {}
+    }).pipe(delay(200))
+  }
+
+  public getCalls(): Observable<BaseResponse> {
+    // return this.http.post<BaseResponse>(`${environment.api}/action-requests`);
+    let content: Array<any> = [];
+    for (let i = 0; i < _.random(10, 20); ++i) {
+      content.push(i);
+    }
+    return of({
+      content,
+      metadata: {}
+    }).pipe(delay(200))
+  }
 }

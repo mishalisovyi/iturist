@@ -25,9 +25,7 @@ export class OnlineDoctorChoosePage {
   }
 
   public call() {
-    this.callNumber.callNumber("0982026637", true)
-      .then(res => console.log('Launched dialer!', res))
-      .catch(err => console.log('Error launching dialer', err));
+    this.callNumber.callNumber("11111111", true);
   }
 
   public navigate(route: string) {

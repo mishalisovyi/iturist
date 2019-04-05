@@ -6,27 +6,27 @@ import { LanguageService } from '../../../services/language.service';
 import { BaseResponse } from '../../../models/models';
 
 @Component({
-  selector: 'app-online-doctor-prescriptions',
-  templateUrl: './online-doctor-prescriptions.page.html',
-  styleUrls: ['./online-doctor-prescriptions.page.scss'],
+  selector: 'app-online-doctor-calls-list',
+  templateUrl: './online-doctor-calls-list.page.html',
+  styleUrls: ['./online-doctor-calls-list.page.scss'],
 })
-export class OnlineDoctorPrescriptionsPage {
+export class OnlineDoctorCallsListPage {
 
   public text: any;
-  public prescriptions: Array<any>;
+  public calls: Array<any>;
 
   constructor(private language: LanguageService, private api: ApiService) { }
 
   ionViewWillEnter() {
     this.getPageText();
-    this.getPrescriptions();
+    this.getCalls();
   }
 
   private getPageText() {
     this.text = this.language.getTextByCategories();
   }
 
-  private getPrescriptions() {
-    this.api.getPrescriptions().subscribe((res: BaseResponse) => this.prescriptions = res.content);
+  private getCalls() {
+    this.api.getCalls().subscribe((res: BaseResponse) => this.calls = res.content);
   }
 }

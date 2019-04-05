@@ -28,10 +28,10 @@ export class TokenInterceptor implements HttpInterceptor {
           if (this.router.url.includes('forgot-password')) this.router.navigateByUrl("/forgot-password");
         }
         return next.handle(newRequest).pipe(
-          // catchError(error => {
-          //   if (error.status === 401 || error.status === 403) this.storage.remove("token").subscribe(() => this.router.navigateByUrl("/login"))
-          //   return throwError(error);
-          // })
+          catchError(error => {
+            this.storage.remove("token").subscribe(() => this.router.navigateByUrl("/login"));
+            return throwError(error);
+          })
         );
       })
     );
