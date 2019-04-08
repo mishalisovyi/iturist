@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 import { map, finalize } from "rxjs/operators";
 import * as moment from "moment";
@@ -11,9 +11,11 @@ import { History, BaseResponse } from "../../../models/models";
 @Component({
   selector: 'app-my-requests',
   templateUrl: './my-requests.page.html',
-  styleUrls: ['./my-requests.page.scss'],
+  styleUrls: ['./my-requests.page.scss']
 })
 export class MyRequestsPage {
+
+  @ViewChild('lastItem') public lastStepperItem: any;
 
   public text: any;
   public requests: Array<History> = [];

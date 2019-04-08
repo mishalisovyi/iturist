@@ -29,7 +29,9 @@ export class TokenInterceptor implements HttpInterceptor {
         }
         return next.handle(newRequest).pipe(
           catchError(error => {
-            this.storage.remove("token").subscribe(() => this.router.navigateByUrl("/login"));
+            if ([119, 401].includes(error.status)) {
+              this.storage.remove("token").subscribe(() => this.router.navigateByUrl("/login"));
+            }
             return throwError(error);
           })
         );

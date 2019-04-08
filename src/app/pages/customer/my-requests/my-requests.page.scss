@@ -19,6 +19,10 @@ ion-card {
   margin-top: 20px;
   padding-left: 10px;
 
+  .step-item:nth-last-child(2) {
+    padding-bottom: 40px !important;
+  }
+
   .step-item {
     padding: 20px;
     border-left: solid 2px #6da0ff;
@@ -27,10 +31,6 @@ ion-card {
 
   .step-item:first-of-type {
     padding-top: 0;
-  }
-
-  .step-item:last-of-type {
-    padding-bottom: 0;
   }
 
   .step-item::before {
@@ -43,6 +43,16 @@ ion-card {
     border: solid 2px #6da0ff;
     background-color: #b5d0ff;
   }
+
+  .step-item:last-of-type {
+    padding-bottom: 0;
+    border: 0;
+    padding-top: 0;
+  }
+
+  // .step-item:last-of-type::before {
+  //   bottom: 5px;
+  // }
 }
 
 #no-requests-message {

@@ -47,7 +47,7 @@
         </div>
         <span>{{ text?.alerts_and_notifications }}</span>
       </ion-col>
-      <ion-col size="4" text-center class="violet-text" (click)="navigateTo('/online-doctor-start')">
+      <ion-col size="4" text-center class="violet-text" (click)="isAuthorized ? navigateTo('/online-doctor-start') : null">
         <div class="grid-item" [style.borderColor]="isAuthorized ? '#6ba0fe' : '#D4DCEF'">
           <ion-img
             [attr.src]="isAuthorized ? 'assets/screens/online-doctor.svg' : 'assets/screens/online-doctor-disable.svg'">

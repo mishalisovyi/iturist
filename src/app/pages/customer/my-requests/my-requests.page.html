@@ -4,7 +4,7 @@
   <ng-container *ngIf="requests.length && requestsAreLoaded">
     <div id="text-block" class="violet-text bold-text font-size-16">{{ text?.your_requests }}</div>
 
-    <ion-card class="violet-text" *ngFor="let request of requests">
+    <ion-card class="violet-text" *ngFor="let request of requests; let i = index">
       <ion-card-content>
         <ion-grid>
           <ion-row>
@@ -18,10 +18,13 @@
             </ion-col>
           </ion-row>
           <ion-row id="stepper-block">
-            <ion-col>
-              <!-- <div class="step-item violet-text">{{ request?.status | titlecase }}</div> -->
-              <div class="step-item violet-text" *ngFor="let item of request.request_status">{{ item.status | titlecase }}</div>
-              <div class="step-item violet-text">{{ text?.requirement_created }} {{ request?.created | date:'short' }}</div>
+            <ion-col class="stepper-col">
+              <div class="step-item violet-text" *ngFor="let item of request.request_status">
+                {{ item.status | titlecase }}
+              </div>
+              <div class="step-item violet-text">
+                {{ text?.requirement_created }} {{ request?.created | date:'short' }}
+              </div>
             </ion-col>
           </ion-row>
         </ion-grid>

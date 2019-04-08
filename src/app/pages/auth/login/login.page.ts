@@ -120,7 +120,6 @@ export class LoginPage implements OnInit {
             forkJoin(
               this.storage.set("token", res.content.token),
               this.storage.set("language", res.content.profile.language),
-              // this.storage.set('phone', res.content.profile.phone ? res.content.profile.phone : 'none'),
               this.storage.set("auth_type", "REGULAR"),
             )
           )),
@@ -132,6 +131,7 @@ export class LoginPage implements OnInit {
           err => {
             if (err.error) {
               if (err.error.metadata.api_error_codes.includes(101)) alert(this.text.wrong_credentials);
+              if (err.error.metadata.api_error_codes.includes(117)) alert(this.text.doctor_app_credentials);
             }
           }
         )
