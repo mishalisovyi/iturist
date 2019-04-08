@@ -44,7 +44,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     private language: LanguageService,
     private storage: StorageService,
     public action: ActionSheetService,
-    public image: ImageService,
+    public image: ImageService
   ) { }
 
   ngOnInit() {
@@ -73,7 +73,6 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   private createForm() {
     this.form = this.formBuilder.group({
-      // name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z\\s-]*$")]],
       first_name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z-]*$")]],
       last_name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z-]*$")]],
       email: "",
