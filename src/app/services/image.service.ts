@@ -150,7 +150,6 @@ export class ImageService {
             .then(
               res => {
                 this.imgInfo[img].file = new Blob([res[0]], { type: "image/jpeg" });
-                this.imgInfo[img].src = this.webview.convertFileSrc(this.platform.is("ios") ? imagePath : res[1]);
                 this.imgInfo[img].src = this.webview.convertFileSrc(imagePath);
                 this.imgInfo[img].deleted = false;
                 this.imgInfo[img].changed = true;
@@ -162,7 +161,8 @@ export class ImageService {
               }
             )
             .finally(() => this.loading.dismissLoading())
-        });
+        })
+        .finally(() => this.loading.dismissLoading());
     })
   }
 

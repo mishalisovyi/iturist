@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-packageName="com.kvark.iturist" id="com.kvark.iturist" ios-CFBundleIdentifier="com.kvark.itourist" version="0.0.8" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-packageName="com.kvark.iturist" id="com.kvark.iturist" ios-CFBundleIdentifier="com.kvark.itourist" version="0.0.9" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>iTourist</name>
     <description>iTourist App</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://192.168.2.103:8101" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -108,7 +108,6 @@
         <variable name="PLAY_SERVICES_VERSION" value="11.8.0" />
     </plugin>
     <allow-navigation href="http://192.168.2.103:8101" sessionid="915b9cba" />
-    <plugin name="cordova-plugin-camera" spec="^4.0.3" />
     <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <plugin name="cordova-plugin-filepath" spec="^1.5.1" />
     <plugin name="cordova-plugin-inappbrowser" spec="3.0.0" />
@@ -117,6 +116,6 @@
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value=" " />
     </plugin>
     <engine name="ios" spec="4.5.5" />
-    <engine name="android" spec="7.1.4" />
     <engine name="browser" spec="5.0.4" />
+    <engine name="android" spec="7.1.4" />
 </widget>
