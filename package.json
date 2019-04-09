@@ -34,7 +34,7 @@
     "@ionic-native/status-bar": "5.0.0-beta.21",
     "@ionic/angular": "4.0.0-rc.0",
     "@ionic/storage": "^2.2.0",
-    "call-number": "1.0.1",
+    "call-number": "^1.0.1",
     "cordova-android": "7.1.4",
     "cordova-browser": "5.0.4",
     "cordova-ios": "4.5.5",
@@ -120,9 +120,9 @@
       "call-number": {}
     },
     "platforms": [
-      "ios",
       "browser",
-      "android"
+      "android",
+      "ios"
     ]
   }
 }
