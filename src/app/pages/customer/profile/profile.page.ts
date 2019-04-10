@@ -1,6 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
+import { Platform } from '@ionic/angular';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+
 import { Subscription } from "rxjs";
 
 import { ImageService } from '../../../services/image.service';
@@ -21,6 +24,7 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   private actionSubscription: Subscription;
   private languageSubscription: Subscription;
+  private platform: string;
 
   public profile: Profile;
   public form: FormGroup;
@@ -44,10 +48,13 @@ export class ProfilePage implements OnInit, OnDestroy {
     private language: LanguageService,
     private storage: StorageService,
     public action: ActionSheetService,
-    public image: ImageService
+    public image: ImageService,
+    private androidPermissions: AndroidPermissions,
+    private ionicPlatform: Platform
   ) { }
 
   ngOnInit() {
+    this.getPlatform();
     this.createForm();
 
     this.action.actionSheetDismissLanguage$.subscribe((res: { label: string, value: string }) => this.form.get("language").setValue(res.label.toLowerCase()));
@@ -69,6 +76,10 @@ export class ProfilePage implements OnInit, OnDestroy {
       this.getDisplayedInfo();
       this.manageImagesVariables();
     });
+  }
+
+  private getPlatform() {
+    this.platform = this.ionicPlatform.is('android') ? 'android' : 'ios';
   }
 
   private createForm() {
@@ -146,17 +157,29 @@ export class ProfilePage implements OnInit, OnDestroy {
     });
   }
 
+  private async requestImageLibraryPermission(forPhoto: string) {
+    const { hasPermission } = await this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE);
+    if (hasPermission) this.getPhoto(forPhoto);
+  }
+
   public deletePhoto(photo: string) {
     this.image.deletePhoto(photo);
     this.postImages();
   }
 
-  public getPhoto(photo: string) {
-    this.image.getPhoto(photo)
-      .then(async () => {
-        await this.loading.createLoading(this.text.updating_profile_msg);
-        this.postImages().finally(async () => await this.loading.dismissLoading())
-      })
+  public async getPhoto(photo: string) {
+    const { hasPermission } = await this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE);
+
+    if (this.platform === 'ios' || (this.platform === 'android' && hasPermission)) {
+      this.image.getPhoto(photo)
+        .then(async () => {
+          await this.loading.createLoading(this.text.updating_profile_msg);
+          this.postImages().finally(async () => await this.loading.dismissLoading())
+        })
+      return;
+    }
+
+    this.requestImageLibraryPermission(photo);
   }
 
   // public validatePhone() {

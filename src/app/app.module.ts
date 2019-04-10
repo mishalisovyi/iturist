@@ -17,6 +17,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -48,6 +49,7 @@ import { NetworkInterceptor } from './services/interceptors/network.interceptor'
     Network,
     CallNumber,
     ImagePicker,
+    AndroidPermissions,
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy

@@ -155,10 +155,11 @@ export class ImageService {
                 this.imgInfo[img].changed = true;
                 resolve()
               },
-              err => {
-                alert(this.platform.is("ios") ? JSON.stringify(err) : this.text.image_allowed);
-                reject();
-              }
+              // err => {
+              //   alert(this.platform.is("ios") ? JSON.stringify(err) : this.text.image_allowed);
+              //   reject();
+              // }
+              () => reject()
             )
             .finally(() => this.loading.dismissLoading())
         })
