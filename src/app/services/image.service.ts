@@ -135,8 +135,7 @@ export class ImageService {
       this.imagePicker.getPictures({
         maximumImagesCount: 1,
         width: 800,
-        height: 800,
-        quality: 20
+        height: 800
       })
         .then((results) => {
           const imagePath = results[0];
