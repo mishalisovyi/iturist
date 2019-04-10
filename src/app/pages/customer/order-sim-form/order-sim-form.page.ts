@@ -46,7 +46,7 @@ export class OrderSimFormPage implements OnInit {
       name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z\\s-]*$")]],
       email: ["", [Validators.required, Validators.email]],
       address: ["", Validators.required],
-      city: ["", [Validators.required]],
+      city: ["", Validators.required],
       phone_number: ["", [Validators.required, Validators.pattern('^\\+?[\\d]+$')]],
       company: ["", Validators.required]
     });
@@ -73,6 +73,17 @@ export class OrderSimFormPage implements OnInit {
         if (!error) this.navigate('main');
       });
     });
+  }
+
+  public requireValidator(...fields: Array<string>): boolean {
+    let valid: boolean = true;
+    for (let field of fields) {
+      if (this.form.get(field).hasError('required')) {
+        valid = false;
+        break;
+      }
+    }
+    return !valid;
   }
 
   public async presentActionSheet() {

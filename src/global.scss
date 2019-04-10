@@ -28,6 +28,12 @@ ion-item:not(.menu-item) {
   --full-highlight-height: 0;
 }
 
+.btn {
+  --background: linear-gradient(to right, #6c9eff, #a25ffd);
+  --background-activated: linear-gradient(to right, #6c9eff, #a25ffd);
+  --border-radius: 30px;
+}
+
 .w-100 {
   width: 100%;
 }

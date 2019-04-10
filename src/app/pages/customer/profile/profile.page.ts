@@ -35,7 +35,6 @@ export class ProfilePage implements OnInit, OnDestroy {
   public displayedInfo = {
     first_name: '',
     last_name: '',
-    // name: '',
     email: '',
     language: '',
     phone: ''
@@ -86,9 +85,9 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       first_name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z-]*$")]],
       last_name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z-]*$")]],
-      email: "",
+      email: [{ value: "", disabled: true }],
       language: ["", Validators.required],
-      phone: ["", [Validators.required, Validators.pattern('\\+*[\\d]{0,3}\\s*[\\d]+')]]
+      phone: [{ value: "", disabled: true }]
     });
   }
 
@@ -160,6 +159,17 @@ export class ProfilePage implements OnInit, OnDestroy {
   private async requestImageLibraryPermission(forPhoto: string) {
     const { hasPermission } = await this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE);
     if (hasPermission) this.getPhoto(forPhoto);
+  }
+
+  public requireValidator(...fields: Array<string>): boolean {
+    let valid: boolean = true;
+    for (let field of fields) {
+      if (this.form.get(field).hasError('required')) {
+        valid = false;
+        break;
+      }
+    }
+    return !valid;
   }
 
   public deletePhoto(photo: string) {

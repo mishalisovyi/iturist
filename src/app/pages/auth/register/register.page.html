@@ -73,8 +73,8 @@
               (ionChange)="validatePasswordConfirmation()"></ion-input>
           </ion-item>
           <ion-item class="violet-text register-form-field"
-            [class.error-field]="submitTry && form.get('confirmPassword').invalid">
-            <ion-input type="password" formControlName="confirmPassword" placeholder="{{ text?.confirm_password }}"
+            [class.error-field]="submitTry && form.get('confirm_password').invalid">
+            <ion-input type="password" formControlName="confirm_password" placeholder="{{ text?.confirm_password }}"
               (ionChange)="validatePasswordConfirmation()"></ion-input>
           </ion-item>
           <ion-item class="violet-text register-form-field"
@@ -87,26 +87,26 @@
             <ion-input type="text" prefix="+972 " mask="000000000" formControlName="phone"
               placeholder="{{ text?.phone }}"></ion-input>
           </ion-item> -->
-          <ion-item *ngIf="submitTry && form.get('first_name').hasError('required')" class="red-text">
+          <!-- <ion-item *ngIf="submitTry && form.get('first_name').hasError('required')" class="red-text">
             <span>{{ text?.first_name_required }}</span>
           </ion-item>
           <ion-item *ngIf="submitTry && form.get('last_name').hasError('required')" class="red-text">
             <span>{{ text?.last_name_required }}</span>
-          </ion-item>
+          </ion-item> -->
           <ion-item
             *ngIf="submitTry && (form.get('first_name').hasError('pattern') || form.get('last_name').hasError('pattern'))"
             class="red-text">
             <span>{{ text?.only_letters }}</span>
           </ion-item>
-          <ion-item *ngIf="submitTry && form.get('email').hasError('required')" class="red-text">
+          <!-- <ion-item *ngIf="submitTry && form.get('email').hasError('required')" class="red-text">
             <span>{{ text?.email_required }}</span>
-          </ion-item>
+          </ion-item> -->
           <ion-item *ngIf="submitTry && form.get('email').hasError('email')" class="red-text">
             <span>{{ text?.email_not_valid }}</span>
           </ion-item>
-          <ion-item *ngIf="submitTry && form.get('password').hasError('required')" class="red-text">
+          <!-- <ion-item *ngIf="submitTry && form.get('password').hasError('required')" class="red-text">
             <span>{{ text?.password_required }}</span>
-          </ion-item>
+          </ion-item> -->
           <ion-item *ngIf="submitTry && form.get('password').hasError('noDigits')" class="red-text">
             <span>{{ text?.password_one_digit }}</span>
           </ion-item>
@@ -119,15 +119,15 @@
           <ion-item *ngIf="submitTry && form.get('password').hasError('short')" class="red-text">
             <span>{{ text?.password_minlength }}</span>
           </ion-item>
-          <ion-item *ngIf="submitTry && form.get('confirmPassword').hasError('required')" class="red-text">
+          <!-- <ion-item *ngIf="submitTry && form.get('confirm_password').hasError('required')" class="red-text">
             <span>{{ text?.confirm_password_validation }}</span>
-          </ion-item>
-          <ion-item *ngIf="submitTry && form.get('confirmPassword').hasError('unmatch')" class="red-text">
+          </ion-item> -->
+          <ion-item *ngIf="submitTry && form.get('confirm_password').hasError('unmatch')" class="red-text">
             <span>{{ text?.password_not_match }}</span>
           </ion-item>
-          <ion-item *ngIf="submitTry && form.get('language').hasError('required')" class="red-text">
+          <!-- <ion-item *ngIf="submitTry && form.get('language').hasError('required')" class="red-text">
             <span>{{ text?.language_required }}</span>
-          </ion-item>
+          </ion-item> -->
           <!-- <ion-item *ngIf="submitTry && form.get('phone').hasError('required')" class="red-text">
             <span>{{ text?.phone_required }}</span>
           </ion-item>
@@ -137,6 +137,11 @@
           <ion-item *ngIf="submitTry && form.get('phone').hasError('pattern')" class="red-text">
             <span>{{ text?.only_numbers }}</span>
           </ion-item> -->
+          <ion-item
+            *ngIf="submitTry && requireValidator('first_name', 'last_name', 'email', 'password', 'confirm_password', 'language')"
+            class="red-text">
+            <span>{{ text?.fill_empty_fields }}</span>
+          </ion-item>
         </ion-col>
       </ion-row>
       <ion-row id="text-block" class="violet-text">
@@ -211,6 +216,6 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button class="btn bottom-btn" (click)="register()">{{ text?.sign_up }}</ion-button>
+    <ion-button class="bottom-btn" (click)="register()">{{ text?.sign_up }}</ion-button>
   </ion-toolbar>
 </ion-footer>

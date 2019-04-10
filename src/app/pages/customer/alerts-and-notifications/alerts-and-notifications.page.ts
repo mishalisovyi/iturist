@@ -43,6 +43,7 @@ export class AlertsAndNotificationsPage {
         res.content.forEach((item: Alert) => {
           if (item.pubDate) item.pubDate = moment.utc(item.pubDate.replace("UTC:00", "")).toString();
         });
+        res.content = res.content.reverse();
         return res.content;
       }))
       .subscribe((res: Alert[]) => this.alerts = res);

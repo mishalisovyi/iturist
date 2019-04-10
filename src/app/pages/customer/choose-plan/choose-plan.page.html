@@ -6,7 +6,8 @@
           <ion-icon src="assets/screens/violet-menu-icon.svg"></ion-icon>
         </ion-button>
       </ion-menu-toggle> -->
-      <ion-back-button class="violet-text" [defaultHref]="defaultHref" text="{{ text ? text.back : '' }}"></ion-back-button>
+      <ion-back-button class="violet-text" [defaultHref]="defaultHref" text="{{ text ? text.back : '' }}">
+      </ion-back-button>
     </ion-buttons>
     <ion-img id="home-img" src="assets/screens/home-blue.svg" (click)="navigateTo('main')"></ion-img>
     <ion-buttons slot="end">
@@ -65,6 +66,11 @@
             <ion-chip *ngIf="plan.id !== selectedPlanId; else checkedChip" id="choose-chip">
               <span class="bold-text">{{ text?.choose }}</span>
             </ion-chip>
+            <ng-template #checkedChip>
+              <ion-chip id="checked-chip">
+                <ion-icon name="checkmark"></ion-icon>
+              </ion-chip>
+            </ng-template>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -73,13 +79,7 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button [disabled]="!planIsSelected" class="btn bottom-btn" (click)="navigateToEnterMobileNumber()">
+    <ion-button [disabled]="!planIsSelected" class="bottom-btn" (click)="navigateToEnterMobileNumber()">
       {{ text?.enter_mobile_number }}</ion-button>
   </ion-toolbar>
 </ion-footer>
-
-<ng-template #checkedChip>
-  <ion-chip id="checked-chip">
-    <ion-icon name="checkmark"></ion-icon>
-  </ion-chip>
-</ng-template>

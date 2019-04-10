@@ -2,15 +2,17 @@
 
 #google-btn {
   --background: #dd4335;
+  --border-radius: 30px;
 }
 
 #facebook-btn {
   --background: #3d5a9a;
+  --border-radius: 30px;
 }
 
 #errors-block {
   position: absolute;
-  top: 165px;
+  top: 200px;
 }
 
 ion-menu-button {

@@ -100,6 +100,17 @@ export class LoginPage implements OnInit {
 
   }
 
+  public requireValidator(...fields: Array<string>): boolean {
+    let valid: boolean = true;
+    for (let field of fields) {
+      if (this.form.get(field).hasError('required')) {
+        valid = false;
+        break;
+      }
+    }
+    return !valid;
+  }
+
   public navigateTo(route: string) {
     this.router.navigateByUrl(`/${route}`);
   }

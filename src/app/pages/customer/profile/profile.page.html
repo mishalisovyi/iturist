@@ -5,22 +5,22 @@
     <ion-grid no-margin no-padding>
       <ion-row no-margin no-padding align-items-center>
         <ion-col no-margin no-padding>
-          <div *ngIf="!image.imgInfo.profile.src" id="upload-img-block" (click)="getPhoto('profile')">
+          <div *ngIf="image.imgInfo.profile.deleted" id="upload-img-block" (click)="getPhoto('profile')">
             <ion-img src="assets/screens/icon-profile.svg"></ion-img>
             <div id="rect"></div>
             <div id="label">
               <ion-img src="assets/screens/upload-img.svg"></ion-img>
             </div>
           </div>
-          <div *ngIf="image.imgInfo.profile.src" id="img-block"
-            [ngStyle]="{'background-image': 'url(' + image.imgInfo.profile.src + ')'}" (click)="getPhoto('profile')">
+          <div *ngIf="!image.imgInfo.profile.deleted" id="img-block"
+            [ngStyle]="{'background-image': 'url(' + image.imgInfo.profile.src + ')'}" (click)="deletePhoto('profile')">
             <div id="label">
-              <ion-img src="assets/screens/upload-img.svg"></ion-img>
+              <ion-img src="assets/screens/delete-img.svg"></ion-img>
             </div>
           </div>
         </ion-col>
         <ion-col *ngIf="editInfo">
-          <ion-button style="float: right" (click)="closeEditInfo()">{{ text?.cancel }}</ion-button>
+          <ion-button class="btn" style="float: right" (click)="closeEditInfo()">{{ text?.cancel }}</ion-button>
         </ion-col>
       </ion-row>
       <ion-row justify-content-center no-margin no-padding>
@@ -29,9 +29,6 @@
             <ion-item class="violet-text profile-item">
               <span class="bold-text">{{ text?.email_address }}:</span><span>&nbsp; {{ displayedInfo?.email }}</span>
             </ion-item>
-            <!-- <ion-item class="violet-text profile-item">
-              <b>{{ text?.name }}:</b>&nbsp; {{ displayedInfo?.name }}
-            </ion-item> -->
             <ion-item class="violet-text profile-item">
               <span class="bold-text">{{ text?.first_name }}:</span>&nbsp; {{ displayedInfo?.first_name }}
             </ion-item>
@@ -52,13 +49,9 @@
           </ng-container>
           <ng-container *ngIf="editInfo">
             <ion-item class="violet-text register-form-field">
-              <ion-input readonly type="email" formControlName="email" placeholder="{{ text?.email_address }}">
+              <ion-input type="email" formControlName="email" placeholder="{{ text?.email_address }}">
               </ion-input>
             </ion-item>
-            <!-- <ion-item class="violet-text register-form-field"
-              [class.error-field]="submitTry && form.get('name').invalid">
-              <ion-input type="text" formControlName="name" placeholder="{{ text?.name }}"></ion-input>
-            </ion-item> -->
             <ion-item class="violet-text register-form-field"
               [class.error-field]="submitTry && form.get('first_name').invalid">
               <ion-input type="text" formControlName="first_name" placeholder="{{ text?.first_name }}"></ion-input>
@@ -74,7 +67,7 @@
             </ion-item>
             <ion-item class="violet-text register-form-field"
               [class.error-field]="submitTry && form.get('phone').invalid">
-              <ion-input readonly type="text" formControlName="phone" placeholder="{{ text?.phone }}"></ion-input>
+              <ion-input type="text" formControlName="phone" placeholder="{{ text?.phone }}"></ion-input>
             </ion-item>
             <!-- <ion-item class="violet-text register-form-field"
               [class.error-field]="submitTry && form.get('phone').invalid">
@@ -82,21 +75,12 @@
                 mask="000000000" placeholder="{{ text?.phone }}" dropSpecialCharacters="true">
               </ion-input>
             </ion-item> -->
-            <ion-item *ngIf="submitTry && form.get('first_name').hasError('required')" class="red-text">
-              <span>{{ text?.first_name_required }}</span>
-            </ion-item>
-            <ion-item *ngIf="submitTry && form.get('last_name').hasError('required')" class="red-text">
-              <span>{{ text?.last_name_required }}</span>
-            </ion-item>
             <ion-item
               *ngIf="submitTry && (form.get('first_name').hasError('pattern') || form.get('last_name').hasError('pattern'))"
               class="red-text">
               <span>{{ text?.only_letters }}</span>
             </ion-item>
-            <ion-item *ngIf="submitTry && form.get('language').hasError('required')" class="red-text">
-              <span>{{ text?.language_required }}</span>
-            </ion-item>
-            <ion-item *ngIf="submitTry && form.get('phone').hasError('required')" class="red-text">
+            <!-- <ion-item *ngIf="submitTry && form.get('phone').hasError('required')" class="red-text">
               <span>{{ text?.phone_required }}</span>
             </ion-item>
             <ion-item *ngIf="submitTry && form.get('phone').hasError('minlength')" class="red-text">
@@ -104,6 +88,9 @@
             </ion-item>
             <ion-item *ngIf="submitTry && form.get('phone').hasError('pattern')" class="red-text">
               <span>{{ text?.only_numbers }}</span>
+            </ion-item> -->
+            <ion-item *ngIf="submitTry && requireValidator('first_name', 'last_name', 'language')" class="red-text">
+              <span>{{ text?.fill_empty_fields }}</span>
             </ion-item>
           </ng-container>
         </ion-col>
@@ -180,6 +167,6 @@
 </ion-content>
 <ion-footer *ngIf="editInfo">
   <ion-toolbar>
-    <ion-button class="btn bottom-btn" (click)="saveProfile()">{{ text?.save }}</ion-button>
+    <ion-button class="bottom-btn" (click)="saveProfile()">{{ text?.save }}</ion-button>
   </ion-toolbar>
 </ion-footer>

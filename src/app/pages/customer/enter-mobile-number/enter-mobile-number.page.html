@@ -1,12 +1,8 @@
 <ion-header no-border>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <!-- <ion-menu-toggle>
-        <ion-button>
-          <ion-icon src="assets/screens/violet-menu-icon.svg"></ion-icon>
-        </ion-button>
-      </ion-menu-toggle> -->
-      <ion-back-button class="violet-text" [defaultHref]="defaultHref" text="{{ text ? text.back : '' }}"></ion-back-button>
+      <ion-back-button class="violet-text" [defaultHref]="defaultHref" text="{{ text ? text.back : '' }}">
+      </ion-back-button>
     </ion-buttons>
     <ion-img id="home-img" src="assets/screens/home-blue.svg" (click)="navigateTo('main')"></ion-img>
     <ion-buttons slot="end">
@@ -31,11 +27,6 @@
 
 <ion-content padding-horizontal>
   <ion-grid>
-    <!-- <ion-row id="text-block" class="violet-text" justify-content-between>
-      <ion-col>
-        <ion-button id="back-btn" (click)="navigateBack()" class="w-100">{{ text?.back }}</ion-button>
-      </ion-col>
-    </ion-row> -->
     <ion-row id="text-block" justify-content-center>
       <ion-col size="9" size-lg="5">
         <ion-item class="violet-text">
@@ -51,7 +42,7 @@
         </ion-item>
         <div id="errors-block">
           <ion-item *ngIf="submitTry && phoneNumber.hasError('required')" class="red-text">
-            <span>{{ text?.phone_required }}</span>
+            <span>{{ text?.fill_empty_fields }}</span>
           </ion-item>
           <ion-item *ngIf="submitTry && phoneNumber.hasError('minlength')" class="red-text">
             <span>{{ text?.phone_minlength }}</span>

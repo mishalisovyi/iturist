@@ -4,7 +4,7 @@
       <ion-row id="text-block" class="violet-text" justify-content-between>
         <ion-col>{{ text?.login }}</ion-col>
         <ion-col>
-          <ion-button id="register-btn" class="w-100" (click)="navigateToRegister()">{{ text?.registration }}
+          <ion-button id="register-btn" class="btn w-100" (click)="navigateToRegister()">{{ text?.registration }}
           </ion-button>
         </ion-col>
       </ion-row>
@@ -45,14 +45,11 @@
             <ion-input type="password" formControlName="password" placeholder="{{ text?.password }}"></ion-input>
           </ion-item>
           <div id="errors-block">
-            <ion-item *ngIf="submitTry && form.get('email').hasError('required')" class="red-text">
-              <span>{{ text?.email_required }}</span>
-            </ion-item>
             <ion-item *ngIf="submitTry && form.get('email').hasError('email')" class="red-text">
               <span>{{ text?.email_not_valid }}</span>
             </ion-item>
-            <ion-item *ngIf="submitTry && form.get('password').hasError('required')" class="red-text">
-              <span>{{ text?.password_required }}</span>
+            <ion-item *ngIf="submitTry && requireValidator('email', 'password')" class="red-text">
+              <span>{{ text?.fill_empty_fields }}</span>
             </ion-item>
           </div>
         </ion-col>
@@ -68,7 +65,7 @@
   </form>
 </ion-content>
 <ion-footer>
-  <ion-item (click)="navigateTo('main')"> 
+  <ion-item (click)="navigateTo('main')">
     <span text-center class="w-100 violet-text">{{ text?.skip_login }}</span>
   </ion-item>
   <ion-toolbar>

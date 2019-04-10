@@ -70,7 +70,7 @@ export class RegisterPage implements OnInit {
       last_name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z-]*$")]],
       email: ["", [Validators.required, Validators.email]],
       password: ["", [Validators.required, PasswordValidator.password]],
-      confirmPassword: ["", Validators.required],
+      confirm_password: ["", Validators.required],
       language: ["", Validators.required]
       // phone: ["", [Validators.required, Validators.minLength(14), Validators.pattern('\\+*[\\d]{0,3}\\s*[\\d]+')]]
     });
@@ -107,6 +107,17 @@ export class RegisterPage implements OnInit {
     });
   }
 
+  public requireValidator(...fields: Array<string>): boolean {
+    let valid: boolean = true;
+    for (let field of fields) {
+      if (this.form.get(field).hasError('required')) {
+        valid = false;
+        break;
+      }
+    }
+    return !valid;
+  }
+
   public async presentActionSheet() {
     await this.action.createLanguageActionSheet();
   }
@@ -118,11 +129,7 @@ export class RegisterPage implements OnInit {
       await this.loading.createLoading(this.text.registering);
       this.postTextData().then(
         res => {
-          forkJoin(
-            this.storage.set("token", res.content.token),
-            this.storage.set("language", res.content.profile.language),
-            // this.storage.set('phone', res.content.profile.phone ? res.content.profile.phone : 'none')
-          )
+          forkJoin(this.storage.set("token", res.content.token), this.storage.set("language", res.content.profile.language))
             .pipe(switchMap(() => from(this.postImages())))
             .subscribe(
               () => {
@@ -141,11 +148,11 @@ export class RegisterPage implements OnInit {
   }
 
   public validatePasswordConfirmation() {
-    if (this.form.get("confirmPassword").dirty) {
-      if (this.form.get("confirmPassword").value) {
-        this.form.get("confirmPassword").setErrors(null);
-        if (this.form.get("confirmPassword").value !== this.form.get("password").value) {
-          this.form.get("confirmPassword").setErrors({ unmatch: true });
+    if (this.form.get("confirm_password").dirty) {
+      if (this.form.get("confirm_password").value) {
+        this.form.get("confirm_password").setErrors(null);
+        if (this.form.get("confirm_password").value !== this.form.get("password").value) {
+          this.form.get("confirm_password").setErrors({ unmatch: true });
         }
       }
     }
