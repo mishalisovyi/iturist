@@ -34,18 +34,18 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <div *ngIf="!image.imgInfo.profile.src" id="upload-img-block" (click)="image.getPhoto('profile')">
+          <div *ngIf="image.imgInfo.profile.deleted" id="upload-img-block" (click)="image.getPhoto('profile')">
             <ion-img src="assets/screens/icon-profile.svg"></ion-img>
             <div id="rect"></div>
             <div id="label">
               <ion-img src="assets/screens/upload-img.svg"></ion-img>
             </div>
           </div>
-          <div *ngIf="image.imgInfo.profile.src" id="img-block"
+          <div *ngIf="!image.imgInfo.profile.deleted" id="img-block"
             [ngStyle]="{'background-image': 'url(' + image.imgInfo.profile.src + ')'}"
-            (click)="image.getPhoto('profile')">
+            (click)="image.deletePhoto('profile')">
             <div id="label">
-              <ion-img src="assets/screens/upload-img.svg"></ion-img>
+              <ion-img src="assets/screens/delete-img.svg"></ion-img>
             </div>
           </div>
         </ion-col>
