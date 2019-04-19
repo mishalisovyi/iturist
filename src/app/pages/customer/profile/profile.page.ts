@@ -56,8 +56,8 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.getPlatform();
     this.createForm();
 
-    this.action.actionSheetDismissLanguage$.subscribe((res: { label: string, value: string }) => this.form.get("language").setValue(res.label.toLowerCase()));
-    this.language.languageIsLoaded$.subscribe(() => this.getPageText());
+    this.actionSubscription = this.action.actionSheetDismissLanguage$.subscribe((res: { label: string, value: string }) => this.form.get("language").setValue(res.label.toLowerCase()));
+    this.languageSubscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
   }
 
   ngOnDestroy() {

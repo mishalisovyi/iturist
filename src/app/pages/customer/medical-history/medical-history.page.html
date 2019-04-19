@@ -1,0 +1,182 @@
+<app-header></app-header>
+
+<ion-content>
+  <form [formGroup]="form">
+    <ion-list>
+      <ion-item (click)="toggleGroup('relative_diseases')">
+        <div class="item-stable">
+          <span class="bold-text violet-text">
+            Relative diseases
+          </span>
+          <ion-icon [class.rotate]="isGroupShown('relative_diseases')" name="arrow-forward"></ion-icon>
+        </div>
+      </ion-item>
+      <div #diseasesBlock [hidden]="!isGroupShown('relative_diseases')">
+        <ion-item class="item-accordion" *ngFor="let item of choices?.relative_diseases; let i = index">
+          <div class="check-choices-container" (click)="manageDiseasesValues(i)">
+            <span class="violet-text">{{ item[1] }}</span>
+            <ion-checkbox [checked]="checkValues[i]"></ion-checkbox>
+          </div>
+        </ion-item>
+      </div>
+
+      <ion-item class="item-stable" (click)="toggleGroup('current_symptoms')">
+        <div class="item-stable">
+          <span class="bold-text violet-text">
+            Current symptoms
+          </span>
+          <ion-icon [class.rotate]="isGroupShown('current_symptoms')" name="arrow-forward"></ion-icon>
+        </div>
+      </ion-item>
+      <div [hidden]="!isGroupShown('current_symptoms')">
+        <ion-item class="item-accordion" *ngFor="let item of choices?.current_symptoms; let i = index">
+          <div class="check-choices-container" (click)="manageSymptomsValues(i)">
+            <span class="violet-text">{{ item[1] }}</span>
+            <ion-checkbox></ion-checkbox>
+          </div>
+        </ion-item>
+      </div>
+
+      <ion-item class="item-stable" (click)="toggleGroup('taking_medication')">
+        <div class="item-stable">
+          <span class="bold-text violet-text">
+            Taking any medication currently
+          </span>
+          <ion-icon [class.rotate]="isGroupShown('taking_medication')" name="arrow-forward"></ion-icon>
+        </div>
+      </ion-item>
+      <div [hidden]="!isGroupShown('taking_medication')">
+        <ion-radio-group formControlName="taking_medication">
+          <ion-item class="item-accordion">
+            <div class="check-choices-container">
+              <span class="violet-text">Yes</span>
+              <ion-radio value="true"></ion-radio>
+            </div>
+          </ion-item>
+          <ion-item class="item-accordion">
+            <div class="check-choices-container">
+              <span class="violet-text">No</span>
+              <ion-radio value="false"></ion-radio>
+            </div>
+          </ion-item>
+        </ion-radio-group>
+      </div>
+
+      <ion-item class="item-stable" (click)="toggleGroup('medication_allergies')">
+        <div class="item-stable">
+          <span class="bold-text violet-text">
+            Having any medication allergies
+          </span>
+          <ion-icon [class.rotate]="isGroupShown('medication_allergies')" name="arrow-forward"></ion-icon>
+        </div>
+      </ion-item>
+      <div [hidden]="!isGroupShown('medication_allergies')">
+        <ion-radio-group formControlName="medication_allergies">
+          <ion-item class="item-accordion" *ngFor="let item of choices?.medication_allergies">
+            <div class="check-choices-container">
+              <span class="violet-text">{{ item[1] }}</span>
+              <ion-radio [value]="item[0]"></ion-radio>
+            </div>
+          </ion-item>
+        </ion-radio-group>
+      </div>
+
+      <ion-item class="item-stable" (click)="toggleGroup('gender')">
+        <div class="item-stable">
+          <span class="bold-text violet-text">
+            Gender
+          </span>
+          <ion-icon [class.rotate]="isGroupShown('gender')" name="arrow-forward"></ion-icon>
+        </div>
+      </ion-item>
+      <div [hidden]="!isGroupShown('gender')">
+        <ion-radio-group formControlName="gender">
+          <ion-item class="item-accordion" *ngFor="let item of choices?.gender">
+            <div class="check-choices-container">
+              <span class="violet-text">{{ item[1] }}</span>
+              <ion-radio [value]="item[0]"></ion-radio>
+            </div>
+          </ion-item>
+        </ion-radio-group>
+      </div>
+
+      <ion-item class="item-stable" (click)="toggleGroup('use_tobacco')">
+        <div class="item-stable">
+          <span class="bold-text violet-text">
+            Using tobacco anywhen
+          </span>
+          <ion-icon [class.rotate]="isGroupShown('use_tobacco')" name="arrow-forward"></ion-icon>
+        </div>
+      </ion-item>
+      <div [hidden]="!isGroupShown('use_tobacco')">
+        <ion-radio-group formControlName="use_tobacco">
+          <ion-item class="item-accordion">
+            <div class="check-choices-container">
+              <span class="violet-text">Yes</span>
+              <ion-radio value="true"></ion-radio>
+            </div>
+          </ion-item>
+          <ion-item class="item-accordion">
+            <div class="check-choices-container">
+              <span class="violet-text">No</span>
+              <ion-radio value="false"></ion-radio>
+            </div>
+          </ion-item>
+        </ion-radio-group>
+      </div>
+
+      <ion-item class="item-stable" (click)="toggleGroup('illegal_drugs')">
+        <div class="item-stable">
+          <span class="bold-text violet-text">
+            Using illegal drugs anywhen
+          </span>
+          <ion-icon [class.rotate]="isGroupShown('illegal_drugs')" name="arrow-forward"></ion-icon>
+        </div>
+      </ion-item>
+      <div [hidden]="!isGroupShown('illegal_drugs')">
+        <ion-radio-group formControlName="illegal_drugs">
+          <ion-item class="item-accordion">
+            <div class="check-choices-container">
+              <span class="violet-text">Yes</span>
+              <ion-radio value="true"></ion-radio>
+            </div>
+          </ion-item>
+          <ion-item class="item-accordion">
+            <div class="check-choices-container">
+              <span class="violet-text">No</span>
+              <ion-radio value="false"></ion-radio>
+            </div>
+          </ion-item>
+        </ion-radio-group>
+      </div>
+
+      <ion-item class="item-stable" (click)="toggleGroup('consume_alcohol')">
+        <div class="item-stable">
+          <span class="bold-text violet-text">
+            Consume alcohol
+          </span>
+          <ion-icon [class.rotate]="isGroupShown('consume_alcohol')" name="arrow-forward"></ion-icon>
+        </div>
+      </ion-item>
+      <div [hidden]="!isGroupShown('consume_alcohol')">
+        <ion-radio-group formControlName="consume_alcohol">
+          <ion-item class="item-accordion" *ngFor="let item of choices?.consume_alcohol">
+            <div class="check-choices-container">
+              <span class="violet-text">{{ item[1] }}</span>
+              <ion-radio [value]="item[0]"></ion-radio>
+            </div>
+          </ion-item>
+        </ion-radio-group>
+      </div>
+    </ion-list>
+  </form>
+  <ion-item *ngIf="submitTry && (form.invalid || (!this.diseasesValues.length || !this.symptomsValues.length))"
+    class="red-text">
+    <span>{{ text?.fill_empty_fields }}</span>
+  </ion-item>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button (click)="submit()">Submit</ion-button>
+  </ion-toolbar>
+</ion-footer>

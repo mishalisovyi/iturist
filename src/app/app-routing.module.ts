@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { GuestGuard } from './guards/guest.guard';
 import { NetworkGuard } from './guards/network.guard';
+import { MedicalHistoryGuard } from './guards/medical-history.guard';
 
 const routes: Routes = [
   {
@@ -74,7 +75,7 @@ const routes: Routes = [
   {
     path: 'online-doctor-choose',
     loadChildren: './pages/customer/online-doctor-choose/online-doctor-choose.module#OnlineDoctorChoosePageModule',
-    canActivate: [AuthGuard, NetworkGuard]
+    canActivate: [AuthGuard, NetworkGuard, MedicalHistoryGuard]
   },
   {
     path: 'online-doctor-prescriptions',
@@ -120,6 +121,11 @@ const routes: Routes = [
     path: 'forgot-password',
     loadChildren: './pages/auth/forgot-password/forgot-password.module#ForgotPasswordPageModule',
     canActivate: [GuestGuard, NetworkGuard]
+  },
+  {
+    path: 'medical-history',
+    loadChildren: './pages/customer/medical-history/medical-history.module#MedicalHistoryPageModule',
+    canActivate: [AuthGuard, NetworkGuard]
   }
 ];
 

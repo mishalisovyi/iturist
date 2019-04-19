@@ -141,4 +141,12 @@ export class ApiService {
       metadata: {}
     }).pipe(delay(200))
   }
+
+  public getMedicalHistoryChoices() {
+    return this.http.get<BaseResponse>(`${environment.api}/medical-history/choices`);
+  }
+
+  public submitMedicalHistory(body: any) {
+    return this.http.post(`${environment.api}/medical-history`, body);
+  }
 }

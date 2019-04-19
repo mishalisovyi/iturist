@@ -265,3 +265,9 @@ ion-footer {
 .hidden {
   visibility: hidden;
 }
+
+.popover .popover-content {
+  transform: translate(25%, 25%) !important;
+  left: 0 !important;
+  top: 0 !important;
+}

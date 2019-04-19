@@ -1,0 +1,38 @@
+.list .item.item-accordion {
+  line-height: 38px;
+  padding-top: 0;
+  padding-bottom: 0;
+  transition: 1s all linear;
+}
+.list .item.item-accordion.ng-hide {
+  line-height: 0px;
+}
+.list .item.item-accordion.ng-hide-add,
+.list .item.item-accordion.ng-hide-remove {
+  display: block !important;
+}
+
+.item-stable {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.check-choices-container {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin-left: auto;
+}
+
+ion-icon {
+  transition: all 500ms;
+}
+
+.rotate {
+  transform: rotateZ(90deg);
+}
+
+ion-list {
+  margin-top: 20px;
+}

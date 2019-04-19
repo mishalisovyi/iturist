@@ -25,7 +25,7 @@ export class OnlineDoctorChoosePage {
   }
 
   public call() {
-    this.callNumber.callNumber("11111111", true);
+    this.callNumber.callNumber("97233724296", true);
   }
 
   public navigate(route: string) {

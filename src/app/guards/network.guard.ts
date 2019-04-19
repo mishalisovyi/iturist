@@ -4,8 +4,6 @@ import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from "@angul
 import { ToastController } from '@ionic/angular';
 import { Network } from '@ionic-native/network/ngx';
 
-import { Subscription } from 'rxjs';
-
 import { StorageService } from "../services/storage.service";
 import { LanguageService } from "../services/language.service";
 
