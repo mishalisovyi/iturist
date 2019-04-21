@@ -1,0 +1,43 @@
+<app-header></app-header>
+
+<ion-content padding-horizontal>
+  <!-- <ion-item>
+    <span class="violet-text bold-text font-size-16">You can appoint your call to doctor and he will be informed</span>
+  </ion-item> -->
+  <div id="text-block" class="violet-text bold-text font-size-16">You can appoint your call to doctor and he will be
+    informed</div>
+  <form [formGroup]="form">
+    <ion-grid no-margin no-padding>
+      <ion-row no-margin no-padding>
+        <ion-col no-margin no-padding>
+          <ion-item class="violet-text form-field" [class.error-field]="submitTry && form.get('doctor').invalid"
+            (click)="presentActionSheet()">
+            <ion-input type="text" readonly formControlName="doctor" placeholder="Select doctor">
+            </ion-input>
+          </ion-item>
+          <ion-item class="violet-text form-field" [class.error-field]="submitTry && form.get('datetime').invalid">
+            <ion-input type="text" readonly formControlName="datetime" placeholder="Select datetime"
+              (click)="datetime.open()"></ion-input>
+            <ion-datetime #datetime style="display: none" [pickerOptions]="customPickerOptions"
+              display-format="MMM DD, YYYY HH:mm"></ion-datetime>
+          </ion-item>
+          <ion-item class="violet-text form-field">
+            <ion-textarea formControlName="symptoms" placeholder="Your symptoms"></ion-textarea>
+          </ion-item>
+          <ion-item *ngIf="submitTry && requireValidator('doctor', 'datetime')" class="red-text">
+            <span>{{ text?.fill_empty_fields }}</span>
+            <span>sdfds</span>
+          </ion-item>
+          <ion-item *ngIf="submitTry && form.get('datetime').hasError('wrongDay')" class="red-text">
+            <span>You can choose any day except Friday and Saturday</span>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button class="bottom-btn" (click)="saveAppointment()">{{ text?.save }}</ion-button>
+  </ion-toolbar>
+</ion-footer>

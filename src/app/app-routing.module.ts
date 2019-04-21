@@ -88,6 +88,11 @@ const routes: Routes = [
     canActivate: [AuthGuard, NetworkGuard]
   },
   {
+    path: 'doctor-appointment',
+    loadChildren: './pages/customer/doctor-appointment/doctor-appointment.module#DoctorAppointmentPageModule',
+    canActivate: [AuthGuard, NetworkGuard]
+  },
+  {
     path: 'order-sim-start',
     loadChildren: './pages/customer/order-sim-start/order-sim-start.module#OrderSimStartPageModule',
     canActivate: [NetworkGuard]
@@ -126,7 +131,8 @@ const routes: Routes = [
     path: 'medical-history',
     loadChildren: './pages/customer/medical-history/medical-history.module#MedicalHistoryPageModule',
     canActivate: [AuthGuard, NetworkGuard]
-  }
+  },  { path: 'check-up-services', loadChildren: './pages/customer/check-up-services/check-up-services.module#CheckUpServicesPageModule' }
+
 ];
 
 @NgModule({

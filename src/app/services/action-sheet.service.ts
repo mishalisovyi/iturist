@@ -17,11 +17,14 @@ export class ActionSheetService {
 
   private _language: string = "En";
   private _company: number = 1;
+  private _doctor: string = "PEDIATR";
   private actionSheetDismissLanguageSubject: Subject<{ label: string, value: string }> = new Subject();
   private actionSheetDismissCompanySubject: Subject<{ label: string, value: number }> = new Subject();
+  private actionSheetDismissDoctorSubject: Subject<{ label: string, value: string }> = new Subject();
 
   public actionSheetDismissLanguage$ = this.actionSheetDismissLanguageSubject.asObservable();
   public actionSheetDismissCompany$ = this.actionSheetDismissCompanySubject.asObservable();
+  public actionSheetDismissDoctor$ = this.actionSheetDismissDoctorSubject.asObservable();
   public text: any;
 
   constructor(
@@ -44,6 +47,14 @@ export class ActionSheetService {
 
   public get company(): number {
     return this._company;
+  }
+
+  public set doctor(doctor: string) {
+    this._doctor = doctor;
+  }
+
+  public get doctor(): string {
+    return this._doctor;
   }
 
   public async createLanguageActionSheet() {
@@ -113,6 +124,41 @@ export class ActionSheetService {
       actionSheet.onDidDismiss().then((res) => {
         if (res.role !== "cancel" && res.role !== "backdrop") this.actionSheetDismissCompanySubject.next({ label: res.role, value: this.company });
       });
+    });
+  }
+
+  public async createDoctorsActionSheet() {
+    this.text = this.languageService.getTextByCategories();
+    const actionSheet = await this.action.create({
+      header: 'Select doctor specialization',
+      buttons: [
+        {
+          text: 'Pediatr',
+          role: 'Pediatr',
+          handler: () => { this.doctor = 'PEDIATR' }
+        },
+        {
+          text: 'Okulist',
+          role: 'Okulist',
+          handler: () => { this.doctor = 'OKULIST' }
+        },
+        {
+          text: 'Hirurg',
+          role: 'Hirurg',
+          handler: () => { this.doctor = 'HIRURG' }
+        },
+        {
+          text: 'Cancel',
+          icon: 'close',
+          role: 'cancel',
+        }
+      ],
+    });
+    await actionSheet.present();
+    actionSheet.onDidDismiss().then((res) => {
+      if (res.role !== "cancel" && res.role !== "backdrop") {
+        this.actionSheetDismissDoctorSubject.next({ label: res.role, value: this.doctor });
+      }
     });
   }
 }

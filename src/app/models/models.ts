@@ -95,6 +95,14 @@ export interface OrderSimCardRequest {
   company: number
 }
 
+export interface AppointmentRequest {
+  specialization?: string,
+  visit_date: string,
+  type: string,
+  colonoscopy?: boolean;
+  oncomarker?: boolean;
+}
+
 /* Response models */
 
 export interface BaseResponse {
