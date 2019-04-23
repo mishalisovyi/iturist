@@ -102,7 +102,7 @@ export class ActionSheetService {
     });
   }
 
-  public async createCompanyActionSheet() {
+  public createCompanyActionSheet() {
     this.api.getCompanies().pipe(map((res: BaseResponse) => res.content)).subscribe(async (res: Company[]) => {
       this.text = this.languageService.getTextByCategories("order_sim_form");
       const actionSheet = await this.action.create({
@@ -127,11 +127,10 @@ export class ActionSheetService {
     });
   }
 
-  public async createDoctorsActionSheet() {
+  public createDoctorsActionSheet() {
     this.text = this.languageService.getTextByCategories();
 
     this.api.getDoctorSpecializations().pipe(map((res: any) => res.specialization)).subscribe(async res => {
-      console.log(res);
 
       const actionSheet = await this.action.create({
         header: 'Select doctor specialization',

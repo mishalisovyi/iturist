@@ -26,6 +26,9 @@
           <ion-item *ngIf="submitTry && requireValidator('doctor', 'datetime')" class="red-text">
             <span>{{ text?.fill_empty_fields }}</span>
           </ion-item>
+          <ion-item *ngIf="submitTry && form.get('symptoms').hasError('maxlength')" class="red-text">
+            <span>{{ text?.symptoms_max_length }}</span>
+          </ion-item>
         </ion-col>
       </ion-row>
     </ion-grid>

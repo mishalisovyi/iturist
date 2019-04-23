@@ -15,8 +15,6 @@ import { LanguageService } from "../../../services/language.service";
 export class MedicalHistoryPage implements OnInit, OnDestroy {
 
   private shownGroup: string;
-  private diseasesValues: Array<any> = [];
-  private symptomsValues: Array<any> = [];
   private languageSubscription: Subscription;
 
   public choices: any;
@@ -24,6 +22,8 @@ export class MedicalHistoryPage implements OnInit, OnDestroy {
   public submitTry: boolean = false;
   public text: any;
   public checkValues: Array<boolean>;
+  public diseasesValues: Array<any> = [];
+  public symptomsValues: Array<any> = [];
 
   constructor(private api: ApiService, private formBuilder: FormBuilder, private language: LanguageService, private router: Router) { }
 

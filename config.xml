@@ -3,7 +3,7 @@
     <name>iTourist</name>
     <description>iTourist App</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.2.103:8101" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -107,6 +107,7 @@
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="You need access to photo library for having the ability to upload images" />
     </plugin>
     <plugin name="cordova-plugin-android-permissions" spec="1.0.0" />
+    <plugin name="cordova-plugin-qrscanner" spec="3.0.1" />
     <engine name="browser" spec="5.0.4" />
     <engine name="android" spec="7.1.4" />
     <engine name="ios" spec="4.5.5" />

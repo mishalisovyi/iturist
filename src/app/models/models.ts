@@ -98,7 +98,8 @@ export interface OrderSimCardRequest {
 export interface AppointmentRequest {
   specialization: string,
   visit_date: string,
-  type: string
+  type: string,
+  note: string
 }
 
 export interface CheckupRequest {

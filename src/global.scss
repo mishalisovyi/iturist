@@ -279,3 +279,17 @@ ion-footer {
   left: 0 !important;
   top: 0 !important;
 }
+
+ion-app.cameraView ion-router-outlet {
+  opacity: 0 !important;
+}
+
+ion-app.cameraView,
+ion-app.cameraView ion-content,
+ion-app.cameraView .nav-decor {
+  background-image: url("./assets/screens/qr-code-overlay.svg") !important;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  transform: scale(0.75);
+}

@@ -3,7 +3,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AbstractControl, Validators, FormControl } from "@angular/forms";
 
 import { AlertController } from '@ionic/angular';
+import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 
+import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
 import { ApiService } from '../../../services/api.service';
@@ -19,9 +21,11 @@ import { BaseResponse } from '../../../models/models';
 })
 export class EnterMobileNumberPage implements OnInit {
 
+
   private planId: string;
   private companyId: string;
   private userId: number;
+  private scanSubscription: Subscription;
 
   public phoneNumber: AbstractControl;
   public hideBage: boolean;
@@ -35,7 +39,8 @@ export class EnterMobileNumberPage implements OnInit {
     private api: ApiService,
     private language: LanguageService,
     private loading: LoadingService,
-    private alert: AlertController
+    private alert: AlertController,
+    private qrScanner: QRScanner
   ) { }
 
   ngOnInit() {
@@ -49,6 +54,13 @@ export class EnterMobileNumberPage implements OnInit {
     this.getDefaultHref();
     this.setNumber();
     this.defineHidingBages();
+  }
+
+  ionViewWillLeave() {
+    if (this.scanSubscription) this.scanSubscription.unsubscribe();
+    this.qrScanner.hide();
+    this.qrScanner.destroy();
+    window.document.querySelector('ion-app').classList.remove('cameraView');
   }
 
   private defineHidingBages(url: string = this.router.url) {
@@ -86,6 +98,40 @@ export class EnterMobileNumberPage implements OnInit {
 
   private getDefaultHref() {
     this.defaultHref = `choose-plan/${this.companyId}`;
+  }
+
+  public scan() {
+    this.qrScanner.prepare()
+      .then((status: QRScannerStatus) => {
+        if (status.authorized) {
+
+          this.qrScanner.show();
+          window.document.querySelector('ion-app').classList.add('cameraView');
+          // camera permission was granted
+          console.log('authorized');
+
+          // start scanning
+          this.scanSubscription = this.qrScanner.scan().subscribe((text: string) => {
+            console.log('Scanned something', text);
+            alert(text);
+
+            this.scanSubscription.unsubscribe(); // stop scanning  
+            this.qrScanner.hide(); // hide camera preview   
+            this.qrScanner.destroy();
+            window.document.querySelector('ion-app').classList.remove('cameraView');
+          });
+
+        } else if (status.denied) {
+          console.log('status denied');
+          // camera permission was permanently denied
+          // you must use QRScanner.openSettings() method to guide the user to the settings page
+          // then they can grant the permission from there
+        } else {
+          console.log('permissions denied');
+          // permission was denied, but not permanently. You can ask for permission again at a later time.
+        }
+      })
+      .catch((e: any) => console.log('Error is', e));
   }
 
   public navigateTo(route: string) {

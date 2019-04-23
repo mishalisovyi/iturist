@@ -18,6 +18,7 @@ import { Network } from '@ionic-native/network/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -50,6 +51,7 @@ import { NetworkInterceptor } from './services/interceptors/network.interceptor'
     CallNumber,
     ImagePicker,
     AndroidPermissions,
+    QRScanner,
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy

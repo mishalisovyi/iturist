@@ -69,7 +69,7 @@ export class DoctorAppointmentPage implements OnInit, OnDestroy {
     this.form = this.formBuilder.group({
       doctor: ["", Validators.required],
       datetime: ["", Validators.required],
-      symptoms: ""
+      symptoms: ["", Validators.maxLength(1000)]
     });
   }
 
@@ -100,6 +100,7 @@ export class DoctorAppointmentPage implements OnInit, OnDestroy {
       this.api.submitDoctorAppointment({
         specialization: this.action.doctor,
         visit_date: this.date.split('+')[0],
+        note: this.form.get('symptoms').value,
         type: 'APPOINTMENT'
       })
         .subscribe(async () => {
