@@ -2,19 +2,19 @@
 
 <ion-content>
   <ion-item>
-    <span class="violet-text bold-text font-size-18">Please, submit your medical history</span>
+    <span class="violet-text bold-text font-size-18">{{ text?.submit_your_history }}</span>
   </ion-item>
   <form [formGroup]="form">
     <ion-list>
       <ion-item (click)="toggleGroup('relative_diseases')">
         <div class="item-stable">
           <span class="bold-text violet-text">
-            Relative diseases
+            {{ text?.relative_diseases }}
           </span>
           <ion-icon [class.rotate]="isGroupShown('relative_diseases')" name="arrow-forward"></ion-icon>
         </div>
       </ion-item>
-      <div #diseasesBlock [hidden]="!isGroupShown('relative_diseases')">
+      <div [hidden]="!isGroupShown('relative_diseases')">
         <ion-item class="item-accordion" *ngFor="let item of choices?.relative_diseases; let i = index">
           <div class="check-choices-container" (click)="manageDiseasesValues(i)">
             <span class="violet-text">{{ item[1] }}</span>
@@ -26,7 +26,7 @@
       <ion-item class="item-stable" (click)="toggleGroup('current_symptoms')">
         <div class="item-stable">
           <span class="bold-text violet-text">
-            Current symptoms
+            {{ text?.current_symptoms }}
           </span>
           <ion-icon [class.rotate]="isGroupShown('current_symptoms')" name="arrow-forward"></ion-icon>
         </div>
@@ -43,7 +43,7 @@
       <ion-item class="item-stable" (click)="toggleGroup('taking_medication')">
         <div class="item-stable">
           <span class="bold-text violet-text">
-            Taking any medication currently
+            {{ text?.taking_any_medication }}
           </span>
           <ion-icon [class.rotate]="isGroupShown('taking_medication')" name="arrow-forward"></ion-icon>
         </div>
@@ -52,13 +52,13 @@
         <ion-radio-group formControlName="taking_medication">
           <ion-item class="item-accordion">
             <div class="check-choices-container">
-              <span class="violet-text">Yes</span>
+              <span class="violet-text">{{ text?.yes }}</span>
               <ion-radio value="true"></ion-radio>
             </div>
           </ion-item>
           <ion-item class="item-accordion">
             <div class="check-choices-container">
-              <span class="violet-text">No</span>
+              <span class="violet-text">{{ text?.no }}</span>
               <ion-radio value="false"></ion-radio>
             </div>
           </ion-item>
@@ -68,7 +68,7 @@
       <ion-item class="item-stable" (click)="toggleGroup('medication_allergies')">
         <div class="item-stable">
           <span class="bold-text violet-text">
-            Having any medication allergies
+            {{ text?.having_allergies }}
           </span>
           <ion-icon [class.rotate]="isGroupShown('medication_allergies')" name="arrow-forward"></ion-icon>
         </div>
@@ -87,7 +87,7 @@
       <ion-item class="item-stable" (click)="toggleGroup('gender')">
         <div class="item-stable">
           <span class="bold-text violet-text">
-            Gender
+            {{ text?.gender }}
           </span>
           <ion-icon [class.rotate]="isGroupShown('gender')" name="arrow-forward"></ion-icon>
         </div>
@@ -106,7 +106,7 @@
       <ion-item class="item-stable" (click)="toggleGroup('use_tobacco')">
         <div class="item-stable">
           <span class="bold-text violet-text">
-            Using tobacco anywhen
+          {{ text?.using_tobacco }}
           </span>
           <ion-icon [class.rotate]="isGroupShown('use_tobacco')" name="arrow-forward"></ion-icon>
         </div>
@@ -115,13 +115,13 @@
         <ion-radio-group formControlName="use_tobacco">
           <ion-item class="item-accordion">
             <div class="check-choices-container">
-              <span class="violet-text">Yes</span>
+              <span class="violet-text">{{ text?.yes }}</span>
               <ion-radio value="true"></ion-radio>
             </div>
           </ion-item>
           <ion-item class="item-accordion">
             <div class="check-choices-container">
-              <span class="violet-text">No</span>
+              <span class="violet-text">{{ text?.no }}</span>
               <ion-radio value="false"></ion-radio>
             </div>
           </ion-item>
@@ -131,7 +131,7 @@
       <ion-item class="item-stable" (click)="toggleGroup('illegal_drugs')">
         <div class="item-stable">
           <span class="bold-text violet-text">
-            Using illegal drugs anywhen
+            {{ text?.using_drugs }}
           </span>
           <ion-icon [class.rotate]="isGroupShown('illegal_drugs')" name="arrow-forward"></ion-icon>
         </div>
@@ -140,13 +140,13 @@
         <ion-radio-group formControlName="illegal_drugs">
           <ion-item class="item-accordion">
             <div class="check-choices-container">
-              <span class="violet-text">Yes</span>
+              <span class="violet-text">{{ text?.yes }}</span>
               <ion-radio value="true"></ion-radio>
             </div>
           </ion-item>
           <ion-item class="item-accordion">
             <div class="check-choices-container">
-              <span class="violet-text">No</span>
+              <span class="violet-text">{{ text?.no }}</span>
               <ion-radio value="false"></ion-radio>
             </div>
           </ion-item>
@@ -156,7 +156,7 @@
       <ion-item class="item-stable" (click)="toggleGroup('consume_alcohol')">
         <div class="item-stable">
           <span class="bold-text violet-text">
-            Consume alcohol
+            {{ text?.consume_alcohol }}
           </span>
           <ion-icon [class.rotate]="isGroupShown('consume_alcohol')" name="arrow-forward"></ion-icon>
         </div>
@@ -180,6 +180,6 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button (click)="submit()">Submit</ion-button>
+    <ion-button (click)="submit()">{{ text?.submit }}</ion-button>
   </ion-toolbar>
 </ion-footer>

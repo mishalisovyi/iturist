@@ -129,36 +129,32 @@ export class ActionSheetService {
 
   public async createDoctorsActionSheet() {
     this.text = this.languageService.getTextByCategories();
-    const actionSheet = await this.action.create({
-      header: 'Select doctor specialization',
-      buttons: [
-        {
-          text: 'Pediatr',
-          role: 'Pediatr',
-          handler: () => { this.doctor = 'PEDIATR' }
-        },
-        {
-          text: 'Okulist',
-          role: 'Okulist',
-          handler: () => { this.doctor = 'OKULIST' }
-        },
-        {
-          text: 'Hirurg',
-          role: 'Hirurg',
-          handler: () => { this.doctor = 'HIRURG' }
-        },
-        {
-          text: 'Cancel',
-          icon: 'close',
-          role: 'cancel',
+
+    this.api.getDoctorSpecializations().pipe(map((res: any) => res.specialization)).subscribe(async res => {
+      console.log(res);
+
+      const actionSheet = await this.action.create({
+        header: 'Select doctor specialization',
+        buttons: [
+          ...res.map(item => ({
+            text: item[1],
+            role: item[1],
+            handler: () => this.doctor = item[0]
+          })),
+          {
+            text: 'Cancel',
+            icon: 'close',
+            role: 'cancel',
+          }
+        ],
+      });
+
+      await actionSheet.present();
+      actionSheet.onDidDismiss().then((res) => {
+        if (res.role !== "cancel" && res.role !== "backdrop") {
+          this.actionSheetDismissDoctorSubject.next({ label: res.role, value: this.doctor });
         }
-      ],
-    });
-    await actionSheet.present();
-    actionSheet.onDidDismiss().then((res) => {
-      if (res.role !== "cancel" && res.role !== "backdrop") {
-        this.actionSheetDismissDoctorSubject.next({ label: res.role, value: this.doctor });
-      }
+      });
     });
   }
 }

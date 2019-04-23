@@ -9,7 +9,7 @@ export class MedicalHistoryGuard implements CanActivate {
   constructor(private router: Router) { }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    this.router.navigateByUrl('/medical-history');
-    return false;
+    // this.router.navigateByUrl('/medical-history');
+    return true;
   }
 }

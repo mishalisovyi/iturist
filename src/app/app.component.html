@@ -17,11 +17,17 @@
         <ion-item class="menu-item" (click)="navigateTo('/online-doctor-start')">
           <span>{{ text?.online_doctor}}</span>
         </ion-item>
+        <ion-item *ngIf="isAuthorized" class="menu-item" (click)="navigateTo('/check-up-services-start')">
+          <span>{{ text?.check_up_service}}</span>
+        </ion-item>
         <ion-item class="menu-item" (click)="navigateTo('/order-sim-start')">
           <span>{{ text?.sim_card_ordering }}</span>
         </ion-item>
         <ion-item *ngIf="isAuthorized" class="menu-item" (click)="navigateTo('/sim-card-start')">
           <span>{{ text?.sim_card_activating }}</span>
+        </ion-item>
+        <ion-item class="menu-item" (click)="navigateTo('/privacy-policy')">
+          <span>{{ text?.privacy_policy }}</span>
         </ion-item>
         <ion-item *ngIf="isAuthorized" class="menu-item" (click)="logout()">
           <span slot="start" class="bold-text">{{ text?.logout }}</span>

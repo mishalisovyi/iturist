@@ -10,7 +10,7 @@ import * as _ from 'lodash';
 
 import { StorageService } from '../services/storage.service';
 
-import { BaseResponse, ProfileEditRequest, OrderSimCardRequest, AppointmentRequest } from "../models/models";
+import { BaseResponse, ProfileEditRequest, OrderSimCardRequest, AppointmentRequest, CheckupRequest } from "../models/models";
 
 import { environment } from '../../environments/environment';
 
@@ -120,6 +120,14 @@ export class ApiService {
 
   public submitDoctorAppointment(body: AppointmentRequest) {
     return this.http.post<BaseResponse>(`${environment.api}/doctor-appointment`, body);
+  }
+
+  public submitCheckupService(body: CheckupRequest) {
+    return this.http.post<BaseResponse>(`${environment.api}/doctor-appointment`, body);
+  }
+
+  public getDoctorSpecializations() {
+    return this.http.get(`${environment.api}/choices`);
   }
 
   public getPrescriptions(): Observable<BaseResponse> {

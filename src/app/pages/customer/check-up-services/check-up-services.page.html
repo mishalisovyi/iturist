@@ -1,9 +1,44 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>check-up-services</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header></app-header>
 
-<ion-content padding>
-
+<ion-content padding-horizontal>
+  <ion-fab (click)="navigateToDisclaimer()" horizontal="end" vertical="top" slot="fixed">
+    <ion-fab-button id="disclaimer-btn" size="small">?</ion-fab-button>
+  </ion-fab>
+  <div id="text-block" class="violet-text bold-text font-size-16">{{ text?.check_up_service | titlecase}}</div>
+  <ion-grid no-margin no-padding>
+    <ion-row no-margin no-padding>
+      <ion-col no-margin no-padding>
+        <ion-item class="violet-text form-field" [class.error-field]="submitTry && dateControl.invalid">
+          <ion-input type="text" readonly [formControl]="dateControl" placeholder="{{ text?.select_date }}"
+            (click)="datePicker.open()">
+          </ion-input>
+          <ion-datetime #datePicker style="display: none" [pickerOptions]="customPickerOptions" [value]="date">
+          </ion-datetime>
+        </ion-item>
+        <ion-item>
+          <ion-label><span class="violet-text">{{ text?.full_program }}</span></ion-label>
+          <ion-checkbox checked="true" disabled></ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-label><span class="violet-text">{{ text?.general_oncomarkers }}</span></ion-label>
+          <ion-checkbox [(ngModel)]="oncomarkers"></ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-label><span class="violet-text">{{ text?.colonoscopy }}</span></ion-label>
+          <ion-checkbox [(ngModel)]="colonoscopy"></ion-checkbox>
+        </ion-item>
+        <ion-item *ngIf="submitTry && dateControl.hasError('required')" class="red-text">
+          <span>{{ text?.fill_empty_fields }}</span>
+        </ion-item>
+        <ion-item *ngIf="submitTry && dateControl.hasError('wrongDay')" class="red-text">
+          <span>{{ text?.you_can_choose }}</span>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button class="bottom-btn" (click)="submitCheckup()">{{ text?.submit }}</ion-button>
+  </ion-toolbar>
+</ion-footer>

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -13,8 +13,6 @@ import { LanguageService } from "../../../services/language.service";
   styleUrls: ['./medical-history.page.scss'],
 })
 export class MedicalHistoryPage implements OnInit, OnDestroy {
-
-  @ViewChild('diseasesBlock') private diseasesBlock: ElementRef;
 
   private shownGroup: string;
   private diseasesValues: Array<any> = [];
@@ -33,12 +31,14 @@ export class MedicalHistoryPage implements OnInit, OnDestroy {
     this.initForm();
     this.getChoices();
     this.setCheckValues();
-
-    this.languageSubscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
   }
 
   ngOnDestroy() {
     if (this.languageSubscription) this.languageSubscription.unsubscribe();
+  }
+
+  ionViewWillEnter() {
+    this.getPageText();
   }
 
   private getChoices() {
@@ -61,7 +61,7 @@ export class MedicalHistoryPage implements OnInit, OnDestroy {
   }
 
   private getPageText() {
-    this.text = this.language.getTextByCategories("profile");
+    this.text = this.language.getTextByCategories("medical_history");
   }
 
   public manageDiseasesValues(index: number) {

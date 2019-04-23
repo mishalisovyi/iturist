@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { SharedModule } from '../../../components/share.module';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CheckUpServicesPage } from './check-up-services.page';
+import { CheckUpServicesStartPage } from './check-up-services-start.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: CheckUpServicesPage
+    component: CheckUpServicesStartPage
   }
 ];
 
@@ -20,11 +20,10 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
     IonicModule,
     SharedModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [CheckUpServicesPage]
+  declarations: [CheckUpServicesStartPage]
 })
-export class CheckUpServicesPageModule {}
+export class CheckUpServicesStartPageModule { }

@@ -9,6 +9,7 @@ import * as moment from 'moment';
 
 import { ActionSheetService } from '../../../services/action-sheet.service';
 import { ApiService } from '../../../services/api.service';
+import { LanguageService } from "../../../services/language.service";
 
 @Component({
   selector: 'app-doctor-appointment',
@@ -22,23 +23,25 @@ export class DoctorAppointmentPage implements OnInit, OnDestroy {
   public form: FormGroup;
   public customPickerOptions: any;
   public submitTry: boolean = false;
+  public date: string = moment().format();
+  public text: any;
 
   constructor(
     private action: ActionSheetService,
     private formBuilder: FormBuilder,
     private api: ApiService,
     private alert: AlertController,
-    private router: Router
+    private router: Router,
+    private language: LanguageService
   ) {
     this.customPickerOptions = {
       buttons: [{
-        text: 'Cancel'
+        text: this.text ? this.text.cancel : 'Cancel'
       }, {
-        text: 'Save',
+        text: this.text ? this.text.save : 'Save',
         handler: (value: any) => {
-          const date: Date = new Date(value.year.value, value.month.value - 1, value.day.value, value.hour.value, value.minute.value);
-          this.form.get('datetime').setValue(moment(date).format('YYYY-MM-DD HH:mm'));
-          // this.validateDate(date);
+          this.date = moment(new Date(value.year.value, value.month.value - 1, value.day.value, value.hour.value, value.minute.value)).format();
+          this.form.get('datetime').setValue(moment(this.date).format('DD-MM-YYYY HH:mm'));
         }
       }]
     }
@@ -52,6 +55,14 @@ export class DoctorAppointmentPage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.actionSubscription) this.actionSubscription.unsubscribe();
+  }
+
+  ionViewWillEnter() {
+    this.getPageText();
+  }
+
+  private getPageText() {
+    this.text = this.language.getTextByCategories("doctor_appointment");
   }
 
   private createForm() {
@@ -85,27 +96,20 @@ export class DoctorAppointmentPage implements OnInit, OnDestroy {
   public saveAppointment() {
     this.submitTry = true;
 
-    // console.log({
-    //   specialization: this.action.doctor,
-    //   visit_date: moment.utc(this.form.get('datetime').value).toISOString(),
-    //   type: 'APPOINTMENT'
-    // })
-
     if (this.form.valid) {
       this.api.submitDoctorAppointment({
         specialization: this.action.doctor,
-        visit_date: moment.utc(this.form.get('datetime').value).toISOString(),
+        visit_date: this.date.split('+')[0],
         type: 'APPOINTMENT'
       })
-        .subscribe(async res => {
+        .subscribe(async () => {
           const alert = await this.alert.create({
-            message: 'Your appointment successfully created',
-            buttons: ['Ok']
+            message: this.text ? this.text.appointment_submitted : 'Your appointment successfully submitted',
+            buttons: [this.text ? this.text.ok.toUpperCase() : 'Ok']
           });
 
           await alert.present();
           alert.onDidDismiss().then(() => this.router.navigateByUrl('/online-doctor-choose'));
-          console.log(res)
         });
     }
   }

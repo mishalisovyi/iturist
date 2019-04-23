@@ -96,11 +96,16 @@ export interface OrderSimCardRequest {
 }
 
 export interface AppointmentRequest {
-  specialization?: string,
+  specialization: string,
+  visit_date: string,
+  type: string
+}
+
+export interface CheckupRequest {
   visit_date: string,
   type: string,
-  colonoscopy?: boolean;
-  oncomarker?: boolean;
+  colonoscopy: boolean;
+  oncomarker: boolean;
 }
 
 /* Response models */

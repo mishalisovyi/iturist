@@ -47,7 +47,8 @@
         </div>
         <span>{{ text?.alerts_and_notifications }}</span>
       </ion-col>
-      <ion-col size="4" text-center class="violet-text" (click)="isAuthorized ? navigateTo('/online-doctor-start') : null">
+      <ion-col size="4" text-center class="violet-text"
+        (click)="isAuthorized ? navigateTo('/online-doctor-start') : null">
         <div class="grid-item" [style.borderColor]="isAuthorized ? '#6ba0fe' : '#D4DCEF'">
           <ion-img
             [attr.src]="isAuthorized ? 'assets/screens/online-doctor.svg' : 'assets/screens/online-doctor-disable.svg'">
@@ -59,8 +60,8 @@
         <span>{{ text?.online_doctor }}</span>
       </ion-col>
     </ion-row>
-    <ion-row justify-content-center>
-      <ion-col size="5" text-center class="violet-text" (click)="isAuthorized ? navigateTo('/profile-start') : null">
+    <ion-row justify-content-around>
+      <ion-col size="4" text-center class="violet-text" (click)="isAuthorized ? navigateTo('/profile-start') : null">
         <div class="grid-item" [style.borderColor]="isAuthorized ? '#6ba0fe' : '#D4DCEF'">
           <ion-img
             [attr.src]="isAuthorized ? 'assets/screens/my-profile-main-menu.svg' : 'assets/screens/my-profile-main-menu-disable.svg'">
@@ -70,6 +71,17 @@
           </div>
         </div>
         <span>{{ text?.my_profile }}</span>
+      </ion-col>
+      <ion-col size="4" text-center class="violet-text" (click)="isAuthorized ? navigateTo('/check-up-services-start') : null">
+        <div class="grid-item" [style.borderColor]="isAuthorized ? '#6ba0fe' : '#D4DCEF'">
+          <ion-img
+            [attr.src]="isAuthorized ? 'assets/screens/check-up-service.svg' : 'assets/screens/check-up-service-disable.svg'">
+          </ion-img>
+          <div *ngIf="!isAuthorized" class="lock-badge">
+            <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
+          </div>
+        </div>
+        <span>{{ text?.check_up_service }}</span>
       </ion-col>
     </ion-row>
     <ion-row justify-content-around>
