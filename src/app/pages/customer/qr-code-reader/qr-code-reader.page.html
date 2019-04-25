@@ -1,0 +1,47 @@
+<app-header></app-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <ion-item>
+        <ion-text>
+          <p text-center class="violet-text font-size-20">
+            {{ text?.you_can_get }}
+          </p>
+        </ion-text>
+      </ion-item>
+      <ion-grid>
+        <ion-row justify-content-center>
+          <ion-col class="col-auto">
+            <ion-button class="blue-btn" (click)="scanQrCode()">{{ text?.scan_qr_code }}</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  <ion-item>
+    <ion-text class="w-100">
+      <p text-center class="violet-text font-size-32">
+        {{ text?.or | uppercase }}
+      </p>
+    </ion-text>
+  </ion-item>
+  <ion-card>
+    <ion-card-content>
+      <ion-item>
+        <ion-text>
+          <p text-center class="violet-text font-size-20">
+            {{ text?.can_skip_scanning }}
+          </p>
+        </ion-text>
+      </ion-item>
+      <ion-grid>
+        <ion-row justify-content-center>
+          <ion-col class="col-auto">
+            <ion-button class="blue-btn" (click)="navigateTo('main')">{{ text?.skip }}</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

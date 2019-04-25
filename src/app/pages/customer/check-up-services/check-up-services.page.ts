@@ -22,6 +22,7 @@ export class CheckUpServicesPage implements OnInit {
   public colonoscopy: boolean = false;
   public oncomarkers: boolean = false;
   public submitTry: boolean = false;
+  public correctDate: boolean;
   public customPickerOptions: any;
   public date: string = moment().format();
   public text: any;
@@ -36,6 +37,7 @@ export class CheckUpServicesPage implements OnInit {
           const date = new Date(value.year.value, value.month.value - 1, value.day.value);
           this.date = moment(date).format();
           this.dateControl.setValue(moment(this.date).format('DD-MM-YYYY'));
+          this.correctDate = moment(this.date) >= moment().startOf('day'); 
           this.validateDate(date);
         }
       }]
@@ -68,16 +70,16 @@ export class CheckUpServicesPage implements OnInit {
   }
 
   public submitCheckup() {
-    this.submitTry = true;
+    this.submitTry = true;   
 
-    if (this.dateControl.valid) {
+    if (this.dateControl.valid && this.correctDate) {
       const parts = this.dateControl.value.split('-');
       const originalDate = `${parts[1]}-${parts[0]}-${parts[2]}`;
       this.api.getProfile()
         .pipe(
           map(res => res.content.travel_image),
           switchMap(res => iif(
-            () => { console.log(res); return res },
+            () => res,
             this.api.submitCheckupService({
               visit_date: moment(new Date(originalDate)).format('YYYY-MM-DDTHH:mm:ss'),
               type: 'CHECK-UP',
@@ -88,7 +90,6 @@ export class CheckUpServicesPage implements OnInit {
           ))
         )
         .subscribe(async res => {
-          console.log(res);
           const alert = await this.alert.create({
             message: res
               ? this.text ? this.text.successfully_submitted : 'Your check up request successfully submitted'

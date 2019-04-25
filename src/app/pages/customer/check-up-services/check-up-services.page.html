@@ -8,11 +8,13 @@
   <ion-grid no-margin no-padding>
     <ion-row no-margin no-padding>
       <ion-col no-margin no-padding>
-        <ion-item class="violet-text form-field" [class.error-field]="submitTry && dateControl.invalid">
+        <ion-item class="violet-text form-field"
+          [class.error-field]="submitTry && (dateControl.invalid || dateControl.value && !correctDate)">
           <ion-input type="text" readonly [formControl]="dateControl" placeholder="{{ text?.select_date }}"
             (click)="datePicker.open()">
           </ion-input>
-          <ion-datetime #datePicker style="display: none" [pickerOptions]="customPickerOptions" [value]="date">
+          <ion-datetime #datePicker style="display: none" [pickerOptions]="customPickerOptions" [value]="date"
+            max="2030">
           </ion-datetime>
         </ion-item>
         <ion-item>
@@ -32,6 +34,9 @@
         </ion-item>
         <ion-item *ngIf="submitTry && dateControl.hasError('wrongDay')" class="red-text">
           <span>{{ text?.you_can_choose }}</span>
+        </ion-item>
+        <ion-item *ngIf="submitTry && dateControl.value && !correctDate" class="red-text">
+          <span>{{ text?.can_not_choose_past_date }}</span>
         </ion-item>
       </ion-col>
     </ion-row>

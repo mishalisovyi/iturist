@@ -11,7 +11,7 @@
     <ion-buttons slot="end">
       <ion-grid>
         <ion-row>
-          <ion-col id="logout-col" (click)="logout()">
+          <ion-col [hidden]="!isAuthorized" id="logout-col" (click)="logout()">
             <span class="violet-text">{{ text?.logout }}</span>
           </ion-col>
           <ion-col align-self-center>

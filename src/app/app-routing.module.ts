@@ -108,8 +108,13 @@ const routes: Routes = [
     canActivate: [AuthGuard, NetworkGuard]
   },
   {
-    path: 'privacy-policy',
-    loadChildren: './pages/customer/privacy-policy/privacy-policy.module#PrivacyPolicyPageModule',
+    path: 'qr-code-reader',
+    loadChildren: './pages/customer/qr-code-reader/qr-code-reader.module#QrCodeReaderPageModule',
+    canActivate: [AuthGuard, NetworkGuard]
+  },
+  {
+    path: 'medical-history',
+    loadChildren: './pages/customer/medical-history/medical-history.module#MedicalHistoryPageModule',
     canActivate: [AuthGuard, NetworkGuard]
   },
   {
@@ -133,6 +138,11 @@ const routes: Routes = [
     canActivate: [NetworkGuard]
   },
   {
+    path: 'privacy-policy',
+    loadChildren: './pages/customer/privacy-policy/privacy-policy.module#PrivacyPolicyPageModule',
+    canActivate: [NetworkGuard]
+  },
+  {
     path: 'register',
     loadChildren: './pages/auth/register/register.module#RegisterPageModule',
     canActivate: [GuestGuard, NetworkGuard]
@@ -146,11 +156,6 @@ const routes: Routes = [
     path: 'forgot-password',
     loadChildren: './pages/auth/forgot-password/forgot-password.module#ForgotPasswordPageModule',
     canActivate: [GuestGuard, NetworkGuard]
-  },
-  {
-    path: 'medical-history',
-    loadChildren: './pages/customer/medical-history/medical-history.module#MedicalHistoryPageModule',
-    canActivate: [AuthGuard, NetworkGuard]
   }
 ];
 

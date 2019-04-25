@@ -20,6 +20,7 @@ export class AlertsAndNotificationsPage {
 
   public text: any;
   public alerts: Alert[];
+  public isAuthorized: boolean = false;
 
   constructor(
     private router: Router,
@@ -30,11 +31,16 @@ export class AlertsAndNotificationsPage {
 
   ionViewWillEnter() {
     this.getPageText();
+    this.getToken();
   }
 
   private getPageText() {
     this.text = this.language.getTextByCategories('alerts_and_notifications');
     this.getAlerts();
+  }
+
+  private getToken() {
+    this.storage.get('token').subscribe(res => this.isAuthorized = res ? true : false);
   }
 
   private getAlerts() {

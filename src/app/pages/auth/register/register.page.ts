@@ -133,6 +133,7 @@ export class RegisterPage implements OnInit {
             .pipe(switchMap(() => from(this.postImages())))
             .subscribe(
               () => {
+                // this.router.navigateByUrl('/qr-code-reader');
                 this.router.navigateByUrl('/main');
                 this.loading.dismissLoading();
               },

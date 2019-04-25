@@ -14,11 +14,12 @@
             <ion-input type="text" readonly formControlName="doctor" placeholder="{{ text?.select_doctor }}">
             </ion-input>
           </ion-item>
-          <ion-item class="violet-text form-field" [class.error-field]="submitTry && form.get('datetime').invalid">
+          <ion-item class="violet-text form-field"
+            [class.error-field]="submitTry && (form.get('datetime').invalid || form.get('datetime').value && !correctDate)">
             <ion-input type="text" readonly formControlName="datetime" placeholder="{{ text?.select_datetime }}"
               (click)="datetime.open()"></ion-input>
             <ion-datetime #datetime style="display: none" [pickerOptions]="customPickerOptions" [value]="date"
-              display-format="MMM DD, YYYY HH:mm"></ion-datetime>
+              display-format="MMM DD, YYYY HH:mm" max="2030"></ion-datetime>
           </ion-item>
           <ion-item class="violet-text form-field">
             <ion-textarea formControlName="symptoms" placeholder="{{ text?.your_symptoms }}"></ion-textarea>
@@ -28,6 +29,9 @@
           </ion-item>
           <ion-item *ngIf="submitTry && form.get('symptoms').hasError('maxlength')" class="red-text">
             <span>{{ text?.symptoms_max_length }}</span>
+          </ion-item>
+          <ion-item *ngIf="submitTry && form.get('datetime').value && !correctDate" class="red-text">
+            <span>{{ text?.can_not_choose_past_date }}</span>
           </ion-item>
         </ion-col>
       </ion-row>

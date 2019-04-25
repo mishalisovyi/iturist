@@ -23,6 +23,7 @@ export class DoctorAppointmentPage implements OnInit, OnDestroy {
   public form: FormGroup;
   public customPickerOptions: any;
   public submitTry: boolean = false;
+  public correctDate: boolean;
   public date: string = moment().format();
   public text: any;
 
@@ -42,6 +43,7 @@ export class DoctorAppointmentPage implements OnInit, OnDestroy {
         handler: (value: any) => {
           this.date = moment(new Date(value.year.value, value.month.value - 1, value.day.value, value.hour.value, value.minute.value)).format();
           this.form.get('datetime').setValue(moment(this.date).format('DD-MM-YYYY HH:mm'));
+          this.correctDate = moment(this.date) > moment();
         }
       }]
     }
@@ -96,7 +98,7 @@ export class DoctorAppointmentPage implements OnInit, OnDestroy {
   public saveAppointment() {
     this.submitTry = true;
 
-    if (this.form.valid) {
+    if (this.form.valid && this.correctDate) {
       this.api.submitDoctorAppointment({
         specialization: this.action.doctor,
         visit_date: this.date.split('+')[0],

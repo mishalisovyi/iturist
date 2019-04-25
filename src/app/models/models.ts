@@ -78,7 +78,7 @@ export interface Company {
 /* Request models */
 
 export interface ProfileEditRequest {
-  email?: string,
+  user?: string,
   first_name?: string,
   last_name?: string,
   language?: string,

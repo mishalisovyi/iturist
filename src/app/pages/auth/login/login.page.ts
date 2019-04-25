@@ -132,13 +132,15 @@ export class LoginPage implements OnInit {
               this.storage.set("token", res.content.token),
               this.storage.set("language", res.content.profile.language),
               this.storage.set("auth_type", "REGULAR"),
+              this.api.getProfile()
             )
           )),
           finalize(async () => await this.loading.dismissLoading()),
           catchError((err => throwError(err)))
         )
         .subscribe(
-          () => this.router.navigateByUrl("/main"),
+          // res => this.router.navigateByUrl(res[3].content.phone ? '/main' : '/qr-code-reader'),
+          res => this.router.navigateByUrl('/main'),
           err => {
             if (err.error) {
               if (err.error.metadata.api_error_codes.includes(101)) alert(this.text.wrong_credentials);
@@ -164,6 +166,7 @@ export class LoginPage implements OnInit {
               this.storage.set("auth_type", "GOOGLE"),
               this.storage.set("token", res.content.token),
               this.storage.set("language", res.content.profile.language),
+              this.api.getProfile()
               // this.storage.set('phone', res.content.profile.phone ? res.content.profile.phone : 'none')
             )
           )),
@@ -171,7 +174,8 @@ export class LoginPage implements OnInit {
           catchError((err => throwError(err)))
         )
         .subscribe(
-          () => this.router.navigateByUrl("/main"),
+          // res => this.router.navigateByUrl(res[3].content.phone ? '/main' : '/qr-code-reader'),
+          res => this.router.navigateByUrl('/main'),
           async () => await this.googlePlus.disconnect()
         );
     } catch (error) {
@@ -194,6 +198,7 @@ export class LoginPage implements OnInit {
               this.storage.set("auth_type", "FACEBOOK"),
               this.storage.set("token", res.content.token),
               this.storage.set("language", res.content.profile.language),
+              this.api.getProfile()
               // this.storage.set('phone', res.content.profile.phone ? res.content.profile.phone : 'none')
             )
           )),
@@ -201,7 +206,8 @@ export class LoginPage implements OnInit {
           catchError((err => throwError(err)))
         )
         .subscribe(
-          () => this.router.navigateByUrl("/main"),
+          // res => this.router.navigateByUrl(res[3].content.phone ? '/main' : '/qr-code-reader'),
+          res => this.router.navigateByUrl('/main'),
           async err => {
             if (err.error.metadata.api_error_codes.includes(106)) {
               alert(this.text.can_not_sign_in);

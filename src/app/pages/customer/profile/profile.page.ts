@@ -143,7 +143,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     return new Promise((resolve, reject) => {
       // let phone: string = `${this.form.get('phone').value.length < 12 ? '972' : ''}${this.form.get('phone').value.replace(/\s|\+|\D/g, '')}`;
       const profile: ProfileEditRequest = {
-        email: this.form.get("email").value,
+        user: this.form.get("email").value,
         first_name: this.form.get("first_name").value,
         last_name: this.form.get("last_name").value,
         language: this.action.language,

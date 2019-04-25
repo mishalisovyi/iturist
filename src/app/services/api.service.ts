@@ -161,4 +161,8 @@ export class ApiService {
   public submitMedicalHistory(body: any) {
     return this.http.post(`${environment.api}/medical-history`, body);
   }
+
+  public checkMedicalHistory() {
+    return this.http.get<BaseResponse>(`${environment.api}/medical-history/check`);
+  }
 }
