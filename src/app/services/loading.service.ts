@@ -10,7 +10,7 @@ export class LoadingService {
 
   constructor(private loadingController: LoadingController) { }
 
-  public async createLoading(message: string = "Please wait, uploading photo") {
+  public async createLoading(message: string = "Wait, please") {
     this.loading = await this.loadingController.create({
       message: message,
       spinner: "dots"

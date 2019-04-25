@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs';
 
 import { ApiService } from '../../../services/api.service';
 import { LanguageService } from "../../../services/language.service";
+import { LoadingService } from '../../../services/loading.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-medical-history',
@@ -25,7 +27,7 @@ export class MedicalHistoryPage implements OnInit, OnDestroy {
   public diseasesValues: Array<any> = [];
   public symptomsValues: Array<any> = [];
 
-  constructor(private api: ApiService, private formBuilder: FormBuilder, private language: LanguageService, private router: Router) { }
+  constructor(private api: ApiService, private formBuilder: FormBuilder, private language: LanguageService, private router: Router, private loading: LoadingService) { }
 
   ngOnInit() {
     this.initForm();
@@ -106,10 +108,12 @@ export class MedicalHistoryPage implements OnInit, OnDestroy {
     return this.shownGroup === group;
   };
 
-  public submit() {
+  public async submit() {
     this.submitTry = true;
 
     if (this.form.valid && this.diseasesValues.length && this.symptomsValues.length) {
+      await this.loading.createLoading(this.text ? this.text.wait_please : 'Wait, please');
+
       this.api.submitMedicalHistory({
         taking_medication: this.form.value.taking_medication === 'true',
         medication_allergies: this.form.value.medication_allergies,
@@ -120,6 +124,7 @@ export class MedicalHistoryPage implements OnInit, OnDestroy {
         relative_diseases: this.diseasesValues.map(item => ({ title: item })),
         current_symptoms: this.symptomsValues.map(item => ({ title: item }))
       })
+        .pipe(finalize(async () => await this.loading.dismissLoading()))
         .subscribe(() => this.router.navigateByUrl('/online-doctor-choose'));
     } else {
       this.shownGroup = null;

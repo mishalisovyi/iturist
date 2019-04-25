@@ -5,11 +5,13 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 
 import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import * as moment from 'moment';
 
 import { ActionSheetService } from '../../../services/action-sheet.service';
 import { ApiService } from '../../../services/api.service';
 import { LanguageService } from "../../../services/language.service";
+import { LoadingService } from '../../../services/loading.service';
 
 @Component({
   selector: 'app-doctor-appointment',
@@ -33,7 +35,8 @@ export class DoctorAppointmentPage implements OnInit, OnDestroy {
     private api: ApiService,
     private alert: AlertController,
     private router: Router,
-    private language: LanguageService
+    private language: LanguageService,
+    private loading: LoadingService
   ) {
     this.customPickerOptions = {
       buttons: [{
@@ -95,16 +98,19 @@ export class DoctorAppointmentPage implements OnInit, OnDestroy {
     return !valid;
   }
 
-  public saveAppointment() {
+  public async saveAppointment() {
     this.submitTry = true;
 
     if (this.form.valid && this.correctDate) {
+      await this.loading.createLoading(this.text ? this.text.wait_please : 'Wait, please');
+
       this.api.submitDoctorAppointment({
         specialization: this.action.doctor,
         visit_date: this.date.split('+')[0],
         note: this.form.get('symptoms').value,
         type: 'APPOINTMENT'
       })
+        .pipe(finalize(async () => await this.loading.dismissLoading()))
         .subscribe(async () => {
           const alert = await this.alert.create({
             message: this.text ? this.text.appointment_submitted : 'Your appointment successfully submitted',

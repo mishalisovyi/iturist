@@ -5,11 +5,12 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 
 import { iif, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, finalize } from 'rxjs/operators';
 import * as moment from 'moment';
 
 import { ApiService } from '../../../services/api.service';
 import { LanguageService } from "../../../services/language.service";
+import { LoadingService } from '../../../services/loading.service';
 
 @Component({
   selector: 'app-check-up-services',
@@ -27,7 +28,7 @@ export class CheckUpServicesPage implements OnInit {
   public date: string = moment().format();
   public text: any;
 
-  constructor(private api: ApiService, private alert: AlertController, private router: Router, private language: LanguageService) {
+  constructor(private api: ApiService, private alert: AlertController, private router: Router, private language: LanguageService, private loading: LoadingService) {
     this.customPickerOptions = {
       buttons: [{
         text: this.text ? this.text.cancel : 'Cancel'
@@ -37,7 +38,7 @@ export class CheckUpServicesPage implements OnInit {
           const date = new Date(value.year.value, value.month.value - 1, value.day.value);
           this.date = moment(date).format();
           this.dateControl.setValue(moment(this.date).format('DD-MM-YYYY'));
-          this.correctDate = moment(this.date) >= moment().startOf('day'); 
+          this.correctDate = moment(this.date) >= moment().startOf('day');
           this.validateDate(date);
         }
       }]
@@ -69,12 +70,15 @@ export class CheckUpServicesPage implements OnInit {
     this.router.navigateByUrl('/check-up-disclaimer')
   }
 
-  public submitCheckup() {
-    this.submitTry = true;   
+  public async submitCheckup() {
+    this.submitTry = true;
 
     if (this.dateControl.valid && this.correctDate) {
       const parts = this.dateControl.value.split('-');
       const originalDate = `${parts[1]}-${parts[0]}-${parts[2]}`;
+
+      await this.loading.createLoading(this.text ? this.text.wait_please : 'Wait, please');
+
       this.api.getProfile()
         .pipe(
           map(res => res.content.travel_image),
@@ -87,7 +91,8 @@ export class CheckUpServicesPage implements OnInit {
               oncomarker: this.oncomarkers
             }),
             of(null)
-          ))
+          )),
+          finalize(async () => await this.loading.dismissLoading())
         )
         .subscribe(async res => {
           const alert = await this.alert.create({

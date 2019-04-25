@@ -19,7 +19,7 @@ export class CheckUpServicesStartPage {
   }
 
   private getPageText() {
-    this.text = this.language.getTextByCategories("medical_history");
+    this.text = this.language.getTextByCategories("check_up_start");
   }
 
   public navigateTo(path: string) {
