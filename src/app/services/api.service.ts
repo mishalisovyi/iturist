@@ -65,7 +65,7 @@ export class ApiService {
     return this.http.post<BaseResponse>(`${environment.api}/login-google`, data);
   }
 
-  public facebookLogin(data: { access_token: string }): Observable<BaseResponse> {
+  public facebookLogin(data: { access_token: string, app: string }): Observable<BaseResponse> {
     return this.http.post<BaseResponse>(`${environment.api}/login-facebook`, data);
   }
 

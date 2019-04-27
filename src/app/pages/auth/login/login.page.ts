@@ -191,17 +191,19 @@ export class LoginPage implements OnInit {
     await this.loading.createLoading(this.text.login);
     try {
       const loginResponse = await this.fb.login(['public_profile', 'email']);
-      this.api.facebookLogin({ access_token: loginResponse.authResponse.accessToken })
+      console.log(loginResponse);
+      this.api.facebookLogin({ access_token: loginResponse.authResponse.accessToken, app: 'CUSTOMER' })
         .pipe(
-          switchMap((res: BaseResponse) => (
-            forkJoin(
+          switchMap((res: BaseResponse) => {
+            console.log('res from api: ', res)
+           return  forkJoin(
               this.storage.set("auth_type", "FACEBOOK"),
               this.storage.set("token", res.content.token),
               this.storage.set("language", res.content.profile.language),
               this.api.getProfile()
               // this.storage.set('phone', res.content.profile.phone ? res.content.profile.phone : 'none')
-            )
-          )),
+           )}
+          ),
           finalize(async () => await this.loading.dismissLoading()),
           catchError((err => throwError(err)))
         )
@@ -216,6 +218,7 @@ export class LoginPage implements OnInit {
           }
         );
     } catch (error) {
+      console.log(error);
       await this.loading.dismissLoading();
     }
   }

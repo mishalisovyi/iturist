@@ -3,7 +3,7 @@
 <ion-content>
   <div id="text-block" class="violet-text bold-text font-size-16">{{ text?.online_doctor }}</div>
   <ion-grid>
-    <ion-row justify-content-center>
+    <ion-row justify-content-around>
       <!-- <ion-col size="4" text-center class="violet-text">
         <div class="grid-item" (click)="navigate('online-doctor-prescriptions')">
           <ion-img src="assets/screens/prescriptions.svg"></ion-img>
@@ -16,20 +16,34 @@
         </div>
         <span>{{ text?.calls_list }}</span>
       </ion-col> -->
-      <ion-col size="5" text-center class="violet-text">
+      <ion-col size="3" text-center class="violet-text">
         <div class="grid-item" (click)="navigate('doctor-appointment')">
           <ion-img src="assets/screens/doctor-appointment.svg"></ion-img>
         </div>
         <span>{{ text?.doctor_appointment }}</span>
       </ion-col>
+      <ion-col size="3" text-center class="violet-text">
+        <div class="grid-item" (click)="navigate('/check-up-services-start')">
+          <ion-img src="assets/screens/check-up-service.svg">
+          </ion-img>
+        </div>
+        <span>{{ text?.check_up_service }}</span>
+      </ion-col>
     </ion-row>
-    <ion-row justify-content-center>
-      <ion-col size="5" text-center class="violet-text">
-        <div class="grid-item" (click)="call()">
+    <ion-row justify-content-around>
+      <ion-col size="3" text-center class="violet-text">
+        <div class="grid-item" (click)="callToDoctor()">
           <ion-img src="assets/screens/phone-call.svg">
           </ion-img>
         </div>
         <span>{{ text?.phone_call }}</span>
+      </ion-col>
+      <ion-col size="3" text-center class="violet-text">
+        <div class="grid-item" (click)="callToAmbulance()">
+          <ion-img src="assets/screens/ambulance.svg">
+          </ion-img>
+        </div>
+        <span>{{ text?.ambulance }}</span>
       </ion-col>
     </ion-row>
   </ion-grid>

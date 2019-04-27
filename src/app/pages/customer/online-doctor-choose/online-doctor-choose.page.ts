@@ -24,8 +24,12 @@ export class OnlineDoctorChoosePage {
     this.text = this.language.getTextByCategories('online_doctor_choose');
   }
 
-  public call() {
+  public callToDoctor() {
     this.callNumber.callNumber("97233724296", true);
+  }
+
+  public callToAmbulance() {
+    this.callNumber.callNumber("101", true);
   }
 
   public navigate(route: string) {

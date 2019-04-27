@@ -103,7 +103,7 @@ export class CheckUpServicesPage implements OnInit {
           });
 
           await alert.present();
-          alert.onDidDismiss().then(() => this.router.navigateByUrl(res ? '/main' : '/profile'));
+          alert.onDidDismiss().then(() => this.router.navigateByUrl(res ? '/online-doctor-choose' : '/profile'));
         });
     }
   }

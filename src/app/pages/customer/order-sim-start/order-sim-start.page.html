@@ -1,7 +1,7 @@
 <app-header></app-header>
 
 <ion-content>
-  <ion-card>
+  <!-- <ion-card>
     <ion-card-content>
       <ion-item>
         <ion-text>
@@ -18,15 +18,35 @@
         </ion-row>
       </ion-grid>
     </ion-card-content>
-  </ion-card>
-  <ion-item>
+  </ion-card> -->
+  <ion-grid class="h-100">
+    <ion-row class="h-100" align-items-center>
+      <ion-col>
+        <ion-item>
+          <ion-text>
+            <p text-center class="violet-text font-size-20">
+              {{text?.addresses_text}}
+            </p>
+          </ion-text>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <!-- <ion-grid>
+    <ion-row justify-content-center>
+      <ion-col class="col-auto">
+        <ion-button class="blue-btn" (click)="navigateTo('addresses-list')">{{ text?.addresses_button }}</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid> -->
+  <!-- <ion-item>
     <ion-text class="w-100">
       <p text-center class="violet-text font-size-32">
         {{ text?.or | uppercase }}
       </p>
     </ion-text>
-  </ion-item>
-  <ion-card>
+  </ion-item> -->
+  <!-- <ion-card>
     <ion-card-content>
       <ion-item>
         <ion-text>
@@ -44,4 +64,10 @@
       </ion-grid>
     </ion-card-content>
   </ion-card>
+</ion-content> -->
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button class="bottom-btn" (click)="navigateTo('addresses-list')">{{ text?.addresses_button }}</ion-button>
+  </ion-toolbar>
+</ion-footer>
