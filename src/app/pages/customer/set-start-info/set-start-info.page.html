@@ -1,0 +1,70 @@
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-grid>
+        <ion-row>
+          <ion-col id="logout-col" (click)="logout()">
+            <span class="violet-text">{{ text?.logout }}</span>
+          </ion-col>
+          <ion-col align-self-center>
+            <div id="logo">
+              <div id="top-part">
+                <div id="circle"></div>
+              </div>
+              <div id="bottom-part"></div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding-horizontal>
+  <ion-grid>
+    <ion-row justify-content-center>
+      <ion-col size="9" size-lg="5">
+        <ion-item class="violet-text">
+          <span text-center>{{ text?.enter_mobile_number }}</span>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row justify-content-center>
+      <ion-col size-md="7" size-lg="5">
+        <ion-item class="violet-text form-field" [class.error-field]="submitTry && phoneControl.invalid">
+          <ion-input prefix="+972 " mask="000000000" [formControl]="phoneControl" placeholder="{{ text?.phone }}"
+            (ionChange)="validatePhone()"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row justify-content-center>
+      <ion-col size="9" size-lg="5">
+        <ion-item class="violet-text">
+          <span text-center>{{ text?.choose_language }}</span>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row justify-content-center>
+      <ion-col size-md="7" size-lg="5">
+        <ion-item class="violet-text form-field" [class.error-field]="submitTry && languageControl.invalid"
+          (click)="presentActionSheet()">
+          <ion-input type="text" readonly [formControl]="languageControl" placeholder="{{ text?.select_language }}">
+          </ion-input>
+        </ion-item>
+        <div id="errors-block">
+          <ion-item *ngIf="submitTry && requireValidator()" class="red-text">
+            <span>{{ text?.fill_empty_fields }}</span>
+          </ion-item>
+          <ion-item *ngIf="submitTry && phoneControl.hasError('minlength')" class="red-text">
+            <span>{{ text?.phone_minlength }}</span>
+          </ion-item>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button (click)="submit()">{{ text?.save }}</ion-button>
+  </ion-toolbar>
+</ion-footer>

@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 
 import { from, forkJoin } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, finalize } from 'rxjs/operators';
 
 import { ApiService } from '../../../services/api.service';
 import { ImageService } from '../../../services/image.service';
@@ -130,15 +130,11 @@ export class RegisterPage implements OnInit {
       this.postTextData().then(
         res => {
           forkJoin(this.storage.set("token", res.content.token), this.storage.set("language", res.content.profile.language))
-            .pipe(switchMap(() => from(this.postImages())))
-            .subscribe(
-              () => {
-                // this.router.navigateByUrl('/qr-code-reader');
-                this.router.navigateByUrl('/main');
-                this.loading.dismissLoading();
-              },
-              () => this.loading.dismissLoading()
+            .pipe(
+              finalize(() => this.loading.dismissLoading()),
+              switchMap(() => from(this.postImages()))
             )
+            .subscribe(() => this.router.navigateByUrl( `/set-start-info/${res.content.profile.user_id}`))
         },
         err => {
           this.loading.dismissLoading();

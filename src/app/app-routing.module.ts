@@ -5,11 +5,12 @@ import { AuthGuard } from './guards/auth.guard';
 import { GuestGuard } from './guards/guest.guard';
 import { NetworkGuard } from './guards/network.guard';
 import { MedicalHistoryGuard } from './guards/medical-history.guard';
+import { FirstStartGuard } from './guards/first-start.guard';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'unboarding-tour',
     pathMatch: 'full'
   },
   {
@@ -118,6 +119,11 @@ const routes: Routes = [
     canActivate: [AuthGuard, NetworkGuard]
   },
   {
+    path: 'set-start-info/:userId',
+    loadChildren: './pages/customer/set-start-info/set-start-info.module#SetStartInfoPageModule',
+    canActivate: [AuthGuard, NetworkGuard]
+  },
+  {
     path: 'order-sim-start',
     loadChildren: './pages/customer/order-sim-start/order-sim-start.module#OrderSimStartPageModule',
     canActivate: [NetworkGuard]
@@ -156,6 +162,11 @@ const routes: Routes = [
     path: 'forgot-password',
     loadChildren: './pages/auth/forgot-password/forgot-password.module#ForgotPasswordPageModule',
     canActivate: [GuestGuard, NetworkGuard]
+  },
+  {
+    path: 'unboarding-tour',
+    loadChildren: './pages/customer/unboarding-tour/unboarding-tour.module#UnboardingTourPageModule',
+    canActivate: [FirstStartGuard, NetworkGuard]
   }
 ];
 

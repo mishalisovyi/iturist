@@ -14,20 +14,42 @@
             (click)="datePicker.open()">
           </ion-input>
           <ion-datetime #datePicker style="display: none" [pickerOptions]="customPickerOptions" [value]="date"
-            max="2030">
-          </ion-datetime>
+            max="2030"></ion-datetime>
         </ion-item>
-        <ion-item>
-          <ion-label><span class="violet-text">{{ text?.full_program }}</span></ion-label>
-          <ion-checkbox checked="true" disabled></ion-checkbox>
-        </ion-item>
-        <ion-item>
-          <ion-label><span class="violet-text">{{ text?.general_oncomarkers }}</span></ion-label>
-          <ion-checkbox [(ngModel)]="oncomarkers"></ion-checkbox>
-        </ion-item>
-        <ion-item>
-          <ion-label><span class="violet-text">{{ text?.colonoscopy }}</span></ion-label>
-          <ion-checkbox [(ngModel)]="colonoscopy"></ion-checkbox>
+        <div class="check-up-item">
+          <ion-item>
+            <ion-label><span class="violet-text">{{ text?.full_program }}</span></ion-label>
+            <ion-checkbox checked="true" disabled></ion-checkbox>
+          </ion-item>
+          <ion-item disabled>
+            <span class="violet-text font-size-14">2800 NIS {{ text?.per_person }}</span>
+          </ion-item>
+        </div>
+        <div class="check-up-item">
+          <ion-item>
+            <ion-label><span class="violet-text">{{ text?.general_oncomarkers }}</span></ion-label>
+            <ion-checkbox [(ngModel)]="oncomarkers" (ionChange)="changeTotal($event, 'oncomarkers')"></ion-checkbox>
+          </ion-item>
+          <ion-item>
+            <span class="violet-text font-size-14">1300 NIS ({{ text?.not_on_the_same_day }})</span>
+          </ion-item>
+        </div>
+        <div class="check-up-item">
+          <ion-item>
+            <ion-label><span class="violet-text">{{ text?.colonoscopy }}</span></ion-label>
+            <ion-checkbox [(ngModel)]="colonoscopy" (ionChange)="changeTotal($event, 'colonoscopy')"></ion-checkbox>
+          </ion-item>
+          <ion-item>
+            <span class="violet-text font-size-14">1822 NIS</span>
+          </ion-item>
+        </div>
+        <ion-item id="total-item">
+          <ion-item no-padding>
+            <span class="ion-text-uppercase bold-text violet-text font-size-20">Total</span>
+          </ion-item>
+          <ion-item slot="end">
+            <span class="violet-text">{{ total }} NIS</span>
+          </ion-item>
         </ion-item>
         <ion-item *ngIf="submitTry && dateControl.hasError('required')" class="red-text">
           <span>{{ text?.fill_empty_fields }}</span>

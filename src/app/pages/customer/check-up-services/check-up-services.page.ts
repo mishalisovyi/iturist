@@ -23,6 +23,7 @@ export class CheckUpServicesPage implements OnInit {
   public colonoscopy: boolean = false;
   public oncomarkers: boolean = false;
   public submitTry: boolean = false;
+  public total: number = 2800;
   public correctDate: boolean;
   public customPickerOptions: any;
   public date: string = moment().format();
@@ -64,6 +65,11 @@ export class CheckUpServicesPage implements OnInit {
   private validateDate(date: Date) {
     this.dateControl.setErrors(null);
     if ([5, 6].includes(moment(date).isoWeekday())) this.dateControl.setErrors({ wrongDay: true });
+  }
+
+  public changeTotal({ detail: { checked } }, service: string) {
+    const diff: number = service === 'oncomarkers' ? 1300 : 1822;
+    this.total = checked ? this.total + diff : this.total - diff;
   }
 
   public navigateToDisclaimer() {

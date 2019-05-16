@@ -139,8 +139,12 @@ export class LoginPage implements OnInit {
           catchError((err => throwError(err)))
         )
         .subscribe(
-          // res => this.router.navigateByUrl(res[3].content.phone ? '/main' : '/qr-code-reader'),
-          res => this.router.navigateByUrl('/main'),
+          res => this.router.navigateByUrl(
+            (!res[3].content.phone || !res[3].content.language)
+            ? `/set-start-info/${res[3].content.user_id}`
+            : '/main'
+          ),
+          // () => this.router.navigateByUrl('/main'),
           err => {
             if (err.error) {
               if (err.error.metadata.api_error_codes.includes(101)) alert(this.text.wrong_credentials);
@@ -175,7 +179,11 @@ export class LoginPage implements OnInit {
         )
         .subscribe(
           // res => this.router.navigateByUrl(res[3].content.phone ? '/main' : '/qr-code-reader'),
-          res => this.router.navigateByUrl('/main'),
+          res => this.router.navigateByUrl(
+            (!res[3].content.phone || !res[3].content.language)
+            ? `/set-start-info/${res[3].content.user_id}`
+            : '/main'
+          ),
           async () => await this.googlePlus.disconnect()
         );
     } catch (error) {
@@ -191,6 +199,9 @@ export class LoginPage implements OnInit {
     await this.loading.createLoading(this.text.login);
     try {
       const loginResponse = await this.fb.login(['public_profile', 'email']);
+      this.fb.api('me?fields=id,name,email,first_name,picture.width(720).height(720).as(picture_large)', []).then(profile => {
+        console.log(profile);
+      });
       console.log(loginResponse);
       this.api.facebookLogin({ access_token: loginResponse.authResponse.accessToken, app: 'CUSTOMER' })
         .pipe(
@@ -209,7 +220,11 @@ export class LoginPage implements OnInit {
         )
         .subscribe(
           // res => this.router.navigateByUrl(res[3].content.phone ? '/main' : '/qr-code-reader'),
-          res => this.router.navigateByUrl('/main'),
+          res => this.router.navigateByUrl(
+            (!res[3].content.phone || !res[3].content.language)
+            ? `/set-start-info/${res[3].content.user_id}`
+            : '/main'
+          ),
           async err => {
             if (err.error.metadata.api_error_codes.includes(106)) {
               alert(this.text.can_not_sign_in);
