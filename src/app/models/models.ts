@@ -12,6 +12,8 @@ export interface Profile {
   airline_image?: string;
   travel_image?: string;
   passport_image?: string;
+  medical_image?: string;
+  document_id?: string;
 }
 
 export interface Plan {
@@ -82,6 +84,7 @@ export interface ProfileEditRequest {
   first_name?: string,
   last_name?: string,
   language?: string,
+  document_id?: string,
   phone: string
 }
 
@@ -107,6 +110,10 @@ export interface CheckupRequest {
   type: string,
   colonoscopy: boolean;
   oncomarker: boolean;
+}
+
+export interface PrescriptionRequest {
+  user_comment?: string
 }
 
 /* Response models */

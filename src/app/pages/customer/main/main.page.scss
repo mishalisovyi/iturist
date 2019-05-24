@@ -45,6 +45,8 @@ ion-badge {
   --background: rgba(0, 161, 214, 0.85);
   --background-activated: rgba(0, 161, 214, 0.85);
 
+  margin-left: auto;
+
   ion-img {
     width: 25px;
     margin-top: 5px;
@@ -96,10 +98,6 @@ ion-title {
   }
 }
 
-.disabled {
-  opacity: 0.5;
-}
-
 .label {
   width: 25px;
   height: 25px;
@@ -121,6 +119,8 @@ ion-title {
 
 #main-block {
   margin-bottom: 30px;
+  padding-left: 45px;
+  padding-right: 45px;
 
   // ion-row:nth-child(2) {
   //   margin-top: 50px;
@@ -201,23 +201,6 @@ ion-title {
   }
 }
 
-.lock-badge {
-  position: absolute;
-  height: 25%;
-  width: 25%;
-  background: linear-gradient(to bottom, #f7897a, #f56473);
-  border-radius: 50%;
-  right: 0;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  ion-icon {
-    font-size: 4vw;
-  }
-}
-
 #sim-card-order-img {
   width: 70%;
 }
@@ -230,4 +213,30 @@ ion-title {
 
 ion-footer {
   background-color: white;
+}
+
+span {
+  overflow-wrap: normal;
+}
+
+#first-menu-row {
+  margin-top: 30px;
+}
+
+.fab-list-item {
+  --background: transparent;
+  --box-shadow: none;
+}
+
+#language-tab {
+  position: absolute;
+  left: 0;
+}
+
+.language-image {
+  width: 25px;
+}
+
+#langugae-fab {
+  --background: #6ba0fe;
 }

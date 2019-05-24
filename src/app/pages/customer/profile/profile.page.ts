@@ -37,7 +37,8 @@ export class ProfilePage implements OnInit, OnDestroy {
     last_name: '',
     email: '',
     language: '',
-    phone: ''
+    phone: '',
+    document_id: ''
   }
 
   constructor(
@@ -87,7 +88,8 @@ export class ProfilePage implements OnInit, OnDestroy {
       last_name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z-]*$")]],
       email: [{ value: "", disabled: true }],
       language: ["", Validators.required],
-      phone: [{ value: "", disabled: true }]
+      phone: [{ value: "", disabled: true }],
+      document_id: ["", Validators.pattern('^\\d+$')]
     });
   }
 
@@ -111,6 +113,8 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.image.imgInfo.travel.deleted = this.image.imgInfo.travel.src ? false : true;
     this.image.imgInfo.passport.src = this.profile.passport_image;
     this.image.imgInfo.passport.deleted = this.image.imgInfo.passport.src ? false : true;
+    this.image.imgInfo.medical.src = this.profile.medical_image;
+    this.image.imgInfo.passport.deleted = this.image.imgInfo.medical.src ? false : true;
   }
 
   private setFormValues() {
@@ -120,6 +124,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.form.get("language").setValue(this.profile.language_full.toLowerCase());
     // this.form.get("phone").setValue(this.profile.phone ? this.profile.phone.replace('972', '') : '');
     this.form.get("phone").setValue(this.profile.phone);
+    this.form.get("document_id").setValue(this.profile.document_id);
     this.action.language = this.profile.language;
   }
 
@@ -147,7 +152,8 @@ export class ProfilePage implements OnInit, OnDestroy {
         first_name: this.form.get("first_name").value,
         last_name: this.form.get("last_name").value,
         language: this.action.language,
-        phone: this.form.get("phone").value
+        phone: this.form.get("phone").value,
+        document_id: this.form.get("document_id").value
       }
       this.api.editProfile(this.profile.user_id, profile).subscribe(
         res => resolve(res),

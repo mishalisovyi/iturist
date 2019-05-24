@@ -1,10 +1,48 @@
 <app-header showBackBtn="true" defaultHref="online-doctor-choose" backBtnText="{{text ? text.back : ''}}"></app-header>
 
 <ion-content>
-  <div id="text-block" class="violet-text bold-text font-size-16">{{ text?.my_prescriptions }}</div>
-  <ion-card class="violet-text" *ngFor="let item of prescriptions">
+  <ion-row id="text-block" class="violet-text" justify-content-between>
+    <ion-col align-self-center>&nbsp;{{ text?.my_prescriptions }}</ion-col>
+    <ion-col>
+      <ion-button id="#request-prescription-btn" class="btn w-100" (click)="presentRequestAlert()">
+        {{ text?.request_prescription }}</ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-card class="violet-text" *ngFor="let item of prescriptions; let i = index">
+    <ion-card-header>
+      <ion-card-title class="violet-text">{{ text?.prescription }}&nbsp;{{ i + 1 }}</ion-card-title>
+    </ion-card-header>
+
     <ion-card-content>
-      Prescription {{ item + 1 }}
+      <ion-row justify-content-between>
+        <ion-col no-padding class="bold-text">{{ text?.status }}:</ion-col>
+        <ion-col no-padding>{{ item.status }}</ion-col>
+      </ion-row>
+      <ion-row justify-content-between>
+        <ion-col no-padding class="bold-text">{{ text?.created }}:</ion-col>
+        <ion-col no-padding>{{ item.created | date:'HH:mm' }} | {{ item.created | date:'d.M.yyyy' }}</ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="item.user_comment" id="user-comment-row">
+        <ion-col no-padding>
+          <ion-row>
+            <ion-col no-padding class="bold-text">{{ text?.your_comment }}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col no-padding>{{ item.user_comment }}</ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+      <ng-container *ngIf="item.doctor_comment">
+        <ion-row>
+          <ion-col no-padding class="bold-text">{{ text?.doctor_comment }}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col no-padding>{{ item.doctor_comment }}</ion-col>
+        </ion-row>
+      </ng-container>
     </ion-card-content>
   </ion-card>
 </ion-content>

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 
 import { LanguageService } from '../../../services/language.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-online-doctor-choose',
@@ -14,7 +15,7 @@ export class OnlineDoctorChoosePage {
 
   public text: any;
 
-  constructor(private router: Router, private language: LanguageService, private callNumber: CallNumber) { }
+  constructor(private router: Router, private language: LanguageService, private callNumber: CallNumber, private storage: StorageService) { }
 
   ionViewWillEnter() {
     this.getPageText();
@@ -25,7 +26,9 @@ export class OnlineDoctorChoosePage {
   }
 
   public callToDoctor() {
-    this.callNumber.callNumber("+97233724296", true);
+    this.storage.get('token').subscribe(res => {
+      if (res) this.callNumber.callNumber("+97233724296", true);
+    })
   }
 
   public callToAmbulance() {

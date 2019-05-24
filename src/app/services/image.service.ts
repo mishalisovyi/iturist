@@ -43,6 +43,12 @@ export class ImageService {
       file: null,
       deleted: true,
       changed: false
+    },
+    medical: {
+      src: null,
+      file: null,
+      deleted: true,
+      changed: false
     }
   }
 

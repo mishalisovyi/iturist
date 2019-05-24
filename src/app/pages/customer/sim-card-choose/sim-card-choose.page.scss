@@ -9,7 +9,7 @@
   border-style: solid;
   border-width: 2px;
   position: relative;
-  margin-top: 20px;
+  margin-top: 50px;
 
   ion-img {
     position: absolute;
@@ -20,14 +20,4 @@
     right: 0;
     margin: auto;
   }
-}
-
-span {
-  overflow-wrap: normal;
-}
-
-ion-grid {
-  padding-left: 45px;
-  padding-right: 45px;
-  margin-top: 50px;
 }

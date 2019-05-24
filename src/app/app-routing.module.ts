@@ -16,12 +16,12 @@ const routes: Routes = [
   {
     path: 'choose-company',
     loadChildren: './pages/customer/choose-company/choose-company.module#ChooseCompanyPageModule',
-    canActivate: [AuthGuard, NetworkGuard]
+    canActivate: [NetworkGuard]
   },
   {
     path: 'choose-plan/:companyId',
     loadChildren: './pages/customer/choose-plan/choose-plan.module#ChoosePlanPageModule',
-    canActivate: [AuthGuard, NetworkGuard]
+    canActivate: [NetworkGuard]
   },
   {
     path: 'confirm-plan/:companyId/:planId',
@@ -61,7 +61,7 @@ const routes: Routes = [
   {
     path: 'sim-card-start',
     loadChildren: './pages/customer/sim-card-start/sim-card-start.module#SimCardStartPageModule',
-    canActivate: [AuthGuard, NetworkGuard]
+    canActivate: [NetworkGuard]
   },
   {
     path: 'enter-mobile-number/:companyId/:planId',
@@ -71,12 +71,12 @@ const routes: Routes = [
   {
     path: 'online-doctor-start',
     loadChildren: './pages/customer/online-doctor-start/online-doctor-start.module#OnlineDoctorStartPageModule',
-    canActivate: [AuthGuard, NetworkGuard]
+    canActivate: [NetworkGuard]
   },
   {
     path: 'online-doctor-choose',
     loadChildren: './pages/customer/online-doctor-choose/online-doctor-choose.module#OnlineDoctorChoosePageModule',
-    canActivate: [AuthGuard, NetworkGuard, MedicalHistoryGuard]
+    canActivate: [NetworkGuard, MedicalHistoryGuard]
   },
   {
     path: 'online-doctor-prescriptions',
@@ -122,6 +122,11 @@ const routes: Routes = [
     path: 'set-start-info/:userId',
     loadChildren: './pages/customer/set-start-info/set-start-info.module#SetStartInfoPageModule',
     canActivate: [AuthGuard, NetworkGuard]
+  },
+  {
+    path: 'sim-card-choose',
+    loadChildren: './pages/customer/sim-card-choose/sim-card-choose.module#SimCardChoosePageModule',
+    canActivate: [NetworkGuard]
   },
   {
     path: 'order-sim-start',

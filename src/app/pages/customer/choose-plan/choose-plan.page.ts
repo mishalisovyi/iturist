@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
+import { iif, EMPTY, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
 import { ApiService } from '../../../services/api.service';
 import { LanguageService } from '../../../services/language.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-choose-plan',
@@ -24,7 +28,8 @@ export class ChoosePlanPage implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private api: ApiService,
-    private language: LanguageService
+    private language: LanguageService,
+    private storage: StorageService
   ) { }
 
   ngOnInit() {
@@ -41,12 +46,24 @@ export class ChoosePlanPage implements OnInit {
   private defineHidingBages(url: string = this.router.url) {
     this.hideBage = true;
 
-    this.api.getMyPlan().subscribe(res => {
-      if (res) {
-        this.hideBage = false;
-        this.defaultHref = 'my-plan'
-      }
-    });
+    this.storage.get('token')
+      .pipe(switchMap(res => iif(
+        () => !!res,
+        this.api.getMyPlan(),
+        of(EMPTY)
+      )))
+      .subscribe(res => {
+        if (res) {
+          this.hideBage = false;
+          this.defaultHref = 'my-plan'
+        }
+      })
+    // this.api.getMyPlan().subscribe(res => {
+    //   if (res) {
+    //     this.hideBage = false;
+    //     this.defaultHref = 'my-plan'
+    //   }
+    // });
   }
 
   private getPageText() {

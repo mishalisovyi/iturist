@@ -32,7 +32,27 @@
     <ion-fab-button id="easy-link-btn" size="small">
       <ion-img src="assets/screens/easy.png"></ion-img>
     </ion-fab-button>
+    <span class="font-size-12 violet-text">{{ text?.find_everything }}</span>
   </ion-fab>
+
+  <ion-fab id="language-tab" vertical="top" horizontal="start">
+    <ion-fab-button id="langugae-fab" size="small">{{ languageLabel }}</ion-fab-button>
+    <ion-fab-list side="bottom">
+      <ion-fab-button (click)="setLanguage('En')" class="fab-list-item">
+        <ion-img class="language-image" src="assets/screens/english_flag.jpg"></ion-img>
+      </ion-fab-button>
+      <ion-fab-button (click)="setLanguage('Fr')" class="fab-list-item">
+        <ion-img class="language-image" src="assets/screens/french_flag.jpg"></ion-img>
+      </ion-fab-button>
+      <ion-fab-button (click)="setLanguage('Sp')" class="fab-list-item">
+        <ion-img class="language-image" src="assets/screens/spanish_flag.jpg"></ion-img>
+      </ion-fab-button>
+      <ion-fab-button (click)="setLanguage('Ru')" class="fab-list-item">
+        <ion-img class="language-image" src="assets/screens/russian_flag.jpg"></ion-img>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
   <ion-grid id="main-block">
     <ion-row justify-content-center margin-bottom>
       <ion-col size="8" size-md="6">
@@ -40,14 +60,24 @@
           {{ isAuthorized ? text?.go_to_my_request : text?.to_login }}</ion-button>
       </ion-col>
     </ion-row>
-    <ion-row justify-content-around>
+    <ion-row justify-content-around id="first-menu-row">
       <ion-col size="3" text-center class="violet-text" (click)="navigateTo('/alerts-and-notifications-start')">
         <div class="grid-item">
           <ion-img src="assets/screens/alerts-and-notifications.svg"></ion-img>
         </div>
-        <span>{{ text?.alerts_and_notifications }}</span>
+        <span class="font-size-14">{{ text?.alerts_and_notifications }}</span>
       </ion-col>
-      <ion-col size="3" text-center class="violet-text"
+      <ion-col size="3" text-center class="violet-text">
+        <div class="grid-item disabled-item">
+          <ion-img src="assets/screens/currency-rates-disable.svg">
+          </ion-img>
+          <div class="lock-badge">
+            <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
+          </div>
+        </div>
+        <span class="font-size-14">{{ text?.currency_rates }}</span>
+      </ion-col>
+      <!-- <ion-col size="3" text-center class="violet-text"
         (click)="isAuthorized ? navigateTo('/online-doctor-start') : null">
         <div class="grid-item" [style.borderColor]="isAuthorized ? '#6ba0fe' : '#D4DCEF'">
           <ion-img
@@ -58,10 +88,26 @@
           </div>
         </div>
         <span>{{ text?.online_doctor }}</span>
+      </ion-col> -->
+      <ion-col size="3" text-center class="violet-text" (click)="navigateTo('/sim-card-choose')">
+        <div class="grid-item">
+          <ion-img src="assets/screens/sim-card.svg"></ion-img>
+        </div>
+        <span class="font-size-14">{{ text?.sim_card }}</span>
       </ion-col>
     </ion-row>
-    <ion-row justify-content-center>
-      <ion-col size="3" text-center class="violet-text" (click)="isAuthorized ? navigateTo('/profile-start') : null">
+    <ion-row justify-content-around>
+      <ion-col size="3" text-center class="violet-text">
+        <div class="grid-item disabled-item">
+          <ion-img src="assets/screens/travel-insurance-disabled.svg">
+          </ion-img>
+          <div class="lock-badge">
+            <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
+          </div>
+        </div>
+        <span class="font-size-14">{{ text?.insurance }}</span>
+      </ion-col>
+      <!-- <ion-col size="3" text-center class="violet-text" (click)="isAuthorized ? navigateTo('/profile-start') : null">
         <div class="grid-item" [style.borderColor]="isAuthorized ? '#6ba0fe' : '#D4DCEF'">
           <ion-img
             [attr.src]="isAuthorized ? 'assets/screens/my-profile-main-menu.svg' : 'assets/screens/my-profile-main-menu-disable.svg'">
@@ -70,7 +116,26 @@
             <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
           </div>
         </div>
-        <span>{{ text?.my_profile }}</span>
+        <span class="font-size-14">{{ text?.my_profile }}</span>
+      </ion-col> -->
+
+      <ion-col size="3" text-center class="violet-text" (click)="navigateTo('/profile-start')">
+        <div class="grid-item">
+          <ion-img src="assets/screens/my-profile-main-menu.svg"></ion-img>
+        </div>
+        <span class="font-size-14">{{ text?.my_profile }}</span>
+      </ion-col>
+
+
+      <ion-col size="3" text-center class="violet-text">
+        <div class="grid-item disabled-item">
+          <ion-img src="assets/screens/concular-service-disabled.svg">
+          </ion-img>
+          <div class="lock-badge">
+            <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
+          </div>
+        </div>
+        <span class="font-size-14">{{ text?.consular_service }}</span>
       </ion-col>
       <!-- <ion-col size="4" text-center class="violet-text" (click)="isAuthorized ? navigateTo('/check-up-services-start') : null">
         <div class="grid-item" [style.borderColor]="isAuthorized ? '#6ba0fe' : '#D4DCEF'">
@@ -85,7 +150,31 @@
       </ion-col> -->
     </ion-row>
     <ion-row justify-content-around>
-      <ion-col size="3" text-center class="violet-text" (click)="navigateTo('/order-sim-start')">
+      <ion-col size="3" text-center class="violet-text" (click)="navigateTo('/online-doctor-start')">
+        <div class="grid-item">
+          <ion-img src="assets/screens/online-doctor.svg"></ion-img>
+        </div>
+        <span class="font-size-14">{{ text?.online_doctor }}</span>
+      </ion-col>
+      <ion-col size="3" text-center class="violet-text">
+        <div class="grid-item disabled-item">
+          <ion-img src="assets/screens/translation-services-disabled.svg"></ion-img>
+          <div class="lock-badge">
+            <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
+          </div>
+        </div>
+        <span class="font-size-14">{{ text?.translation_services }}</span>
+      </ion-col>
+      <ion-col size="3" text-center class="violet-text">
+        <div class="grid-item disabled-item">
+          <ion-img src="assets/screens/tickets-disabled.svg"></ion-img>
+          <div class="lock-badge">
+            <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
+          </div>
+        </div>
+        <span class="font-size-14">{{ text?.tickets }}</span>
+      </ion-col>
+      <!-- <ion-col size="3" text-center class="violet-text" (click)="navigateTo('/order-sim-start')">
         <div class="grid-item">
           <ion-img id="sim-card-order-img" src="assets/screens/sim-card-blue.png"></ion-img>
         </div>
@@ -101,7 +190,7 @@
           </div>
         </div>
         <span>{{ text?.sim_card_activating }}</span>
-      </ion-col>
+      </ion-col> -->
     </ion-row>
   </ion-grid>
 </ion-content>

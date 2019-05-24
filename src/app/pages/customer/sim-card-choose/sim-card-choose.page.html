@@ -1,0 +1,23 @@
+<app-header showBackBtn="true" defaultHref="main" [backBtnText]="text?.back"></app-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row justify-content-center>
+      <ion-col size="4" text-center class="violet-text">
+        <div class="grid-item" (click)="navigate('order-sim-start')">
+          <ion-img src="assets/screens/sim-card-blue.png"></ion-img>
+        </div>
+        <span>{{ text?.sim_card_ordering }}</span>
+      </ion-col>
+    </ion-row>
+    <ion-row justify-content-center>
+      <ion-col size="4" text-center class="violet-text">
+        <div class="grid-item" (click)="navigate('sim-card-start')">
+          <ion-img src="assets/screens/phone-with-sim.png">
+          </ion-img>
+        </div>
+        <span>{{ text?.sim_card_activating }}</span>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -136,6 +136,10 @@ ion-backdrop {
   font-weight: 600 !important;
 }
 
+.font-size-12 {
+  font-size: 12px !important;
+}
+
 .font-size-14 {
   font-size: 14px !important;
 }
@@ -292,4 +296,25 @@ ion-app.cameraView .nav-decor {
   background-position: center;
   background-size: contain;
   transform: scale(0.75);
+}
+
+.lock-badge {
+  position: absolute;
+  height: 35%;
+  width: 35%;
+  background: linear-gradient(to bottom, #f7897a, #f56473);
+  border-radius: 50%;
+  right: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  ion-icon {
+    font-size: 4vw;
+  }
+}
+
+.disabled-item {
+  border-color: #d4dcef;
 }

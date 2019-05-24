@@ -139,12 +139,12 @@ export class LoginPage implements OnInit {
           catchError((err => throwError(err)))
         )
         .subscribe(
-          res => this.router.navigateByUrl(
-            (!res[3].content.phone || !res[3].content.language)
-            ? `/set-start-info/${res[3].content.user_id}`
-            : '/main'
-          ),
-          // () => this.router.navigateByUrl('/main'),
+          // res => this.router.navigateByUrl(
+          //   (!res[3].content.phone || !res[3].content.language)
+          //   ? `/set-start-info/${res[3].content.user_id}`
+          //   : '/main'
+          // ),
+          () => this.router.navigateByUrl('/main'),
           err => {
             if (err.error) {
               if (err.error.metadata.api_error_codes.includes(101)) alert(this.text.wrong_credentials);
@@ -179,11 +179,12 @@ export class LoginPage implements OnInit {
         )
         .subscribe(
           // res => this.router.navigateByUrl(res[3].content.phone ? '/main' : '/qr-code-reader'),
-          res => this.router.navigateByUrl(
-            (!res[3].content.phone || !res[3].content.language)
-            ? `/set-start-info/${res[3].content.user_id}`
-            : '/main'
-          ),
+          // res => this.router.navigateByUrl(
+          //   (!res[3].content.phone || !res[3].content.language)
+          //   ? `/set-start-info/${res[3].content.user_id}`
+          //   : '/main'
+          // ),
+          () => this.router.navigateByUrl('/main'),
           async () => await this.googlePlus.disconnect()
         );
     } catch (error) {
@@ -220,11 +221,12 @@ export class LoginPage implements OnInit {
         )
         .subscribe(
           // res => this.router.navigateByUrl(res[3].content.phone ? '/main' : '/qr-code-reader'),
-          res => this.router.navigateByUrl(
-            (!res[3].content.phone || !res[3].content.language)
-            ? `/set-start-info/${res[3].content.user_id}`
-            : '/main'
-          ),
+          // res => this.router.navigateByUrl(
+          //   (!res[3].content.phone || !res[3].content.language)
+          //   ? `/set-start-info/${res[3].content.user_id}`
+          //   : '/main'
+          // ),
+          () => this.router.navigateByUrl('/main'),
           async err => {
             if (err.error.metadata.api_error_codes.includes(106)) {
               alert(this.text.can_not_sign_in);

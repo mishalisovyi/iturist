@@ -134,7 +134,8 @@ export class RegisterPage implements OnInit {
               finalize(() => this.loading.dismissLoading()),
               switchMap(() => from(this.postImages()))
             )
-            .subscribe(() => this.router.navigateByUrl( `/set-start-info/${res.content.profile.user_id}`))
+            // .subscribe(() => this.router.navigateByUrl( `/set-start-info/${res.content.profile.user_id}`))
+            .subscribe(() => this.router.navigateByUrl('/main'))
         },
         err => {
           this.loading.dismissLoading();

@@ -57,6 +57,51 @@ export class ActionSheetService {
     return this._doctor;
   }
 
+  // public async createLanguageActionSheet() {
+  //   this.text = this.languageService.getTextByCategories();
+  //   const actionSheet = await this.action.create({
+  //     header: this.text.select_language,
+  //     buttons: [
+  //       {
+  //         text: 'English',
+  //         role: 'English',
+  //         handler: () => { this.language = "En" }
+  //       },
+  //       {
+  //         text: 'Deutsche',
+  //         role: 'Deutsche',
+  //         handler: () => { this.language = "Ge" }
+  //       },
+  //       {
+  //         text: 'Français',
+  //         role: 'Français',
+  //         handler: () => { this.language = "Fr" }
+  //       },
+  //       {
+  //         text: 'Italiano',
+  //         role: 'Italiano',
+  //         handler: () => { this.language = "It" }
+  //       },
+  //       {
+  //         text: 'Español',
+  //         role: 'Español',
+  //         handler: () => { this.language = "Sp" }
+  //       },
+  //       {
+  //         text: this.text.cancel,
+  //         icon: 'close',
+  //         role: 'cancel',
+  //       }
+  //     ],
+  //   });
+  //   await actionSheet.present();
+  //   actionSheet.onDidDismiss().then((res) => {
+  //     if (res.role !== "cancel" && res.role !== "backdrop") {
+  //       this.actionSheetDismissLanguageSubject.next({ label: res.role, value: this.language });
+  //     }
+  //   });
+  // }
+
   public async createLanguageActionSheet() {
     this.text = this.languageService.getTextByCategories();
     const actionSheet = await this.action.create({
@@ -67,21 +112,26 @@ export class ActionSheetService {
           role: 'English',
           handler: () => { this.language = "En" }
         },
-        {
-          text: 'Deutsche',
-          role: 'Deutsche',
-          handler: () => { this.language = "Ge" }
-        },
+        // {
+        //   text: 'Deutsche',
+        //   role: 'Deutsche',
+        //   handler: () => { this.language = "Ge" }
+        // },
         {
           text: 'Français',
           role: 'Français',
           handler: () => { this.language = "Fr" }
         },
         {
-          text: 'Italiano',
-          role: 'Italiano',
-          handler: () => { this.language = "It" }
+          text: 'Русский',
+          role: 'Русский',
+          handler: () => { this.language = "Ru" }
         },
+        // {
+        //   text: 'Italiano',
+        //   role: 'Italiano',
+        //   handler: () => { this.language = "It" }
+        // },
         {
           text: 'Español',
           role: 'Español',

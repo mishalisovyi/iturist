@@ -43,6 +43,11 @@
               <span *ngIf="displayedInfo?.phone">&nbsp;{{ displayedInfo?.phone | phone }}</span>
               <span *ngIf="!displayedInfo?.phone">&nbsp;-</span>
             </ion-item>
+            <ion-item class="violet-text profile-item">
+              <span class="bold-text">{{ text?.document_id }}:</span>
+              <span *ngIf="displayedInfo?.document_id">&nbsp; {{ displayedInfo?.document_id }}</span>
+              <span *ngIf="!displayedInfo?.document_id">&nbsp;-</span>
+            </ion-item>
             <ion-fab-button (click)="switchToEditInfo()">
               <ion-icon src="assets/screens/icon-pen.svg"></ion-icon>
             </ion-fab-button>
@@ -69,6 +74,10 @@
               [class.error-field]="submitTry && form.get('phone').invalid">
               <ion-input type="text" formControlName="phone" placeholder="{{ text?.phone }}"></ion-input>
             </ion-item>
+            <ion-item class="violet-text register-form-field"
+              [class.error-field]="submitTry && form.get('document_id').invalid">
+              <ion-input type="text" formControlName="document_id" placeholder="{{ text?.document_id }}"></ion-input>
+            </ion-item>
             <!-- <ion-item class="violet-text register-form-field"
               [class.error-field]="submitTry && form.get('phone').invalid">
               <ion-input readonly #input (ionChange)="validatePhone()" type="text" formControlName="phone" prefix="+972 "
@@ -79,6 +88,9 @@
               *ngIf="submitTry && (form.get('first_name').hasError('pattern') || form.get('last_name').hasError('pattern'))"
               class="red-text">
               <span>{{ text?.only_letters }}</span>
+            </ion-item>
+            <ion-item *ngIf="submitTry && form.get('document_id').hasError('pattern')" class="red-text">
+              <span>{{ text?.only_numbers}}</span>
             </ion-item>
             <!-- <ion-item *ngIf="submitTry && form.get('phone').hasError('required')" class="red-text">
               <span>{{ text?.phone_required }}</span>
@@ -158,6 +170,26 @@
               <div class="btn-img-wrapper" [ngStyle]="{'background-image': 'url(' + image.imgInfo.passport.src + ')'}">
               </div>
               <span class="hidden">{{ text?.passport }}</span>
+            </ion-button>
+          </div>
+        </ion-col>
+        <ion-col class="attach-btn-col" size-5 no-margin padding-vertical>
+          <div *ngIf="image.imgInfo.medical.deleted" (click)="getPhoto('medical')">
+            <div>
+              <ion-img src="assets/screens/upload-img.svg"></ion-img>
+            </div>
+            <ion-button class="attach-btn">
+              {{ text?.medical_documents }}
+            </ion-button>
+          </div>
+          <div *ngIf="!image.imgInfo.medical.deleted" (click)="deletePhoto('medical')">
+            <div>
+              <ion-img src="assets/screens/delete-img.svg"></ion-img>
+            </div>
+            <ion-button class="attach-btn">
+              <div class="btn-img-wrapper" [ngStyle]="{'background-image': 'url(' + image.imgInfo.medical.src + ')'}">
+              </div>
+              <span class="hidden">{{ text?.medical_documents }}</span>
             </ion-button>
           </div>
         </ion-col>

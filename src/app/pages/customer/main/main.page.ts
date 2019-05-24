@@ -27,6 +27,7 @@ export class MainPage implements OnInit {
   public showPopup: boolean;
   public isAuthorized: boolean;
   public alert: Alert;
+  public languageLabel: string = 'En';
 
   constructor(
     private router: Router,
@@ -71,12 +72,21 @@ export class MainPage implements OnInit {
     this.backBtnSubscription = this.platform.backButton.subscribe(() => navigator['app'].exitApp());
   }
 
+  private capitalizeFirstLetter(string) {
+    return `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
+  }
+
+  public setLanguage(language: string) {
+    this.languageLabel = language;
+    this.language.loadLanguage(language)
+  }
+
   public navigateTo(route: string) {
     this.router.navigateByUrl(route);
   }
 
   public openEasySite() {
-    this.iab.create('https://easy.co.il/en/list/Eurovision-2019', '_blank', { beforeload: "yes", hideurlbar: "yes", location: "yes" });
+    this.iab.create('https://easy.co.il/en/', '_blank', { beforeload: "yes", hideurlbar: "yes", location: "yes" });
   }
 
   public togglePopup(toggle: boolean) {

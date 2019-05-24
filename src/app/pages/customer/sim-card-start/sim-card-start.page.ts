@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AlertController } from '@ionic/angular';
-
-import { forkJoin, of } from "rxjs";
+import { forkJoin, of, iif } from "rxjs";
 import { switchMap, tap, map, catchError } from 'rxjs/operators';
 
-import { StorageService } from '../../../services/storage.service';
 import { ApiService } from '../../../services/api.service';
 import { LanguageService } from "../../../services/language.service";
+import { StorageService } from 'src/app/services/storage.service';
 
 import { BaseResponse, Plan } from '../../../models/models';
 
@@ -19,11 +17,11 @@ import { BaseResponse, Plan } from '../../../models/models';
 })
 export class SimCardStartPage {
 
+  private isAuthorized: boolean;
   public text: any;
 
   constructor(
     private router: Router,
-    private alert: AlertController,
     private storage: StorageService,
     private api: ApiService,
     private language: LanguageService
@@ -31,18 +29,26 @@ export class SimCardStartPage {
 
   ionViewWillEnter() {
     this.getPageText();
+    this.getIsAuthorized();
   }
 
   private getPageText() {
     this.text = this.language.getTextByCategories('sim_card_start');
   }
 
+  private getIsAuthorized() {
+    this.storage.get('token').subscribe(res => this.isAuthorized = res ? true : false);
+  }
 
   public navigateTo(path: string) {
     this.router.navigateByUrl(path);
   }
 
   public determineIsChoosedCompany() {
+    if (!this.isAuthorized) {
+      this.navigateTo('/choose-company');
+      return;
+    }
     this.api.getMyPlan()
       .pipe(
         map((res: BaseResponse) => res.content),
