@@ -74,6 +74,16 @@ const routes: Routes = [
     canActivate: [NetworkGuard]
   },
   {
+    path: 'weather-start',
+    loadChildren: './pages/customer/weather-start/weather-start.module#WeatherStartPageModule',
+    canActivate: [NetworkGuard]
+  },
+  {
+    path: 'weather',
+    loadChildren: './pages/customer/weather/weather.module#WeatherPageModule',
+    canActivate: [NetworkGuard]
+  },
+  {
     path: 'online-doctor-choose',
     loadChildren: './pages/customer/online-doctor-choose/online-doctor-choose.module#OnlineDoctorChoosePageModule',
     canActivate: [NetworkGuard, MedicalHistoryGuard]

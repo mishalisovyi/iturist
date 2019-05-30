@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { forkJoin, of, iif } from "rxjs";
+import { forkJoin, of } from "rxjs";
 import { switchMap, tap, map, catchError } from 'rxjs/operators';
 
 import { ApiService } from '../../../services/api.service';

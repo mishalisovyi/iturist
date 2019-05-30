@@ -19,6 +19,7 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { QRScanner } from '@ionic-native/qr-scanner/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -52,6 +53,7 @@ import { NetworkInterceptor } from './services/interceptors/network.interceptor'
     ImagePicker,
     AndroidPermissions,
     QRScanner,
+    Geolocation,
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy

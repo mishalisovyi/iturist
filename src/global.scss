@@ -10,7 +10,7 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-@import url("https://fonts.googleapis.com/css?family=Assistant:400,600");
+@import url("https://fonts.googleapis.com/css?family=Assistant:200,400,600");
 
 @import "utilities";
 
@@ -136,6 +136,10 @@ ion-backdrop {
   font-weight: 600 !important;
 }
 
+.light-text {
+  font-weight: 200 !important;
+}
+
 .font-size-12 {
   font-size: 12px !important;
 }
@@ -158,6 +162,14 @@ ion-backdrop {
 
 .font-size-32 {
   font-size: 32px !important;
+}
+
+.font-size-42 {
+  font-size: 42px !important;
+}
+
+.font-size-64 {
+  font-size: 64px !important;
 }
 
 .form-field {

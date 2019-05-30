@@ -1,0 +1,61 @@
+<app-header></app-header>
+
+<ion-content padding>
+  <div id="text-block" class="violet-text bold-text font-size-16">{{ text?.weather }}</div>
+  <ion-grid padding-horizontal>
+    <ion-row justify-content-end>
+      <ion-col size="2" id="today-weather-label">
+        <ion-img src="assets/screens/clouds-red.svg"></ion-img>
+      </ion-col>
+    </ion-row>
+    <ion-row justify-content-end>
+      <ion-col size="5">
+        <span class="violet-text"><span class="font-size-64 light-text">33&deg;</span><span
+            class="font-size-42 light-text">C</span></span>
+      </ion-col>
+    </ion-row>
+    <ion-row justify-content-end>
+      <ion-col size="7">
+        <ion-list>
+          <ion-item>
+            <ion-label>Gender</ion-label>
+            <ion-select placeholder="Select One">
+              <ion-select-option value="f">Female</ion-select-option>
+              <ion-select-option value="m">Male</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Hair Color</ion-label>
+            <ion-select value="brown" okText="Okay" cancelText="Dismiss">
+              <ion-select-option value="brown">Brown</ion-select-option>
+              <ion-select-option value="blonde">Blonde</ion-select-option>
+              <ion-select-option value="black">Black</ion-select-option>
+              <ion-select-option value="red">Red</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-list>
+    <ion-item>
+      <ion-label>Gender</ion-label>
+      <ion-select placeholder="Select One">
+        <ion-select-option value="f">Female</ion-select-option>
+        <ion-select-option value="m">Male</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-select value="brown" okText="Okay" cancelText="Dismiss">
+        <ion-select-option value="brown">Brown</ion-select-option>
+        <ion-select-option value="blonde">Blonde</ion-select-option>
+        <ion-select-option value="black">Black</ion-select-option>
+        <ion-select-option value="red">Red</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+  </ion-list>
+</ion-content>

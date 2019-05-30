@@ -161,4 +161,11 @@ export class ApiService {
   public checkMedicalHistory() {
     return this.http.get<BaseResponse>(`${environment.api}/medical-history/check`);
   }
+
+  public getWeather(lat: number, long: number) {
+    console.log('get weather');
+    return this.http.get(`https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${environment.openWeatherKey}`);
+
+    // return this.http.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${environment.darkSkyKey}/${lat},${long}`);
+  }
 }
