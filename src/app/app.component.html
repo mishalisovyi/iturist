@@ -14,9 +14,9 @@
         <ion-item class="menu-item" (click)="navigateTo('/alerts-and-notifications-start')">
           <span>{{ text?.alerts_and_notifications }}</span>
         </ion-item>
-        <!-- <ion-item class="menu-item" (click)="navigateTo('/weather-start')">
+        <ion-item class="menu-item" (click)="navigateTo('/weather-start')">
           <span>{{ text?.weather }}</span>
-        </ion-item> -->
+        </ion-item>
         <ion-item *ngIf="isAuthorized" class="menu-item" (click)="navigateTo('/online-doctor-start')">
           <span>{{ text?.online_doctor}}</span>
         </ion-item>

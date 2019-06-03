@@ -2,6 +2,25 @@
   padding: 5% 36px 0;
 }
 
+#daily-text-block {
+  padding: 10% 36px 7%;
+}
+
 #today-weather-label {
   margin-right: 30px;
+}
+
+#city-select {
+  margin-left: auto;
+  max-width: 100% !important;
+}
+
+#currentDateLabel {
+  margin-left: auto;
+  margin-top: -30px;
+}
+
+.weather-image-item {
+  width: 65%;
+  margin: auto;
 }

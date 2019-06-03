@@ -162,10 +162,17 @@ export class ApiService {
     return this.http.get<BaseResponse>(`${environment.api}/medical-history/check`);
   }
 
-  public getWeather(lat: number, long: number) {
-    console.log('get weather');
-    return this.http.get(`https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&appid=${environment.openWeatherKey}`);
+  public getCurrentWeather(lat: number, long: number) {
+    let params = new HttpParams().set("APPID", environment.openWeatherKey);
+    params = params.set('lat', lat.toString());
+    params = params.set('lon', long.toString());
+    return this.http.get(`https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather`, { params });
+  }
 
-    // return this.http.get(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${environment.darkSkyKey}/${lat},${long}`);
+  public getWeatherForecast(lat: number, long: number) {
+    let params = new HttpParams().set("APPID", environment.openWeatherKey);
+    params = params.set('lat', lat.toString());
+    params = params.set('lon', long.toString());
+    return this.http.get(`https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/forecast`, { params });
   }
 }
