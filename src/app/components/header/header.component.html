@@ -6,7 +6,8 @@
           <ion-icon src="assets/screens/violet-menu-icon.svg"></ion-icon>
         </ion-button>
       </ion-menu-toggle>
-      <ion-back-button class="violet-text" *ngIf="showBackBtn" [defaultHref]="defaultHref" [text]="backBtnText"></ion-back-button>
+      <ion-back-button class="violet-text" *ngIf="showBackBtn" (click)="navigateTo(defaultHref)"
+        [defaultHref]="defaultHref" [text]="backBtnText"></ion-back-button>
     </ion-buttons>
     <ion-img id="home-img" src="assets/screens/home-blue.svg" (click)="navigateTo('main')"></ion-img>
     <ion-buttons slot="end">

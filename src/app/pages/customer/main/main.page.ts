@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 
 import { Platform } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 import { forkJoin, Subscription } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap, finalize } from 'rxjs/operators';
 
 import { ApiService } from '../../../services/api.service';
 import { StorageService } from '../../../services/storage.service';
@@ -22,12 +23,21 @@ export class MainPage implements OnInit {
 
   private languageSubscription: Subscription;
   private backBtnSubscription: Subscription;
+  private latitude: number;
+  private longitude: number;
 
   public text: any;
-  public showPopup: boolean;
+  public showAlertPopup: boolean;
+  public showWeatherPopup: boolean;
   public isAuthorized: boolean;
+  public weatherIsLoaded: boolean = false;
   public alert: Alert;
   public languageLabel: string = 'En';
+  public humidity: number;
+  public wind: number;
+  public temperature: number;
+  public pathToWeatherIcon: string;
+  public hideEasyText: boolean = false;
 
   constructor(
     private router: Router,
@@ -35,12 +45,16 @@ export class MainPage implements OnInit {
     private api: ApiService,
     private storage: StorageService,
     private language: LanguageService,
-    private platform: Platform
+    private platform: Platform,
+    private geolocation: Geolocation
   ) { }
 
-  ngOnInit() {
-    this.api.getLatestAlert().subscribe(res => this.alert = res.content);
-    this.togglePopup(true);
+  async ngOnInit() {
+    await this.getGeolocation();
+    this.getCurrentWeather()
+    this.getLatestAlert();
+    this.toggleAlertPopup(true);
+    this.toggleWeatherPopup(true);
   }
 
   ionViewWillEnter() {
@@ -49,7 +63,10 @@ export class MainPage implements OnInit {
 
     this.getIsAuthorized();
 
-    if (this.storage.lastUrl === '/login') this.togglePopup(true);
+    if (this.storage.lastUrl === '/login') {
+      this.toggleAlertPopup(true);
+      this.toggleWeatherPopup(true);
+    }
   }
 
   ionViewWillLeave() {
@@ -57,8 +74,45 @@ export class MainPage implements OnInit {
     if (this.backBtnSubscription) this.backBtnSubscription.unsubscribe();
   }
 
+  private getLatestAlert() {
+    this.api.getLatestAlert().subscribe(res => this.alert = res.content);
+  }
+
+  private async getGeolocation() {
+    const { coords: { latitude, longitude } } = await this.geolocation.getCurrentPosition();
+    this.latitude = latitude;
+    this.longitude = longitude;
+  }
+
   private getPageText() {
     this.text = this.language.getTextByCategories("main");
+  }
+
+  private getCurrentWeather() {
+    this.api.getCurrentWeather(this.latitude, this.longitude)
+      .pipe(finalize(() => this.weatherIsLoaded = true))
+      .subscribe((res: any) => {
+        this.humidity = res.main.humidity;
+        this.wind = res.wind.speed  //m / s
+        this.temperature = this.kelvinToCelsius(res.main.temp);
+        const index = this.getIndexForWeatherIconsMap(res.weather[0].id);
+        this.pathToWeatherIcon = `assets/screens/${this.getWeatherIcon(index)}`;
+      });
+  }
+
+  private getWeatherIcon(code: string) {
+    return {
+      '2': `thunder-blue.svg`,
+      '3': `rain-blue.svg`,
+      '5': `rain-blue.svg`,
+      '6': `rain-blue.svg`,
+      '7': `clouds-blue.svg`,
+      '800': `sun-blue.svg`,
+      '801': `half-sun-blue.svg`,
+      '802': `half-sun-blue.svg`,
+      '803': `clouds-blue.svg`,
+      '804': `clouds-blue.svg`,
+    }[code];
   }
 
   private getIsAuthorized() {
@@ -72,8 +126,18 @@ export class MainPage implements OnInit {
     this.backBtnSubscription = this.platform.backButton.subscribe(() => navigator['app'].exitApp());
   }
 
-  private capitalizeFirstLetter(string) {
-    return `${string.charAt(0).toUpperCase()}${string.slice(1)}`;
+  private kelvinToCelsius(K: number) {
+    return Math.round(K - 273.15);
+  }
+
+  private getIndexForWeatherIconsMap(code: number) {
+    const stringCode = code.toString();
+    if (stringCode.startsWith('8')) return stringCode;
+    return stringCode.charAt(0);
+  }
+
+  public scrollListener(e) {
+    this.hideEasyText = e.detail.scrollTop > 20;
   }
 
   public setLanguage(language: string) {
@@ -89,8 +153,12 @@ export class MainPage implements OnInit {
     this.iab.create('https://easy.co.il/en/', '_blank', { beforeload: "yes", hideurlbar: "yes", location: "yes" });
   }
 
-  public togglePopup(toggle: boolean) {
-    this.showPopup = toggle;
+  public toggleAlertPopup(toggle: boolean) {
+    this.showAlertPopup = toggle;
+  }
+
+  public toggleWeatherPopup(toggle: boolean) {
+    this.showWeatherPopup = toggle;
   }
 
   public logout() {

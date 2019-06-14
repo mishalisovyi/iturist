@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
+import { finalize } from 'rxjs/operators';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 
@@ -21,7 +22,8 @@ export class WeatherPage implements OnInit, AfterViewInit {
   private firstLoad: boolean = false;
 
   public text: any;
-  public weatherIsLoaded: boolean = false;
+  public currentWeatherLoading: boolean = true;
+  public forecastWeatherLoading: boolean = true;
   public selectCityControl: FormControl;
   public currentDate: Date;
   public currentTemperatue: number;
@@ -29,6 +31,7 @@ export class WeatherPage implements OnInit, AfterViewInit {
   public selectedCityKey: string = 'default';
   public threeHourForecast: Array<any>;
   public dailyForecast: Array<any>;
+  public chartData: any;
   public cityCoordsMap = [
     {
       key: 'jerusalem',
@@ -67,6 +70,47 @@ export class WeatherPage implements OnInit, AfterViewInit {
     }
   ]
 
+  public chartOptions = {
+    legend: {
+      display: false
+    },
+    tooltips: {
+      enabled: false
+    },
+    layout: {
+      padding: {
+        left: 10,
+        right: 10,
+        top: 20,
+        bottom: 10
+      }
+    },
+    scales: {
+      xAxes: [{
+        display: false
+      }],
+      yAxes: [{
+        display: false
+      }]
+    },
+    animation: {
+      onComplete: function () {
+        const ctx = this.chart.ctx;
+        ctx.fillStyle = '#6DA0FF';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'bottom';
+        this.data.datasets.forEach(dataset => {
+          for (let i = 0; i < dataset.data.length; i++) {
+            for (const key in dataset._meta) {
+              const model = dataset._meta[key].data[i]._model;
+              ctx.fillText(`${dataset.data[i]}°`, model.x, model.y - 5);
+            }
+          }
+        });
+      }
+    }
+  }
+
   constructor(private language: LanguageService, private geolocation: Geolocation, private api: ApiService) { }
 
   ngOnInit() {
@@ -90,7 +134,7 @@ export class WeatherPage implements OnInit, AfterViewInit {
   }
 
   private getPageText() {
-    this.text = this.language.getTextByCategories('');
+    this.text = this.language.getTextByCategories('weather');
   }
 
   private getDate() {
@@ -128,31 +172,36 @@ export class WeatherPage implements OnInit, AfterViewInit {
       '804': `clouds-${color}.svg`,
     }[code];
   }
-
   private getCurrentWeather() {
-    this.api.getCurrentWeather(this.latitude, this.longitude).subscribe((res: any) => {
-      this.currentTemperatue = this.kelvinToCelsius(res.main.temp);
-      const index = this.getIndexForWeatherIconsMap(res.weather[0].id);
-      this.currentIconPath = `assets/screens/${this.getWeatherIcon(index, 'red')}`;
-      if (!this.firstLoad) {
-        this.cityCoordsMap.push({
-          key: 'default',
-          lat: res.coord.lat,
-          lon: res.coord.lon,
-          label: res.name,
-          code: res.sys.country
-        });
-        this.firstLoad = true;
-      }
-      this.weatherIsLoaded = true;
-    });
+    this.currentWeatherLoading = true;
+    this.api.getCurrentWeather(this.latitude, this.longitude)
+      .pipe(finalize(() => this.currentWeatherLoading = false))
+      .subscribe((res: any) => {
+        this.currentTemperatue = this.kelvinToCelsius(res.main.temp);
+        const index = this.getIndexForWeatherIconsMap(res.weather[0].id);
+        this.currentIconPath = `assets/screens/${this.getWeatherIcon(index, 'red')}`;
+        if (!this.firstLoad) {
+          this.cityCoordsMap.push({
+            key: 'default',
+            lat: res.coord.lat,
+            lon: res.coord.lon,
+            label: res.name,
+            code: res.sys.country
+          });
+          this.firstLoad = true;
+        }
+      });
   }
 
   private getWeatherForecast() {
-    this.api.getWeatherForecast(this.latitude, this.longitude).subscribe(({ list }: any) => {
-      this.threeHourForecast = this.getThreeHourForecast(list);
-      this.dailyForecast = this.getDailyForecast(list);
-    });
+    this.forecastWeatherLoading = true;
+    this.api.getWeatherForecast(this.latitude, this.longitude)
+      .pipe(finalize(() => this.forecastWeatherLoading = false))
+      .subscribe(({ list }: any) => {
+        this.threeHourForecast = this.getThreeHourForecast(list);
+        this.dailyForecast = this.getDailyForecast(list);
+        this.setChartData(list);
+      });
   }
 
   private kelvinToCelsius(K: number) {
@@ -165,13 +214,31 @@ export class WeatherPage implements OnInit, AfterViewInit {
     return stringCode.charAt(0);
   }
 
+  private setChartData(list) {
+    list = list.slice(0, 6);
+    list = list.map(({ main: { temp } }) => this.kelvinToCelsius(temp));
+    this.chartData = {
+      labels: ['', '', '', '', '', ''],
+      datasets: [
+        {
+          data: list,
+          fill: false,
+          lineTension: 0,
+          backgroundColor: '#6DA0FF',
+          borderColor: '#6DA0FF',
+          borderWidth: 1,
+        },
+      ],
+    };
+  }
+
   private getThreeHourForecast(forecastList) {
     const threeHourElements = forecastList.slice(0, 6);
     return threeHourElements.map(({ weather: { 0: { id } }, dt_txt }) => {
       const index = this.getIndexForWeatherIconsMap(id);
       return {
         icon: `assets/screens/${this.getWeatherIcon(index, 'blue')}`,
-        time: moment(dt_txt).format('ha')
+        time: moment(dt_txt).format('ha'),
       }
     })
   }

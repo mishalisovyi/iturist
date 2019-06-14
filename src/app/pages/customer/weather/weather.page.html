@@ -1,51 +1,75 @@
 <app-header></app-header>
 
 <ion-content padding>
-  <div id="text-block" class="violet-text bold-text font-size-16">{{ text?.weather }}</div>
-  <ion-grid padding-horizontal>
-    <ion-row justify-content-end>
-      <ion-col size="2" id="today-weather-label">
-        <ion-img [src]="currentIconPath"></ion-img>
-      </ion-col>
-    </ion-row>
-    <ion-row justify-content-end>
-      <ion-col size="5">
+  <ion-spinner *ngIf="currentWeatherLoading || forecastWeatherLoading"></ion-spinner>
+  <ng-container *ngIf="!currentWeatherLoading && !forecastWeatherLoading">
+    <div id="text-block" class="violet-text bold-text font-size-16">{{ text?.weather }}</div>
+    <ion-grid padding-horizontal>
+      <ion-row justify-content-end>
+        <ion-col size="2" id="today-weather-label">
+          <ion-img [src]="currentIconPath"></ion-img>
+        </ion-col>
+      </ion-row>
+      <!-- <ion-item slot="end">
         <span class="violet-text"><span class="font-size-64 light-text">{{ currentTemperatue }}&deg;</span><span
             class="font-size-42 light-text">C</span></span>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <ion-list *ngIf="weatherIsLoaded">
-    <ion-item>
-      <ion-select id="city-select" class="violet-text" placeholder="Select City" [formControl]="selectCityControl">
-        <ion-select-option *ngFor="let item of cityCoordsMap" [value]="item.key">{{ item.label }} - {{ item.code }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <span id="currentDateLabel"
-        class="violet-text light-text">{{ currentDate | date:'M.d.yyyy' }}&nbsp;&#8231;&nbsp;{{ currentDate | date:'ha' }}</span>
-    </ion-item>
-  </ion-list>
-  <ion-grid>
-    <ion-row>
-      <ion-col *ngFor="let item of threeHourForecast">
-        <ion-img class="weather-image-item" [src]="item.icon"></ion-img>
-        <div text-center class="violet-text">{{ item.time }}</div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <div id="daily-text-block" class="violet-text bold-text font-size-14">Daily</div>
-  <ion-grid>
-    <ion-row>
-      <ion-col *ngFor="let item of dailyForecast">
-        <ion-img class="weather-image-item" [src]="item.icon"></ion-img>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col *ngFor="let item of dailyForecast">
-        <div text-center class="violet-text">{{ item.day }}</div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+      </ion-item> -->
+      <ion-row justify-content-end>
+        <ion-col>
+          <div class="violet-text ion-text-right">
+            <span class="font-size-64 light-text">{{ currentTemperatue }}&deg;</span>
+            <span class="font-size-42 light-text">C</span>
+          </div>
+        </ion-col>
+        <!-- <ion-col size="5">
+          <span class="violet-text"><span class="font-size-64 light-text">{{ currentTemperatue }}&deg;</span><span
+              class="font-size-42 light-text">C</span></span>
+        </ion-col> -->
+      </ion-row>
+    </ion-grid>
+    <ion-list>
+      <ion-item>
+        <ion-select id="city-select" class="violet-text" placeholder="{{ text?.select_city }}"
+          [formControl]="selectCityControl">
+          <ion-select-option *ngFor="let item of cityCoordsMap" [value]="item.key">{{ item.label }} - {{ item.code }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <span id="currentDateLabel"
+          class="violet-text light-text">{{ currentDate | date:'M.d.yyyy' }}&nbsp;&#8231;&nbsp;{{ currentDate | date:'ha' }}</span>
+      </ion-item>
+    </ion-list>
+    <ion-grid>
+      <ion-row justify-content-center>
+        <ion-col size="11">
+          <ngx-chartjs width="150" height="50" [data]="chartData" [options]="chartOptions" type="line" redraw="true">
+          </ngx-chartjs>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col *ngFor="let item of threeHourForecast">
+          <ion-img class="weather-image-item" [src]="item.icon"></ion-img>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col *ngFor="let item of threeHourForecast">
+          <div text-center class="violet-text">{{ item.time }}</div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <div id="daily-text-block" class="violet-text bold-text font-size-14">{{ text?.daily }}</div>
+    <ion-grid>
+      <ion-row>
+        <ion-col *ngFor="let item of dailyForecast">
+          <ion-img class="weather-image-item" [src]="item.icon"></ion-img>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col *ngFor="let item of dailyForecast">
+          <div text-center class="violet-text">{{ item.day }}</div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-container>
 </ion-content>

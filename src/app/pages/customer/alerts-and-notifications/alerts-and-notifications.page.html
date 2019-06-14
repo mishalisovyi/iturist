@@ -26,33 +26,36 @@
       </ion-grid>
     </ion-buttons>
   </ion-toolbar>
-  <div id="text-block" class="violet-text bold-text font-size-16">{{ text?.alert_history }}</div>
+  <div *ngIf="!loading" id="text-block" class="violet-text bold-text font-size-16">{{ text?.alert_history }}</div>
 </ion-header>
 
 <ion-content>
-  <ion-card *ngFor="let item of alerts" class="violet-text" [class.alert-text]="item?.type !== 'YNET'">
-    <ion-card-header>
-      <ion-card-title class="violet-text" [class.alert-text]="item?.type !== 'YNET'">
-        <div id="title-block">
-          <ion-img *ngIf="item?.type === 'YNET'" src="assets/screens/alerts-and-notifications-violet.svg"></ion-img>
-          <ion-img *ngIf="item?.type !== 'YNET'" src="assets/screens/security-alerts-red.svg"></ion-img>
-          <span>{{ item.title }}</span>
-        </div>
-        <div id="date-block">{{ item.pubDate | date:'HH:mm' }} | {{ item.pubDate | date:'d.M.yyyy' }}</div>
-      </ion-card-title>
-    </ion-card-header>
-    <ion-card-content class="violet-text" [class.alert-text]="item?.type !== 'YNET'">
-      <ion-grid class="no-padding-margin-right">
-        <ion-row class="ion-justify-content-between no-padding-margin-right">
-          <ion-col>
-            {{ item.subTitle }}
-          </ion-col>
-          <ion-col class="col-auto no-padding-margin-right">
-            <ion-button class="link-btn" [class.alert-link-btn]="item?.type !== 'YNET'" href="{{item.link}}">
-              {{ text?.read_more }}</ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-card-content>
-  </ion-card>
+  <ion-spinner *ngIf="loading"></ion-spinner>
+  <ng-container *ngIf="!loading">
+    <ion-card *ngFor="let item of alerts" class="violet-text" [class.alert-text]="item?.type !== 'YNET'">
+      <ion-card-header>
+        <ion-card-title class="violet-text" [class.alert-text]="item?.type !== 'YNET'">
+          <div id="title-block">
+            <ion-img *ngIf="item?.type === 'YNET'" src="assets/screens/alerts-and-notifications-violet.svg"></ion-img>
+            <ion-img *ngIf="item?.type !== 'YNET'" src="assets/screens/security-alerts-red.svg"></ion-img>
+            <span>{{ item.title }}</span>
+          </div>
+          <div id="date-block">{{ item.pubDate | date:'HH:mm' }} | {{ item.pubDate | date:'d.M.yyyy' }}</div>
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content class="violet-text" [class.alert-text]="item?.type !== 'YNET'">
+        <ion-grid class="no-padding-margin-right">
+          <ion-row class="ion-justify-content-between no-padding-margin-right">
+            <ion-col>
+              {{ item.subTitle }}
+            </ion-col>
+            <ion-col class="col-auto no-padding-margin-right">
+              <ion-button class="link-btn" [class.alert-link-btn]="item?.type !== 'YNET'" href="{{item.link}}">
+                {{ text?.read_more }}</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
 </ion-content>

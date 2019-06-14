@@ -132,7 +132,7 @@ ion-title {
   padding: 0;
 }
 
-#alert-block {
+.popup-block {
   width: 100%;
   min-height: 100px;
 
@@ -239,4 +239,23 @@ span {
 
 #langugae-fab {
   --background: #6ba0fe;
+}
+
+#temperature-label {
+  align-self: center;
+}
+
+#weather-img {
+  width: 15%;
+}
+
+#easy-text {
+  transition: all 500ms;
+  position: absolute;
+  right: 0;
+  white-space: nowrap;
+}
+
+.hide-easy-text {
+  opacity: 0;
 }

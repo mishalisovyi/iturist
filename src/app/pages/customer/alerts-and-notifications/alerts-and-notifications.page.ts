@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { forkJoin } from 'rxjs';
-import { switchMap, tap, map } from 'rxjs/operators';
+import { switchMap, tap, map, finalize } from 'rxjs/operators';
 import * as moment from 'moment';
 
 import { ApiService } from "../../../services/api.service";
@@ -21,6 +21,7 @@ export class AlertsAndNotificationsPage {
   public text: any;
   public alerts: Alert[];
   public isAuthorized: boolean = false;
+  public loading: boolean;
 
   constructor(
     private router: Router,
@@ -44,14 +45,20 @@ export class AlertsAndNotificationsPage {
   }
 
   private getAlerts() {
+    this.loading = true;
     this.api.getAlerts()
-      .pipe(map((res: BaseResponse) => {
-        res.content.forEach((item: Alert) => {
-          if (item.pubDate) item.pubDate = moment.utc(item.pubDate.replace("UTC:00", "")).toString();
-        });
-        res.content = res.content.reverse();
-        return res.content;
-      }))
+      .pipe(
+        map((res: BaseResponse) => {
+          res.content.forEach((item: Alert) => {
+            if (item.pubDate) item.pubDate = moment.utc(item.pubDate.replace("UTC:00", "")).toString();
+          });
+          // console.log(res.content);
+          // res.content = res.content.sort((item1, item2) => new Date(item1.pubDate) < new Date(item2.pubDate) ? 1 : -1).splice(0, 50);
+          // res.content.sort((item1, item2) => new Date(item1) < new Date(item2) ? -1 : 1);
+          return res.content.sort((item1, item2) => new Date(item1.pubDate) < new Date(item2.pubDate) ? 1 : -1).splice(0, 50);
+        }),
+        finalize(() => this.loading = false)
+      )
       .subscribe((res: Alert[]) => this.alerts = res);
   }
 

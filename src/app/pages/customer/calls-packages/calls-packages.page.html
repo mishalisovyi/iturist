@@ -1,0 +1,27 @@
+<app-header></app-header>
+
+<ion-content>
+  <div id="text-block" class="violet-text bold-text font-size-16">{{ text?.choose_package }}</div>
+  <ion-card *ngFor="let item of packages" class="violet-text">
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>#{{ item?.id }}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-row>
+              <ion-col no-padding>{{ text?.price }}: {{ item?.price }} $</ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col no-padding>{{ text?.count_of_calls }}: {{ item?.call_count }}</ion-col>
+            </ion-row>
+          </ion-col>
+          <ion-col class="col-auto">
+            <ion-button class="link-btn" (click)="purchasePackage(item.price, item.id)">{{ text?.purchase }}</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

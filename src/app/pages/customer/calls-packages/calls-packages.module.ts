@@ -1,20 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ChartjsModule } from '@ctrl/ngx-chartjs';
-
 import { SharedModule } from 'src/app/components/share.module';
 
-import { WeatherPage } from './weather.page';
+import { CallsPackagesPage } from './calls-packages.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: WeatherPage
+    component: CallsPackagesPage
   }
 ];
 
@@ -22,12 +20,10 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    ChartjsModule,
     SharedModule
   ],
-  declarations: [WeatherPage]
+  declarations: [CallsPackagesPage]
 })
-export class WeatherPageModule {}
+export class CallsPackagesPageModule {}

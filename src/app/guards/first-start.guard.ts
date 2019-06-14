@@ -18,7 +18,7 @@ export class FirstStartGuard implements CanActivate {
       .pipe(
         switchMap(res => {
           const allowed = res ? false : true;
-          if (!allowed) this.router.navigateByUrl('/login');
+          if (!allowed) this.router.navigateByUrl('/main');
           return this.storage.set('not_first_launch', 'true').pipe(switchMap(() => of(allowed)));
         })
       )

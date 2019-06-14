@@ -21,7 +21,7 @@ export class UnboardingTourPage {
   }
 
   public navigateToLogin() {
-    this.router.navigate(['/login']);
+    this.router.navigate(['/main']);
   }
 
   public slidesDidLoad(slides: IonSlides) {

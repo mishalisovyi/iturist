@@ -134,6 +134,11 @@ const routes: Routes = [
     canActivate: [AuthGuard, NetworkGuard]
   },
   {
+    path: 'calls-packages',
+    loadChildren: './pages/customer/calls-packages/calls-packages.module#CallsPackagesPageModule',
+    canActivate: [AuthGuard, NetworkGuard]
+  },
+  {
     path: 'sim-card-choose',
     loadChildren: './pages/customer/sim-card-choose/sim-card-choose.module#SimCardChoosePageModule',
     canActivate: [NetworkGuard]

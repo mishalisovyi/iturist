@@ -65,8 +65,10 @@
   </form>
 </ion-content>
 <ion-footer>
-  <ion-item (click)="navigateTo('main')">
-    <span text-center class="w-100 violet-text">{{ text?.skip_login }}</span>
+  <ion-item>
+    <div text-center class="w-100 violet-text">
+      <span (click)="navigateTo('main')">{{ text?.skip_login }}</span>
+    </div>
   </ion-item>
   <ion-toolbar>
     <ion-button (click)="login()">{{ text?.sign_in }}</ion-button>

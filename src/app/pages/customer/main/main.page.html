@@ -27,12 +27,13 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-fab horizontal="end" vertical="top" (click)="openEasySite()" slot="fixed">
-    <ion-fab-button id="easy-link-btn" size="small">
+<ion-content scrollEvents="true" (ionScroll)="scrollListener($event)">
+  <ion-fab horizontal="end" vertical="top" slot="fixed">
+    <ion-fab-button id="easy-link-btn" size="small" (click)="openEasySite()">
       <ion-img src="assets/screens/easy.png"></ion-img>
     </ion-fab-button>
-    <span class="font-size-12 violet-text">{{ text?.find_everything }}</span>
+    <span id="easy-text" class="font-size-12 violet-text"
+      [class.hide-easy-text]="hideEasyText">{{ text?.find_everything }}</span>
   </ion-fab>
 
   <ion-fab id="language-tab" vertical="top" horizontal="start">
@@ -65,7 +66,7 @@
         <div class="grid-item">
           <ion-img src="assets/screens/alerts-and-notifications.svg"></ion-img>
         </div>
-        <span class="font-size-14">{{ text?.alerts_and_notifications }}</span>
+        <span class="font-size-12">{{ text?.alerts_and_notifications }}</span>
       </ion-col>
       <ion-col size="3" text-center class="violet-text">
         <div class="grid-item disabled-item">
@@ -75,7 +76,7 @@
             <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
           </div>
         </div>
-        <span class="font-size-14">{{ text?.currency_rates }}</span>
+        <span class="font-size-12">{{ text?.currency_rates }}</span>
       </ion-col>
       <!-- <ion-col size="3" text-center class="violet-text"
         (click)="isAuthorized ? navigateTo('/online-doctor-start') : null">
@@ -93,7 +94,7 @@
         <div class="grid-item">
           <ion-img src="assets/screens/sim-card.svg"></ion-img>
         </div>
-        <span class="font-size-14">{{ text?.sim_card }}</span>
+        <span class="font-size-12">{{ text?.sim_card }}</span>
       </ion-col>
     </ion-row>
     <ion-row justify-content-around>
@@ -105,7 +106,7 @@
             <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
           </div>
         </div>
-        <span class="font-size-14">{{ text?.insurance }}</span>
+        <span class="font-size-12">{{ text?.insurance }}</span>
       </ion-col>
       <!-- <ion-col size="3" text-center class="violet-text" (click)="isAuthorized ? navigateTo('/profile-start') : null">
         <div class="grid-item" [style.borderColor]="isAuthorized ? '#6ba0fe' : '#D4DCEF'">
@@ -116,14 +117,14 @@
             <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
           </div>
         </div>
-        <span class="font-size-14">{{ text?.my_profile }}</span>
+        <span class="font-size-12">{{ text?.my_profile }}</span>
       </ion-col> -->
 
       <ion-col size="3" text-center class="violet-text" (click)="navigateTo('/profile-start')">
         <div class="grid-item">
           <ion-img src="assets/screens/my-profile-main-menu.svg"></ion-img>
         </div>
-        <span class="font-size-14">{{ text?.my_profile }}</span>
+        <span class="font-size-12">{{ text?.my_profile }}</span>
       </ion-col>
 
 
@@ -135,7 +136,7 @@
             <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
           </div>
         </div>
-        <span class="font-size-14">{{ text?.consular_service }}</span>
+        <span class="font-size-12">{{ text?.consular_service }}</span>
       </ion-col>
       <!-- <ion-col size="4" text-center class="violet-text" (click)="isAuthorized ? navigateTo('/check-up-services-start') : null">
         <div class="grid-item" [style.borderColor]="isAuthorized ? '#6ba0fe' : '#D4DCEF'">
@@ -154,7 +155,7 @@
         <div class="grid-item">
           <ion-img src="assets/screens/online-doctor.svg"></ion-img>
         </div>
-        <span class="font-size-14">{{ text?.online_doctor }}</span>
+        <span class="font-size-12">{{ text?.online_doctor }}</span>
       </ion-col>
       <ion-col size="3" text-center class="violet-text">
         <div class="grid-item disabled-item">
@@ -163,7 +164,7 @@
             <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
           </div>
         </div>
-        <span class="font-size-14">{{ text?.translation_services }}</span>
+        <span class="font-size-12">{{ text?.translation_services }}</span>
       </ion-col>
       <ion-col size="3" text-center class="violet-text">
         <div class="grid-item disabled-item">
@@ -172,7 +173,7 @@
             <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
           </div>
         </div>
-        <span class="font-size-14">{{ text?.tickets }}</span>
+        <span class="font-size-12">{{ text?.tickets }}</span>
       </ion-col>
       <!-- <ion-col size="3" text-center class="violet-text" (click)="navigateTo('/order-sim-start')">
         <div class="grid-item">
@@ -194,10 +195,28 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-<ion-footer *ngIf="showPopup">
-  <div id="alert-block" [class.alert-theme]="alert?.type !== 'YNET'">
+<ion-footer>
+  <div *ngIf="showWeatherPopup && weatherIsLoaded" class="popup-block alert-theme">
     <div id="gradient-line">
-      <ion-button size="small" id="close-btn" (click)="togglePopup(false)">
+      <ion-button size="small" id="close-btn" (click)="toggleWeatherPopup(false)">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </div>
+    <div id="alert-body" class="violet-text" (click)="navigateTo('/weather-start')">
+      <div>
+        <div>{{ text?.humidity }}: {{ humidity }}%</div>
+        <div>{{ text?.wind }}: {{ wind }} m/s</div>
+      </div>
+      <div id="temperature-label">
+        <span class="font-size-32">{{ temperature }}&deg;&nbsp;</span>
+        <span class="font-size-20">C</span>
+      </div>
+      <ion-img id="weather-img" [src]="pathToWeatherIcon"></ion-img>
+    </div>
+  </div>
+  <div *ngIf="showAlertPopup" class="popup-block" [class.alert-theme]="alert?.type !== 'YNET'">
+    <div id="gradient-line">
+      <ion-button size="small" id="close-btn" (click)="toggleAlertPopup(false)">
         <ion-icon slot="icon-only" name="close"></ion-icon>
       </ion-button>
     </div>
