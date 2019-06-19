@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from "@angular/common/http";
 
-import { Observable, Subject } from "rxjs";
+import { Observable, Subject, from } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 
 import { BaseResponse, Language } from "../models/models";
@@ -33,7 +33,7 @@ export class LanguageService {
     this.http.get<BaseResponse>(`${environment.api}/language`, { params })
       .pipe(
         map((res: BaseResponse) => res.content),
-        switchMap((res: Array<Language>) => this.http.get(res[0].file_url))
+        switchMap((res: Array<Language>) => from(fetch(`https://www.travelsim.tk/media/language/${res[0].title.toLowerCase()}.json`).then(res => res.json())))
       )
       .subscribe((res: any) => {
         this.language = res;
