@@ -3,7 +3,7 @@
     <name>iTourist</name>
     <description>iTourist App</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://192.168.2.103:8101" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -42,15 +42,9 @@
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
     </platform>
     <platform name="ios">
-        <edit-config file="*-Info.plist" mode="merge" target="NSPhotoLibraryUsageDescription">
+        <config-file file="*-Info.plist" mode="merge" target="NSPhotoLibraryUsageDescription">
             <string>You need access to photolibrary for having ability to upload your profile photos</string>
-        </edit-config>
-        <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
-            <string>We use your location for getting weather forecast feature</string>
-        </edit-config>
-        <edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysUsageDescription">
-            <string>We use your location for getting weather forecast feature</string>
-        </edit-config>
+        </config-file>
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />

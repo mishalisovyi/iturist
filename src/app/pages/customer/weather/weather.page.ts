@@ -2,7 +2,6 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 
 import { finalize } from 'rxjs/operators';
 import * as _ from 'lodash';
@@ -21,7 +20,6 @@ export class WeatherPage implements OnInit, AfterViewInit {
   private latitude: number;
   private longitude: number;
   private firstLoad: boolean = false;
-  private locationIsEnabled: boolean;
 
   public text: any;
   public currentWeatherLoading: boolean = true;
@@ -113,7 +111,7 @@ export class WeatherPage implements OnInit, AfterViewInit {
     }
   }
 
-  constructor(private language: LanguageService, private geolocation: Geolocation, private api: ApiService, private diagnostic: Diagnostic) { }
+  constructor(private language: LanguageService, private geolocation: Geolocation, private api: ApiService) { }
 
   ngOnInit() {
     this.createControl();
@@ -147,29 +145,29 @@ export class WeatherPage implements OnInit, AfterViewInit {
     this.selectCityControl = new FormControl('default');
   }
 
-  private async checkIsLocationEnabled() {
-    return this.diagnostic.isLocationEnabled()
-  }
-
   private async getLocationAndWeather() {
-    this.locationIsEnabled = await this.checkIsLocationEnabled();
-    await this.getGeolocation(this.locationIsEnabled);
+    await this.getGeolocation();
     this.getCurrentWeather();
     this.getWeatherForecast();
     this.getDate();
   }
 
-  private async getGeolocation(locationIsEnabled: boolean) {
-    console.log('location is enabled ', locationIsEnabled);
-    alert(locationIsEnabled);
-    if (locationIsEnabled) {
-      const { coords: { latitude, longitude } } = await this.geolocation.getCurrentPosition();
-      this.latitude = latitude;
-      this.longitude = longitude;
-      return;
-    }
-    this.latitude = this.cityCoordsMap[0].lat;
-    this.longitude = this.cityCoordsMap[0].lon;
+  private async getGeolocation() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        this.latitude = this.cityCoordsMap[0].lat;
+        this.longitude = this.cityCoordsMap[0].lon;
+        console.log('in timeout');
+        resolve();
+      }, 5000);
+
+      this.geolocation.getCurrentPosition().then(({ coords: { latitude, longitude } }) => {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        console.log('in promise');
+        resolve();
+      })
+    })
   }
 
   private getWeatherIcon(code: string, color: string) {
