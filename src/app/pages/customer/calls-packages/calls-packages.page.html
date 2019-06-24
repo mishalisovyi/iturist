@@ -1,4 +1,5 @@
-<app-header></app-header>
+<!-- <app-header></app-header> -->
+<app-header showBackBtn="true" defaultHref="online-doctor-choose" [backBtnText]="text?.back"></app-header>
 
 <ion-content>
   <div id="text-block" class="violet-text bold-text font-size-16">{{ text?.choose_package }}</div>
@@ -18,7 +19,8 @@
             </ion-row>
           </ion-col>
           <ion-col class="col-auto">
-            <ion-button class="link-btn" (click)="purchasePackage(item.price, item.id)">{{ text?.purchase }}</ion-button>
+            <ion-button class="link-btn" (click)="purchasePackage(item.price, item.id)">{{ text?.purchase }}
+            </ion-button>
           </ion-col>
         </ion-row>
       </ion-grid>

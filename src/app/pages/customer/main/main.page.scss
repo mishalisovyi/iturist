@@ -216,7 +216,8 @@ ion-footer {
 }
 
 span {
-  overflow-wrap: normal;
+  overflow-wrap: normal !important;
+  word-break: keep-all !important;
 }
 
 #first-menu-row {

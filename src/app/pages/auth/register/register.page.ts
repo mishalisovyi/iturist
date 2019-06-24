@@ -99,6 +99,7 @@ export class RegisterPage implements OnInit {
       if (this.image.imgInfo.airline.changed) formData.append("airline_image", this.image.imgInfo.airline.file, this.image.createImageName());
       if (this.image.imgInfo.travel.changed) formData.append("travel_image", this.image.imgInfo.travel.file, this.image.createImageName());
       if (this.image.imgInfo.passport.changed) formData.append("passport_image", this.image.imgInfo.passport.file, this.image.createImageName());
+      if (this.image.imgInfo.medical.changed) formData.append("medical_image", this.image.imgInfo.medical.file, this.image.createImageName());
 
       this.api.postImages(formData).subscribe(
         res => resolve(res),

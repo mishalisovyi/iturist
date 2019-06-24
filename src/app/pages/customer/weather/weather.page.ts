@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 
 import { finalize } from 'rxjs/operators';
 import * as _ from 'lodash';
@@ -20,6 +21,7 @@ export class WeatherPage implements OnInit, AfterViewInit {
   private latitude: number;
   private longitude: number;
   private firstLoad: boolean = false;
+  private locationIsEnabled: boolean;
 
   public text: any;
   public currentWeatherLoading: boolean = true;
@@ -111,7 +113,7 @@ export class WeatherPage implements OnInit, AfterViewInit {
     }
   }
 
-  constructor(private language: LanguageService, private geolocation: Geolocation, private api: ApiService) { }
+  constructor(private language: LanguageService, private geolocation: Geolocation, private api: ApiService, private diagnostic: Diagnostic) { }
 
   ngOnInit() {
     this.createControl();
@@ -145,17 +147,29 @@ export class WeatherPage implements OnInit, AfterViewInit {
     this.selectCityControl = new FormControl('default');
   }
 
+  private async checkIsLocationEnabled() {
+    return this.diagnostic.isLocationEnabled()
+  }
+
   private async getLocationAndWeather() {
-    await this.getGeolocation();
+    this.locationIsEnabled = await this.checkIsLocationEnabled();
+    await this.getGeolocation(this.locationIsEnabled);
     this.getCurrentWeather();
     this.getWeatherForecast();
     this.getDate();
   }
 
-  private async getGeolocation() {
-    const { coords: { latitude, longitude } } = await this.geolocation.getCurrentPosition();
-    this.latitude = latitude;
-    this.longitude = longitude;
+  private async getGeolocation(locationIsEnabled: boolean) {
+    console.log('location is enabled ', locationIsEnabled);
+    alert(locationIsEnabled);
+    if (locationIsEnabled) {
+      const { coords: { latitude, longitude } } = await this.geolocation.getCurrentPosition();
+      this.latitude = latitude;
+      this.longitude = longitude;
+      return;
+    }
+    this.latitude = this.cityCoordsMap[0].lat;
+    this.longitude = this.cityCoordsMap[0].lon;
   }
 
   private getWeatherIcon(code: string, color: string) {

@@ -33,7 +33,11 @@ export class LanguageService {
     this.http.get<BaseResponse>(`${environment.api}/language`, { params })
       .pipe(
         map((res: BaseResponse) => res.content),
-        switchMap((res: Array<Language>) => from(fetch(`https://www.travelsim.tk/media/language/${res[0].title.toLowerCase()}.json`).then(res => res.json())))
+        switchMap((res: Array<Language>) => {
+          const parts = res[0].file_url.split('/');
+          const fileName = parts[parts.length - 1];
+          return from(fetch(`https://www.travelsim.tk/media/language/${fileName}`).then(res => res.json()))
+        })
       )
       .subscribe((res: any) => {
         this.language = res;
