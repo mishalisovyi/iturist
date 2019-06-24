@@ -81,7 +81,7 @@ export class CheckUpServicesPage implements OnInit {
 
     if (this.dateControl.valid && this.correctDate) {
       const parts = this.dateControl.value.split('-');
-      const originalDate = `${parts[1]}-${parts[0]}-${parts[2]}`;
+      const originalDate = `${parts[1]}/${parts[0]}/${parts[2]}`;
 
       await this.loading.createLoading(this.text ? this.text.wait_please : 'Wait, please');
 

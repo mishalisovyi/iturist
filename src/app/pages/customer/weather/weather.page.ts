@@ -20,6 +20,7 @@ export class WeatherPage implements OnInit, AfterViewInit {
   private latitude: number;
   private longitude: number;
   private firstLoad: boolean = false;
+  private geolocationWorks: boolean = true;
 
   public text: any;
   public currentWeatherLoading: boolean = true;
@@ -152,19 +153,19 @@ export class WeatherPage implements OnInit, AfterViewInit {
     this.getDate();
   }
 
-  private async getGeolocation() {
+  private async getGeolocation(): Promise<any> {
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         this.latitude = this.cityCoordsMap[0].lat;
         this.longitude = this.cityCoordsMap[0].lon;
-        console.log('in timeout');
+        this.geolocationWorks = false;
         resolve();
       }, 5000);
 
       this.geolocation.getCurrentPosition().then(({ coords: { latitude, longitude } }) => {
         this.latitude = latitude;
         this.longitude = longitude;
-        console.log('in promise');
+        clearTimeout(timeout);
         resolve();
       })
     })
@@ -192,7 +193,7 @@ export class WeatherPage implements OnInit, AfterViewInit {
         this.currentTemperatue = this.kelvinToCelsius(res.main.temp);
         const index = this.getIndexForWeatherIconsMap(res.weather[0].id);
         this.currentIconPath = `assets/screens/${this.getWeatherIcon(index, 'red')}`;
-        if (!this.firstLoad) {
+        if (!this.firstLoad && this.geolocationWorks) {
           this.cityCoordsMap.push({
             key: 'default',
             lat: res.coord.lat,
