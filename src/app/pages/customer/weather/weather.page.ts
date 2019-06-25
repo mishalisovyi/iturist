@@ -29,7 +29,6 @@ export class WeatherPage implements OnInit, AfterViewInit {
   public currentDate: Date;
   public currentTemperatue: number;
   public currentIconPath: string;
-  public selectedCityKey: string = 'default';
   public threeHourForecast: Array<any>;
   public dailyForecast: Array<any>;
   public chartData: any;
@@ -123,7 +122,6 @@ export class WeatherPage implements OnInit, AfterViewInit {
       const index = this.cityCoordsMap.findIndex(({ key }) => key === res);
       this.latitude = this.cityCoordsMap[index].lat;
       this.longitude = this.cityCoordsMap[index].lon;
-      this.selectedCityKey = this.cityCoordsMap[index].key;
       this.getCurrentWeather();
       this.getWeatherForecast();
     })
@@ -193,15 +191,20 @@ export class WeatherPage implements OnInit, AfterViewInit {
         this.currentTemperatue = this.kelvinToCelsius(res.main.temp);
         const index = this.getIndexForWeatherIconsMap(res.weather[0].id);
         this.currentIconPath = `assets/screens/${this.getWeatherIcon(index, 'red')}`;
-        if (!this.firstLoad && this.geolocationWorks) {
-          this.cityCoordsMap.push({
-            key: 'default',
-            lat: res.coord.lat,
-            lon: res.coord.lon,
-            label: res.name,
-            code: res.sys.country
-          });
+
+        if (!this.firstLoad) {
           this.firstLoad = true;
+          if (this.geolocationWorks) {
+            this.cityCoordsMap.push({
+              key: 'default',
+              lat: res.coord.lat,
+              lon: res.coord.lon,
+              label: res.name,
+              code: res.sys.country
+            });
+          } else {
+            this.selectCityControl.setValue('jerusalem', { emitEvent: false });
+          }
         }
       });
   }
