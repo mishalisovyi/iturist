@@ -7,7 +7,7 @@ import { finalize } from 'rxjs/operators';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 
-import { LanguageService } from "src/app/services/language.service";
+import { LanguageService } from 'src/app/services/language.service';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
@@ -19,12 +19,12 @@ export class WeatherPage implements OnInit, AfterViewInit {
 
   private latitude: number;
   private longitude: number;
-  private firstLoad: boolean = false;
-  private geolocationWorks: boolean = true;
+  private firstLoad = false;
+  private geolocationWorks = true;
 
   public text: any;
-  public currentWeatherLoading: boolean = true;
-  public forecastWeatherLoading: boolean = true;
+  public currentWeatherLoading = true;
+  public forecastWeatherLoading = true;
   public selectCityControl: FormControl;
   public currentDate: Date;
   public currentTemperatue: number;
@@ -68,7 +68,7 @@ export class WeatherPage implements OnInit, AfterViewInit {
       label: 'Petah Tikva',
       code: 'IL'
     }
-  ]
+  ];
 
   public chartOptions = {
     legend: {
@@ -102,14 +102,16 @@ export class WeatherPage implements OnInit, AfterViewInit {
         this.data.datasets.forEach(dataset => {
           for (let i = 0; i < dataset.data.length; i++) {
             for (const key in dataset._meta) {
-              const model = dataset._meta[key].data[i]._model;
-              ctx.fillText(`${dataset.data[i]}°`, model.x, model.y - 5);
+              if (dataset._meta[key]) {
+                const model = dataset._meta[key].data[i]._model;
+                ctx.fillText(`${dataset.data[i]}°`, model.x, model.y - 5);
+              }
             }
           }
         });
       }
     }
-  }
+  };
 
   constructor(private language: LanguageService, private geolocation: Geolocation, private api: ApiService) { }
 
@@ -124,7 +126,7 @@ export class WeatherPage implements OnInit, AfterViewInit {
       this.longitude = this.cityCoordsMap[index].lon;
       this.getCurrentWeather();
       this.getWeatherForecast();
-    })
+    });
   }
 
   ionViewWillEnter() {
@@ -165,8 +167,8 @@ export class WeatherPage implements OnInit, AfterViewInit {
         this.longitude = longitude;
         clearTimeout(timeout);
         resolve();
-      })
-    })
+      });
+    });
   }
 
   private getWeatherIcon(code: string, color: string) {
@@ -226,7 +228,9 @@ export class WeatherPage implements OnInit, AfterViewInit {
 
   private getIndexForWeatherIconsMap(code: number) {
     const stringCode = code.toString();
-    if (stringCode.startsWith('8')) return stringCode;
+    if (stringCode.startsWith('8')) {
+      return stringCode;
+    }
     return stringCode.charAt(0);
   }
 
@@ -255,20 +259,22 @@ export class WeatherPage implements OnInit, AfterViewInit {
       return {
         icon: `assets/screens/${this.getWeatherIcon(index, 'blue')}`,
         time: moment(dt_txt).format('ha'),
-      }
-    })
+      };
+    });
   }
 
   private getDailyForecast(forecastList) {
     const grouped = _.groupBy(forecastList, ({ dt_txt }) => moment(dt_txt).format('dddd'));
     const dailyValues = [];
-    for (let key in grouped) {
-      const { weather: { 0: { id } } } = grouped[key].reduce((prev, current) => (prev.main.temp > current.main.temp) ? prev : current);
-      const index = this.getIndexForWeatherIconsMap(id);
-      dailyValues.push({
-        icon: `assets/screens/${this.getWeatherIcon(index, 'blue')}`,
-        day: key.slice(0, 3)
-      })
+    for (const key in grouped) {
+      if (grouped[key]) {
+        const { weather: { 0: { id } } } = grouped[key].reduce((prev, current) => (prev.main.temp > current.main.temp) ? prev : current);
+        const index = this.getIndexForWeatherIconsMap(id);
+        dailyValues.push({
+          icon: `assets/screens/${this.getWeatherIcon(index, 'blue')}`,
+          day: key.slice(0, 3)
+        });
+      }
     }
     return dailyValues;
   }
