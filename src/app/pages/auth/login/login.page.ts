@@ -58,8 +58,8 @@ export class LoginPage implements OnInit {
   ionViewWillEnter() {
     this.resetForm();
     this.getPageText();
-    this.storage.get("language").subscribe((res: string) => res ? this.language.loadLanguage(res) : this.language.loadLanguage('En'));
-    this.languageSubscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
+    // this.storage.get("language").subscribe((res: string) => res ? this.language.loadLanguage(res) : this.language.loadLanguage('En'));
+    // this.languageSubscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
 
     this.backBtnSubscription = this.platform.backButton.subscribe(() => navigator['app'].exitApp());
   }
