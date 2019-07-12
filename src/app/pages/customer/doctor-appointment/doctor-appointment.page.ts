@@ -8,10 +8,10 @@ import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import * as moment from 'moment';
 
-import { ActionSheetService } from '../../../services/action-sheet.service';
-import { ApiService } from '../../../services/api.service';
-import { LanguageService } from "../../../services/language.service";
-import { LoadingService } from '../../../services/loading.service';
+import { ActionSheetService } from 'src/app/services/action-sheet.service';
+import { ApiService } from 'src/app/services/api.service';
+import { LanguageService } from 'src/app/services/language.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-doctor-appointment',
@@ -24,7 +24,7 @@ export class DoctorAppointmentPage implements OnInit, OnDestroy {
 
   public form: FormGroup;
   public customPickerOptions: any;
-  public submitTry: boolean = false;
+  public submitTry = false;
   public correctDate: boolean;
   public date: string = moment().format();
   public text: any;
@@ -44,22 +44,26 @@ export class DoctorAppointmentPage implements OnInit, OnDestroy {
       }, {
         text: this.text ? this.text.save : 'Save',
         handler: (value: any) => {
-          this.date = moment(new Date(value.year.value, value.month.value - 1, value.day.value, value.hour.value, value.minute.value)).format();
+          this.date = moment(new Date(value.year.value, value.month.value - 1, value.day.value, value.hour.value, value.minute.value))
+            .format();
           this.form.get('datetime').setValue(moment(this.date).format('DD-MM-YYYY HH:mm'));
           this.correctDate = moment(this.date) > moment();
         }
       }]
-    }
+    };
   }
 
   ngOnInit() {
-    this.actionSubscription = this.action.actionSheetDismissDoctor$.subscribe((res: { label: string, value: string }) => this.form.get('doctor').setValue(res.label));
+    this.actionSubscription = this.action.actionSheetDismissDoctor$
+      .subscribe((res: { label: string, value: string }) => this.form.get('doctor').setValue(res.label));
 
     this.createForm();
   }
 
   ngOnDestroy() {
-    if (this.actionSubscription) this.actionSubscription.unsubscribe();
+    if (this.actionSubscription) {
+      this.actionSubscription.unsubscribe();
+    }
   }
 
   ionViewWillEnter() {
@@ -67,14 +71,14 @@ export class DoctorAppointmentPage implements OnInit, OnDestroy {
   }
 
   private getPageText() {
-    this.text = this.language.getTextByCategories("doctor_appointment");
+    this.text = this.language.getTextByCategories('doctor_appointment');
   }
 
   private createForm() {
     this.form = this.formBuilder.group({
-      doctor: ["", Validators.required],
-      datetime: ["", Validators.required],
-      symptoms: ["", Validators.maxLength(1000)]
+      doctor: ['', Validators.required],
+      datetime: ['', Validators.required],
+      symptoms: ['', Validators.maxLength(1000)]
     });
   }
 
@@ -88,8 +92,8 @@ export class DoctorAppointmentPage implements OnInit, OnDestroy {
   }
 
   public requireValidator(...fields: Array<string>): boolean {
-    let valid: boolean = true;
-    for (let field of fields) {
+    let valid = true;
+    for (const field of fields) {
       if (this.form.get(field).hasError('required')) {
         valid = false;
         break;

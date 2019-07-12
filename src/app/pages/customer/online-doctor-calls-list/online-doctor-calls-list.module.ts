@@ -5,9 +5,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { SharedModule } from '../../../components/share.module';
+import { SharedModule } from 'src/app/components/share.module';
 
-import { OnlineDoctorCallsListPage } from './online-doctor-calls-list.page';
+import { OnlineDoctorCallsListPage } from 'src/app/pages/customer/online-doctor-calls-list/online-doctor-calls-list.page';
 
 const routes: Routes = [
   {
@@ -22,7 +22,7 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    SharedModule    
+    SharedModule
   ],
   declarations: [OnlineDoctorCallsListPage]
 })

@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { SharedModule } from 'src/app/components/share.module';
 
-import { CallsPackagesPage } from './calls-packages.page';
+import { CallsPackagesPage } from 'src/app/pages/customer/calls-packages/calls-packages.page';
 
 const routes: Routes = [
   {

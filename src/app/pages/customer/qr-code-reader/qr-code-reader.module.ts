@@ -5,9 +5,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { SharedModule } from '../../../components/share.module';
+import { SharedModule } from 'src/app/components/share.module';
 
-import { QrCodeReaderPage } from './qr-code-reader.page';
+import { QrCodeReaderPage } from 'src/app/pages/customer/qr-code-reader/qr-code-reader.page';
 
 const routes: Routes = [
   {

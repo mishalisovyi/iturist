@@ -1,5 +1,9 @@
 /* View models */
 
+export interface Object {
+  [key: string]: any;
+}
+
 export interface Profile {
   user_id: number;
   first_name: string;
@@ -46,7 +50,7 @@ export interface History {
   created: any;
   package: {
     title: string;
-  }
+  };
 }
 
 export interface Language {
@@ -77,43 +81,51 @@ export interface Company {
   title: string;
 }
 
+export interface SimPlan {
+  card: number;
+  pack: number;
+  price: number;
+  cvv: number;
+}
+
 /* Request models */
 
 export interface ProfileEditRequest {
-  user?: string,
-  first_name?: string,
-  last_name?: string,
-  language?: string,
-  document_id?: string,
-  phone: string
+  user?: string;
+  first_name?: string;
+  last_name?: string;
+  language?: string;
+  document_id?: string;
+  phone: string;
+  // sim_number: string;
 }
 
 export interface OrderSimCardRequest {
-  type: string,
-  name: string,
-  email: string,
-  address: string,
-  city: string,
-  phone_number: string,
-  company: number
+  type: string;
+  name: string;
+  email: string;
+  address: string;
+  city: string;
+  phone_number: string;
+  company: number;
 }
 
 export interface AppointmentRequest {
-  specialization: string,
-  visit_date: string,
-  type: string,
-  note: string
+  specialization: string;
+  visit_date: string;
+  type: string;
+  note: string;
 }
 
 export interface CheckupRequest {
-  visit_date: string,
-  type: string,
+  visit_date: string;
+  type: string;
   colonoscopy: boolean;
   oncomarker: boolean;
 }
 
 export interface PrescriptionRequest {
-  user_comment?: string
+  user_comment?: string;
 }
 
 /* Response models */

@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { SharedModule } from '../../../components/share.module';
+import { SharedModule } from 'src/app/components/share.module';
 
 import { ChooseCompanyPage } from './choose-company.page';
 

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams } from '@angular/common/http';
 
-import { Observable, Subject, from } from "rxjs";
-import { map, switchMap } from "rxjs/operators";
+import { Observable, Subject, from } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
-import { BaseResponse, Language } from "../models/models";
+import { BaseResponse, Language } from 'src/app/models/models';
 
-import { environment } from '../../environments/environment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +28,7 @@ export class LanguageService {
     return this._language;
   }
 
-  public loadLanguage(language: string = "En") {
+  public loadLanguage(language: string = 'En') {
     const params = new HttpParams().append('title', language);
     this.http.get<BaseResponse>(`${environment.api}/language`, { params })
       .pipe(
@@ -36,7 +36,7 @@ export class LanguageService {
         switchMap((res: Array<Language>) => {
           const parts = res[0].file_url.split('/');
           const fileName = parts[parts.length - 1];
-          return from(fetch(`https://www.travelsim.tk/media/language/${fileName}`).then(res => res.json()))
+          return from(fetch(`https://www.travelsim.tk/media/language/${fileName}`).then(resp => resp.json()));
         })
       )
       .subscribe((res: any) => {
@@ -46,7 +46,9 @@ export class LanguageService {
   }
 
   public getTextByCategories(category?: string) {
-    if (this.language) return category ? { ...this.language.common, ...this.language[category] } : { ...this.language.common };
+    if (this.language) {
+      return category ? { ...this.language.common, ...this.language[category] } : { ...this.language.common };
+    }
     return {};
   }
 }

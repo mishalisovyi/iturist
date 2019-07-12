@@ -1,14 +1,14 @@
-import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from "@angular/router";
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
 
 import { ToastController } from '@ionic/angular';
 import { Network } from '@ionic-native/network/ngx';
 
-import { StorageService } from "../services/storage.service";
-import { LanguageService } from "../services/language.service";
+import { StorageService } from 'src/app/services/storage.service';
+import { LanguageService } from 'src/app/services/language.service';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class NetworkGuard implements CanActivate {
 

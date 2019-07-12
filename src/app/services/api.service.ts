@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { Facebook } from '@ionic-native/facebook/ngx';
@@ -8,11 +8,19 @@ import { of, Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import * as _ from 'lodash';
 
-import { StorageService } from '../services/storage.service';
+import { StorageService } from 'src/app/services/storage.service';
 
-import { BaseResponse, ProfileEditRequest, OrderSimCardRequest, AppointmentRequest, CheckupRequest, PrescriptionRequest } from "../models/models";
+import {
+  BaseResponse,
+  ProfileEditRequest,
+  OrderSimCardRequest,
+  AppointmentRequest,
+  CheckupRequest,
+  PrescriptionRequest,
+  SimPlan
+} from 'src/app/models/models';
 
-import { environment } from '../../environments/environment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +39,7 @@ export class ApiService {
   }
 
   public getPlans(id: string): Observable<any> {
-    const httpParams = new HttpParams().set("company_id", id);
+    const httpParams = new HttpParams().set('company_id', id);
     return this.http.get<BaseResponse>(`${environment.api}/simpackages`, { params: httpParams });
   }
 
@@ -86,7 +94,7 @@ export class ApiService {
   }
 
   public getToken(): Observable<any> {
-    return this.storage.get<any>("token");
+    return this.storage.get<any>('token');
   }
 
   public getProfile(): Observable<BaseResponse> {
@@ -106,7 +114,7 @@ export class ApiService {
   }
 
   public getLatestAlert(): Observable<BaseResponse> {
-    let params = new HttpParams().set('earliest', '1');
+    const params = new HttpParams().set('earliest', '1');
     return this.http.get<BaseResponse>(`${environment.api}/alerts`, { params });
   }
 
@@ -140,14 +148,14 @@ export class ApiService {
 
   public getCalls(): Observable<BaseResponse> {
     // return this.http.post<BaseResponse>(`${environment.api}/action-requests`);
-    let content: Array<any> = [];
+    const content: Array<any> = [];
     for (let i = 0; i < _.random(10, 20); ++i) {
       content.push(i);
     }
     return of({
       content,
       metadata: {}
-    }).pipe(delay(200))
+    }).pipe(delay(200));
   }
 
   public getMedicalHistoryChoices() {
@@ -163,14 +171,14 @@ export class ApiService {
   }
 
   public getCurrentWeather(lat: number, long: number) {
-    let params = new HttpParams().set("APPID", environment.openWeatherKey);
+    let params = new HttpParams().set('APPID', environment.openWeatherKey);
     params = params.set('lat', lat.toString());
     params = params.set('lon', long.toString());
     return this.http.get(`https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather`, { params });
   }
 
   public getWeatherForecast(lat: number, long: number) {
-    let params = new HttpParams().set("APPID", environment.openWeatherKey);
+    let params = new HttpParams().set('APPID', environment.openWeatherKey);
     params = params.set('lat', lat.toString());
     params = params.set('lon', long.toString());
     return this.http.get(`https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/forecast`, { params });
@@ -178,5 +186,14 @@ export class ApiService {
 
   public getCallsPackages() {
     return this.http.get<BaseResponse>(`${environment.api}/call-pack-list`);
+  }
+
+  public getCreditCardsList() {
+    const params = new HttpParams().set('status', 'TOKEN-OK');
+    return this.http.get<BaseResponse>(`${environment.api}/sim-card/list-cc`, { params });
+  }
+
+  public buySimPlan(requestBody: SimPlan) {
+    return this.http.post<BaseResponse>(`${environment.api}/sim-card/buy`, requestBody);
   }
 }

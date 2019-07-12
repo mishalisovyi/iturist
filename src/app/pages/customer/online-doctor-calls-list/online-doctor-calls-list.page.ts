@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 
-import { ApiService } from '../../../services/api.service';
-import { LanguageService } from '../../../services/language.service';
+import { ApiService } from 'src/app/services/api.service';
+import { LanguageService } from 'src/app/services/language.service';
 
-import { BaseResponse } from '../../../models/models';
+import { BaseResponse } from 'src/app/models/models';
 
 @Component({
   selector: 'app-online-doctor-calls-list',

@@ -1,0 +1,36 @@
+<app-header showBackBtn="true" defaultHref="enter-mobile-number" [backBtnText]="text?.back" [queryParams]="queryParams">
+</app-header>
+
+<ion-content padding-horizontal>
+  <form [formGroup]="form" (submit)="buySimCard()">
+    <ion-grid no-margin no-padding>
+      <ion-col size-md="7" size-lg="5" margin-vertical no-padding>
+        <ion-item class="violet-text register-form-field"
+          [class.error-field]="submitTry && form.get('credit_card').invalid" (click)="presentActionSheet()">
+          <ion-input type="text" readonly formControlName="credit_card" placeholder="{{ text?.select_credit_card }}">
+          </ion-input>
+        </ion-item>
+        <ion-item class="violet-text register-form-field" [class.error-field]="submitTry && form.get('cvv').invalid">
+          <ion-input type="number" formControlName="cvv" placeholder="{{ text?.cvv_code }}"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-item
+        *ngIf="submitTry && (form.get('credit_card').hasError('required') || form.get('cvv').hasError('required'))"
+        class="red-text">
+        <span>{{ text?.fill_empty_fields }}</span>
+      </ion-item>
+      <ion-item *ngIf="submitTry && form.get('cvv').hasError('length')" class="red-text">
+        <span>{{ text?.cvv_code_length }}</span>
+      </ion-item>
+      <ion-item *ngIf="submitTry && form.get('cvv').hasError('pattern')" class="red-text">
+        <span>{{ text?.only_numbers }}</span>
+      </ion-item>
+    </ion-grid>
+    {{ form.get('cvv').errors | json }}
+  </form>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button class="bottom-btn" (click)="buySimCard()">{{ text?.confirm }}</ion-button>
+  </ion-toolbar>
+</ion-footer>

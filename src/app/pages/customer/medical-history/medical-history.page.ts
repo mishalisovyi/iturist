@@ -3,11 +3,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
-
-import { ApiService } from '../../../services/api.service';
-import { LanguageService } from "../../../services/language.service";
-import { LoadingService } from '../../../services/loading.service';
 import { finalize } from 'rxjs/operators';
+
+import { ApiService } from 'src/app/services/api.service';
+import { LanguageService } from 'src/app/services/language.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-medical-history',
@@ -21,13 +21,19 @@ export class MedicalHistoryPage implements OnInit, OnDestroy {
 
   public choices: any;
   public form: FormGroup;
-  public submitTry: boolean = false;
+  public submitTry = false;
   public text: any;
   public checkValues: Array<boolean>;
   public diseasesValues: Array<any> = [];
   public symptomsValues: Array<any> = [];
 
-  constructor(private api: ApiService, private formBuilder: FormBuilder, private language: LanguageService, private router: Router, private loading: LoadingService) { }
+  constructor(
+    private api: ApiService,
+    private formBuilder: FormBuilder,
+    private language: LanguageService,
+    private router: Router,
+    private loading: LoadingService
+  ) { }
 
   ngOnInit() {
     this.initForm();
@@ -36,7 +42,9 @@ export class MedicalHistoryPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.languageSubscription) this.languageSubscription.unsubscribe();
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
   }
 
   ionViewWillEnter() {
@@ -50,11 +58,11 @@ export class MedicalHistoryPage implements OnInit, OnDestroy {
   private initForm() {
     this.form = this.formBuilder.group({
       taking_medication: [null, Validators.required],
-      medication_allergies: ["", Validators.required],
-      gender: ["", Validators.required],
+      medication_allergies: ['', Validators.required],
+      gender: ['', Validators.required],
       use_tobacco: [null, Validators.required],
       illegal_drugs: [null, Validators.required],
-      consume_alcohol: ["", Validators.required]
+      consume_alcohol: ['', Validators.required]
     });
   }
 
@@ -63,7 +71,7 @@ export class MedicalHistoryPage implements OnInit, OnDestroy {
   }
 
   private getPageText() {
-    this.text = this.language.getTextByCategories("medical_history");
+    this.text = this.language.getTextByCategories('medical_history');
   }
 
   public manageDiseasesValues(index: number) {
@@ -101,12 +109,12 @@ export class MedicalHistoryPage implements OnInit, OnDestroy {
   }
 
   public toggleGroup(group) {
-    this.shownGroup = this.isGroupShown(group) ? null : group
-  };
+    this.shownGroup = this.isGroupShown(group) ? null : group;
+  }
 
   public isGroupShown(group): boolean {
     return this.shownGroup === group;
-  };
+  }
 
   public async submit() {
     this.submitTry = true;

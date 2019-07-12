@@ -5,10 +5,10 @@ import { AlertController } from '@ionic/angular';
 import * as moment from 'moment';
 import { map, finalize } from 'rxjs/operators';
 
-import { ApiService } from '../../../services/api.service';
-import { LanguageService } from '../../../services/language.service';
+import { ApiService } from 'src/app/services/api.service';
+import { LanguageService } from 'src/app/services/language.service';
 
-import { BaseResponse } from '../../../models/models';
+import { BaseResponse } from 'src/app/models/models';
 
 @Component({
   selector: 'app-online-doctor-prescriptions',
@@ -34,9 +34,11 @@ export class OnlineDoctorPrescriptionsPage {
     this.api.getPrescriptions()
       .pipe(map((res: BaseResponse) => {
         res.content.forEach(item => {
-          if (item.created) item.created = moment.utc(item.created.replace("UTC:00", "")).toString();
+          if (item.created) {
+            item.created = moment.utc(item.created.replace('UTC:00', '')).toString();
+          }
         });
-        res.content.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime())
+        res.content.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime());
         return res.content;
       }))
       .subscribe(res => this.prescriptions = res);
@@ -70,7 +72,7 @@ export class OnlineDoctorPrescriptionsPage {
         const { values: { user_comment } } = value.data;
         this.api.createPrescription({ user_comment })
           .pipe(finalize(() => this.getPrescriptions()))
-          .subscribe()
+          .subscribe();
       }
     });
   }

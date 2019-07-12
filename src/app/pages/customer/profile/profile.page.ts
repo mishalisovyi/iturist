@@ -1,19 +1,19 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Platform } from '@ionic/angular';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
-import { Subscription } from "rxjs";
+import { Subscription } from 'rxjs';
 
-import { ImageService } from '../../../services/image.service';
-import { ApiService } from '../../../services/api.service';
-import { LoadingService } from '../../../services/loading.service';
-import { ActionSheetService } from "../../../services/action-sheet.service";
-import { LanguageService } from "../../../services/language.service";
-import { StorageService } from "../../../services/storage.service";
+import { ImageService } from 'src/app/services/image.service';
+import { ApiService } from 'src/app/services/api.service';
+import { LoadingService } from 'src/app/services/loading.service';
+import { ActionSheetService } from 'src/app/services/action-sheet.service';
+import { LanguageService } from 'src/app/services/language.service';
+import { StorageService } from 'src/app/services/storage.service';
 
-import { Profile, ProfileEditRequest, BaseResponse } from '../../../models/models';
+import { Profile, ProfileEditRequest, BaseResponse } from 'src/app/models/models';
 
 @Component({
   selector: 'app-profile',
@@ -28,8 +28,8 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   public profile: Profile;
   public form: FormGroup;
-  public submitTry: boolean = false;
-  public editInfo: boolean = false;
+  public submitTry = false;
+  public editInfo = false;
   public text: any;
   public displayedPhone: string;
   public displayedInfo = {
@@ -39,7 +39,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     language: '',
     phone: '',
     document_id: ''
-  }
+  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -57,20 +57,28 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.getPlatform();
     this.createForm();
 
-    this.actionSubscription = this.action.actionSheetDismissLanguage$.subscribe((res: { label: string, value: string }) => this.form.get("language").setValue(res.label.toLowerCase()));
+    this.actionSubscription = this.action.actionSheetDismissLanguage$.subscribe((res: { label: string, value: string }) => {
+      this.form.get('language').setValue(res.label.toLowerCase());
+    });
     this.languageSubscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
   }
 
   ngOnDestroy() {
-    if (this.actionSubscription) this.actionSubscription.unsubscribe();
-    if (this.languageSubscription) this.languageSubscription.unsubscribe();
+    if (this.actionSubscription) {
+      this.actionSubscription.unsubscribe();
+    }
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
   }
 
   ionViewWillEnter() {
     this.getPageText();
 
     this.api.getProfile().subscribe(res => {
-      if (res) this.profile = res.content;
+      if (res) {
+        this.profile = res.content;
+      }
 
       this.setFormValues();
       this.getDisplayedInfo();
@@ -84,24 +92,26 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   private createForm() {
     this.form = this.formBuilder.group({
-      first_name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z-]*$")]],
-      last_name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z-]*$")]],
-      email: [{ value: "", disabled: true }],
-      language: ["", Validators.required],
-      phone: [{ value: "", disabled: true }],
-      document_id: ["", Validators.pattern('^\\d+$')]
+      first_name: ['', [Validators.required, Validators.pattern('^[\\S][a-zA-Z-]*$')]],
+      last_name: ['', [Validators.required, Validators.pattern('^[\\S][a-zA-Z-]*$')]],
+      email: [{ value: '', disabled: true }],
+      language: ['', Validators.required],
+      phone: [{ value: '', disabled: true }],
+      document_id: ['', Validators.pattern('^\\d+$')]
     });
   }
 
   private getDisplayedInfo() {
-    for (let key in this.form.controls) {
-      // this.displayedInfo[key] = this.form.get(key).value.replace('+972 ', '');
-      this.displayedInfo[key] = this.form.get(key).value;
+    for (const key in this.form.controls) {
+      if (this.displayedInfo[key]) {
+        // this.displayedInfo[key] = this.form.get(key).value.replace('+972 ', '');
+        this.displayedInfo[key] = this.form.get(key).value;
+      }
     }
   }
 
   private getPageText() {
-    this.text = this.language.getTextByCategories("profile");
+    this.text = this.language.getTextByCategories('profile');
   }
 
   private manageImagesVariables() {
@@ -118,13 +128,13 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   private setFormValues() {
-    this.form.get("first_name").setValue(this.profile.first_name);
-    this.form.get("last_name").setValue(this.profile.last_name);
-    this.form.get("email").setValue(this.profile.user);
-    this.form.get("language").setValue(this.profile.language_full.toLowerCase());
-    // this.form.get("phone").setValue(this.profile.phone ? this.profile.phone.replace('972', '') : '');
-    this.form.get("phone").setValue(this.profile.phone);
-    this.form.get("document_id").setValue(this.profile.document_id);
+    this.form.get('first_name').setValue(this.profile.first_name);
+    this.form.get('last_name').setValue(this.profile.last_name);
+    this.form.get('email').setValue(this.profile.user);
+    this.form.get('language').setValue(this.profile.language_full.toLowerCase());
+    // this.form.get('phone').setValue(this.profile.phone ? this.profile.phone.replace('972', '') : '');
+    this.form.get('phone').setValue(this.profile.phone);
+    this.form.get('document_id').setValue(this.profile.document_id);
     this.action.language = this.profile.language;
   }
 
@@ -132,44 +142,54 @@ export class ProfilePage implements OnInit, OnDestroy {
     return new Promise((resolve, reject) => {
       const formData: any = new FormData();
 
-      for (let key in this.image.imgInfo) {
-        if (this.image.imgInfo[key].file) formData.append(key === 'profile' ? 'photo' : `${key}_image`, this.image.imgInfo[key].file, this.image.createImageName());
-        if (this.image.imgInfo[key].deleted) formData.append(key === 'profile' ? 'photo' : `${key}_image`, "");
+      for (const key in this.image.imgInfo) {
+        if (this.image.imgInfo[key]) {
+          if (this.image.imgInfo[key].file) {
+            formData.append(key === 'profile' ? 'photo' : `${key}_image`, this.image.imgInfo[key].file, this.image.createImageName());
+          }
+          if (this.image.imgInfo[key].deleted) {
+            formData.append(key === 'profile' ? 'photo' : `${key}_image`, '');
+          }
+        }
       }
 
       this.api.postImages(formData).subscribe(
         res => resolve(res),
         err => reject(err)
-      )
+      );
     });
   }
 
   private postTextData() {
     return new Promise((resolve, reject) => {
+      // tslint:disable-next-line: max-line-length
       // let phone: string = `${this.form.get('phone').value.length < 12 ? '972' : ''}${this.form.get('phone').value.replace(/\s|\+|\D/g, '')}`;
       const profile: ProfileEditRequest = {
-        user: this.form.get("email").value,
-        first_name: this.form.get("first_name").value,
-        last_name: this.form.get("last_name").value,
+        user: this.form.get('email').value,
+        first_name: this.form.get('first_name').value,
+        last_name: this.form.get('last_name').value,
         language: this.action.language,
-        phone: this.form.get("phone").value,
-        document_id: this.form.get("document_id").value
-      }
+        phone: this.form.get('phone').value,
+        // sim_number: this.form.get('phone').value,
+        document_id: this.form.get('document_id').value
+      };
       this.api.editProfile(this.profile.user_id, profile).subscribe(
         res => resolve(res),
         err => reject(err)
-      )
+      );
     });
   }
 
   private async requestImageLibraryPermission(forPhoto: string) {
     const { hasPermission } = await this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE);
-    if (hasPermission) this.getPhoto(forPhoto);
+    if (hasPermission) {
+      this.getPhoto(forPhoto);
+    }
   }
 
   public requireValidator(...fields: Array<string>): boolean {
-    let valid: boolean = true;
-    for (let field of fields) {
+    let valid = true;
+    for (const field of fields) {
       if (this.form.get(field).hasError('required')) {
         valid = false;
         break;
@@ -190,8 +210,8 @@ export class ProfilePage implements OnInit, OnDestroy {
       this.image.getPhoto(photo)
         .then(async () => {
           await this.loading.createLoading(this.text.updating_profile_msg);
-          this.postImages().finally(async () => await this.loading.dismissLoading())
-        })
+          this.postImages().finally(async () => await this.loading.dismissLoading());
+        });
       return;
     }
 
@@ -215,8 +235,10 @@ export class ProfilePage implements OnInit, OnDestroy {
   public switchToEditInfo() {
     // this.form.get('phone').setValue(this.form.get('phone').value.replace('+972 ', ''));
     this.editInfo = true;
-    for (let key in this.displayedInfo) {
-      this.form.get(key).setValue(this.displayedInfo[key])
+    for (const key in this.displayedInfo) {
+      if (this.displayedInfo[key]) {
+        this.form.get(key).setValue(this.displayedInfo[key]);
+      }
     }
   }
 
@@ -241,7 +263,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   //         .then((res: [BaseResponse, any]) => {
   //           if (res[0]) {
   //             this.storage.set('phone', res[0].content.profile.phone)
-  //             this.storage.set("language", res[0].content.language);
+  //             this.storage.set('language', res[0].content.language);
   //             this.language.loadLanguage(res[0].content.language);
   //           }
   //         })
@@ -262,7 +284,7 @@ export class ProfilePage implements OnInit, OnDestroy {
         .then((res: BaseResponse) => {
           if (res) {
             // this.storage.set('phone', res.content.profile.phone)
-            this.storage.set("language", res.content.language);
+            this.storage.set('language', res.content.language);
             this.language.loadLanguage(res.content.language);
           }
           this.getDisplayedInfo();

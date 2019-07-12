@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ForgotPasswordPage } from './forgot-password.page';
+import { ForgotPasswordPage } from 'src/app/pages/auth/forgot-password/forgot-password.page';
 
 const routes: Routes = [
   {
@@ -24,4 +24,4 @@ const routes: Routes = [
   ],
   declarations: [ForgotPasswordPage]
 })
-export class ForgotPasswordPageModule {}
+export class ForgotPasswordPageModule { }

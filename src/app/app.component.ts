@@ -6,12 +6,12 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Network } from '@ionic-native/network/ngx';
 
-import { Subscription, forkJoin } from "rxjs";
-import { switchMap, tap, filter } from "rxjs/operators";
+import { Subscription, forkJoin } from 'rxjs';
+import { switchMap, tap, filter } from 'rxjs/operators';
 
-import { ApiService } from "./services/api.service";
-import { LanguageService } from "./services/language.service";
-import { StorageService } from './services/storage.service';
+import { ApiService } from 'src/app/services/api.service';
+import { LanguageService } from 'src/app/services/language.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-root',
@@ -20,13 +20,13 @@ import { StorageService } from './services/storage.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-  @ViewChild("menu") public menu: MenuController;
+  @ViewChild('menu') public menu: MenuController;
 
   private languageSubscription: Subscription;
   private connectSubscription: Subscription;
   private disconnectSubscription: Subscription;
   private routerSubscription: Subscription;
-  private previousConnectionStatus: string = 'online';
+  private previousConnectionStatus = 'online';
 
   public text: any;
   public iosPlatform: boolean;
@@ -51,7 +51,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.languageSubscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
     this.routerSubscription = this.router.events
       .pipe(
-        tap((event) => { if (event instanceof NavigationStart) this.storage.lastUrl = this.router.url}),
+        tap((event) => {
+          if (event instanceof NavigationStart) {
+            this.storage.lastUrl = this.router.url;
+          }
+        }),
         filter(event => event instanceof NavigationEnd),
         switchMap(() => this.api.getToken())
       )
@@ -59,10 +63,18 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.languageSubscription) this.languageSubscription.unsubscribe();
-    if (this.connectSubscription) this.connectSubscription.unsubscribe();
-    if (this.disconnectSubscription) this.disconnectSubscription.unsubscribe();
-    if (this.routerSubscription) this.routerSubscription.unsubscribe();
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
+    if (this.connectSubscription) {
+      this.connectSubscription.unsubscribe();
+    }
+    if (this.disconnectSubscription) {
+      this.disconnectSubscription.unsubscribe();
+    }
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
+    }
   }
 
   initializeApp() {
@@ -72,10 +84,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
       this.language.loadLanguage();
 
-      if (this.network.type === this.network.Connection.NONE) await this.showToast('offline')
+      if (this.network.type === this.network.Connection.NONE) {
+        await this.showToast('offline');
+      }
       this.network.onchange().pipe().subscribe(async res => {
         await this.showToast(res.type);
-        if (res.type === 'online') this.storage.get("language").subscribe((res: string) => this.language.loadLanguage(res ? res : "En"))
+        if (res.type === 'online') {
+          this.storage.get('language').subscribe((resp: string) => this.language.loadLanguage(resp ? resp : 'En'));
+        }
       });
     });
   }
@@ -102,7 +118,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private getMessageText(type: string): string {
     return type === 'online'
       ? this.text ? this.text.connected : 'Connected to Internet!'
-      : this.text ? this.text.disconnected : 'Missing connection to Internet!'
+      : this.text ? this.text.disconnected : 'Missing connection to Internet!';
   }
 
   public navigateTo(path: string) {
@@ -111,16 +127,19 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public logout() {
-    this.storage.get("auth_type")
+    this.storage.get('auth_type')
       .pipe(
         tap(async (res: string) => {
-          if (res === "GOOGLE") await this.api.googleLogout();
-          if (res === "FACEBOOK") await this.api.facebookLogout();
+          if (res === 'GOOGLE') {
+            await this.api.googleLogout();
+          }
+          if (res === 'FACEBOOK') {
+            await this.api.facebookLogout();
+          }
           this.menu.close();
         }),
         switchMap(() => this.api.logout().pipe(
-          // switchMap(() => forkJoin(this.storage.remove("token"), this.storage.remove("profile"), this.storage.remove("auth_type"), this.storage.remove('phone')))
-          switchMap(() => forkJoin(this.storage.remove("token"), this.storage.remove("profile"), this.storage.remove("auth_type")))
+          switchMap(() => forkJoin(this.storage.remove('token'), this.storage.remove('profile'), this.storage.remove('auth_type')))
         ))
       )
       .subscribe(() => this.navigateTo('login'));

@@ -5,9 +5,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { SharedModule } from '../../../components/share.module';
+import { SharedModule } from 'src/app/components/share.module';
 
-import { DoctorAppointmentPage } from './doctor-appointment.page';
+import { DoctorAppointmentPage } from 'src/app/pages/customer/doctor-appointment/doctor-appointment.page';
 
 const routes: Routes = [
   {

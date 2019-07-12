@@ -23,12 +23,12 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NgxMaskIonicModule } from 'ngx-mask-ionic';
 // import { ChartjsModule } from '@ctrl/ngx-chartjs';
 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule } from 'src/app/app-routing.module';
 
-import { AppComponent } from './app.component';
+import { AppComponent } from 'src/app/app.component';
 
-import { TokenInterceptor } from './services/interceptors/token.interceptor';
-import { NetworkInterceptor } from './services/interceptors/network.interceptor';
+import { TokenInterceptor } from 'src/app/services/interceptors/token.interceptor';
+import { NetworkInterceptor } from 'src/app/services/interceptors/network.interceptor';
 
 @NgModule({
   declarations: [AppComponent],

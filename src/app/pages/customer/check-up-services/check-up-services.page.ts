@@ -8,9 +8,9 @@ import { iif, of } from 'rxjs';
 import { map, switchMap, finalize } from 'rxjs/operators';
 import * as moment from 'moment';
 
-import { ApiService } from '../../../services/api.service';
-import { LanguageService } from "../../../services/language.service";
-import { LoadingService } from '../../../services/loading.service';
+import { ApiService } from 'src/app/services/api.service';
+import { LanguageService } from 'src/app/services/language.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-check-up-services',
@@ -20,16 +20,22 @@ import { LoadingService } from '../../../services/loading.service';
 export class CheckUpServicesPage implements OnInit {
 
   public dateControl: FormControl;
-  public colonoscopy: boolean = false;
-  public oncomarkers: boolean = false;
-  public submitTry: boolean = false;
-  public total: number = 2800;
+  public colonoscopy = false;
+  public oncomarkers = false;
+  public submitTry = false;
+  public total = 2800;
   public correctDate: boolean;
   public customPickerOptions: any;
   public date: string = moment().format();
   public text: any;
 
-  constructor(private api: ApiService, private alert: AlertController, private router: Router, private language: LanguageService, private loading: LoadingService) {
+  constructor(
+    private api: ApiService,
+    private alert: AlertController,
+    private router: Router,
+    private language: LanguageService,
+    private loading: LoadingService
+  ) {
     this.customPickerOptions = {
       buttons: [{
         text: this.text ? this.text.cancel : 'Cancel'
@@ -43,7 +49,7 @@ export class CheckUpServicesPage implements OnInit {
           this.validateDate(date);
         }
       }]
-    }
+    };
   }
 
   ngOnInit() {
@@ -59,12 +65,14 @@ export class CheckUpServicesPage implements OnInit {
   }
 
   private createControl() {
-    this.dateControl = new FormControl("", [Validators.required]);
+    this.dateControl = new FormControl('', [Validators.required]);
   }
 
   private validateDate(date: Date) {
     this.dateControl.setErrors(null);
-    if ([5, 6].includes(moment(date).isoWeekday())) this.dateControl.setErrors({ wrongDay: true });
+    if ([5, 6].includes(moment(date).isoWeekday())) {
+      this.dateControl.setErrors({ wrongDay: true });
+    }
   }
 
   public changeTotal({ detail: { checked } }, service: string) {
@@ -73,7 +81,7 @@ export class CheckUpServicesPage implements OnInit {
   }
 
   public navigateToDisclaimer() {
-    this.router.navigateByUrl('/check-up-disclaimer')
+    this.router.navigateByUrl('/check-up-disclaimer');
   }
 
   public async submitCheckup() {
@@ -103,8 +111,12 @@ export class CheckUpServicesPage implements OnInit {
         .subscribe(async res => {
           const alert = await this.alert.create({
             message: res
-              ? this.text ? this.text.successfully_submitted : 'Your check up request successfully submitted'
-              : this.text ? this.text.need_upload_insurance : 'You need to upload your travel insurance photo for having this check up service',
+              ? this.text
+                ? this.text.successfully_submitted
+                : 'Your check up request successfully submitted'
+              : this.text
+                ? this.text.need_upload_insurance
+                : 'You need to upload your travel insurance photo for having this check up service',
             buttons: [this.text ? this.text.ok.toUpperCase() : 'Ok']
           });
 

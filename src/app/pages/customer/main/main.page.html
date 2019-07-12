@@ -203,15 +203,16 @@
       </ion-button>
     </div>
     <div id="alert-body" class="violet-text" (click)="navigateTo('/weather-start')">
-      <div>
+      <div align-self-end>
         <div>{{ text?.humidity }}: {{ humidity }}%</div>
         <div>{{ text?.wind }}: {{ wind }} m/s</div>
       </div>
-      <div id="temperature-label">
+      <div id="temperature-label" align-self-end>
         <span class="font-size-32">{{ temperature }}&deg;&nbsp;</span>
         <span class="font-size-20">C</span>
+        <div>{{ city }}</div>
       </div>
-      <ion-img id="weather-img" [src]="pathToWeatherIcon"></ion-img>
+      <ion-img id="weather-img" [src]="pathToWeatherIcon" align-self-end></ion-img>
     </div>
   </div>
   <div *ngIf="showAlertPopup" class="popup-block" [class.alert-theme]="alert?.type !== 'YNET'">

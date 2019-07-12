@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { ApiService } from '../../../services/api.service';
-import { LanguageService } from "../../../services/language.service";
-
-import { BaseResponse } from "../../../models/models";
+import { ApiService } from 'src/app/services/api.service';
+import { LanguageService } from 'src/app/services/language.service';
 
 @Component({
   selector: 'app-choose-company',
@@ -13,7 +11,7 @@ import { BaseResponse } from "../../../models/models";
 })
 export class ChooseCompanyPage {
 
-  public companyIsSelected: boolean = false;
+  public companyIsSelected = false;
   public selectedCompanyId: number;
   public text: any;
 
@@ -24,13 +22,13 @@ export class ChooseCompanyPage {
   ) { }
 
   ionViewWillEnter() {
-    this.api.getCompanies().subscribe((res: BaseResponse) => console.log(res));
+    this.api.getCompanies().subscribe();
     this.getPageText();
     this.deselectCompany();
   }
 
   private getPageText() {
-    this.text = this.language.getTextByCategories("choose_company");
+    this.text = this.language.getTextByCategories('choose_company');
   }
 
   private deselectCompany() {

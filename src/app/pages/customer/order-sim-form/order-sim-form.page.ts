@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { AlertController } from '@ionic/angular';
 
 import { finalize } from 'rxjs/operators';
 
-import { LanguageService } from "../../../services/language.service";
-import { ActionSheetService } from "../../../services/action-sheet.service";
-import { ApiService } from '../../../services/api.service';
-import { LoadingService } from '../../../services/loading.service';
+import { LanguageService } from 'src/app/services/language.service';
+import { ActionSheetService } from 'src/app/services/action-sheet.service';
+import { ApiService } from 'src/app/services/api.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-order-sim-form',
@@ -34,7 +34,8 @@ export class OrderSimFormPage implements OnInit {
 
   ngOnInit() {
     this.createForm();
-    this.action.actionSheetDismissCompany$.subscribe((res: { label: string, value: number }) => this.form.get("company").setValue(res.label));
+    this.action.actionSheetDismissCompany$
+      .subscribe((res: { label: string, value: number }) => this.form.get('company').setValue(res.label));
   }
 
   ionViewWillEnter() {
@@ -43,17 +44,17 @@ export class OrderSimFormPage implements OnInit {
 
   private createForm() {
     this.form = this.formBuilder.group({
-      name: ["", [Validators.required, Validators.pattern("^[\\S][a-zA-Z\\s-]*$")]],
-      email: ["", [Validators.required, Validators.email]],
-      address: ["", Validators.required],
-      city: ["", Validators.required],
-      phone_number: ["", [Validators.required, Validators.pattern('^\\+?[\\d]+$')]],
-      company: ["", Validators.required]
+      name: ['', [Validators.required, Validators.pattern('^[\\S][a-zA-Z\\s-]*$')]],
+      email: ['', [Validators.required, Validators.email]],
+      address: ['', Validators.required],
+      city: ['', Validators.required],
+      phone_number: ['', [Validators.required, Validators.pattern('^\\+?[\\d]+$')]],
+      company: ['', Validators.required]
     });
   }
 
   private getPageText() {
-    this.text = this.language.getTextByCategories("order_sim_form");
+    this.text = this.language.getTextByCategories('order_sim_form');
   }
 
   private navigate(path: string) {
@@ -70,14 +71,16 @@ export class OrderSimFormPage implements OnInit {
       });
       await alert.present();
       alert.onDidDismiss().then(() => {
-        if (!error) this.navigate('main');
+        if (!error) {
+          this.navigate('main');
+        }
       });
     });
   }
 
   public requireValidator(...fields: Array<string>): boolean {
-    let valid: boolean = true;
-    for (let field of fields) {
+    let valid = true;
+    for (const field of fields) {
       if (this.form.get(field).hasError('required')) {
         valid = false;
         break;
@@ -112,7 +115,7 @@ export class OrderSimFormPage implements OnInit {
         .subscribe(
           () => this.createAlert(),
           () => this.createAlert(true)
-        )
+        );
     }
   }
 }

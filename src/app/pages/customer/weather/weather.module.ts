@@ -9,7 +9,7 @@ import { ChartjsModule } from '@ctrl/ngx-chartjs';
 
 import { SharedModule } from 'src/app/components/share.module';
 
-import { WeatherPage } from './weather.page';
+import { WeatherPage } from 'src/app/pages/customer/weather/weather.page';
 
 const routes: Routes = [
   {

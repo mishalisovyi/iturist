@@ -1,13 +1,13 @@
-import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, Router } from "@angular/router";
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, Router } from '@angular/router';
 
-import { Observable, of } from "rxjs";
-import { switchMap } from "rxjs/operators";
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
-import { StorageService } from "../services/storage.service";
+import { StorageService } from 'src/app/services/storage.service';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class FirstStartGuard implements CanActivate {
   constructor(private storage: StorageService, private router: Router) { }
@@ -18,9 +18,11 @@ export class FirstStartGuard implements CanActivate {
       .pipe(
         switchMap(res => {
           const allowed = res ? false : true;
-          if (!allowed) this.router.navigateByUrl('/main');
+          if (!allowed) {
+            this.router.navigateByUrl('/main');
+          }
           return this.storage.set('not_first_launch', 'true').pipe(switchMap(() => of(allowed)));
         })
-      )
+      );
   }
 }

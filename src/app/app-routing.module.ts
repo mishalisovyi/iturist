@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AuthGuard } from './guards/auth.guard';
-import { GuestGuard } from './guards/guest.guard';
-import { NetworkGuard } from './guards/network.guard';
-import { MedicalHistoryGuard } from './guards/medical-history.guard';
-import { FirstStartGuard } from './guards/first-start.guard';
+import { AuthGuard } from 'src/app/guards/auth.guard';
+import { GuestGuard } from 'src/app/guards/guest.guard';
+import { NetworkGuard } from 'src/app/guards/network.guard';
+import { MedicalHistoryGuard } from 'src/app/guards/medical-history.guard';
+import { FirstStartGuard } from 'src/app/guards/first-start.guard';
 
 const routes: Routes = [
   {
@@ -63,8 +63,13 @@ const routes: Routes = [
     loadChildren: './pages/customer/sim-card-start/sim-card-start.module#SimCardStartPageModule',
     canActivate: [NetworkGuard]
   },
+  // {
+  //   path: 'enter-mobile-number/:companyId/:planId',
+  //   loadChildren: './pages/customer/enter-mobile-number/enter-mobile-number.module#EnterMobileNumberPageModule',
+  //   canActivate: [AuthGuard, NetworkGuard]
+  // },
   {
-    path: 'enter-mobile-number/:companyId/:planId',
+    path: 'enter-mobile-number',
     loadChildren: './pages/customer/enter-mobile-number/enter-mobile-number.module#EnterMobileNumberPageModule',
     canActivate: [AuthGuard, NetworkGuard]
   },
@@ -160,6 +165,7 @@ const routes: Routes = [
   },
   {
     path: 'alerts-and-notifications-start',
+    // tslint:disable-next-line: max-line-length
     loadChildren: './pages/customer/alerts-and-notifications-start/alerts-and-notifications-start.module#AlertsAndNotificationsStartPageModule',
     canActivate: [NetworkGuard]
   },
@@ -187,6 +193,11 @@ const routes: Routes = [
     path: 'unboarding-tour',
     loadChildren: './pages/customer/unboarding-tour/unboarding-tour.module#UnboardingTourPageModule',
     canActivate: [FirstStartGuard, NetworkGuard]
+  },
+  {
+    path: 'choose-credit-card',
+    loadChildren: './pages/customer/choose-credit-card/choose-credit-card.module#ChooseCreditCardPageModule',
+    canActivate: [AuthGuard, NetworkGuard]
   }
 ];
 

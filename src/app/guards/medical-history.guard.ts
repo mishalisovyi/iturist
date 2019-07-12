@@ -1,14 +1,14 @@
-import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, Router } from "@angular/router";
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, Router } from '@angular/router';
 
 import { Observable, of, iif } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 
-import { ApiService } from '../services/api.service';
+import { ApiService } from 'src/app/services/api.service';
 import { StorageService } from 'src/app/services/storage.service';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class MedicalHistoryGuard implements CanActivate {
 
@@ -27,6 +27,6 @@ export class MedicalHistoryGuard implements CanActivate {
             switchMap(() => of(true))
           ),
         of(true)
-      )))
+      )));
   }
 }

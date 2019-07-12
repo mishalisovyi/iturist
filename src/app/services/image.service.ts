@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
-// import { Camera } from '@ionic-native/camera/ngx';
 import { FilePath } from '@ionic-native/file-path/ngx';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { File as IonicFile } from '@ionic-native/file/ngx';
-
-
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 
-import { LoadingService } from "./loading.service";
-import { LanguageService } from "./language.service";
+import { LoadingService } from 'src/app/services/loading.service';
+import { LanguageService } from 'src/app/services/language.service';
 
 @Injectable({
   providedIn: 'root'
@@ -50,7 +47,7 @@ export class ImageService {
       deleted: true,
       changed: false
     }
-  }
+  };
 
   constructor(
     // private camera: Camera,
@@ -64,7 +61,7 @@ export class ImageService {
   ) { }
 
   private getPromiseForFile(directory: any, filename: any, imagePath: any): Promise<any> {
-    if (this.platform.is("ios")) {
+    if (this.platform.is('ios')) {
       return Promise.all([this.file.readAsArrayBuffer(directory, filename)]);
     }
     return Promise.all([
@@ -79,10 +76,12 @@ export class ImageService {
 
   public resetPhotoData() {
     for (const image in this.imgInfo) {
-      this.imgInfo[image].src = null;
-      this.imgInfo[image].file = null;
-      this.imgInfo[image].deleted = true;
-      this.imgInfo[image].changed = false;
+      if (this.imgInfo[image]) {
+        this.imgInfo[image].src = null;
+        this.imgInfo[image].file = null;
+        this.imgInfo[image].deleted = true;
+        this.imgInfo[image].changed = false;
+      }
     }
   }
 
@@ -101,23 +100,23 @@ export class ImageService {
   //       })
   //       .then(
   //         imagePath => {
-  //           const n = imagePath.lastIndexOf("/");
-  //           const x = imagePath.lastIndexOf("g");
+  //           const n = imagePath.lastIndexOf('/');
+  //           const x = imagePath.lastIndexOf('g');
   //           const filename = imagePath.substring(n + 1, x + 1);
   //           const directory = imagePath.substring(0, n);
 
   //           this.getPromiseForFile(directory, filename, imagePath)
   //             .then(
   //               res => {
-  //                 this.imgInfo[img].file = new Blob([res[0]], { type: "image/jpeg" });
-  //                 this.imgInfo[img].src = this.webview.convertFileSrc(this.platform.is("ios") ? imagePath : res[1]);
+  //                 this.imgInfo[img].file = new Blob([res[0]], { type: 'image/jpeg' });
+  //                 this.imgInfo[img].src = this.webview.convertFileSrc(this.platform.is('ios') ? imagePath : res[1]);
   //                 this.imgInfo[img].src = this.webview.convertFileSrc(imagePath);
   //                 this.imgInfo[img].deleted = false;
   //                 this.imgInfo[img].changed = true;
   //                 resolve()
   //               },
   //               err => {
-  //                 alert(this.platform.is("ios") ? JSON.stringify(err) : this.text.image_allowed);
+  //                 alert(this.platform.is('ios') ? JSON.stringify(err) : this.text.image_allowed);
   //                 reject();
   //               }
   //             )
@@ -146,30 +145,30 @@ export class ImageService {
         .then((results) => {
           const imagePath = results[0];
 
-          const n = imagePath.lastIndexOf("/");
-          const x = imagePath.lastIndexOf("g");
+          const n = imagePath.lastIndexOf('/');
+          const x = imagePath.lastIndexOf('g');
           const filename = imagePath.substring(n + 1, x + 1);
           const directory = imagePath.substring(0, n);
 
           this.getPromiseForFile(directory, filename, imagePath)
             .then(
               res => {
-                this.imgInfo[img].file = new Blob([res[0]], { type: "image/jpeg" });
+                this.imgInfo[img].file = new Blob([res[0]], { type: 'image/jpeg' });
                 this.imgInfo[img].src = this.webview.convertFileSrc(imagePath);
                 this.imgInfo[img].deleted = false;
                 this.imgInfo[img].changed = true;
-                resolve()
+                resolve();
               },
               // err => {
-              //   alert(this.platform.is("ios") ? JSON.stringify(err) : this.text.image_allowed);
+              //   alert(this.platform.is('ios') ? JSON.stringify(err) : this.text.image_allowed);
               //   reject();
               // }
               () => reject()
             )
-            .finally(() => this.loading.dismissLoading())
+            .finally(() => this.loading.dismissLoading());
         })
         .finally(() => this.loading.dismissLoading());
-    })
+    });
   }
 
   public deletePhoto(img: string) {
@@ -180,9 +179,7 @@ export class ImageService {
   }
 
   public createImageName(): string {
-    const d = new Date(),
-      n = d.getTime(),
-      newFileName = n + ".jpg";
+    const d = new Date(), n = d.getTime(), newFileName = n + '.jpg';
     return newFileName;
   }
 }

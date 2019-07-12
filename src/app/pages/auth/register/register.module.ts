@@ -2,13 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-import { NgxMaskIonicModule } from 'ngx-mask-ionic';
 
 import { IonicModule } from '@ionic/angular';
 
-import { SharedModule } from '../../../components/share.module';
+import { NgxMaskIonicModule } from 'ngx-mask-ionic';
 
-import { RegisterPage } from './register.page';
+import { SharedModule } from 'src/app/components/share.module';
+
+import { RegisterPage } from 'src/app/pages/auth/register/register.page';
 
 const routes: Routes = [
   {

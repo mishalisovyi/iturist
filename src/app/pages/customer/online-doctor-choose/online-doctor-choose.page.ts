@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 
-import { LanguageService } from '../../../services/language.service';
+import { LanguageService } from 'src/app/services/language.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { ApiService } from 'src/app/services/api.service';
 
@@ -37,15 +37,17 @@ export class OnlineDoctorChoosePage {
 
   private callToDoctor() {
     this.storage.get('token').subscribe(res => {
-      if (res) this.callNumber.callNumber("+97233724296", true);
-    })
+      if (res) {
+        this.callNumber.callNumber('+97233724296', true);
+      }
+    });
   }
 
   private async createAlert() {
     let buttons = [{
       text: this.text.purchase ? this.text.purchase : 'Purchase',
       role: 'purchase'
-    }]
+    }];
 
     if (this.points > 0) {
       buttons.push({
@@ -56,7 +58,9 @@ export class OnlineDoctorChoosePage {
     }
 
     const alert = await this.alert.create({
-      message: this.points === 0 ? this.text.negative_calls_balance : `${this.text.positive_calls_balance_first} ${this.points}. ${this.text.positive_calls_balance_second}`,
+      message: this.points === 0
+        ? this.text.negative_calls_balance
+        : `${this.text.positive_calls_balance_first} ${this.points}. ${this.text.positive_calls_balance_second}`,
       buttons
     });
     await alert.present();
@@ -83,7 +87,7 @@ export class OnlineDoctorChoosePage {
 
 
   public callToAmbulance() {
-    this.callNumber.callNumber("101", true);
+    this.callNumber.callNumber('101', true);
   }
 
   public navigate(route: string) {

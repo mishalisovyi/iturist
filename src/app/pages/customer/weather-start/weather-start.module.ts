@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { SharedModule } from 'src/app/components/share.module';
 
-import { WeatherStartPage } from './weather-start.page';
+import { WeatherStartPage } from 'src/app/pages/customer/weather-start/weather-start.page';
 
 const routes: Routes = [
   {

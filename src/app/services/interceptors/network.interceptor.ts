@@ -1,19 +1,19 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
 import { ToastController } from '@ionic/angular';
 import { Network } from '@ionic-native/network/ngx';
 
-import { Observable, throwError, from } from "rxjs";
-import { catchError, mergeMap } from "rxjs/operators";
+import { Observable, throwError, from } from 'rxjs';
+import { catchError, mergeMap } from 'rxjs/operators';
 
-import { LanguageService } from "../language.service";
+import { LanguageService } from 'src/app/services/language.service';
 
 @Injectable()
 export class NetworkInterceptor implements HttpInterceptor {
 
   private text: any;
-  private toastIsPresent: boolean = false;
+  private toastIsPresent = false;
 
   private getPageText() {
     this.text = this.language.getTextByCategories();
@@ -27,7 +27,7 @@ export class NetworkInterceptor implements HttpInterceptor {
       });
       toast.present();
       this.toastIsPresent = true;
-      toast.onDidDismiss().then(() => this.toastIsPresent = false)
+      toast.onDidDismiss().then(() => this.toastIsPresent = false);
     }
   }
 
@@ -38,6 +38,6 @@ export class NetworkInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return from(this.showToast()).pipe(
       mergeMap(() => next.handle(request).pipe(catchError(error => throwError(error))))
-    )
+    );
   }
 }

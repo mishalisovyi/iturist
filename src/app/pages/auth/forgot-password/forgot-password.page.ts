@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, Validators, FormControl } from "@angular/forms";
+import { AbstractControl, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AlertController } from '@ionic/angular';
 
 import { finalize } from 'rxjs/operators';
 
-import { LanguageService } from '../../../services/language.service';
-import { ApiService } from '../../../services/api.service';
-import { LoadingService } from '../../../services/loading.service';
+import { LanguageService } from 'src/app/services/language.service';
+import { ApiService } from 'src/app/services/api.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -40,15 +40,15 @@ export class ForgotPasswordPage implements OnInit {
 
   private resetInput() {
     this.submitTry = false;
-    this.email.setValue("");
+    this.email.setValue('');
   }
 
   private initInput() {
-    this.email = new FormControl("", [Validators.required, Validators.email]);
+    this.email = new FormControl('', [Validators.required, Validators.email]);
   }
 
   private getPageText() {
-    this.text = this.language.getTextByCategories("forgot_password");
+    this.text = this.language.getTextByCategories('forgot_password');
   }
 
   public navigate(route: string) {
@@ -76,18 +76,26 @@ export class ForgotPasswordPage implements OnInit {
           async err => {
             let message: string = this.text.unknown_error;
             if (err.error.metadata) {
-              if (err.error.metadata.api_error_codes.includes(104)) message = this.text.no_users;
-              if (err.error.metadata.api_error_codes.includes(126)) message = this.text.error_facebook;
-              if (err.error.metadata.api_error_codes.includes(127)) message = this.text.error_google;
+              if (err.error.metadata.api_error_codes.includes(104)) {
+                message = this.text.no_users;
+              }
+              if (err.error.metadata.api_error_codes.includes(126)) {
+                message = this.text.error_facebook;
+              }
+              if (err.error.metadata.api_error_codes.includes(127)) {
+                message = this.text.error_google;
+              }
             }
-            if (err.error.email) message = this.text.no_users;
+            if (err.error.email) {
+              message = this.text.no_users;
+            }
             const alert = await this.alert.create({
               message,
               buttons: [this.text.ok]
             });
             await alert.present();
           }
-        )
+        );
     }
   }
 }

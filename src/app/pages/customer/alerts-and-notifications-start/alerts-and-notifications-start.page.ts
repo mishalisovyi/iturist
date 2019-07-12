@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { forkJoin } from "rxjs";
-import { switchMap, tap } from 'rxjs/operators';
-
-import { StorageService } from '../../../services/storage.service';
-import { ApiService } from '../../../services/api.service';
-import { LanguageService } from "../../../services/language.service";
+import { StorageService } from 'src/app/services/storage.service';
+import { ApiService } from 'src/app/services/api.service';
+import { LanguageService } from 'src/app/services/language.service';
 
 @Component({
   selector: 'app-alerts-and-notifications-start',

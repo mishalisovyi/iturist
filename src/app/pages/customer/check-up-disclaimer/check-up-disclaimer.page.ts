@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,11 +6,9 @@ import { Router } from '@angular/router';
   templateUrl: './check-up-disclaimer.page.html',
   styleUrls: ['./check-up-disclaimer.page.scss'],
 })
-export class CheckUpDisclaimerPage implements OnInit {
+export class CheckUpDisclaimerPage {
 
   constructor(private router: Router) { }
-
-  ngOnInit() { }
 
   public navigateBack() {
     this.router.navigateByUrl('/check-up-services');

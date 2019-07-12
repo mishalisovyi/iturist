@@ -19,7 +19,7 @@ export class SimCardChoosePage {
   }
 
   private getPageText() {
-    this.text = this.language.getTextByCategories("sim_card_choose");
+    this.text = this.language.getTextByCategories('sim_card_choose');
   }
 
   public navigate(route: string) {

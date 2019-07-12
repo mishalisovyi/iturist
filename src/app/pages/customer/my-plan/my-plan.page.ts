@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { map } from "rxjs/operators";
+import { map } from 'rxjs/operators';
 
-import { ApiService } from '../../../services/api.service';
-import { LanguageService } from "../../../services/language.service";
+import { ApiService } from 'src/app/services/api.service';
+import { LanguageService } from 'src/app/services/language.service';
 
-import { Plan, BaseResponse } from "../../../models/models";
+import { Plan, BaseResponse } from 'src/app/models/models';
 
 @Component({
   selector: 'app-my-plan',
@@ -30,7 +30,7 @@ export class MyPlanPage {
   }
 
   private getPageText() {
-    this.text = this.language.getTextByCategories("my_plan");
+    this.text = this.language.getTextByCategories('my_plan');
   }
 
   private getMyPlan() {

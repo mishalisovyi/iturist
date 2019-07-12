@@ -8,11 +8,11 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { forkJoin, Subscription } from 'rxjs';
 import { switchMap, tap, finalize } from 'rxjs/operators';
 
-import { ApiService } from '../../../services/api.service';
-import { StorageService } from '../../../services/storage.service';
-import { LanguageService } from "../../../services/language.service";
+import { ApiService } from 'src/app/services/api.service';
+import { StorageService } from 'src/app/services/storage.service';
+import { LanguageService } from 'src/app/services/language.service';
 
-import { Alert } from '../../../models/models';
+import { Alert } from 'src/app/models/models';
 
 @Component({
   selector: 'app-main',
@@ -27,17 +27,19 @@ export class MainPage implements OnInit {
   private longitude: number;
 
   public text: any;
-  public showAlertPopup: boolean;
+  public showAlertPopup = false;
   public showWeatherPopup: boolean;
   public isAuthorized: boolean;
-  public weatherIsLoaded: boolean = false;
+  public weatherIsLoaded = false;
   public alert: Alert;
-  public languageLabel: string = 'En';
+  public languageLabel = 'En';
   public humidity: number;
   public wind: number;
   public temperature: number;
   public pathToWeatherIcon: string;
-  public hideEasyText: boolean = false;
+  public city: string;
+  public hideEasyText = false;
+  public geolocationWorks = false;
 
   constructor(
     private router: Router,
@@ -50,15 +52,16 @@ export class MainPage implements OnInit {
   ) { }
 
   async ngOnInit() {
-    await this.getGeolocation();
-    this.getCurrentWeather()
+    const geolocationLoaded = await this.getGeolocation();
+    if (geolocationLoaded) {
+      this.getCurrentWeather();
+      this.toggleWeatherPopup(true);
+    }
     this.getLatestAlert();
-    this.toggleAlertPopup(true);
-    this.toggleWeatherPopup(true);
   }
 
   ionViewWillEnter() {
-    this.storage.get("language").subscribe((res: string) => this.language.loadLanguage(res ? res : "En"));
+    this.storage.get('language').subscribe((res: string) => this.language.loadLanguage(res ? res : 'En'));
     this.languageSubscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
 
     this.getIsAuthorized();
@@ -70,30 +73,45 @@ export class MainPage implements OnInit {
   }
 
   ionViewWillLeave() {
-    if (this.languageSubscription) this.languageSubscription.unsubscribe();
-    if (this.backBtnSubscription) this.backBtnSubscription.unsubscribe();
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
+    if (this.backBtnSubscription) {
+      this.backBtnSubscription.unsubscribe();
+    }
   }
 
   private getLatestAlert() {
-    this.api.getLatestAlert().subscribe(res => this.alert = res.content);
+    this.api.getLatestAlert().subscribe(res => {
+      this.toggleAlertPopup(true);
+      this.alert = res.content;
+    });
   }
 
-  private async getGeolocation() {
-    const { coords: { latitude, longitude } } = await this.geolocation.getCurrentPosition();
-    this.latitude = latitude;
-    this.longitude = longitude;
+  private async getGeolocation(): Promise<boolean> {
+    return new Promise(resolve => {
+      const timeout = setTimeout(() => resolve(false), 5000);
+
+      this.geolocation.getCurrentPosition().then(({ coords: { latitude, longitude } }) => {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        clearTimeout(timeout);
+        resolve(true);
+      });
+    });
   }
 
   private getPageText() {
-    this.text = this.language.getTextByCategories("main");
+    this.text = this.language.getTextByCategories('main');
   }
 
   private getCurrentWeather() {
     this.api.getCurrentWeather(this.latitude, this.longitude)
       .pipe(finalize(() => this.weatherIsLoaded = true))
       .subscribe((res: any) => {
+        this.city = res.name;
         this.humidity = res.main.humidity;
-        this.wind = res.wind.speed  //m / s
+        this.wind = res.wind.speed;  // m / s
         this.temperature = this.kelvinToCelsius(res.main.temp);
         const index = this.getIndexForWeatherIconsMap(res.weather[0].id);
         this.pathToWeatherIcon = `assets/screens/${this.getWeatherIcon(index)}`;
@@ -118,7 +136,9 @@ export class MainPage implements OnInit {
   private getIsAuthorized() {
     this.api.getToken().subscribe((res: string) => {
       this.isAuthorized = res ? true : false;
-      if (this.isAuthorized) this.registerBackBtn();
+      if (this.isAuthorized) {
+        this.registerBackBtn();
+      }
     });
   }
 
@@ -132,7 +152,9 @@ export class MainPage implements OnInit {
 
   private getIndexForWeatherIconsMap(code: number) {
     const stringCode = code.toString();
-    if (stringCode.startsWith('8')) return stringCode;
+    if (stringCode.startsWith('8')) {
+      return stringCode;
+    }
     return stringCode.charAt(0);
   }
 
@@ -142,7 +164,7 @@ export class MainPage implements OnInit {
 
   public setLanguage(language: string) {
     this.languageLabel = language;
-    this.language.loadLanguage(language)
+    this.language.loadLanguage(language);
   }
 
   public navigateTo(route: string) {
@@ -150,7 +172,7 @@ export class MainPage implements OnInit {
   }
 
   public openEasySite() {
-    this.iab.create('https://easy.co.il/en/', '_blank', { beforeload: "yes", hideurlbar: "yes", location: "yes" });
+    this.iab.create('https://easy.co.il/en/', '_blank', { beforeload: 'yes', hideurlbar: 'yes', location: 'yes' });
   }
 
   public toggleAlertPopup(toggle: boolean) {
@@ -162,16 +184,20 @@ export class MainPage implements OnInit {
   }
 
   public logout() {
-    this.storage.get("auth_type")
+    this.storage.get('auth_type')
       .pipe(
         tap(async (res: string) => {
-          if (res === "GOOGLE") await this.api.googleLogout();
-          if (res === "FACEBOOK") await this.api.facebookLogout();
+          if (res === 'GOOGLE') {
+            await this.api.googleLogout();
+          }
+          if (res === 'FACEBOOK') {
+            await this.api.facebookLogout();
+          }
         }),
         switchMap(() => this.api.logout().pipe(
-          switchMap(() => forkJoin(this.storage.remove("token"), this.storage.remove("profile"), this.storage.remove("auth_type")))
+          switchMap(() => forkJoin(this.storage.remove('token'), this.storage.remove('profile'), this.storage.remove('auth_type')))
         ))
       )
-      .subscribe(() => this.router.navigateByUrl("/login"));
+      .subscribe(() => this.router.navigateByUrl('/login'));
   }
 }

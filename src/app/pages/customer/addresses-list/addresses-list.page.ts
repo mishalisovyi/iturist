@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { ApiService } from '../../../services/api.service';
-import { LanguageService } from '../../../services/language.service';
+import { ApiService } from 'src/app/services/api.service';
+import { LanguageService } from 'src/app/services/language.service';
 
-import { Address, BaseResponse } from '../../../models/models';
+import { Address, BaseResponse } from 'src/app/models/models';
 
 @Component({
   selector: 'app-addresses-list',
@@ -28,7 +28,7 @@ export class AddressesListPage {
   }
 
   private getPageText() {
-    this.text = this.language.getTextByCategories("addresses_list");
+    this.text = this.language.getTextByCategories('addresses_list');
   }
 
   public navigateTo(path: string) {

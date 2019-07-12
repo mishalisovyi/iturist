@@ -17,7 +17,7 @@ export class UnboardingTourPage {
       autoplay: {
         delay: 5000
       }
-    }
+    };
   }
 
   public navigateToLogin() {
@@ -25,6 +25,6 @@ export class UnboardingTourPage {
   }
 
   public slidesDidLoad(slides: IonSlides) {
-    slides.startAutoplay()
+    slides.startAutoplay();
   }
 }

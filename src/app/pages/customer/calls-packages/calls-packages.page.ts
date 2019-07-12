@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { InAppBrowser, InAppBrowserObject } from '@ionic-native/in-app-browser/ngx';
 
-import { LanguageService } from '../../../services/language.service';
+import { LanguageService } from 'src/app/services/language.service';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class CallsPackagesPage implements OnInit {
 
   private browser: InAppBrowserObject;
   private userId: number;
-  private tranzilaCss: string = `
+  private tranzilaCss = `
     #header, #footergreenstripe, #geo {
       display: none;
     }
@@ -52,7 +52,13 @@ export class CallsPackagesPage implements OnInit {
   public text: any;
   public packages: Array<any>;
 
-  constructor(private language: LanguageService, private api: ApiService, private iab: InAppBrowser, private platform: Platform, private router: Router) { }
+  constructor(
+    private language: LanguageService,
+    private api: ApiService,
+    private iab: InAppBrowser,
+    private platform: Platform,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.getProfileId();
@@ -68,7 +74,7 @@ export class CallsPackagesPage implements OnInit {
   }
 
   private getPageText() {
-    this.text = this.language.getTextByCategories("calls_packages");
+    this.text = this.language.getTextByCategories('calls_packages');
   }
 
   private getPackages() {
@@ -78,15 +84,19 @@ export class CallsPackagesPage implements OnInit {
   public purchasePackage(price: number, id: number) {
     this.browser = this.iab.create(
       `https://direct.tranzila.com/diplomacy/newiframe.php?sum=${price}&currency=1&tranmode=AK&user_id=${this.userId}&package_id=${id}`,
-      "_blank",
-      { beforeload: "yes", hideurlbar: "yes", location: "yes" }
+      '_blank',
+      { beforeload: 'yes', hideurlbar: 'yes', location: 'yes' }
     );
     this.browser.insertCSS({ code: this.tranzilaCss });
-    if (this.platform.is('android')) this.browser.hide();
+    if (this.platform.is('android')) {
+      this.browser.hide();
+    }
 
-    this.browser.on("loadstop").subscribe(async () => {
+    this.browser.on('loadstop').subscribe(async () => {
       await this.browser.insertCSS({ code: this.tranzilaCss });
-      if (this.platform.is('android')) this.browser.show();
+      if (this.platform.is('android')) {
+        this.browser.show();
+      }
 
       this.browser.executeScript({
         code: `
@@ -99,7 +109,7 @@ export class CallsPackagesPage implements OnInit {
         this.browser.executeScript({
           code: `
             document.addEventListener('touchend', (e) => {
-              if (document.activeElement !== e.target) {  
+              if (document.activeElement !== e.target) {
                 document.activeElement.blur();
               }
            })
@@ -108,10 +118,10 @@ export class CallsPackagesPage implements OnInit {
       }
 
       const interval = setInterval(async () => {
-        const values: Array<any> = await this.browser.executeScript({ code: "localStorage.getItem('status')" });
+        const values: Array<any> = await this.browser.executeScript({ code: 'localStorage.getItem("status")' });
         const status = values[0];
         if (status) {
-          await this.browser.executeScript({ code: "localStorage.setItem('status', '')" });
+          await this.browser.executeScript({ code: 'localStorage.setItem("status", "")' });
           clearInterval(interval);
           this.browser.close();
         }

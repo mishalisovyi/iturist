@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { LanguageService } from "../../../services/language.service";
+import { LanguageService } from 'src/app/services/language.service';
 
 @Component({
   selector: 'app-order-sim-start',
@@ -19,7 +19,7 @@ export class OrderSimStartPage {
   }
 
   private getPageText() {
-    this.text = this.language.getTextByCategories("order_sim_start");
+    this.text = this.language.getTextByCategories('order_sim_start');
   }
 
   public navigateTo(path: string) {

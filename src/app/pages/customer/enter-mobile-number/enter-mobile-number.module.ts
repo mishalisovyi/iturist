@@ -6,9 +6,9 @@ import { NgxMaskIonicModule } from 'ngx-mask-ionic';
 
 import { IonicModule } from '@ionic/angular';
 
-import { SharedModule } from '../../../components/share.module';
+import { SharedModule } from 'src/app/components/share.module';
 
-import { EnterMobileNumberPage } from './enter-mobile-number.page';
+import { EnterMobileNumberPage } from 'src/app/pages/customer/enter-mobile-number/enter-mobile-number.page';
 
 const routes: Routes = [
   {

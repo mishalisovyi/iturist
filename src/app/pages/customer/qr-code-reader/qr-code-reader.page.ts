@@ -7,11 +7,11 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 import { Subscription } from 'rxjs';
 
-import { LanguageService } from "../../../services/language.service";
-import { StorageService } from '../../../services/storage.service';
-import { ApiService } from '../../../services/api.service';
+import { LanguageService } from 'src/app/services/language.service';
+import { StorageService } from 'src/app/services/storage.service';
+import { ApiService } from 'src/app/services/api.service';
 
-import { Profile, ProfileEditRequest } from '../../../models/models';
+import { Profile, ProfileEditRequest } from 'src/app/models/models';
 
 @Component({
   selector: 'app-qr-code-reader',
@@ -47,7 +47,7 @@ export class QrCodeReaderPage implements OnInit {
     this.getProfile();
 
     if (!this.language.language) {
-      this.storage.get("language").subscribe((res: string) => this.language.loadLanguage(res ? res : "En"));
+      this.storage.get('language').subscribe((res: string) => this.language.loadLanguage(res ? res : 'En'));
       this.languageSubscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
     } else {
       this.getPageText();
@@ -55,8 +55,12 @@ export class QrCodeReaderPage implements OnInit {
   }
 
   ionViewWillLeave() {
-    if (this.languageSubscription) this.languageSubscription.unsubscribe();
-    if (this.scanSubscription) this.scanSubscription.unsubscribe();
+    if (this.languageSubscription) {
+      this.languageSubscription.unsubscribe();
+    }
+    if (this.scanSubscription) {
+      this.scanSubscription.unsubscribe();
+    }
 
     this.qrScanner.hide();
     this.qrScanner.destroy();
@@ -65,7 +69,9 @@ export class QrCodeReaderPage implements OnInit {
 
   private getProfile() {
     this.api.getProfile().subscribe(res => {
-      if (res) this.profile = res.content;
+      if (res) {
+        this.profile = res.content;
+      }
     });
   }
 
@@ -79,7 +85,9 @@ export class QrCodeReaderPage implements OnInit {
 
   private async requestCameraPermission() {
     const { hasPermission } = await this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA);
-    if (hasPermission) this.scanQrCode();
+    if (hasPermission) {
+      this.scanQrCode();
+    }
   }
 
   private getPhone(phone: string) {
@@ -112,7 +120,8 @@ export class QrCodeReaderPage implements OnInit {
               this.qrScanner.destroy();
               window.document.querySelector('ion-app').classList.remove('cameraView');
 
-              const profilePhone: ProfileEditRequest = { phone: this.phone }
+              const profilePhone: ProfileEditRequest = { phone: this.phone };
+              // const profilePhone: ProfileEditRequest = { sim_number: this.phone };
               this.api.editProfile(this.profile.user_id, profilePhone);
 
               const alert = await this.alert.create({

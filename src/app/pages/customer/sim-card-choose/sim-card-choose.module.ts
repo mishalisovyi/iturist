@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { SharedModule } from 'src/app/components/share.module';
 
-import { SimCardChoosePage } from './sim-card-choose.page';
+import { SimCardChoosePage } from 'src/app/pages/customer/sim-card-choose/sim-card-choose.page';
 
 const routes: Routes = [
   {

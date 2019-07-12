@@ -5,9 +5,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { SharedModule } from '../../../components/share.module';
+import { SharedModule } from 'src/app/components/share.module';
 
-import { ConfirmPlanPage } from './confirm-plan.page';
+import { ConfirmPlanPage } from 'src/app/pages/customer/confirm-plan/confirm-plan.page';
 
 const routes: Routes = [
   {

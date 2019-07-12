@@ -4,8 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { iif, EMPTY, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import { ApiService } from '../../../services/api.service';
-import { LanguageService } from '../../../services/language.service';
+import { ApiService } from 'src/app/services/api.service';
+import { LanguageService } from 'src/app/services/language.service';
 import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
@@ -21,8 +21,8 @@ export class ChoosePlanPage implements OnInit {
   public selectedPlanId: string;
   public text: any;
   public hideBage: boolean;
-  public planIsSelected: boolean = false;
-  public defaultHref: string = 'choose-company';
+  public planIsSelected = false;
+  public defaultHref = 'choose-company';
 
   constructor(
     private router: Router,
@@ -55,9 +55,9 @@ export class ChoosePlanPage implements OnInit {
       .subscribe(res => {
         if (res) {
           this.hideBage = false;
-          this.defaultHref = 'my-plan'
+          this.defaultHref = 'my-plan';
         }
-      })
+      });
     // this.api.getMyPlan().subscribe(res => {
     //   if (res) {
     //     this.hideBage = false;
@@ -67,7 +67,7 @@ export class ChoosePlanPage implements OnInit {
   }
 
   private getPageText() {
-    this.text = this.language.getTextByCategories("choose_plan");
+    this.text = this.language.getTextByCategories('choose_plan');
   }
 
   private getCompanyId() {
@@ -94,13 +94,8 @@ export class ChoosePlanPage implements OnInit {
 
   public navigateToEnterMobileNumber() {
     if (this.planIsSelected) {
-      this.router.navigateByUrl(`/enter-mobile-number/${this.companyId}/${this.selectedPlanId}`);
+      this.router.navigate(['/enter-mobile-number'], { queryParams: { companyId: this.companyId, planId: this.selectedPlanId } });
+      // this.router.navigateByUrl(`/enter-mobile-number/${this.companyId}/${this.selectedPlanId}`);
     }
   }
-
-  // public navigateToConfirmPlan() {
-  //   if (this.planIsSelected) {
-  //     this.router.navigateByUrl(`/confirm-plan/${this.selectedPlanId}`);
-  //   }
-  // }
 }
