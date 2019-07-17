@@ -218,7 +218,7 @@
       <ion-img id="weather-img" [src]="pathToWeatherIcon" align-self-end></ion-img>
     </div>
   </div>
-  <div *ngIf="showAlertPopup" class="popup-block" [class.alert-theme]="alert?.type !== 'YNET'">
+  <div *ngIf="showAlertPopup && alertIsAvailable" class="popup-block" [class.alert-theme]="alert?.type !== 'YNET'">
     <div id="gradient-line">
       <ion-button size="small" id="close-btn" (click)="toggleAlertPopup(false)">
         <ion-icon slot="icon-only" name="close"></ion-icon>

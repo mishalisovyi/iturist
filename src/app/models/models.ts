@@ -96,7 +96,7 @@ export interface ProfileEditRequest {
   last_name?: string;
   language?: string;
   document_id?: string;
-  phone: string;
+  phone?: string;
   // sim_number: string;
 }
 

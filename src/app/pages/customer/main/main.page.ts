@@ -12,7 +12,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { LanguageService } from 'src/app/services/language.service';
 
-import { Alert } from 'src/app/models/models';
+import { Alert, ProfileEditRequest } from 'src/app/models/models';
 
 @Component({
   selector: 'app-main',
@@ -25,6 +25,7 @@ export class MainPage implements OnInit {
   private backBtnSubscription: Subscription;
   private latitude: number;
   private longitude: number;
+  private userId: number;
 
   public text: any;
   public showAlertPopup = false;
@@ -40,6 +41,7 @@ export class MainPage implements OnInit {
   public city: string;
   public hideEasyText = false;
   public geolocationWorks = false;
+  public alertIsAvailable = false;
 
   constructor(
     private router: Router,
@@ -57,14 +59,19 @@ export class MainPage implements OnInit {
       this.getCurrentWeather();
       this.toggleWeatherPopup(true);
     }
+
     this.getLatestAlert();
   }
 
   ionViewWillEnter() {
-    this.storage.get('language').subscribe((res: string) => this.language.loadLanguage(res ? res : 'En'));
+    this.storage.get('language').subscribe((res: string) => {
+      this.language.loadLanguage(res ? res : 'En');
+      this.languageLabel = res ? res : 'En';
+    });
     this.languageSubscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
 
     this.getIsAuthorized();
+    this.getProfileId();
 
     if (this.storage.lastUrl === '/login') {
       this.toggleAlertPopup(true);
@@ -81,14 +88,21 @@ export class MainPage implements OnInit {
     }
   }
 
+  private getProfileId() {
+    this.api.getProfile().subscribe(({ content: { user_id } }) => {
+      this.userId = user_id;
+    });
+  }
+
   private getLatestAlert() {
     this.api.getLatestAlert().subscribe(res => {
       this.toggleAlertPopup(true);
       this.alert = res.content;
+      this.alertIsAvailable = true;
     });
   }
 
-  private async getGeolocation(): Promise<boolean> {
+  private async getGeolocation(): Promise<boolean | {}> {
     return new Promise(resolve => {
       const timeout = setTimeout(() => resolve(false), 5000);
 
@@ -165,6 +179,12 @@ export class MainPage implements OnInit {
   public setLanguage(language: string) {
     this.languageLabel = language;
     this.language.loadLanguage(language);
+    this.storage.set('language', language);
+
+    if (this.userId) {
+      const profile: ProfileEditRequest = { language };
+      this.api.editProfile(this.userId, profile).subscribe();
+    }
   }
 
   public navigateTo(route: string) {
