@@ -65,7 +65,7 @@ export class EnterMobileNumberPage implements OnInit {
   private openInAppBrowser() {
     this.browser = this.iab.create(
       // tslint:disable-next-line: max-line-length
-      `https://icom.yaad.net/p/?&action=pay&Masof=0010104820&Info=Register_DC&UTF8out=True&Amount=1&UTF8=True&Order=${this.userId}&Coin=1&J5=True&PassP=1234&MoreData=True&Tash=1&ClientName=dsadsa`,
+      `https://icom.yaad.net/p/?&action=pay&Masof=0010104820&Info=Register_DC&UTF8out=True&Amount=1&UTF8=True&Order=${this.userId}&Coin=1&J5=True&PassP=1234&MoreData=True&Tash=1&ClientName=dsadsa&PageLang=ENG&UserId=000000000`,
       '_blank',
       { beforeload: 'yes', hideurlbar: 'yes', location: 'yes' }
     );
@@ -213,24 +213,26 @@ export class EnterMobileNumberPage implements OnInit {
 
       await this.loading.createLoading(this.text.confirming_number);
 
-      this.api.editProfile(this.userId, { phone })
-        .pipe(
-          finalize(async () => await this.loading.dismissLoading()),
-          switchMap(() => this.api.getCreditCardsList())
-        )
-        .subscribe(
-          () => this.navigateTo('choose-credit-card', { planId: this.planId, companyId: this.companyId }),
-          async err => {
-            const noCreditCardError = err.error.metadata.api_error_codes.includes(125);
-            const alertElement = await this.createAlert(noCreditCardError ? this.text.attach_credit_card : this.text.unknown_error);
+      this.openInAppBrowser();
 
-            await alertElement.onDidDismiss();
+      // this.api.editProfile(this.userId, { phone })
+      //   .pipe(
+      //     finalize(async () => await this.loading.dismissLoading()),
+      //     switchMap(() => this.api.getCreditCardsList())
+      //   )
+      //   .subscribe(
+      //     () => this.navigateTo('choose-credit-card', { planId: this.planId, companyId: this.companyId }),
+      //     async err => {
+      //       const noCreditCardError = err.error.metadata.api_error_codes.includes(125);
+      //       const alertElement = await this.createAlert(noCreditCardError ? this.text.attach_credit_card : this.text.unknown_error);
 
-            if (noCreditCardError) {
-              this.openInAppBrowser();
-            }
-          }
-        );
+      //       await alertElement.onDidDismiss();
+
+      //       if (noCreditCardError) {
+      //         this.openInAppBrowser();
+      //       }
+      //     }
+      //   );
     }
   }
 }

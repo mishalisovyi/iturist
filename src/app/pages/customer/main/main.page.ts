@@ -5,7 +5,7 @@ import { Platform } from '@ionic/angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
-import { forkJoin, Subscription } from 'rxjs';
+import { forkJoin, Subscription, of, iif } from 'rxjs';
 import { switchMap, tap, finalize } from 'rxjs/operators';
 
 import { ApiService } from 'src/app/services/api.service';
@@ -89,9 +89,17 @@ export class MainPage implements OnInit {
   }
 
   private getProfileId() {
-    this.api.getProfile().subscribe(({ content: { user_id } }) => {
-      this.userId = user_id;
-    });
+    this.storage.get('token')
+      .pipe(switchMap(token => iif(
+        () => !!token,
+        this.api.getProfile(),
+        of({ content: { user_id: null } })
+      )))
+      .subscribe(({ content: { user_id } }) => {
+        if (user_id) {
+          this.userId = user_id;
+        }
+      });
   }
 
   private getLatestAlert() {
