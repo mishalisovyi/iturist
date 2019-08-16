@@ -19,6 +19,7 @@ import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { OneSignal } from '@ionic-native/onesignal/ngx';
 
 import { NgxMaskIonicModule } from 'ngx-mask-ionic';
 // import { ChartjsModule } from '@ctrl/ngx-chartjs';
@@ -57,6 +58,7 @@ import { NetworkInterceptor } from 'src/app/services/interceptors/network.interc
     AndroidPermissions,
     QRScanner,
     Geolocation,
+    OneSignal,
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy
