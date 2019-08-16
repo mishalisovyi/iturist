@@ -1,7 +1,7 @@
 /* View models */
 
 export interface Object {
-  [key: string]: any;
+  [key: string]: string | number | boolean | Object;
 }
 
 export interface Profile {

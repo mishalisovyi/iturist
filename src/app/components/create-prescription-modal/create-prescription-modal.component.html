@@ -1,0 +1,10 @@
+<app-header (click)="closeModal()" showBackBtn="true" defaultHref="online-doctor-prescriptions"
+  backBtnText="{{text ? text.back : ''}}"></app-header>
+<p>
+  create-prescription-modal works!
+</p>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button class="bottom-btn" (click)="navigateTo('profile')">{{ text?.submit }}</ion-button>
+  </ion-toolbar>
+</ion-footer>

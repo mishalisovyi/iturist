@@ -60,7 +60,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   public navigateTo(to: string) {
-    this.router.navigate([`/${to}`], { queryParams: this.queryParams });
+    if (to !== '') {
+      this.router.navigate([`/${to}`], { queryParams: this.queryParams });
+    } else {
+      console.log('aaa');
+    }
     // this.router.navigateByUrl(`/${to}`);
   }
 

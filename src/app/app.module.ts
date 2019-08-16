@@ -33,7 +33,6 @@ import { NetworkInterceptor } from 'src/app/services/interceptors/network.interc
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
