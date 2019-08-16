@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Platform, AlertController } from '@ionic/angular';
-import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
+// import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 import { Subscription } from 'rxjs';
@@ -31,7 +31,7 @@ export class QrCodeReaderPage implements OnInit {
   constructor(
     private language: LanguageService,
     private storage: StorageService,
-    private qrScanner: QRScanner,
+    // private qrScanner: QRScanner,
     private androidPermissions: AndroidPermissions,
     private ionicPlatform: Platform,
     private api: ApiService,
@@ -62,8 +62,8 @@ export class QrCodeReaderPage implements OnInit {
       this.scanSubscription.unsubscribe();
     }
 
-    this.qrScanner.hide();
-    this.qrScanner.destroy();
+    // this.qrScanner.hide();
+    // this.qrScanner.destroy();
     window.document.querySelector('ion-app').classList.remove('cameraView');
   }
 
@@ -86,7 +86,7 @@ export class QrCodeReaderPage implements OnInit {
   private async requestCameraPermission() {
     const { hasPermission } = await this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.CAMERA);
     if (hasPermission) {
-      this.scanQrCode();
+      // this.scanQrCode();
     }
   }
 
@@ -102,53 +102,53 @@ export class QrCodeReaderPage implements OnInit {
     this.phone = `972${phone}`;
   }
 
-  public async scanQrCode() {
-    const { hasPermission } = await this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA);
+  // public async scanQrCode() {
+  //   const { hasPermission } = await this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.CAMERA);
 
-    if (this.platform === 'ios' || (this.platform === 'android' && hasPermission)) {
-      this.qrScanner.prepare()
-        .then((status: QRScannerStatus) => {
-          if (status.authorized) {
-            this.qrScanner.show();
-            window.document.querySelector('ion-app').classList.add('cameraView');
+  //   if (this.platform === 'ios' || (this.platform === 'android' && hasPermission)) {
+  //     this.qrScanner.prepare()
+  //       .then((status: QRScannerStatus) => {
+  //         if (status.authorized) {
+  //           this.qrScanner.show();
+  //           window.document.querySelector('ion-app').classList.add('cameraView');
 
-            this.scanSubscription = this.qrScanner.scan().subscribe(async (text: string) => {
-              this.getPhone(text);
+  //           this.scanSubscription = this.qrScanner.scan().subscribe(async (text: string) => {
+  //             this.getPhone(text);
 
-              this.scanSubscription.unsubscribe();
-              this.qrScanner.hide();
-              this.qrScanner.destroy();
-              window.document.querySelector('ion-app').classList.remove('cameraView');
+  //             this.scanSubscription.unsubscribe();
+  //             this.qrScanner.hide();
+  //             this.qrScanner.destroy();
+  //             window.document.querySelector('ion-app').classList.remove('cameraView');
 
-              const profilePhone: ProfileEditRequest = { phone: this.phone };
-              // const profilePhone: ProfileEditRequest = { sim_number: this.phone };
-              this.api.editProfile(this.profile.user_id, profilePhone);
+  //             const profilePhone: ProfileEditRequest = { phone: this.phone };
+  //             // const profilePhone: ProfileEditRequest = { sim_number: this.phone };
+  //             this.api.editProfile(this.profile.user_id, profilePhone);
 
-              const alert = await this.alert.create({
-                message: `Your mobile phone number: +${this.phone}`,
-                buttons: [this.text.ok]
-              });
+  //             const alert = await this.alert.create({
+  //               message: `Your mobile phone number: +${this.phone}`,
+  //               buttons: [this.text.ok]
+  //             });
 
-              await alert.present();
-              alert.onDidDismiss().then(() => this.navigateTo('main'));
-            });
-          } else if (status.denied) {
-            console.log('status denied');
-            // camera permission was permanently denied
-            // you must use QRScanner.openSettings() method to guide the user to the settings page
-            // then they can grant the permission from there
-          } else {
-            console.log('permissions denied');
-            // permission was denied, but not permanently. You can ask for permission again at a later time.
-          }
-        })
-        .catch((e: any) => console.log('Error is', e));
+  //             await alert.present();
+  //             alert.onDidDismiss().then(() => this.navigateTo('main'));
+  //           });
+  //         } else if (status.denied) {
+  //           console.log('status denied');
+  //           // camera permission was permanently denied
+  //           // you must use QRScanner.openSettings() method to guide the user to the settings page
+  //           // then they can grant the permission from there
+  //         } else {
+  //           console.log('permissions denied');
+  //           // permission was denied, but not permanently. You can ask for permission again at a later time.
+  //         }
+  //       })
+  //       .catch((e: any) => console.log('Error is', e));
 
-      return;
-    }
+  //     return;
+  //   }
 
-    this.requestCameraPermission();
-  }
+  //   this.requestCameraPermission();
+  // }
 
   public navigateTo(path: string) {
     this.router.navigateByUrl(`/${path}`);

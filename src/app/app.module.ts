@@ -17,7 +17,7 @@ import { Network } from '@ionic-native/network/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-import { QRScanner } from '@ionic-native/qr-scanner/ngx';
+// import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
 
@@ -56,7 +56,7 @@ import { NetworkInterceptor } from 'src/app/services/interceptors/network.interc
     CallNumber,
     ImagePicker,
     AndroidPermissions,
-    QRScanner,
+    // QRScanner,
     Geolocation,
     OneSignal,
     {
