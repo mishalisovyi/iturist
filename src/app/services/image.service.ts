@@ -9,6 +9,8 @@ import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { LoadingService } from 'src/app/services/loading.service';
 import { LanguageService } from 'src/app/services/language.service';
 
+import { Image } from 'src/app/models/models';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -159,10 +161,6 @@ export class ImageService {
                 this.imgInfo[img].changed = true;
                 resolve();
               },
-              // err => {
-              //   alert(this.platform.is('ios') ? JSON.stringify(err) : this.text.image_allowed);
-              //   reject();
-              // }
               () => reject()
             )
             .finally(() => this.loading.dismissLoading());
@@ -181,5 +179,37 @@ export class ImageService {
   public createImageName(): string {
     const d = new Date(), n = d.getTime(), newFileName = n + '.jpg';
     return newFileName;
+  }
+
+  public getPrescriptionImage(): Promise<Image> {
+    return new Promise((resolve, reject) => {
+      this.getPageText();
+      this.loading.createLoading(this.text.loading_photo);
+
+      this.imagePicker.getPictures({
+        maximumImagesCount: 1,
+        width: 800,
+        height: 800
+      })
+        .then((results) => {
+          const imagePath = results[0];
+
+          const n = imagePath.lastIndexOf('/');
+          const x = imagePath.lastIndexOf('g');
+          const filename = imagePath.substring(n + 1, x + 1);
+          const directory = imagePath.substring(0, n);
+
+          this.getPromiseForFile(directory, filename, imagePath)
+            .then(
+              res => resolve({
+                file: new Blob([res[0]], { type: 'image/jpeg' }),
+                src: this.webview.convertFileSrc(imagePath)
+              }),
+              () => reject()
+            )
+            .finally(() => this.loading.dismissLoading());
+        })
+        .finally(() => this.loading.dismissLoading());
+    });
   }
 }

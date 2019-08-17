@@ -1,7 +1,7 @@
 /* View models */
 
 export interface Object {
-  [key: string]: any;
+  [key: string]: number | string | boolean | Object;
 }
 
 export interface Profile {
@@ -86,6 +86,11 @@ export interface SimPlan {
   pack: number;
   price: number;
   cvv: number;
+}
+
+export interface Image {
+  file: Blob;
+  src: string;
 }
 
 /* Request models */
