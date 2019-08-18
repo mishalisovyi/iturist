@@ -4,6 +4,10 @@ export interface Object {
   [key: string]: number | string | boolean | Object;
 }
 
+export interface Text {
+  [key: string]: string;
+}
+
 export interface Profile {
   user_id: number;
   first_name: string;
@@ -129,8 +133,10 @@ export interface CheckupRequest {
   oncomarker: boolean;
 }
 
-export interface PrescriptionRequest {
-  user_comment?: string;
+export interface RegisterDeviceFcmRequest {
+  registration_id: string;
+  cloud_message_type: string;
+  device_id: string;
 }
 
 /* Response models */

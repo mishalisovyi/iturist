@@ -17,12 +17,11 @@ import { Network } from '@ionic-native/network/ngx';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-// import { QRScanner } from '@ionic-native/qr-scanner/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { OneSignal } from '@ionic-native/onesignal/ngx';
+import { UniqueDeviceID } from '@ionic-native/unique-device-id/ngx';
 
 import { NgxMaskIonicModule } from 'ngx-mask-ionic';
-// import { ChartjsModule } from '@ctrl/ngx-chartjs';
 
 import { AppRoutingModule } from 'src/app/app-routing.module';
 
@@ -36,12 +35,11 @@ import { NetworkInterceptor } from 'src/app/services/interceptors/network.interc
   entryComponents: [],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(),
-    IonicStorageModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    IonicModule.forRoot(),
+    IonicStorageModule.forRoot(),
     NgxMaskIonicModule.forRoot()
-    // ChartjsModule
   ],
   providers: [
     StatusBar,
@@ -56,9 +54,9 @@ import { NetworkInterceptor } from 'src/app/services/interceptors/network.interc
     CallNumber,
     ImagePicker,
     AndroidPermissions,
-    // QRScanner,
     Geolocation,
     OneSignal,
+    UniqueDeviceID,
     {
       provide: RouteReuseStrategy,
       useClass: IonicRouteStrategy

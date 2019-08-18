@@ -43,6 +43,15 @@
           <ion-col no-padding>{{ item.doctor_comment }}</ion-col>
         </ion-row>
       </ng-container>
+
+      <ion-row margin-bottom>
+        <ion-col no-padding class="bold-text">{{ text?.attached_photos }}</ion-col>
+      </ion-row>
+      <ion-row justify-content-between>
+        <ion-col class="image-wrapper" *ngFor="let photo of item.photos" size="5" no-padding>
+          <ion-img class="image" [src]="photo.image"></ion-img>
+        </ion-col>
+      </ion-row>
     </ion-card-content>
   </ion-card>
 </ion-content>

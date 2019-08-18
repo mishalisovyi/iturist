@@ -1,20 +1,18 @@
 import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 
-import { Platform, MenuController, ToastController, AlertController  } from '@ionic/angular';
+import { Platform, MenuController, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Network } from '@ionic-native/network/ngx';
-import { OneSignal } from '@ionic-native/onesignal/ngx';
 
 import { Subscription, forkJoin } from 'rxjs';
 import { switchMap, tap, filter } from 'rxjs/operators';
 
-import { environment } from 'src/environments/environment';
-
 import { ApiService } from 'src/app/services/api.service';
 import { LanguageService } from 'src/app/services/language.service';
 import { StorageService } from 'src/app/services/storage.service';
+import { PushService } from 'src/app/services/push.service';
 
 @Component({
   selector: 'app-root',
@@ -45,8 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private storage: StorageService,
     private network: Network,
     private toast: ToastController,
-    private oneSignal: OneSignal,
-    private alertCtrl: AlertController
+    private push: PushService
   ) {
     this.initializeApp();
   }
@@ -106,41 +103,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private setupPush() {
-    this.oneSignal.startInit(environment.oneSignalAppID, environment.firebaseSenderID);
-    this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.None);
-
-    // Notifcation was received in general
-    this.oneSignal.handleNotificationReceived().subscribe(data => {
-      const msg = data.payload.body;
-      const title = data.payload.title;
-      const additionalData = data.payload.additionalData;
-      this.showAlert(title, msg, additionalData.task);
-    });
-
-    // Notification was really clicked/opened
-    this.oneSignal.handleNotificationOpened().subscribe(data => {
-      // Just a note that the data is a different place here!
-      const additionalData = data.notification.payload.additionalData;
-      this.showAlert('Notification opened', 'You already read this before', additionalData.task);
-    });
-
-    this.oneSignal.endInit();
-  }
-
-  private async showAlert(title, msg, task) {
-    const alert = await this.alertCtrl.create({
-      header: title,
-      subHeader: msg,
-      buttons: [
-        {
-          text: `Action: ${task}`,
-          handler: () => {
-            // E.g: Navigate to a specific screen
-          }
-        }
-      ]
-    });
-    alert.present();
+    this.push.initOneSignal();
   }
 
   private getPageText() {

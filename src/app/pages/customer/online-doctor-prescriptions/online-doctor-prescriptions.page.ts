@@ -10,7 +10,7 @@ import { LanguageService } from 'src/app/services/language.service';
 
 import { RequestPrescriptionModalComponent } from 'src/app/components/request-prescription-modal/request-prescription-modal.component';
 
-import { BaseResponse } from 'src/app/models/models';
+import { Text, BaseResponse } from 'src/app/models/models';
 
 @Component({
   selector: 'app-online-doctor-prescriptions',
@@ -19,7 +19,7 @@ import { BaseResponse } from 'src/app/models/models';
 })
 export class OnlineDoctorPrescriptionsPage {
 
-  public text: any;
+  public text: Text;
   public prescriptions: Array<any>;
 
   constructor(private language: LanguageService, private api: ApiService, private modal: ModalController) { }
@@ -51,6 +51,7 @@ export class OnlineDoctorPrescriptionsPage {
     const modal = await this.modal.create({
       component: RequestPrescriptionModalComponent
     });
+    modal.onDidDismiss().then(() => this.getPrescriptions());
     return await modal.present();
   }
 
