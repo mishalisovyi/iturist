@@ -4,6 +4,7 @@ import { FormControl } from '@angular/forms';
 
 import { ModalController, AlertController, Platform } from '@ionic/angular';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { InAppBrowser, InAppBrowserObject } from '@ionic-native/in-app-browser/ngx';
 
 import { finalize } from 'rxjs/operators';
 
@@ -11,6 +12,7 @@ import { LanguageService } from 'src/app/services/language.service';
 import { ImageService } from 'src/app/services/image.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { ApiService } from 'src/app/services/api.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 import { Text, Image } from 'src/app/models/models';
 
@@ -23,6 +25,40 @@ export class RequestPrescriptionModalComponent implements OnInit {
 
   private modal: ModalController;
   private platform: string;
+  private browser: InAppBrowserObject;
+  private userId: number;
+  private tranzilaCss = `
+    #header, #footergreenstripe, #geo {
+      display: none;
+    }
+    ul {
+     margin-top: 30px;
+    }
+    li {
+     height: 50px;
+    }
+    span, a, input, select {
+      color: #7C8BFE;
+    }
+    input, select {
+      height: 30px;
+      background-color: #F2F6FC;
+      border: 0 !important;
+    }
+    select {
+      vertical-align: unset !important;
+    }
+    #send {
+      margin-top: 20px;
+    }
+    #send button {
+      width: 100%;
+      border-radius: 0 !important;
+      background: linear-gradient(to right, #6c9eff, #a25ffd) !important;
+      height: 60px;
+      margin-top: 30px;
+    }
+ `;
 
   public text: Text;
   public userComment: FormControl;
@@ -35,16 +71,22 @@ export class RequestPrescriptionModalComponent implements OnInit {
     private api: ApiService,
     private alert: AlertController,
     private androidPermissions: AndroidPermissions,
-    private ionicPlatform: Platform
+    private ionicPlatform: Platform,
+    private iab: InAppBrowser,
+    private storage: StorageService
   ) { }
 
   ngOnInit() {
     this.getPlatform();
     this.initFormControl();
+
+    this.storage.get('auth_type').subscribe(res => console.log(res));
+    this.storage.get('token').subscribe(res => console.log(res));
   }
 
   ionViewWillEnter() {
     this.getPageText();
+    this.getUserId();
   }
 
   private getPlatform() {
@@ -74,6 +116,64 @@ export class RequestPrescriptionModalComponent implements OnInit {
     if (hasPermission) {
       this.uploadImage();
     }
+  }
+
+  private getUserId() {
+    this.api.getProfile().subscribe(({ content: { user_id } }) => this.userId = user_id);
+  }
+
+  public confirmPrescription(userId: number, productId: number) {
+    this.browser = this.iab.create(
+      // tslint:disable-next-line: max-line-length
+      `https://direct.tranzila.com/diplomacy/newiframe.php?&currency=1&tranmode=AK&payment_type=PRESCRIPTION_REQUEST&user_id=${userId}&product_id=${productId}`,
+      '_blank',
+      { beforeload: 'yes', hideurlbar: 'yes', location: 'yes' }
+    );
+    this.browser.insertCSS({ code: this.tranzilaCss });
+    if (this.platform === 'android') {
+      this.browser.hide();
+    }
+
+    this.browser.on('loadstop').subscribe(async () => {
+      await this.browser.insertCSS({ code: this.tranzilaCss });
+      if (this.platform === 'android') {
+        this.browser.show();
+      }
+
+      this.browser.executeScript({
+        code: `
+          localStorage.setItem('status', '');
+          const button = document.getElementById('ok');
+          button.addEventListener('click', () => localStorage.setItem('status', 'close'));
+        `
+      });
+      if (this.platform === 'ios') {
+        this.browser.executeScript({
+          code: `
+            document.addEventListener('touchend', (e) => {
+              if (document.activeElement !== e.target) {
+                document.activeElement.blur();
+              }
+           })
+          `
+        });
+      }
+
+      const interval = setInterval(async () => {
+        const values: Array<any> = await this.browser.executeScript({ code: 'localStorage.getItem("status")' });
+        const status = values[0];
+        if (status) {
+          await this.browser.executeScript({ code: 'localStorage.setItem("status", "")' });
+          clearInterval(interval);
+          this.browser.close();
+        }
+      }, 300);
+    });
+
+    this.browser.on('exit').subscribe(() => {
+      this.showAlert(this.text.prescription_created);
+      console.log('browser closed');
+    });
   }
 
   public async uploadImage() {
@@ -110,7 +210,7 @@ export class RequestPrescriptionModalComponent implements OnInit {
     this.api.createPrescription(formData)
       .pipe(finalize(() => this.loading.dismissLoading()))
       .subscribe(
-        () => this.showAlert(this.text.prescription_created),
+        ({ content: { id } }) => this.confirmPrescription(this.userId, id),
         () => this.showAlert(this.text.unknown_error)
       );
   }

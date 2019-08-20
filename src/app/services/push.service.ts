@@ -25,7 +25,7 @@ export class PushService {
   }
 
   public registerDevicePush() {
-    this.api.registerDevicePush({registration_id: this.userId, cloud_message_type: 'FCM', device_id: this.deviceId}).subscribe(
+    this.api.registerDevicePush({player_id: this.userId, device_id: this.deviceId}).subscribe(
       res => console.log(res),
       err => console.log(err)
     );

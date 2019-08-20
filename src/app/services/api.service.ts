@@ -198,6 +198,6 @@ export class ApiService {
   }
 
   public registerDevicePush(requestBody: RegisterDeviceFcmRequest) {
-    return this.http.post<BaseResponse>(`${environment.api}/reg-device/fcm`, requestBody);
+    return this.http.post<BaseResponse>(`${environment.api}/reg-device`, requestBody);
   }
 }

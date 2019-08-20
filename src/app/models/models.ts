@@ -134,8 +134,7 @@ export interface CheckupRequest {
 }
 
 export interface RegisterDeviceFcmRequest {
-  registration_id: string;
-  cloud_message_type: string;
+  player_id: string;
   device_id: string;
 }
 
