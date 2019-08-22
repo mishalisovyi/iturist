@@ -79,9 +79,6 @@ export class RequestPrescriptionModalComponent implements OnInit {
   ngOnInit() {
     this.getPlatform();
     this.initFormControl();
-
-    this.storage.get('auth_type').subscribe(res => console.log(res));
-    this.storage.get('token').subscribe(res => console.log(res));
   }
 
   ionViewWillEnter() {
@@ -125,7 +122,8 @@ export class RequestPrescriptionModalComponent implements OnInit {
   public confirmPrescription(userId: number, productId: number) {
     this.browser = this.iab.create(
       // tslint:disable-next-line: max-line-length
-      `https://direct.tranzila.com/diplomacy/newiframe.php?&currency=1&tranmode=AK&payment_type=PRESCRIPTION_REQUEST&user_id=${userId}&product_id=${productId}`,
+      // `https://direct.tranzila.com/diplomacy/newiframe.php?&currency=1&tranmode=AK&payment_type=PRESCRIPTION_REQUEST&user_id=${userId}&product_id=${productId}`,
+      `https://direct.tranzila.com/diplomacy/newiframe.php?payment_type=PRESCRIPTION_REQUEST&user_id=${userId}&product_id=${productId}`,
       '_blank',
       { beforeload: 'yes', hideurlbar: 'yes', location: 'yes' }
     );
