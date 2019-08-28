@@ -10,7 +10,7 @@ import { FirstStartGuard } from 'src/app/guards/first-start.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'unboarding-tour',
+    redirectTo: 'onboarding-tour',
     pathMatch: 'full'
   },
   {
@@ -190,8 +190,8 @@ const routes: Routes = [
     canActivate: [GuestGuard, NetworkGuard]
   },
   {
-    path: 'unboarding-tour',
-    loadChildren: './pages/customer/unboarding-tour/unboarding-tour.module#UnboardingTourPageModule',
+    path: 'onboarding-tour',
+    loadChildren: './pages/customer/onboarding-tour/onboarding-tour.module#OnboardingTourPageModule',
     canActivate: [FirstStartGuard, NetworkGuard]
   },
   {

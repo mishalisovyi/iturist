@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { IonSlides } from '@ionic/angular';
 
 @Component({
-  selector: 'app-unboarding-tour',
-  templateUrl: './unboarding-tour.page.html',
-  styleUrls: ['./unboarding-tour.page.scss'],
+  selector: 'app-onboarding-tour',
+  templateUrl: './onboarding-tour.page.html',
+  styleUrls: ['./onboarding-tour.page.scss'],
 })
-export class UnboardingTourPage {
+export class OnboardingTourPage {
 
   public options: any;
 
