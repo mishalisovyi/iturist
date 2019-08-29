@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { IonSlides } from '@ionic/angular';
+import { IonSlides, Platform } from '@ionic/angular';
+
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-onboarding-tour',
@@ -12,12 +14,24 @@ export class OnboardingTourPage {
 
   public options: any;
 
-  constructor(private router: Router) {
+  private backBtnSubscription: Subscription;
+
+  constructor(private router: Router, private platform: Platform) {
     this.options = {
       autoplay: {
         delay: 5000
       }
     };
+  }
+
+  ionViewWillEnter() {
+    this.backBtnSubscription = this.platform.backButton.subscribe(() => navigator['app'].exitApp());
+  }
+
+  ionViewWillLeave() {
+    if (this.backBtnSubscription) {
+      this.backBtnSubscription.unsubscribe();
+    }
   }
 
   public navigateToLogin() {

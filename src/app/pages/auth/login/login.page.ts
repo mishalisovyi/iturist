@@ -103,7 +103,6 @@ export class LoginPage implements OnInit {
       duration: 2000
     });
     toast.present();
-
   }
 
   public requireValidator(...fields: Array<string>): boolean {
