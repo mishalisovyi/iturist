@@ -3,12 +3,14 @@ import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 import * as moment from 'moment';
-import { map, finalize } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { ApiService } from 'src/app/services/api.service';
 import { LanguageService } from 'src/app/services/language.service';
 
-import { BaseResponse } from 'src/app/models/models';
+import { RequestPrescriptionModalComponent } from 'src/app/components/request-prescription-modal/request-prescription-modal.component';
+
+import { Text, BaseResponse } from 'src/app/models/models';
 
 import { CreatePrescriptionModalComponent } from 'src/app/components/create-prescription-modal/create-prescription-modal.component';
 
@@ -19,10 +21,10 @@ import { CreatePrescriptionModalComponent } from 'src/app/components/create-pres
 })
 export class OnlineDoctorPrescriptionsPage {
 
-  public text: any;
+  public text: Text;
   public prescriptions: Array<any>;
 
-  constructor(private language: LanguageService, private api: ApiService, private modalController: ModalController) { }
+  constructor(private language: LanguageService, private api: ApiService, private modal: ModalController) { }
 
   ionViewWillEnter() {
     this.getPageText();
@@ -48,11 +50,13 @@ export class OnlineDoctorPrescriptionsPage {
   }
 
   public async presentModal() {
-    const modal = await this.modalController.create({
-      component: CreatePrescriptionModalComponent
+    const modal = await this.modal.create({
+      component: RequestPrescriptionModalComponent
     });
+    modal.onDidDismiss().then(() => this.getPrescriptions());
     return await modal.present();
   }
+
 
   // public async presentRequestAlert() {
   //   const alert = await this.alert.create({

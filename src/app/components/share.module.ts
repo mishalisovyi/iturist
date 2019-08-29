@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
 import { HeaderComponent } from 'src/app/components/header/header.component';
 import { NoDataMessageComponent } from 'src/app/components/no-data-message/no-data-message.component';
+import { RequestPrescriptionModalComponent } from './request-prescription-modal/request-prescription-modal.component';
 
 import { PhoneNumberPipe } from 'src/app/pipes/phone-number.pipe';
 import { CreatePrescriptionModalComponent } from './create-prescription-modal/create-prescription-modal.component';
@@ -12,10 +14,11 @@ import { CreatePrescriptionModalComponent } from './create-prescription-modal/cr
 @NgModule({
   imports: [
     CommonModule,
-    IonicModule
+    IonicModule,
+    ReactiveFormsModule
   ],
-  declarations: [HeaderComponent, PhoneNumberPipe, NoDataMessageComponent, CreatePrescriptionModalComponent],
+  declarations: [HeaderComponent, PhoneNumberPipe, NoDataMessageComponent, RequestPrescriptionModalComponent],
   exports: [HeaderComponent, PhoneNumberPipe, NoDataMessageComponent],
-  entryComponents: [CreatePrescriptionModalComponent]
+  entryComponents: [RequestPrescriptionModalComponent]
 })
 export class SharedModule { }

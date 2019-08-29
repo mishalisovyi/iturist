@@ -14,18 +14,20 @@ export class FirstStartGuard implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
 
-    return this.storage.get('not_first_launch')
-      .pipe(
-        switchMap(res => {
-          const allowed = res ? false : true;
-          if (!allowed) {
-            this.router.navigateByUrl('/main');
-          }
-          return this.storage.set('not_first_launch', 'true').pipe(switchMap(() => of(allowed)));
-        }),
-        catchError(() => {
-          return of(true);
-        })
-      );
+    // return this.storage.get('not_first_launch')
+    //   .pipe(
+    //     switchMap(res => {
+    //       const allowed = res ? false : true;
+    //       if (!allowed) {
+    //         this.router.navigateByUrl('/main');
+    //       }
+    //       return this.storage.set('not_first_launch', 'true').pipe(switchMap(() => of(allowed)));
+    //     }),
+    //     catchError(() => {
+    //       return of(true);
+    //     })
+    //   );
+
+    return of(true);
   }
 }

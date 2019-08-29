@@ -14,6 +14,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { LanguageService } from 'src/app/services/language.service';
 import { LoadingService } from 'src/app/services/loading.service';
+import { PushService } from 'src/app/services/push.service';
 
 import { BaseResponse } from 'src/app/models/models';
 
@@ -46,7 +47,8 @@ export class LoginPage implements OnInit {
     private loading: LoadingService,
     private toast: ToastController,
     private network: Network,
-    private platform: Platform
+    private platform: Platform,
+    private push: PushService
   ) { }
 
   ngOnInit() {
@@ -192,10 +194,14 @@ export class LoginPage implements OnInit {
           //   ? `/set-start-info/${res[3].content.user_id}`
           //   : '/main'
           // ),
-          () => this.router.navigateByUrl('/main'),
+          () => {
+            this.push.registerDevicePush();
+            this.router.navigateByUrl('/main');
+          },
           async () => await this.googlePlus.disconnect()
         );
     } catch (error) {
+      console.log(error);
       await this.loading.dismissLoading();
     }
   }
@@ -234,7 +240,10 @@ export class LoginPage implements OnInit {
           //   ? `/set-start-info/${res[3].content.user_id}`
           //   : '/main'
           // ),
-          () => this.router.navigateByUrl('/main'),
+          () => {
+            this.push.registerDevicePush();
+            this.router.navigateByUrl('/main');
+          },
           async err => {
             if (err.error.metadata.api_error_codes.includes(106)) {
               alert(this.text.can_not_sign_in);

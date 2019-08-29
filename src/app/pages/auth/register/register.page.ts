@@ -13,6 +13,7 @@ import { StorageService } from 'src/app/services/storage.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { ActionSheetService } from 'src/app/services/action-sheet.service';
 import { LanguageService } from 'src/app/services/language.service';
+import { PushService } from 'src/app/services/push.service';
 
 import { BaseResponse } from 'src/app/models/models';
 
@@ -38,6 +39,7 @@ export class RegisterPage implements OnInit {
     private menu: MenuController,
     private action: ActionSheetService,
     private language: LanguageService,
+    private push: PushService,
     public image: ImageService,
   ) { }
 
@@ -144,7 +146,10 @@ export class RegisterPage implements OnInit {
           forkJoin(this.storage.set('token', res.content.token), this.storage.set('language', res.content.profile.language))
             .pipe(
               finalize(() => this.loading.dismissLoading()),
-              switchMap(() => from(this.postImages()))
+              switchMap(() => {
+                this.push.registerDevicePush();
+                return from(this.postImages());
+              })
             )
             // .subscribe(() => this.router.navigateByUrl( `/set-start-info/${res.content.profile.user_id}`))
             .subscribe(() => this.router.navigateByUrl('/main'));

@@ -1,0 +1,43 @@
+<!-- <ion-content padding>
+  <ion-slides class="h-100" #slider [options]="options" (ionSlidesDidLoad)="slidesDidLoad(slider)">
+    <ion-slide>
+      <ion-img class="w-100" src="assets/screens/ambulance.svg"></ion-img>
+    </ion-slide>
+    <ion-slide>
+      <ion-img class="w-100" src="assets/screens/calls-list.svg"></ion-img>
+    </ion-slide>
+    <ion-slide>
+      <ion-img class="w-100" src="assets/screens/online-doctor.svg"></ion-img>
+    </ion-slide>
+  </ion-slides>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button class="bottom-btn" (click)="navigateToLogin()">Skip</ion-button>
+  </ion-toolbar>
+</ion-footer> -->
+
+<ion-content padding>
+  <ion-slides class="h-100" #slider [options]="options" pager="true" (ionSlidesDidLoad)="slidesDidLoad(slider)">
+    <ion-slide>
+      <app-slide1></app-slide1>
+    </ion-slide>
+    <ion-slide>
+      <app-slide2></app-slide2>
+    </ion-slide>
+    <ion-slide>
+      <app-slide3></app-slide3>
+    </ion-slide>
+    <ion-slide>
+      <app-slide4></app-slide4>
+    </ion-slide>
+    <ion-slide>
+      <app-slide5></app-slide5>
+    </ion-slide>
+  </ion-slides>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button class="bottom-btn" (click)="navigateToLogin()">Skip</ion-button>
+  </ion-toolbar>
+</ion-footer>

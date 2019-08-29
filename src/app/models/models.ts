@@ -1,7 +1,11 @@
 /* View models */
 
 export interface Object {
-  [key: string]: string | number | boolean | Object;
+  [key: string]: number | string | boolean | Object;
+}
+
+export interface Text {
+  [key: string]: string;
 }
 
 export interface Profile {
@@ -88,6 +92,11 @@ export interface SimPlan {
   cvv: number;
 }
 
+export interface Image {
+  file: Blob;
+  src: string;
+}
+
 /* Request models */
 
 export interface ProfileEditRequest {
@@ -124,8 +133,9 @@ export interface CheckupRequest {
   oncomarker: boolean;
 }
 
-export interface PrescriptionRequest {
-  user_comment?: string;
+export interface RegisterDeviceFcmRequest {
+  player_id: string;
+  device_id: string;
 }
 
 /* Response models */

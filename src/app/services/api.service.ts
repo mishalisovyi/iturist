@@ -16,8 +16,8 @@ import {
   OrderSimCardRequest,
   AppointmentRequest,
   CheckupRequest,
-  PrescriptionRequest,
-  SimPlan
+  SimPlan,
+  RegisterDeviceFcmRequest
 } from 'src/app/models/models';
 
 import { environment } from 'src/environments/environment';
@@ -142,7 +142,7 @@ export class ApiService {
     return this.http.get<BaseResponse>(`${environment.api}/prescription-request`);
   }
 
-  public createPrescription(body: PrescriptionRequest) {
+  public createPrescription(body: FormData) {
     return this.http.post<BaseResponse>(`${environment.api}/prescription-request`, body);
   }
 
@@ -195,5 +195,9 @@ export class ApiService {
 
   public buySimPlan(requestBody: SimPlan) {
     return this.http.post<BaseResponse>(`${environment.api}/sim-card/buy`, requestBody);
+  }
+
+  public registerDevicePush(requestBody: RegisterDeviceFcmRequest) {
+    return this.http.post<BaseResponse>(`${environment.api}/reg-device`, requestBody);
   }
 }
