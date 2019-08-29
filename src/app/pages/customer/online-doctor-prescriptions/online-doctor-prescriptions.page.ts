@@ -12,8 +12,6 @@ import { RequestPrescriptionModalComponent } from 'src/app/components/request-pr
 
 import { Text, BaseResponse } from 'src/app/models/models';
 
-import { CreatePrescriptionModalComponent } from 'src/app/components/create-prescription-modal/create-prescription-modal.component';
-
 @Component({
   selector: 'app-online-doctor-prescriptions',
   templateUrl: './online-doctor-prescriptions.page.html',

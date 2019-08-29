@@ -9,7 +9,6 @@ import { NoDataMessageComponent } from 'src/app/components/no-data-message/no-da
 import { RequestPrescriptionModalComponent } from './request-prescription-modal/request-prescription-modal.component';
 
 import { PhoneNumberPipe } from 'src/app/pipes/phone-number.pipe';
-import { CreatePrescriptionModalComponent } from './create-prescription-modal/create-prescription-modal.component';
 
 @NgModule({
   imports: [
