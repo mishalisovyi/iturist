@@ -103,7 +103,7 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   private getDisplayedInfo() {
     for (const key in this.form.controls) {
-      if (this.displayedInfo[key]) {
+      if (this.form.controls[key]) {
         // this.displayedInfo[key] = this.form.get(key).value.replace('+972 ', '');
         this.displayedInfo[key] = this.form.get(key).value;
       }

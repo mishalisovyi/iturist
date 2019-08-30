@@ -3,99 +3,87 @@
 <ion-content>
   <div id="text-block" class="violet-text bold-text font-size-16">{{ text?.online_doctor }}</div>
   <ion-grid>
-    <ion-row justify-content-around>
+    <ion-row class="menu-row" justify-content-around>
       <ion-col size="3" text-center class="violet-text">
         <div class="grid-item" (click)="checkCalls()">
-          <ion-img src="assets/screens/phone-call.svg">
-          </ion-img>
+          <div>
+            <ion-img src="assets/screens/phone-call.svg"></ion-img>
+          </div>
         </div>
         <span class="font-size-12">{{ text?.phone_call }}</span>
       </ion-col>
       <ion-col size="3" text-center class="violet-text">
         <div class="grid-item" (click)="callToAmbulance()">
-          <ion-img src="assets/screens/ambulance.svg">
-          </ion-img>
+          <div>
+            <ion-img src="assets/screens/ambulance.svg"></ion-img>
+          </div>
         </div>
         <span class="font-size-12">{{ text?.ambulance }}</span>
       </ion-col>
     </ion-row>
-    <ion-row justify-content-around>
+    <ion-row class="menu-row" justify-content-around>
       <ion-col size="3" text-center class="violet-text">
         <div class="grid-item" (click)="navigate('/check-up-services-start')">
-          <ion-img src="assets/screens/check-up-service.svg">
-          </ion-img>
+          <div>
+            <ion-img src="assets/screens/check-up-service.svg"></ion-img>
+          </div>
         </div>
         <span class="font-size-12">{{ text?.check_up_service }}</span>
       </ion-col>
       <ion-col size="3" text-center class="violet-text">
         <div class="grid-item" (click)="navigate('/online-doctor-prescriptions')">
-          <ion-img src="assets/screens/prescription_request.svg">
-          </ion-img>
+          <div>
+            <ion-img src="assets/screens/prescription_request.svg"></ion-img>
+          </div>
         </div>
         <span class="font-size-12">{{ text?.my_prescriptions }}</span>
       </ion-col>
       <ion-col size="3" text-center class="violet-text">
         <div class="grid-item disabled-item">
-          <ion-img src="assets/screens/medical-escort-disabled.svg">
-          </ion-img>
-          <div class="lock-badge">
-            <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
+          <div>
+            <ion-img src="assets/screens/medical-escort-disabled.svg"></ion-img>
+            <div class="lock-badge">
+              <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
+            </div>
           </div>
         </div>
         <span class="font-size-12">{{ text?.medical_escort}}</span>
       </ion-col>
-      <!-- <ion-col size="3" text-center class="violet-text">
-        <div class="grid-item" (click)="callToDoctor()">
-          <ion-img src="assets/screens/phone-call.svg">
-          </ion-img>
-        </div>
-        <span>{{ text?.phone_call }}</span>
-      </ion-col>
-      <ion-col size="3" text-center class="violet-text">
-        <div class="grid-item" (click)="callToAmbulance()">
-          <ion-img src="assets/screens/ambulance.svg">
-          </ion-img>
-        </div>
-        <span>{{ text?.ambulance }}</span>
-      </ion-col> -->
     </ion-row>
-    <ion-row justify-content-around>
+    <ion-row class="menu-row" justify-content-around>
       <ion-col size="3" text-center class="violet-text">
         <div class="grid-item disabled-item">
-          <ion-img src="assets/screens/doctor-appointment-disabled.svg">
-          </ion-img>
-          <div class="lock-badge">
-            <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
+          <div>
+            <ion-img src="assets/screens/doctor-appointment-disabled.svg"></ion-img>
+            <div class="lock-badge">
+              <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
+            </div>
           </div>
         </div>
         <span class="font-size-12">{{ text?.doctor_appointment}}</span>
       </ion-col>
       <ion-col size="3" text-center class="violet-text">
         <div class="grid-item disabled-item">
-          <ion-img src="assets/screens/video-chat-disabled.svg">
-          </ion-img>
-          <div class="lock-badge">
-            <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
+          <div>
+            <ion-img src="assets/screens/video-chat-disabled.svg"></ion-img>
+            <div class="lock-badge">
+              <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
+            </div>
           </div>
         </div>
         <span class="font-size-12">{{ text?.video_chat}}</span>
       </ion-col>
       <ion-col size="3" text-center class="violet-text">
         <div class="grid-item disabled-item">
-          <ion-img src="assets/screens/second-opinion-disabled.svg">
-          </ion-img>
-          <div class="lock-badge">
-            <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
+          <div>
+            <ion-img src="assets/screens/second-opinion-disabled.svg"></ion-img>
+            <div class="lock-badge">
+              <ion-icon slot="icon-only" src="assets/screens/lock.svg"></ion-icon>
+            </div>
           </div>
         </div>
         <span class="font-size-12">{{ text?.second_opinion}}</span>
       </ion-col>
-      <!-- <ion-col size="3" text-center class="violet-text">
-        <div class="grid-item" (click)="navigate('doctor-appointment')">
-          <ion-img src="assets/screens/doctor-appointment.svg"></ion-img>
-        </div>
-        <span>{{ text?.doctor_appointment }}</span>
-      </ion-col> -->
     </ion-row>
   </ion-grid>
 </ion-content>
