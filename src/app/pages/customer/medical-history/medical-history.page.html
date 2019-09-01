@@ -18,7 +18,7 @@
         <ion-item class="item-accordion" *ngFor="let item of choices?.relative_diseases; let i = index">
           <div class="check-choices-container" (click)="manageDiseasesValues(i)">
             <span class="violet-text">{{ item[1] }}</span>
-            <ion-checkbox [checked]="checkValues[i]"></ion-checkbox>
+            <ion-checkbox [checked]="checkValuesDiseases[i]"></ion-checkbox>
           </div>
         </ion-item>
       </div>
@@ -35,7 +35,7 @@
         <ion-item class="item-accordion" *ngFor="let item of choices?.current_symptoms; let i = index">
           <div class="check-choices-container" (click)="manageSymptomsValues(i)">
             <span class="violet-text">{{ item[1] }}</span>
-            <ion-checkbox></ion-checkbox>
+            <ion-checkbox [checked]="checkValuesSymptoms[i]"></ion-checkbox>
           </div>
         </ion-item>
       </div>

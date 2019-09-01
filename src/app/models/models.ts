@@ -97,6 +97,17 @@ export interface Image {
   src: string;
 }
 
+export interface MedicalHistory {
+  consume_alcohol: 'NOT-SET' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'OCCASIONALLY' | 'NEVER';
+  current_symptoms: Array<{ title: string }>;
+  gender: 'NOT-SET' | 'MALE' | 'FEMALE';
+  illegal_drugs: boolean;
+  medication_allergies: 'NOT-SURE' | 'YES' | 'NO';
+  relative_diseases: Array<{ title: string }>;
+  taking_medication: boolean;
+  use_tobacco: boolean;
+}
+
 /* Request models */
 
 export interface ProfileEditRequest {

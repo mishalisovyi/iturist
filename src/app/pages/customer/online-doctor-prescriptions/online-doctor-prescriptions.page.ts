@@ -54,38 +54,4 @@ export class OnlineDoctorPrescriptionsPage {
     modal.onDidDismiss().then(() => this.getPrescriptions());
     return await modal.present();
   }
-
-
-  // public async presentRequestAlert() {
-  //   const alert = await this.alert.create({
-  //     header: this.text.request_prescription ? this.text.request_prescription : 'Request prescription',
-  //     inputs: [
-  //       {
-  //         name: 'user_comment',
-  //         type: 'text',
-  //         placeholder: this.text.write_your_comment ? this.text.write_your_comment : 'Write your comment'
-  //       }
-  //     ],
-  //     buttons: [
-  //       {
-  //         text: this.text.ok ? this.text.ok : 'Ok',
-  //         role: 'submit'
-  //       },
-  //       {
-  //         text: this.text.cancel ? this.text.cancel : 'Cancel',
-  //         role: 'cancel'
-  //       }
-  //     ]
-  //   });
-  //   await alert.present();
-
-  //   alert.onDidDismiss().then(value => {
-  //     if (value.role === 'submit') {
-  //       const { values: { user_comment } } = value.data;
-  //       this.api.createPrescription({ user_comment })
-  //         .pipe(finalize(() => this.getPrescriptions()))
-  //         .subscribe();
-  //     }
-  //   });
-  // }
 }

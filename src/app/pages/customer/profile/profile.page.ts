@@ -204,6 +204,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   public async getPhoto(photo: string) {
+    console.log(photo);
     const { hasPermission } = await this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE);
 
     if (this.platform === 'ios' || (this.platform === 'android' && hasPermission)) {

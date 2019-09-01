@@ -1,11 +1,20 @@
 <app-header></app-header>
 
 <ion-content>
-  <div id="text-block" class="violet-text bold-text font-size-16">{{ text?.online_doctor }}</div>
+  <!-- <div id="text-block" class="violet-text bold-text font-size-16">{{ text?.online_doctor }}</div> -->
+  <ion-row id="text-block" class="violet-text bold-text font-size-16">
+    <ion-col align-self-center>&nbsp;{{ text?.online_doctor }}</ion-col>
+    <ion-col>
+      <ion-button id="#request-prescription-btn" class="btn w-100" (click)="navigate('/medical-history')">
+        {{ text?.edit_medical_history }}Edit medical history
+      </ion-button>
+    </ion-col>
+  </ion-row>
   <ion-grid>
     <ion-row class="menu-row" justify-content-around>
       <ion-col size="3" text-center class="violet-text">
-        <div class="grid-item" (click)="checkCalls()">
+        <!-- <div class="grid-item" (click)="createAlert()"> -->
+        <div class="grid-item" (click)="checkPassportImage(createAlert)">
           <div>
             <ion-img src="assets/screens/phone-call.svg"></ion-img>
           </div>
@@ -23,7 +32,7 @@
     </ion-row>
     <ion-row class="menu-row" justify-content-around>
       <ion-col size="3" text-center class="violet-text">
-        <div class="grid-item" (click)="navigate('/check-up-services-start')">
+        <div class="grid-item" (click)="checkPassportImage(navigate, '/check-up-services-start')">
           <div>
             <ion-img src="assets/screens/check-up-service.svg"></ion-img>
           </div>
@@ -31,7 +40,7 @@
         <span class="font-size-12">{{ text?.check_up_service }}</span>
       </ion-col>
       <ion-col size="3" text-center class="violet-text">
-        <div class="grid-item" (click)="navigate('/online-doctor-prescriptions')">
+        <div class="grid-item" (click)="checkPassportImage(navigate, '/online-doctor-prescriptions')">
           <div>
             <ion-img src="assets/screens/prescription_request.svg"></ion-img>
           </div>
