@@ -3,11 +3,13 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, switchMap } from 'rxjs/operators';
 
 import { ApiService } from 'src/app/services/api.service';
 import { LanguageService } from 'src/app/services/language.service';
 import { LoadingService } from 'src/app/services/loading.service';
+
+import { MedicalHistory } from 'src/app/models/models';
 
 @Component({
   selector: 'app-medical-history',
@@ -23,7 +25,8 @@ export class MedicalHistoryPage implements OnInit, OnDestroy {
   public form: FormGroup;
   public submitTry = false;
   public text: any;
-  public checkValues: Array<boolean>;
+  public checkValuesDiseases: Array<boolean>;
+  public checkValuesSymptoms: Array<boolean>;
   public diseasesValues: Array<any> = [];
   public symptomsValues: Array<any> = [];
 
@@ -37,8 +40,8 @@ export class MedicalHistoryPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initForm();
-    this.getChoices();
-    this.setCheckValues();
+    this.getChoicesAndSetStartHistoryValues();
+    this.setcheckValues();
   }
 
   ngOnDestroy() {
@@ -49,10 +52,20 @@ export class MedicalHistoryPage implements OnInit, OnDestroy {
 
   ionViewWillEnter() {
     this.getPageText();
+    this.getMedicalHistory();
   }
 
-  private getChoices() {
-    this.api.getMedicalHistoryChoices().subscribe(res => this.choices = res);
+  private getChoicesAndSetStartHistoryValues() {
+    this.api.getMedicalHistoryChoices()
+      .pipe(switchMap(res => {
+        this.choices = res;
+        return this.api.checkMedicalHistory();
+      }))
+      .subscribe(res => {
+        if (res) {
+          this.setMedicalHistoryValues(res.content[res.content.length - 1]);
+        }
+      });
   }
 
   private initForm() {
@@ -66,34 +79,64 @@ export class MedicalHistoryPage implements OnInit, OnDestroy {
     });
   }
 
-  private setCheckValues() {
-    this.checkValues = new Array(8).fill(false);
+  private setcheckValues() {
+    this.checkValuesDiseases = new Array(8).fill(false);
+    this.checkValuesSymptoms = new Array(12).fill(false);
   }
 
   private getPageText() {
     this.text = this.language.getTextByCategories('medical_history');
   }
 
+  private getMedicalHistory() {
+    if (this.choices) {
+      this.api.checkMedicalHistory().subscribe(res => {
+        if (res) {
+          this.setMedicalHistoryValues(res.content[res.content.length - 1]);
+        }
+      });
+    }
+  }
+
+  private setMedicalHistoryValues(data: MedicalHistory) {
+    this.form.setValue({
+      taking_medication: `${data.taking_medication}`,
+      medication_allergies: data.medication_allergies,
+      gender: data.gender,
+      use_tobacco: `${data.use_tobacco}`,
+      illegal_drugs: `${data.illegal_drugs}`,
+      consume_alcohol: data.consume_alcohol
+    });
+    this.diseasesValues = data.relative_diseases.map(item => item.title);
+    this.symptomsValues = data.current_symptoms.map(item => item.title);
+    for (const item of this.diseasesValues) {
+      this.checkValuesDiseases[this.choices.relative_diseases.findIndex(it => it[0] === item)] = true;
+    }
+    for (const item of this.symptomsValues) {
+      this.checkValuesSymptoms[this.choices.current_symptoms.findIndex(it => it[0] === item)] = true;
+    }
+  }
+
   public manageDiseasesValues(index: number) {
     const value = this.choices.relative_diseases[index][0];
 
     if (this.diseasesValues.includes(value)) {
-      this.checkValues[index] = false;
+      this.checkValuesDiseases[index] = false;
       const i = this.diseasesValues.findIndex(item => item === value);
       this.diseasesValues.splice(i, 1);
     } else {
       if (value !== 'NOT-SET') {
         if (this.diseasesValues.includes('NOT-SET')) {
-          this.checkValues[0] = false;
+          this.checkValuesDiseases[0] = false;
           const i = this.diseasesValues.findIndex(item => item === 'NOT-SET');
           this.diseasesValues.splice(i, 1);
         }
-        this.checkValues[index] = true;
+        this.checkValuesDiseases[index] = true;
         this.diseasesValues.push(value);
       } else {
         this.diseasesValues = [value];
-        this.checkValues.fill(false);
-        this.checkValues[0] = true;
+        this.checkValuesDiseases.fill(false);
+        this.checkValuesDiseases[0] = true;
       }
     }
   }
@@ -103,8 +146,10 @@ export class MedicalHistoryPage implements OnInit, OnDestroy {
     if (this.symptomsValues.includes(value)) {
       const i = this.symptomsValues.findIndex(item => item === value);
       this.symptomsValues.splice(i, 1);
+      this.checkValuesSymptoms[index] = true;
     } else {
       this.symptomsValues.push(value);
+      this.checkValuesSymptoms[index] = false;
     }
   }
 
@@ -120,6 +165,7 @@ export class MedicalHistoryPage implements OnInit, OnDestroy {
     this.submitTry = true;
 
     if (this.form.valid && this.diseasesValues.length && this.symptomsValues.length) {
+      this.shownGroup = null;
       await this.loading.createLoading(this.text ? this.text.wait_please : 'Wait, please');
 
       this.api.submitMedicalHistory({

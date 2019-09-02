@@ -15,6 +15,8 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class OnlineDoctorChoosePage {
 
+  private isPassportImageExist: boolean;
+
   public text: any;
   public points: number;
 
@@ -29,6 +31,14 @@ export class OnlineDoctorChoosePage {
 
   ionViewWillEnter() {
     this.getPageText();
+    this.getProfileInfo();
+  }
+
+  private getProfileInfo() {
+    this.api.getProfile().subscribe(({ content: { call_points, passport_image } }) => {
+      this.points = call_points;
+      this.isPassportImageExist = !!passport_image;
+    });
   }
 
   private getPageText() {
@@ -43,7 +53,25 @@ export class OnlineDoctorChoosePage {
     });
   }
 
-  private async createAlert() {
+  public async checkPassportImage(functionToCall: Function, param: string = null) {
+    if (this.isPassportImageExist) {
+      functionToCall.bind(this, param)();
+      return;
+    }
+
+    const alert = await this.alert.create({
+      message: this.text
+        ? this.text.need_upload_passport_photo
+        : 'You need to upload your passport photo in your profile for having access to this functionality',
+      buttons: [this.text ? this.text.ok.toUpperCase() : 'Ok']
+    });
+
+    await alert.present();
+
+    alert.onDidDismiss().then(() => this.navigate('/profile'));
+  }
+
+  public async createAlert() {
     let buttons = [{
       text: this.text.purchase ? this.text.purchase : 'Purchase',
       role: 'purchase'
@@ -66,7 +94,6 @@ export class OnlineDoctorChoosePage {
     await alert.present();
 
     alert.onDidDismiss().then(({ role }: any) => {
-      console.log(role);
       if (role === 'purchase') {
         this.router.navigateByUrl('/calls-packages');
         return;
@@ -76,15 +103,6 @@ export class OnlineDoctorChoosePage {
       }
     });
   }
-
-  public checkCalls() {
-    this.api.getProfile().subscribe(({ content: { call_points } }) => {
-      this.points = call_points;
-
-      this.createAlert();
-    });
-  }
-
 
   public callToAmbulance() {
     this.callNumber.callNumber('101', true);
