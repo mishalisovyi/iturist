@@ -124,7 +124,7 @@ export class ProfilePage implements OnInit, OnDestroy {
     this.image.imgInfo.passport.src = this.profile.passport_image;
     this.image.imgInfo.passport.deleted = this.image.imgInfo.passport.src ? false : true;
     this.image.imgInfo.medical.src = this.profile.medical_image;
-    this.image.imgInfo.passport.deleted = this.image.imgInfo.medical.src ? false : true;
+    this.image.imgInfo.medical.deleted = this.image.imgInfo.medical.src ? false : true;
   }
 
   private setFormValues() {
@@ -173,6 +173,7 @@ export class ProfilePage implements OnInit, OnDestroy {
         // sim_number: this.form.get('phone').value,
         document_id: this.form.get('document_id').value
       };
+      console.log(profile);
       this.api.editProfile(this.profile.user_id, profile).subscribe(
         res => resolve(res),
         err => reject(err)

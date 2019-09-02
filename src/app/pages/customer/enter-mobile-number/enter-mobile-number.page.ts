@@ -207,13 +207,23 @@ export class EnterMobileNumberPage implements OnInit {
     if (this.phoneNumber.valid) {
       let phone: string = this.phoneNumber.value;
       if (!phone.includes('+972 ')) {
-        phone = '+972 '.concat(phone);
+        phone = '0972 '.concat(phone);
       }
-      phone = phone.replace('+972 ', '972');
+      phone = phone.replace('+972 ', '0972');
 
       await this.loading.createLoading(this.text.confirming_number);
 
+      console.log(phone);
+
       this.openInAppBrowser();
+
+
+
+
+      // ТУТ ПОТРІБНО ОНОВИТИ ПРОФІЛЬ З МОБІЛЬНИМ НОМЕРОМ
+
+
+
 
       // this.api.editProfile(this.userId, { phone })
       //   .pipe(
