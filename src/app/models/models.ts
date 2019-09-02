@@ -119,16 +119,15 @@ export interface OrderSimCardRequest {
   company: number;
 }
 
-export interface AppointmentRequest {
-  specialization: string;
-  visit_date: string;
-  type: string;
-  note: string;
-}
+// export interface AppointmentRequest {
+//   specialization: string;
+//   visit_date: string;
+//   note: string;
+// }
 
 export interface CheckupRequest {
   visit_date: string;
-  type: string;
+  // type: string;
   colonoscopy: boolean;
   oncomarker: boolean;
 }

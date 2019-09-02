@@ -100,7 +100,6 @@ export class CheckUpServicesPage implements OnInit {
             () => res,
             this.api.submitCheckupService({
               visit_date: moment(new Date(originalDate)).format('YYYY-MM-DDTHH:mm:ss'),
-              type: 'CHECK-UP',
               colonoscopy: this.colonoscopy,
               oncomarker: this.oncomarkers
             }),

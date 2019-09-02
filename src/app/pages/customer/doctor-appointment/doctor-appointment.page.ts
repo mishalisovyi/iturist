@@ -106,24 +106,24 @@ export class DoctorAppointmentPage implements OnInit, OnDestroy {
     this.submitTry = true;
 
     if (this.form.valid && this.correctDate) {
-      await this.loading.createLoading(this.text ? this.text.wait_please : 'Wait, please');
+      alert('appointment is saved!');
+      // await this.loading.createLoading(this.text ? this.text.wait_please : 'Wait, please');
 
-      this.api.submitDoctorAppointment({
-        specialization: this.action.doctor,
-        visit_date: this.date.split('+')[0],
-        note: this.form.get('symptoms').value,
-        type: 'APPOINTMENT'
-      })
-        .pipe(finalize(async () => await this.loading.dismissLoading()))
-        .subscribe(async () => {
-          const alert = await this.alert.create({
-            message: this.text ? this.text.appointment_submitted : 'Your appointment successfully submitted',
-            buttons: [this.text ? this.text.ok.toUpperCase() : 'Ok']
-          });
+      // this.api.submitDoctorAppointment({
+      //   specialization: this.action.doctor,
+      //   visit_date: this.date.split('+')[0],
+      //   note: this.form.get('symptoms').value
+      // })
+      //   .pipe(finalize(async () => await this.loading.dismissLoading()))
+      //   .subscribe(async () => {
+      //     const alert = await this.alert.create({
+      //       message: this.text ? this.text.appointment_submitted : 'Your appointment successfully submitted',
+      //       buttons: [this.text ? this.text.ok.toUpperCase() : 'Ok']
+      //     });
 
-          await alert.present();
-          alert.onDidDismiss().then(() => this.router.navigateByUrl('/online-doctor-choose'));
-        });
+      //     await alert.present();
+      //     alert.onDidDismiss().then(() => this.router.navigateByUrl('/online-doctor-choose'));
+      //   });
     }
   }
 }

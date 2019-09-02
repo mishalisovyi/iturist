@@ -14,7 +14,7 @@ import {
   BaseResponse,
   ProfileEditRequest,
   OrderSimCardRequest,
-  AppointmentRequest,
+  // AppointmentRequest,
   CheckupRequest,
   SimPlan,
   RegisterDeviceFcmRequest
@@ -126,12 +126,12 @@ export class ApiService {
     return this.http.post<BaseResponse>(`${environment.api}/action-requests`, body);
   }
 
-  public submitDoctorAppointment(body: AppointmentRequest) {
-    return this.http.post<BaseResponse>(`${environment.api}/doctor-appointment`, body);
-  }
+  // public submitDoctorAppointment(body: AppointmentRequest) {
+  //   return this.http.post<BaseResponse>(`${environment.api}/medical-check`, body);
+  // }
 
   public submitCheckupService(body: CheckupRequest) {
-    return this.http.post<BaseResponse>(`${environment.api}/doctor-appointment`, body);
+    return this.http.post<BaseResponse>(`${environment.api}/medical-check`, body);
   }
 
   public getDoctorSpecializations() {
