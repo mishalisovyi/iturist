@@ -87,8 +87,10 @@ export class OnlineDoctorChoosePage {
 
     const alert = await this.alert.create({
       message: this.points === 0
-        ? this.text.negative_calls_balance
-        : `${this.text.positive_calls_balance_first} ${this.points}. ${this.text.positive_calls_balance_second}`,
+        // ? this.text.negative_calls_balance
+        ? 'Your call balance is equal 0. If you want to perform call, you should purchase calls package'
+        // : `${this.text.positive_calls_balance_first} ${this.points}. ${this.text.positive_calls_balance_second}`,
+        : `Your call balance is equal ${this.points}. You can perform call or purchase new calls package`,
       buttons
     });
     await alert.present();
