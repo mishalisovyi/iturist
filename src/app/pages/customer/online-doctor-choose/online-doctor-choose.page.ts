@@ -60,9 +60,10 @@ export class OnlineDoctorChoosePage {
     }
 
     const alert = await this.alert.create({
-      message: this.text
-        ? this.text.need_upload_passport_photo
-        : 'You need to upload your passport photo in your profile for having access to this functionality',
+      // message: this.text
+      //   ? this.text.need_upload_passport_photo
+      //   : 'You need to upload your passport photo in your profile for having access to this functionality',
+      message: 'You need to upload your passport photo in your profile for having access to this functionality',
       buttons: [this.text ? this.text.ok.toUpperCase() : 'Ok']
     });
 
@@ -85,6 +86,7 @@ export class OnlineDoctorChoosePage {
       buttons = buttons.reverse();
     }
 
+    console.log('create alert');
     const alert = await this.alert.create({
       message: this.points === 0
         // ? this.text.negative_calls_balance

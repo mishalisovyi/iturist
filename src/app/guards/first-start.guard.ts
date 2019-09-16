@@ -10,9 +10,13 @@ import { StorageService } from 'src/app/services/storage.service';
   providedIn: 'root'
 })
 export class FirstStartGuard implements CanActivate {
+
   constructor(private storage: StorageService, private router: Router) { }
 
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
+    if (next.fragment) {
+      return true;
+    }
     return this.storage.get('not_first_launch')
       .pipe(
         switchMap(res => {

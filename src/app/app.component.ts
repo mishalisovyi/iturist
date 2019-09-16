@@ -131,8 +131,8 @@ export class AppComponent implements OnInit, OnDestroy {
       : this.text ? this.text.disconnected : 'Missing connection to Internet!';
   }
 
-  public navigateTo(path: string) {
-    this.router.navigateByUrl(path);
+  public navigateTo(path: string, fragment: string = null) {
+    fragment ? this.router.navigate([`/${path}`], { fragment: 'allow' }) : this.router.navigate([`/${path}`]);
     this.menu.close();
   }
 
