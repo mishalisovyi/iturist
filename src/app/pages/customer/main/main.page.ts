@@ -201,7 +201,7 @@ export class MainPage implements OnInit {
   }
 
   public openEasySite() {
-    this.iab.create('https://easy.co.il/en/', '_blank', { beforeload: 'yes', hideurlbar: 'yes', location: 'yes' });
+    this.iab.create('https://easy.co.il/en/', '_blank', { hideurlbar: 'yes', location: 'yes' });
   }
 
   public toggleAlertPopup(toggle: boolean) {

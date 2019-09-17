@@ -121,7 +121,7 @@ export class ConfirmPlanPage {
       // tslint:disable-next-line: max-line-length
       `https://direct.tranzila.com/diplomacy/newiframe.php?sum=${parseFloat(this.plan.price)}&currency=1&tranmode=AK&user_id=${this.profile.user_id}&package_id=${this.plan.id}`,
       '_blank',
-      { beforeload: 'yes', hideurlbar: 'yes', location: 'yes' }
+      { hideurlbar: 'yes', location: 'yes' }
     );
     this.browser.insertCSS({ code: this.tranzilaCss });
     if (this.platform.is('android')) {

@@ -67,7 +67,7 @@ export class EnterMobileNumberPage implements OnInit {
       // tslint:disable-next-line: max-line-length
       `https://icom.yaad.net/p/?&action=pay&Masof=0010104820&Info=Register_DC&UTF8out=True&Amount=1&UTF8=True&Order=${this.userId}&Coin=1&J5=True&PassP=1234&MoreData=True&Tash=1&ClientName=dsadsa&PageLang=ENG&UserId=000000000`,
       '_blank',
-      { beforeload: 'yes', hideurlbar: 'yes', location: 'yes' }
+      { hideurlbar: 'yes', location: 'yes' }
     );
 
     if (this.platform.is('android')) {

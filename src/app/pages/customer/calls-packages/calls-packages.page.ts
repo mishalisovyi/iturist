@@ -82,10 +82,11 @@ export class CallsPackagesPage implements OnInit {
   }
 
   public purchasePackage(price: number, id: number) {
+    console.log(id, this.userId);
     this.browser = this.iab.create(
-      `https://direct.tranzila.com/diplomacy/newiframe.php?sum=${price}&currency=1&tranmode=AK&user_id=${this.userId}&package_id=${id}`,
+      `https://direct.tranzila.com/diplomacy/newiframe.php?&user_id=${this.userId}&payment_type=DOCTOR-CALL-PACK&product_id=${id}`,
       '_blank',
-      { beforeload: 'yes', hideurlbar: 'yes', location: 'yes' }
+      { hideurlbar: 'yes', location: 'yes' }
     );
     this.browser.insertCSS({ code: this.tranzilaCss });
     if (this.platform.is('android')) {

@@ -125,7 +125,7 @@ export class RequestPrescriptionModalComponent implements OnInit {
       // `https://direct.tranzila.com/diplomacy/newiframe.php?&currency=1&tranmode=AK&payment_type=PRESCRIPTION_REQUEST&user_id=${userId}&product_id=${productId}`,
       `https://direct.tranzila.com/diplomacy/newiframe.php?payment_type=PRESCRIPTION_REQUEST&user_id=${userId}&product_id=${productId}`,
       '_blank',
-      { beforeload: 'yes', hideurlbar: 'yes', location: 'yes' }
+      { hideurlbar: 'yes', location: 'yes' }
     );
     this.browser.insertCSS({ code: this.tranzilaCss });
     if (this.platform === 'android') {
