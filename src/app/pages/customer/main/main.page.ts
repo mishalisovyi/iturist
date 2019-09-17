@@ -71,6 +71,7 @@ export class MainPage implements OnInit {
     this.languageSubscription = this.language.languageIsLoaded$.subscribe(() => this.getPageText());
 
     this.getIsAuthorized();
+    this.registerBackBtn();
     this.getProfileId();
 
     if (this.storage.lastUrl === '/login') {
@@ -158,9 +159,9 @@ export class MainPage implements OnInit {
   private getIsAuthorized() {
     this.api.getToken().subscribe((res: string) => {
       this.isAuthorized = res ? true : false;
-      if (this.isAuthorized) {
-        this.registerBackBtn();
-      }
+      // if (this.isAuthorized) {
+      //   this.registerBackBtn();
+      // }
     });
   }
 
