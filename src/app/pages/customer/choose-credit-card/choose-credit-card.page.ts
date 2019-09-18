@@ -79,7 +79,7 @@ export class ChooseCreditCardPage implements OnInit, OnDestroy, AfterViewInit {
   private createForm() {
     this.form = this.formBuilder.group({
       credit_card: ['', Validators.required],
-      cvv: ['', [Validators.required, CvvLengthValidator.cvvLength, Validators.pattern('^\\d*$')]]
+      cvv: [null, [Validators.required, CvvLengthValidator.cvvLength, Validators.pattern('^\\d*$')]]
     });
   }
 
@@ -95,7 +95,8 @@ export class ChooseCreditCardPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private async createAlert(success: boolean): Promise<HTMLIonAlertElement> {
-    const message = success ? this.text.transaction_completed : this.text.unknown_error;
+    // const message = success ? this.text.transaction_completed : this.text.unknown_error;
+    const message = success ? 'The transaction completed successfully!' : this.text.unknown_error;
     const alert = await this.alert.create({
       message,
       buttons: [this.text.ok]

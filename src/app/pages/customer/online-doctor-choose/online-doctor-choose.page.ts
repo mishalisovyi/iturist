@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { CallNumber } from '@ionic-native/call-number/ngx';
 
+import { iif, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
 import { LanguageService } from 'src/app/services/language.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { ApiService } from 'src/app/services/api.service';
@@ -16,6 +19,7 @@ import { ApiService } from 'src/app/services/api.service';
 export class OnlineDoctorChoosePage {
 
   private isPassportImageExist: boolean;
+  private isAuthorized: boolean;
 
   public text: any;
   public points: number;
@@ -35,10 +39,21 @@ export class OnlineDoctorChoosePage {
   }
 
   private getProfileInfo() {
-    this.api.getProfile().subscribe(({ content: { call_points, passport_image } }) => {
-      this.points = call_points;
-      this.isPassportImageExist = !!passport_image;
-    });
+    this.api.getToken()
+      .pipe(switchMap((res) => {
+        this.isAuthorized = !!res;
+        return iif(
+          () => res,
+          this.api.getProfile(),
+          of(null)
+        );
+      }))
+      .subscribe((res: Record<string, any>) => {
+        if (res) {
+          this.points = res.content.call_points;
+          this.isPassportImageExist = !!res.content.passport_image;
+        }
+      });
   }
 
   private getPageText() {
@@ -54,15 +69,12 @@ export class OnlineDoctorChoosePage {
   }
 
   public async checkPassportImage(functionToCall: Function, param: string = null) {
-    if (this.isPassportImageExist) {
+    if (this.isPassportImageExist || !this.isAuthorized) {
       functionToCall.bind(this, param)();
       return;
     }
 
     const alert = await this.alert.create({
-      // message: this.text
-      //   ? this.text.need_upload_passport_photo
-      //   : 'You need to upload your passport photo in your profile for having access to this functionality',
       message: 'You need to upload your passport photo in your profile for having access to this functionality',
       buttons: [this.text ? this.text.ok.toUpperCase() : 'Ok']
     });
@@ -73,6 +85,11 @@ export class OnlineDoctorChoosePage {
   }
 
   public async createAlert() {
+    if (!this.isAuthorized) {
+      this.navigate('login');
+      return;
+    }
+
     let buttons = [{
       text: this.text.purchase ? this.text.purchase : 'Purchase',
       role: 'purchase'

@@ -12,7 +12,6 @@ import { LanguageService } from 'src/app/services/language.service';
 import { ImageService } from 'src/app/services/image.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { ApiService } from 'src/app/services/api.service';
-import { StorageService } from 'src/app/services/storage.service';
 
 import { Text, Image } from 'src/app/models/models';
 
@@ -23,6 +22,7 @@ import { Text, Image } from 'src/app/models/models';
 })
 export class RequestPrescriptionModalComponent implements OnInit {
 
+  private messageFromBrowser: any = null;
   private modal: ModalController;
   private platform: string;
   private browser: InAppBrowserObject;
@@ -72,8 +72,7 @@ export class RequestPrescriptionModalComponent implements OnInit {
     private alert: AlertController,
     private androidPermissions: AndroidPermissions,
     private ionicPlatform: Platform,
-    private iab: InAppBrowser,
-    private storage: StorageService
+    private iab: InAppBrowser
   ) { }
 
   ngOnInit() {
@@ -119,11 +118,10 @@ export class RequestPrescriptionModalComponent implements OnInit {
     this.api.getProfile().subscribe(({ content: { user_id } }) => this.userId = user_id);
   }
 
-  public confirmPrescription(userId: number, productId: number) {
+  public confirmPrescription(userId: number, productId: number, price: number) {
     this.browser = this.iab.create(
       // tslint:disable-next-line: max-line-length
-      // `https://direct.tranzila.com/diplomacy/newiframe.php?&currency=1&tranmode=AK&payment_type=PRESCRIPTION_REQUEST&user_id=${userId}&product_id=${productId}`,
-      `https://direct.tranzila.com/diplomacy/newiframe.php?payment_type=PRESCRIPTION_REQUEST&user_id=${userId}&product_id=${productId}`,
+      `https://direct.tranzila.com/diplomacy/newiframe.php?currency=1&tranmode=AK&payment_type=PRESCRIPTION-REQUEST&sum=${price}&user_id=${userId}&product_id=${productId}`,
       '_blank',
       { hideurlbar: 'yes', location: 'yes' }
     );
@@ -159,8 +157,8 @@ export class RequestPrescriptionModalComponent implements OnInit {
 
       const interval = setInterval(async () => {
         const values: Array<any> = await this.browser.executeScript({ code: 'localStorage.getItem("status")' });
-        const status = values[0];
-        if (status) {
+        this.messageFromBrowser = values[0];
+        if (this.messageFromBrowser) {
           await this.browser.executeScript({ code: 'localStorage.setItem("status", "")' });
           clearInterval(interval);
           this.browser.close();
@@ -169,8 +167,10 @@ export class RequestPrescriptionModalComponent implements OnInit {
     });
 
     this.browser.on('exit').subscribe(() => {
-      this.showAlert(this.text.prescription_created);
-      console.log('browser closed');
+      if (this.messageFromBrowser) {
+        this.showAlert('Your prescriptions has been successfully created');
+        console.log('browser closed');
+      }
     });
   }
 
@@ -208,8 +208,10 @@ export class RequestPrescriptionModalComponent implements OnInit {
     this.api.createPrescription(formData)
       .pipe(finalize(() => this.loading.dismissLoading()))
       .subscribe(
-        ({ content: { id } }) => this.confirmPrescription(this.userId, id),
-        () => this.showAlert(this.text.unknown_error)
+        ({ content: { id, price } }) => {
+          this.confirmPrescription(this.userId, id, price);
+        },
+        () => this.showAlert('An error has occurred, try again')
       );
   }
 }

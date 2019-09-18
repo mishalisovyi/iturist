@@ -213,36 +213,28 @@ export class EnterMobileNumberPage implements OnInit {
 
       await this.loading.createLoading(this.text.confirming_number);
 
-      console.log(phone);
+      // this.openInAppBrowser();
 
-      this.openInAppBrowser();
+      this.api.editProfile(this.userId, { phone })
+        .pipe(switchMap(() => this.api.getCreditCardsList().pipe(finalize(async () => await this.loading.dismissLoading()))))
+        .subscribe(
+          // () => this.navigateTo('choose-credit-card', { planId: this.planId, companyId: this.companyId }),
+          () => this.openInAppBrowser(),
+          async err => {
+            const noCreditCardError = err.error.metadata.api_error_codes.includes(125);
+            // const alertElement = await this.createAlert(noCreditCardError ? this.text.attach_credit_card : this.text.unknown_error);
+            const alertElement = await this.createAlert(noCreditCardError
+              ? 'You need to attach your credit card at first'
+              : this.text.unknown_error
+            );
 
+            await alertElement.onDidDismiss();
 
-
-
-      // ТУТ ПОТРІБНО ОНОВИТИ ПРОФІЛЬ З МОБІЛЬНИМ НОМЕРОМ
-
-
-
-
-      // this.api.editProfile(this.userId, { phone })
-      //   .pipe(
-      //     finalize(async () => await this.loading.dismissLoading()),
-      //     switchMap(() => this.api.getCreditCardsList())
-      //   )
-      //   .subscribe(
-      //     () => this.navigateTo('choose-credit-card', { planId: this.planId, companyId: this.companyId }),
-      //     async err => {
-      //       const noCreditCardError = err.error.metadata.api_error_codes.includes(125);
-      //       const alertElement = await this.createAlert(noCreditCardError ? this.text.attach_credit_card : this.text.unknown_error);
-
-      //       await alertElement.onDidDismiss();
-
-      //       if (noCreditCardError) {
-      //         this.openInAppBrowser();
-      //       }
-      //     }
-      //   );
+            if (noCreditCardError) {
+              this.openInAppBrowser();
+            }
+          }
+        );
     }
   }
 }

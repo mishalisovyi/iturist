@@ -6,10 +6,10 @@ export class CvvLengthValidator {
 
   public static cvvLength(control: FormControl) {
     const errors: Object = {};
-    const input: HTMLInputElement = document.getElementsByTagName('input')[1];
 
-    if (input) {
-      if (input.value.length > 0 && input.value.length < 3 || input.value.length > 3) {
+    if (control.value) {
+      const value = control.value.toString();
+      if (value.length > 0 && value.length < 3 || value.length > 3) {
         errors.length = true;
         return errors;
       }

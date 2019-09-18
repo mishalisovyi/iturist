@@ -82,7 +82,6 @@ export class CallsPackagesPage implements OnInit {
   }
 
   public purchasePackage(price: number, id: number) {
-    console.log(id, this.userId);
     this.browser = this.iab.create(
       // tslint:disable-next-line: max-line-length
       `https://direct.tranzila.com/diplomacy/newiframe.php?user_id=${this.userId}&sum=${price}&currency=1&tranmode=AK&payment_type=DOCTOR-CALL-PACK&product_id=${id}`,

@@ -7,11 +7,12 @@
       <ion-col size-md="7" size-lg="5" margin-vertical no-padding>
         <ion-item class="violet-text register-form-field"
           [class.error-field]="submitTry && form.get('credit_card').invalid" (click)="presentActionSheet()">
-          <ion-input type="text" readonly formControlName="credit_card" placeholder="{{ text?.select_credit_card }}">
-          </ion-input>
+          <!-- <ion-input type="text" readonly formControlName="credit_card" placeholder="{{ text?.select_credit_card }}"> -->
+          <ion-input type="text" readonly formControlName="credit_card" placeholder="Select credit card"></ion-input>
         </ion-item>
         <ion-item class="violet-text register-form-field" [class.error-field]="submitTry && form.get('cvv').invalid">
-          <ion-input type="number" formControlName="cvv" placeholder="{{ text?.cvv_code }}"></ion-input>
+          <!-- <ion-input type="number" formControlName="cvv" placeholder="{{ text?.cvv_code }}"></ion-input> -->
+          <ion-input type="number" formControlName="cvv" placeholder="Input your CVV code"></ion-input>
         </ion-item>
       </ion-col>
       <ion-item
@@ -20,7 +21,8 @@
         <span>{{ text?.fill_empty_fields }}</span>
       </ion-item>
       <ion-item *ngIf="submitTry && form.get('cvv').hasError('length')" class="red-text">
-        <span>{{ text?.cvv_code_length }}</span>
+        <!-- <span>{{ text?.cvv_code_length }}</span> -->
+        <span>CVV code length should be 3 digits</span>
       </ion-item>
       <ion-item *ngIf="submitTry && form.get('cvv').hasError('pattern')" class="red-text">
         <span>{{ text?.only_numbers }}</span>
@@ -30,6 +32,7 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button class="bottom-btn" (click)="buySimCard()">{{ text?.confirm }}</ion-button>
+    <!-- <ion-button class="bottom-btn" (click)="buySimCard()">{{ text?.confirm }}</ion-button> -->
+    <ion-button class="bottom-btn" (click)="buySimCard()">Confirm</ion-button>
   </ion-toolbar>
 </ion-footer>
