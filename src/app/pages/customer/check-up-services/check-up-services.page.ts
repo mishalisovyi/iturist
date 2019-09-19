@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { AlertController, Platform } from '@ionic/angular';
 import { InAppBrowser, InAppBrowserObject } from '@ionic-native/in-app-browser/ngx';
 
-import { iif, of } from 'rxjs';
+import { iif, throwError } from 'rxjs';
 import { map, switchMap, finalize } from 'rxjs/operators';
 import * as moment from 'moment';
 
@@ -191,7 +191,7 @@ export class CheckUpServicesPage implements OnInit {
               colonoscopy: this.colonoscopy,
               oncomarker: this.oncomarkers
             }),
-            of(null)
+            throwError({ error: 'need travel insurance photo' })
           )),
           finalize(async () => await this.loading.dismissLoading())
         )
